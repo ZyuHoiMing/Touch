@@ -1,0 +1,147 @@
+﻿<Page
+    x:Class="Touch.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Touch.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <!-- 控制hamburger根据窗口大小自动显示隐藏-->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter
+                            Target="MySplitView.DisplayMode"
+                            Value="Overlay"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter
+                            Target="MySplitView.DisplayMode"
+                            Value="CompactInline"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+        <!-- 标题栏-->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button
+                Name="HambugerMenuButton"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Grid.Column="0"
+                Height="48"
+                Width="48"
+                FontSize="16"
+                Content="&#xE700;"
+                FontFamily="{StaticResource SymbolThemeFontFamily}"/>
+
+            <!--<Button
+                Name="HambugerMenuButton"
+                Click="HambugerMenuButton_Click"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Grid.Column="0"
+                Height="48"
+                Width="48"
+                FontSize="16"
+                Content="&#xE700;"
+                FontFamily="{StaticResource SymbolThemeFontFamily}"/>-->
+
+            <StackPanel
+                Grid.Column="1"
+                Orientation="Horizontal"
+                Background="{ThemeResource SystemControlBackgroundBaseLowBrush}">
+                <TextBlock
+                    Name="TitleText"
+                    VerticalAlignment="Center"
+                    Margin="24,0,0,0"
+                    FontWeight="Bold"/>
+            </StackPanel>
+        </Grid>
+
+        <SplitView
+            Name="MySplitView"
+            Grid.Row="1"
+            DisplayMode="CompactInline">
+            <!-- Pane 对应 Hamburger Menu -->
+            <SplitView.Pane>
+                <ListBox
+                    Name="HambugerMenuList"
+                    SelectionMode="Single">
+                <!--<ListBox
+                    Name="HambugerMenuList"
+                    SelectionChanged="HambugerMenuList_SelectionChanged"
+                    SelectionMode="Single">-->
+                    <ListBoxItem Name="HambugerMenuListItem_Home">
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon
+                                Style="{StaticResource HambugerMenuSymbolIcon}"
+                                Symbol="Home"/>
+                            <TextBlock
+                                Style="{StaticResource HambugerMenuText}"
+                                Text="{StaticResource home}"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Name="HambugerMenuListItem_Ganhuo">
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon
+                                Style="{StaticResource HambugerMenuSymbolIcon}"
+                                Symbol="Emoji"/>
+                            <TextBlock
+                                Style="{StaticResource HambugerMenuText}"
+                                Text="{StaticResource ganhuo}"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Name="HambugerMenuListItem_Favorite">
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon
+                                Style="{StaticResource HambugerMenuSymbolIcon}"
+                                Symbol="Favorite"/>
+                            <TextBlock
+                                Style="{StaticResource HambugerMenuText}"
+                                Text="{StaticResource favorite}"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Name="HambugerMenuListItem_Download">
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon
+                                Style="{StaticResource HambugerMenuSymbolIcon}"
+                                Symbol="Download"/>
+                            <TextBlock
+                                Style="{StaticResource HambugerMenuText}"
+                                Text="{StaticResource download}"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                </ListBox>
+            </SplitView.Pane>
+
+            <!-- Content 对应具体页面 -->
+            <SplitView.Content>
+                <Frame Name="MainPage_Frame"/>
+            </SplitView.Content>
+        </SplitView>
+    </Grid>
+</Page>
