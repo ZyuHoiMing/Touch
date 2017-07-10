@@ -143,66 +143,81 @@
             </ControlTemplate>
         </Grid.Resources>
 
-        <Image x:Name="image1" Source="Assets\pic1.jpg" Width="400" Height="400" Stretch="UniformToFill">
-            <Image.Projection>
-                <PlaneProjection CenterOfRotationX="1"/>
-            </Image.Projection>
-            <Image.RenderTransform>
-                <CompositeTransform/>
-            </Image.RenderTransform>
-        </Image>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <Image x:Name="image2" Source="Assets\pic1.jpg" Width="400" Height="400" Stretch="UniformToFill">
-            <Image.Projection>
-                <PlaneProjection CenterOfRotationX="0.7"/>
-            </Image.Projection>
-            <Image.RenderTransform>
-                <CompositeTransform/>
-            </Image.RenderTransform>
-        </Image>
+        <CommandBar
+            Grid.Row="0"
+            Background="{ThemeResource SystemControlBackgroundBaseLowBrush}">
+            <CommandBar.Content>
+                <TextBlock Text="3D图库测试" Margin="12,14"/>
+            </CommandBar.Content>
+        </CommandBar>
 
-        <Image x:Name="image3" Source="Assets\pic1.jpg" Width="400" Height="400" Stretch="UniformToFill">
-            <Image.Projection>
-                <PlaneProjection CenterOfRotationX="0"/>
-            </Image.Projection>
-            <Image.RenderTransform>
-                <CompositeTransform/>
-            </Image.RenderTransform>
-        </Image>
+        <Grid Grid.Row="1">
+            <Image x:Name="image1" Source="ms-appx:///Assets/pic1.jpg" Width="400" Height="400" Stretch="UniformToFill">
+                <Image.Projection>
+                    <PlaneProjection CenterOfRotationX="1"/>
+                </Image.Projection>
+                <Image.RenderTransform>
+                    <CompositeTransform/>
+                </Image.RenderTransform>
+            </Image>
 
-        <Image x:Name="image4" Source="Assets\pic1.jpg" Width="400" Height="400" Stretch="UniformToFill">
-            <Image.Projection>
-                <PlaneProjection CenterOfRotationX="0"/>
-            </Image.Projection>
-            <Image.RenderTransform>
-                <CompositeTransform/>
-            </Image.RenderTransform>
-        </Image>
+            <Image x:Name="image2" Source="ms-appx:///Assets/pic1.jpg" Width="400" Height="400" Stretch="UniformToFill">
+                <Image.Projection>
+                    <PlaneProjection CenterOfRotationX="0.7"/>
+                </Image.Projection>
+                <Image.RenderTransform>
+                    <CompositeTransform/>
+                </Image.RenderTransform>
+            </Image>
 
-        <Image x:Name="image5" Source="Assets\pic1.jpg" Width="400" Height="400" Stretch="UniformToFill">
-            <Image.Projection>
-                <PlaneProjection CenterOfRotationX="0"/>
-            </Image.Projection>
-            <Image.RenderTransform>
-                <CompositeTransform/>
-            </Image.RenderTransform>
-        </Image>
+            <Image x:Name="image3" Source="ms-appx:///Assets/pic1.jpg" Width="400" Height="400" Stretch="UniformToFill">
+                <Image.Projection>
+                    <PlaneProjection CenterOfRotationX="0"/>
+                </Image.Projection>
+                <Image.RenderTransform>
+                    <CompositeTransform/>
+                </Image.RenderTransform>
+            </Image>
 
-        <Button x:Name="PreviousButtonHorizontal"
-                HorizontalAlignment="Left"
-                Height="36"
-                IsTabStop="False"
-                Template="{StaticResource HorizontalPreviousTemplate}"
-                UseSystemFocusVisuals="False"
-                VerticalAlignment="Center"
-                Width="20"/>
-        <Button x:Name="NextButtonHorizontal"
-                HorizontalAlignment="Right"
-                Height="36"
-                IsTabStop="False"
-                Template="{StaticResource HorizontalNextTemplate}"
-                UseSystemFocusVisuals="False"
-                VerticalAlignment="Center"
-                Width="20"/>
+            <Image x:Name="image4" Source="ms-appx:///Assets/pic1.jpg" Width="400" Height="400" Stretch="UniformToFill">
+                <Image.Projection>
+                    <PlaneProjection CenterOfRotationX="0"/>
+                </Image.Projection>
+                <Image.RenderTransform>
+                    <CompositeTransform/>
+                </Image.RenderTransform>
+            </Image>
+
+            <Image x:Name="image5" Source="ms-appx:///Assets/pic1.jpg" Width="400" Height="400" Stretch="UniformToFill">
+                <Image.Projection>
+                    <PlaneProjection CenterOfRotationX="0"/>
+                </Image.Projection>
+                <Image.RenderTransform>
+                    <CompositeTransform/>
+                </Image.RenderTransform>
+            </Image>
+
+            <Button x:Name="PreviousButtonHorizontal"
+                    HorizontalAlignment="Left"
+                    Height="36"
+                    IsTabStop="False"
+                    Template="{StaticResource HorizontalPreviousTemplate}"
+                    UseSystemFocusVisuals="False"
+                    VerticalAlignment="Center"
+                    Width="20"/>
+            <Button x:Name="NextButtonHorizontal"
+                    HorizontalAlignment="Right"
+                    Height="36"
+                    IsTabStop="False"
+                    Template="{StaticResource HorizontalNextTemplate}"
+                    UseSystemFocusVisuals="False"
+                    VerticalAlignment="Center"
+                    Width="20"/>
+        </Grid>
     </Grid>
 </Page>

@@ -3,12 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Touch.Styles">
 
-    <x:String x:Key="home">首页</x:String>
-    <x:String x:Key="ganhuo">干货</x:String>
-    <x:String x:Key="favorite">收藏</x:String>
-    <x:String x:Key="download">下载</x:String>
-    <x:String x:Key="fuli">福利</x:String>
-    <x:String x:Key="save_as_tile">设为磁铁</x:String>
-    <x:String x:Key="ganhuo_recommend">干货推荐</x:String>
-    
+    <x:String x:Key="gallery">图库</x:String>
+    <x:String x:Key="3d_gallery">3D图库</x:String>
+
 </ResourceDictionary>
