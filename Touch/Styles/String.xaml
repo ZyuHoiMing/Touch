@@ -5,5 +5,7 @@
 
     <x:String x:Key="gallery">图库</x:String>
     <x:String x:Key="3d_gallery">3D图库</x:String>
+    <x:String x:Key="setting">设置</x:String>
+    <x:String x:Key="add_photo_folder">添加图片文件夹</x:String>
 
 </ResourceDictionary>

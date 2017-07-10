@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Touch.Models;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -24,46 +25,41 @@ namespace Touch.Views
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private ObservableCollection<HambugerMenuListItem> hambugerMenuPrimaryItems;
-        private ObservableCollection<HambugerMenuListItem> hambugerMenuSecondaryItems;
+        private ObservableCollection<HambugerMenuListItem> hambugerMenuPrimaryListItems;
+        private ObservableCollection<HambugerMenuListItem> hambugerMenuSecondaryListItems;
 
         public MainPage()
         {
             this.InitializeComponent();
 
-            hambugerMenuPrimaryItems = new ObservableCollection<HambugerMenuListItem>();
-            hambugerMenuSecondaryItems = new ObservableCollection<HambugerMenuListItem>();
+            hambugerMenuPrimaryListItems = new ObservableCollection<HambugerMenuListItem>();
+            hambugerMenuSecondaryListItems = new ObservableCollection<HambugerMenuListItem>();
         }
         
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             HambugerMenuListItem item = new HambugerMenuListItem()
             {
-                ItemName = "照片",
+                ItemName = Application.Current.Resources["gallery"] as string,
+                ItemSymbol = Symbol.Home,
+                ItemPage = typeof(GalleryPage)
+            };
+            hambugerMenuPrimaryListItems.Add(item);
+            item = new HambugerMenuListItem()
+            {
+                ItemName = Application.Current.Resources["3d_gallery"] as string,
                 ItemSymbol = Symbol.Home,
                 ItemPage = typeof(_3DGalleryPage)
             };
-            hambugerMenuPrimaryItems.Add(item);
-            item = new HambugerMenuListItem()
-            {
-                ItemName = "相册",
-                ItemSymbol = Symbol.Home
-            };
-            hambugerMenuPrimaryItems.Add(item);
-            item = new HambugerMenuListItem()
-            {
-                ItemName = "回忆",
-                ItemSymbol = Symbol.Home
-            };
-            hambugerMenuPrimaryItems.Add(item);
+            hambugerMenuPrimaryListItems.Add(item);
 
             HambugerMenuListItem item2 = new HambugerMenuListItem()
             {
-                ItemName = "设置",
+                ItemName = Application.Current.Resources["setting"] as string,
                 ItemSymbol = Symbol.Setting,
                 ItemPage = typeof(_3DGalleryPage)
             };
-            hambugerMenuSecondaryItems.Add(item2);
+            hambugerMenuSecondaryListItems.Add(item2);
         }
 
         private void HambugerMenuButton_Click(object sender, RoutedEventArgs e)
@@ -71,10 +67,18 @@ namespace Touch.Views
             MainPageSplitView.IsPaneOpen = !MainPageSplitView.IsPaneOpen;
         }
 
-        private void HambugerMenuPrimaryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void HambugerMenuList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //var selectedPage = (sender as ListView).SelectedItem as HambugerMenuListItem
-            MainPageFrame.Navigate(typeof(_3DGalleryPage));
+            var selectedPage = ((sender as ListView).SelectedItem as HambugerMenuListItem).ItemPage;
+            if (MainPageFrame.SourcePageType != selectedPage)
+            {
+                MainPageFrame.Navigate(selectedPage);
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            HambugerMenuPrimaryList.SelectedIndex = 0;
         }
     }
 }

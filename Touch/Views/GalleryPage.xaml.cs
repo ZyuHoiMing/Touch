@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Touch.Models;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -22,9 +24,22 @@ namespace Touch.Views
     /// </summary>
     public sealed partial class GalleryPage : Page
     {
+        private ObservableCollection<GalleryGridItem> galleryGridItems;
+
         public GalleryPage()
         {
             this.InitializeComponent();
+
+            galleryGridItems = new ObservableCollection<GalleryGridItem>();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            GalleryGridItem item = new GalleryGridItem()
+            {
+                ImageUrl = "ms-appx:///Assets/pic1.jpg"
+            };
+            galleryGridItems.Add(item);
         }
     }
 }

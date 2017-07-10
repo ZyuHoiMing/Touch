@@ -148,11 +148,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <CommandBar
-            Grid.Row="0"
-            Background="{ThemeResource SystemControlBackgroundBaseLowBrush}">
+        <CommandBar Grid.Row="0" Style="{ThemeResource TitleBar}">
             <CommandBar.Content>
-                <TextBlock Text="3D图库测试" Margin="12,14"/>
+                <TextBlock Text="{StaticResource 3d_gallery}" Style="{ThemeResource TitleBarTitleText}"/>
             </CommandBar.Content>
         </CommandBar>
 
@@ -202,22 +200,8 @@
                 </Image.RenderTransform>
             </Image>
 
-            <Button x:Name="PreviousButtonHorizontal"
-                    HorizontalAlignment="Left"
-                    Height="36"
-                    IsTabStop="False"
-                    Template="{StaticResource HorizontalPreviousTemplate}"
-                    UseSystemFocusVisuals="False"
-                    VerticalAlignment="Center"
-                    Width="20"/>
-            <Button x:Name="NextButtonHorizontal"
-                    HorizontalAlignment="Right"
-                    Height="36"
-                    IsTabStop="False"
-                    Template="{StaticResource HorizontalNextTemplate}"
-                    UseSystemFocusVisuals="False"
-                    VerticalAlignment="Center"
-                    Width="20"/>
+            <Button x:Name="PreviousButtonHorizontal" HorizontalAlignment="Left" Height="36" IsTabStop="False" Template="{StaticResource HorizontalPreviousTemplate}" UseSystemFocusVisuals="False" VerticalAlignment="Center" Width="20"/>
+            <Button x:Name="NextButtonHorizontal" HorizontalAlignment="Right" Height="36" IsTabStop="False" Template="{StaticResource HorizontalNextTemplate}" UseSystemFocusVisuals="False" VerticalAlignment="Center" Width="20"/>
         </Grid>
     </Grid>
 </Page>
