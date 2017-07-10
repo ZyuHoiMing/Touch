@@ -39,7 +39,20 @@ namespace Touch.Views
         {
             HambugerMenuListItem item = new HambugerMenuListItem()
             {
-                ItemName = "首页",
+                ItemName = "照片",
+                ItemSymbol = Symbol.Home,
+                ItemPage = typeof(_3DGalleryPage)
+            };
+            hambugerMenuPrimaryItems.Add(item);
+            item = new HambugerMenuListItem()
+            {
+                ItemName = "相册",
+                ItemSymbol = Symbol.Home
+            };
+            hambugerMenuPrimaryItems.Add(item);
+            item = new HambugerMenuListItem()
+            {
+                ItemName = "回忆",
                 ItemSymbol = Symbol.Home
             };
             hambugerMenuPrimaryItems.Add(item);
@@ -47,7 +60,8 @@ namespace Touch.Views
             HambugerMenuListItem item2 = new HambugerMenuListItem()
             {
                 ItemName = "设置",
-                ItemSymbol = Symbol.Setting
+                ItemSymbol = Symbol.Setting,
+                ItemPage = typeof(_3DGalleryPage)
             };
             hambugerMenuSecondaryItems.Add(item2);
         }
@@ -59,8 +73,7 @@ namespace Touch.Views
 
         private void HambugerMenuPrimaryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //ListView a = (ListView)sender;
-            //a.SelectedItem;
+            //var selectedPage = (sender as ListView).SelectedItem as HambugerMenuListItem
             MainPageFrame.Navigate(typeof(_3DGalleryPage));
         }
     }

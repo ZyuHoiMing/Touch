@@ -11,5 +11,6 @@ namespace Touch.Models
     {
         public Symbol ItemSymbol { get; set; }
         public string ItemName { get; set; }
+        public Type ItemPage { get; set; }
     }
 }
