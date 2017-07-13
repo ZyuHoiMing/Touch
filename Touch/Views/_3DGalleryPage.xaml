@@ -154,7 +154,7 @@
             </CommandBar.Content>
         </CommandBar>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Name="GalleryGrid">
             <Image x:Name="image1" Source="ms-appx:///Assets/pic1.jpg" Width="400" Height="400" Stretch="UniformToFill">
                 <Image.Projection>
                     <PlaneProjection CenterOfRotationX="1"/>

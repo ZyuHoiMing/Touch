@@ -31,6 +31,9 @@ namespace Touch.Views
         {
             // Add the following line of code.
             Storyboard1.Begin();
+
+            //Image i = new Image();
+            //aaa.Children.Add(i);
         }
     }
 }
