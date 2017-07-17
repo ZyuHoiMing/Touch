@@ -408,5 +408,40 @@ namespace Touch.Views.Pages
             Right,
             RightEdge
         }
+
+        /// <summary>
+        /// 重新初始化图片的大小和位置
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PhotosPanel_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (_imageList.Count < 5)
+            {
+                return;
+            }
+            InitImageAttribute();
+            foreach (var img in _imageList)
+            {
+                img.Width = _imageSize;
+                img.Height = _imageSize;
+            }
+            _imageList[0].RenderTransform = new CompositeTransform
+            {
+                TranslateX = (-_imageSize - _imageMargin * 2) * 2
+            };
+            _imageList[1].RenderTransform = new CompositeTransform
+            {
+                TranslateX = -_imageSize - _imageMargin * 2
+            };
+            _imageList[3].RenderTransform = new CompositeTransform
+            {
+                TranslateX = _imageSize + _imageMargin * 2
+            };
+            _imageList[4].RenderTransform = new CompositeTransform
+            {
+                TranslateX = (_imageSize + _imageMargin * 2) * 2
+            };
+        }
     }
 }
