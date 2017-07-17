@@ -40,6 +40,50 @@ namespace Touch.Views.Pages
                 ImageUrl = "ms-appx:///Assets/pic1.jpg"
             };
             galleryGridItems.Add(item);
+            item = new GalleryGridItem()
+            {
+                ImageUrl = "ms-appx:///Assets/pic2.jpg"
+            };
+            galleryGridItems.Add(item);
+            item = new GalleryGridItem()
+            {
+                ImageUrl = "ms-appx:///Assets/pic3.jpg"
+            };
+            galleryGridItems.Add(item);
+            item = new GalleryGridItem()
+            {
+                ImageUrl = "ms-appx:///Assets/pic4.jpg"
+            };
+            galleryGridItems.Add(item);
+            item = new GalleryGridItem()
+            {
+                ImageUrl = "ms-appx:///Assets/pic5.jpg"
+            };
+            galleryGridItems.Add(item);
+            item = new GalleryGridItem()
+            {
+                ImageUrl = "ms-appx:///Assets/pic6.jpg"
+            };
+            galleryGridItems.Add(item);
+        }
+        
+        private void GridItem_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            // 根据窗口大小动态调整 item 长宽
+            var grid = (ItemsWrapGrid)sender;
+            if (VisualStateGroup_Fuli.CurrentState == NarrowVisualState)
+            {
+                grid.ItemWidth = e.NewSize.Width / 2;
+            }
+            else if (VisualStateGroup_Fuli.CurrentState == NormalVisualState)
+            {
+                grid.ItemWidth = e.NewSize.Width / 3;
+            }
+            else if (VisualStateGroup_Fuli.CurrentState == WideVisualState)
+            {
+                grid.ItemWidth = e.NewSize.Width / 4;
+            }
+            grid.ItemHeight = grid.ItemWidth * 9 / 16;
         }
     }
 }
