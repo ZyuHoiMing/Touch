@@ -12,7 +12,7 @@
         <RelativePanel Name="PhotosPanel">
         </RelativePanel>
 
-        <Button x:Name="PreviousButtonHorizontal" HorizontalAlignment="Left" Style="{StaticResource FlipViewButtonHorizontal}" Template="{StaticResource HorizontalPreviousTemplate}"/>
-        <Button x:Name="NextButtonHorizontal" HorizontalAlignment="Right" Style="{StaticResource FlipViewButtonHorizontal}" Template="{StaticResource HorizontalNextTemplate}"/>
+        <Button x:Name="PreviousButtonHorizontal" HorizontalAlignment="Left" Style="{StaticResource FlipViewButtonHorizontal}" Template="{StaticResource HorizontalPreviousTemplate}" Click="PreviousButtonHorizontal_Click"/>
+        <Button x:Name="NextButtonHorizontal" HorizontalAlignment="Right" Style="{StaticResource FlipViewButtonHorizontal}" Template="{StaticResource HorizontalNextTemplate}" Click="NextButtonHorizontal_Click"/>
     </Grid>
 </Page>
