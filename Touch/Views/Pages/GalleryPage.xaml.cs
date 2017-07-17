@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Touch.Models;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
+using Windows.UI.Composition;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -24,6 +30,9 @@ namespace Touch.Views.Pages
     /// </summary>
     public sealed partial class GalleryPage : Page
     {
+        private Compositor _compositor;
+        private SpriteVisual _hostSprite;
+
         private ObservableCollection<GalleryGridItem> galleryGridItems;
 
         public GalleryPage()
@@ -31,8 +40,10 @@ namespace Touch.Views.Pages
             this.InitializeComponent();
 
             galleryGridItems = new ObservableCollection<GalleryGridItem>();
-        }
 
+            ApplyAcrylicAccent(MainGrid);
+        }
+    
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             GalleryGridItem item = new GalleryGridItem()
@@ -84,6 +95,26 @@ namespace Touch.Views.Pages
                 grid.ItemWidth = e.NewSize.Width / 4;
             }
             grid.ItemHeight = grid.ItemWidth * 9 / 16;
+        }
+        
+        /// <summary>
+        /// 背景模糊特性
+        /// </summary>
+        /// <param name="panel"></param>
+        private void ApplyAcrylicAccent(Panel panel)
+        {
+            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            _hostSprite = _compositor.CreateSpriteVisual();
+            _hostSprite.Size = new Vector2((float)panel.ActualWidth, (float)panel.ActualHeight);
+
+            ElementCompositionPreview.SetElementChildVisual(panel, _hostSprite);
+            _hostSprite.Brush = _compositor.CreateHostBackdropBrush();
+        }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (_hostSprite != null)
+                _hostSprite.Size = e.NewSize.ToVector2();
         }
     }
 }

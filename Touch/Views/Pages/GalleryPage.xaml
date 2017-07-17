@@ -35,11 +35,14 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
+        <RelativePanel Grid.Row="0" Grid.RowSpan="2" MinWidth="40" x:Name="MainGrid" SizeChanged="Page_SizeChanged"/>
+        <RelativePanel Grid.Row="0" Width="{Binding ElementName=MainGrid, Path=Width}" Background="#28000000"/>
 
         <CommandBar Grid.Row="0" Style="{ThemeResource TitleBar}">
             <CommandBar.Content>
@@ -51,7 +54,7 @@
             </CommandBar.SecondaryCommands>
         </CommandBar>
 
-        <GridView Grid.Row="1" ItemsSource="{x:Bind galleryGridItems}" SelectionMode="None" IsItemClickEnabled="True">
+        <GridView Grid.Row="1" ItemsSource="{x:Bind galleryGridItems}" SelectionMode="None" IsItemClickEnabled="True" Background="Transparent">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <!-- 设置 item 格式-->
@@ -61,10 +64,10 @@
                         SizeChanged="GridItem_SizeChanged"/>
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
-            
+
             <!-- 指定 item 样式 -->
             <GridView.ItemTemplate>
-                <!-- 当在 DataTemplate 中使用 x:Bind 标记扩展时，必须在 DataTemplate 上指定 DataType -->
+                <!--当在 DataTemplate 中使用 x:Bind 标记扩展时，必须在 DataTemplate 上指定 DataType-->
                 <DataTemplate x:DataType="model:GalleryGridItem">
                     <Grid>
                         <Image VerticalAlignment="Center" Stretch="UniformToFill" Source="{x:Bind ImageUrl}"/>
