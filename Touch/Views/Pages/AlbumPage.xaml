@@ -9,13 +9,13 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <CommandBar Grid.Row="0" Style="{ThemeResource TitleBar}">
             <CommandBar.Content>
-                <TextBlock x:Uid="AlbumTitleBar" Style="{ThemeResource TitleBarTitleText}"/>
+                <TextBlock x:Uid="AlbumTitleBar" Style="{ThemeResource TitleBarTitleText}" />
             </CommandBar.Content>
         </CommandBar>
     </Grid>

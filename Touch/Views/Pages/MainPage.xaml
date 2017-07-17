@@ -11,7 +11,7 @@
 
     <Page.Transitions>
         <TransitionCollection>
-            <EntranceThemeTransition/>
+            <EntranceThemeTransition />
         </TransitionCollection>
     </Page.Transitions>
 
@@ -21,8 +21,8 @@
                 <Setter.Value>
                     <DataTemplate x:DataType="model:HambugerMenuListItem">
                         <StackPanel Orientation="Horizontal">
-                            <SymbolIcon Style="{StaticResource HambugerMenuSymbolIcon}" Symbol="{Binding ItemSymbol}"/>
-                            <TextBlock Style="{StaticResource HambugerMenuText}" Text="{Binding ItemName}"/>
+                            <SymbolIcon Style="{StaticResource HambugerMenuSymbolIcon}" Symbol="{Binding ItemSymbol}" />
+                            <TextBlock Style="{StaticResource HambugerMenuText}" Text="{Binding ItemName}" />
                         </StackPanel>
                     </DataTemplate>
                 </Setter.Value>
@@ -36,18 +36,18 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}"/>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="MainPageSplitView.DisplayMode" Value="Overlay"/>
+                        <Setter Target="MainPageSplitView.DisplayMode" Value="Overlay" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}"/>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="MainPageSplitView.DisplayMode" Value="CompactInline"/>
+                        <Setter Target="MainPageSplitView.DisplayMode" Value="CompactInline" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -58,28 +58,39 @@
             <SplitView.Pane>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
 
                     <StackPanel Grid.Row="0" Background="SteelBlue">
                         <!-- 左上角的hamburger显示隐藏按钮 -->
-                        <Button Name="HambugerMenuButton" Height="48" Width="48" FontSize="16" Foreground="White" Content="&#59136;" FontFamily="{StaticResource SymbolThemeFontFamily}" Background="Transparent" Click="HambugerMenuButton_Click"/>
+                        <Button Name="HambugerMenuButton" Height="48" Width="48" FontSize="16" Foreground="White"
+                                Content="&#59136;" FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                Background="Transparent" Click="HambugerMenuButton_Click" />
                     </StackPanel>
 
-                    <ListView Grid.Row="1" RelativePanel.AlignTopWith="HambugerMenuButton" Name="HambugerMenuPrimaryList" SelectionMode="Single" ItemsSource="{x:Bind hambugerMenuPrimaryListItems}" SelectionChanged="HambugeMenurPrimaryList_SelectionChanged" Style="{StaticResource HamburgerMenuListItemTemplate}"/>
+                    <ListView Grid.Row="1" RelativePanel.AlignTopWith="HambugerMenuButton"
+                              Name="HambugerMenuPrimaryList" SelectionMode="Single"
+                              ItemsSource="{x:Bind _hambugerMenuPrimaryListItems}"
+                              SelectionChanged="HambugeMenurPrimaryList_SelectionChanged"
+                              Style="{StaticResource HamburgerMenuListItemTemplate}" />
 
-                    <Rectangle Grid.Row="2" RelativePanel.AlignTopWith="HambugerMenuSecondaryList" Height="2" Fill="LightGray"/>
+                    <Rectangle Grid.Row="2" RelativePanel.AlignTopWith="HambugerMenuSecondaryList" Height="2"
+                               Fill="LightGray" />
 
-                    <ListView Grid.Row="3" RelativePanel.AlignBottomWithPanel="True" Name="HambugerMenuSecondaryList" SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{x:Bind hambugerMenuSecondaryListItems}" ItemClick="HambugerMenuSecondaryList_ItemClick" Style="{StaticResource HamburgerMenuListItemTemplate}"/>
+                    <ListView Grid.Row="3" RelativePanel.AlignBottomWithPanel="True" Name="HambugerMenuSecondaryList"
+                              SelectionMode="None" IsItemClickEnabled="True"
+                              ItemsSource="{x:Bind _hambugerMenuSecondaryListItems}"
+                              ItemClick="HambugerMenuSecondaryList_ItemClick"
+                              Style="{StaticResource HamburgerMenuListItemTemplate}" />
                 </Grid>
             </SplitView.Pane>
 
             <!-- Content 对应具体页面 -->
             <SplitView.Content>
-                <Frame Name="MainPageFrame"/>
+                <Frame Name="MainPageFrame" />
             </SplitView.Content>
         </SplitView>
     </Grid>

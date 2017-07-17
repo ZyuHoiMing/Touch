@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.Storage;
+﻿using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Touch.Models
 {
-    class ImagePath
+    internal class ImagePath
     {
         public BitmapImage File { get; internal set; }
         public string Id { get; set; }

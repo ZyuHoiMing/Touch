@@ -1,76 +1,65 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Touch.Models;
+﻿using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Touch.Models;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Touch.Views.Pages
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private ObservableCollection<HambugerMenuListItem> hambugerMenuPrimaryListItems;
-        private ObservableCollection<HambugerMenuListItem> hambugerMenuSecondaryListItems;
+        private readonly ObservableCollection<HambugerMenuListItem> _hambugerMenuPrimaryListItems;
+        private readonly ObservableCollection<HambugerMenuListItem> _hambugerMenuSecondaryListItems;
 
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
-            hambugerMenuPrimaryListItems = new ObservableCollection<HambugerMenuListItem>();
-            hambugerMenuSecondaryListItems = new ObservableCollection<HambugerMenuListItem>();
+            _hambugerMenuPrimaryListItems = new ObservableCollection<HambugerMenuListItem>();
+            _hambugerMenuSecondaryListItems = new ObservableCollection<HambugerMenuListItem>();
             // 显示title bar
-            CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.ExtendViewIntoTitleBar = false;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            HambugerMenuListItem item = new HambugerMenuListItem()
+            var item = new HambugerMenuListItem
             {
                 ItemName = new ResourceLoader().GetString("Gallery"),
                 ItemSymbol = Symbol.Home,
                 ItemPage = typeof(GalleryPage)
             };
-            hambugerMenuPrimaryListItems.Add(item);
-            item = new HambugerMenuListItem()
+            _hambugerMenuPrimaryListItems.Add(item);
+            item = new HambugerMenuListItem
             {
                 ItemName = "测试",
                 ItemSymbol = Symbol.Home,
                 ItemPage = typeof(StreetGalleryPage)
             };
-            hambugerMenuPrimaryListItems.Add(item);
-            item = new HambugerMenuListItem()
+            _hambugerMenuPrimaryListItems.Add(item);
+            item = new HambugerMenuListItem
             {
                 ItemName = new ResourceLoader().GetString("Album"),
                 ItemSymbol = Symbol.Home,
                 ItemPage = typeof(AlbumPage)
             };
-            hambugerMenuPrimaryListItems.Add(item);
+            _hambugerMenuPrimaryListItems.Add(item);
 
-            HambugerMenuListItem item2 = new HambugerMenuListItem()
+            var item2 = new HambugerMenuListItem
             {
                 ItemName = new ResourceLoader().GetString("Setting"),
                 ItemSymbol = Symbol.Setting,
                 ItemPage = typeof(SettingPage)
             };
-            hambugerMenuSecondaryListItems.Add(item2);
+            _hambugerMenuSecondaryListItems.Add(item2);
         }
 
         private void HambugerMenuButton_Click(object sender, RoutedEventArgs e)
@@ -80,11 +69,9 @@ namespace Touch.Views.Pages
 
         private void HambugeMenurPrimaryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selectedPage = ((sender as ListView).SelectedItem as HambugerMenuListItem).ItemPage;
+            var selectedPage = ((sender as ListView)?.SelectedItem as HambugerMenuListItem)?.ItemPage;
             if (MainPageFrame.SourcePageType != selectedPage)
-            {
                 MainPageFrame.Navigate(selectedPage);
-            }
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -94,7 +81,7 @@ namespace Touch.Views.Pages
 
         private void HambugerMenuSecondaryList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var clickedPage = (e.ClickedItem as HambugerMenuListItem).ItemPage;
+            var clickedPage = (e.ClickedItem as HambugerMenuListItem)?.ItemPage;
             MainPageFrame.Navigate(clickedPage);
         }
     }

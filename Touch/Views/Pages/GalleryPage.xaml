@@ -10,7 +10,7 @@
 
     <Page.Transitions>
         <TransitionCollection>
-            <EntranceThemeTransition/>
+            <EntranceThemeTransition />
         </TransitionCollection>
     </Page.Transitions>
 
@@ -20,54 +20,54 @@
             <VisualStateGroup x:Name="VisualStateGroup_Fuli">
                 <VisualState x:Name="NarrowVisualState">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}"/>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
                     </VisualState.StateTriggers>
                 </VisualState>
                 <VisualState x:Name="NormalVisualState">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}"/>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
                     </VisualState.StateTriggers>
                 </VisualState>
                 <VisualState x:Name="WideVisualState">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}"/>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <CommandBar Grid.Row="0" Style="{ThemeResource TitleBar}">
             <CommandBar.Content>
-                <TextBlock x:Uid="GalleryTitleBar" Style="{ThemeResource TitleBarTitleText}"/>
+                <TextBlock x:Uid="GalleryTitleBar" Style="{ThemeResource TitleBarTitleText}" />
             </CommandBar.Content>
 
             <CommandBar.SecondaryCommands>
-                <AppBarButton x:Uid="AddPhotoFolder" Icon="Add"/>
+                <AppBarButton x:Uid="AddPhotoFolder" Icon="Add" />
             </CommandBar.SecondaryCommands>
         </CommandBar>
 
-        <GridView Grid.Row="1" ItemsSource="{x:Bind galleryGridItems}" SelectionMode="None" IsItemClickEnabled="True">
+        <GridView Grid.Row="1" ItemsSource="{x:Bind _galleryGridItems}" SelectionMode="None" IsItemClickEnabled="True">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <!-- 设置 item 格式-->
                     <ItemsWrapGrid
                         Name="GanhuoGridItem"
                         Orientation="Horizontal"
-                        SizeChanged="GridItem_SizeChanged"/>
+                        SizeChanged="GridItem_SizeChanged" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
-            
+
             <!-- 指定 item 样式 -->
             <GridView.ItemTemplate>
                 <!-- 当在 DataTemplate 中使用 x:Bind 标记扩展时，必须在 DataTemplate 上指定 DataType -->
                 <DataTemplate x:DataType="model:GalleryGridItem">
                     <Grid>
-                        <Image VerticalAlignment="Center" Stretch="UniformToFill" Source="{x:Bind ImageUrl}"/>
+                        <Image VerticalAlignment="Center" Stretch="UniformToFill" Source="{x:Bind ImageUrl}" />
                     </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>

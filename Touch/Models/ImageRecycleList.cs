@@ -1,32 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Touch.Models
 {
-    class ImageRecycleList
+    internal class ImageRecycleList
     {
-        private List<string> pathList;
-        private int count;
+        private readonly int _count;
+        private readonly List<string> _pathList;
 
         public ImageRecycleList(List<string> pathList)
         {
-            this.pathList = pathList;
-            count = pathList.Count;
+            _pathList = pathList;
+            _count = pathList.Count;
         }
 
         public string GetItem(int index)
         {
-            if (index % count < 0)
-            {
-                return pathList[index % count + count];
-            }
-            else
-            {
-                return pathList[index % count];
-            }
+            if (index % _count < 0)
+                return _pathList[index % _count + _count];
+            return _pathList[index % _count];
         }
     }
 }

@@ -9,20 +9,19 @@
 
     <Page.Transitions>
         <TransitionCollection>
-            <EntranceThemeTransition/>
+            <EntranceThemeTransition />
         </TransitionCollection>
     </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Button Click="Button_Click" Grid.Row="0" VerticalAlignment="Bottom" >选择文件夹</Button>
+        <Button Click="Button_Click" Grid.Row="0" VerticalAlignment="Bottom">选择文件夹</Button>
         <GridView Name="imgView" Grid.Row="1">
-            <DataTemplate >
-                <StackPanel Height="500" Width="500" >
-                </StackPanel>
+            <DataTemplate>
+                <StackPanel Height="500" Width="500" />
             </DataTemplate>
         </GridView>
     </Grid>

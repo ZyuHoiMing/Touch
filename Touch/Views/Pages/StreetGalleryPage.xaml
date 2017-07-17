@@ -11,17 +11,20 @@
 
     <Page.Transitions>
         <TransitionCollection>
-            <EntranceThemeTransition/>
+            <EntranceThemeTransition />
         </TransitionCollection>
     </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Image Name="BackgroundDownImage" Width="{Binding ElementName=PhotosPanel, Path=Width}" Stretch="UniformToFill"/>
-        <Image Name="BackgroundUpImage" Width="{Binding ElementName=PhotosPanel, Path=Width}" Stretch="UniformToFill"/>
-        <controls:BackDrop Width="{Binding ElementName=PhotosPanel, Path=Width}" BlurAmount="25"/>
-        <Grid Name="PhotosPanel" Padding="40">
-        </Grid>
-        <Button x:Name="PreviousButtonHorizontal" HorizontalAlignment="Left" Style="{StaticResource FlipViewButtonHorizontal}" Template="{StaticResource HorizontalPreviousTemplate}" Click="PreviousButtonHorizontal_Click"/>
-        <Button x:Name="NextButtonHorizontal" HorizontalAlignment="Right" Style="{StaticResource FlipViewButtonHorizontal}" Template="{StaticResource HorizontalNextTemplate}" Click="NextButtonHorizontal_Click"/>
+        <Image Name="BackgroundDownImage" Width="{Binding ElementName=PhotosPanel, Path=Width}" Stretch="UniformToFill" />
+        <Image Name="BackgroundUpImage" Width="{Binding ElementName=PhotosPanel, Path=Width}" Stretch="UniformToFill" />
+        <controls:BackDrop Width="{Binding ElementName=PhotosPanel, Path=Width}" BlurAmount="25" />
+        <Grid Name="PhotosPanel" Padding="40" />
+        <Button x:Name="PreviousButtonHorizontal" HorizontalAlignment="Left"
+                Style="{StaticResource FlipViewButtonHorizontal}"
+                Template="{StaticResource HorizontalPreviousTemplate}" Click="PreviousButtonHorizontal_Click" />
+        <Button x:Name="NextButtonHorizontal" HorizontalAlignment="Right"
+                Style="{StaticResource FlipViewButtonHorizontal}" Template="{StaticResource HorizontalNextTemplate}"
+                Click="NextButtonHorizontal_Click" />
     </Grid>
 </Page>
