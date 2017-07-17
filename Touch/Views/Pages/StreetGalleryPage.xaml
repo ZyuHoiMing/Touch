@@ -7,11 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Loaded="Page_Loaded">
-    
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <RelativePanel Name="PhotosPanel">
-        </RelativePanel>
 
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid Name="PhotosPanel" Padding="40"/>
         <Button x:Name="PreviousButtonHorizontal" HorizontalAlignment="Left" Style="{StaticResource FlipViewButtonHorizontal}" Template="{StaticResource HorizontalPreviousTemplate}" Click="PreviousButtonHorizontal_Click"/>
         <Button x:Name="NextButtonHorizontal" HorizontalAlignment="Right" Style="{StaticResource FlipViewButtonHorizontal}" Template="{StaticResource HorizontalNextTemplate}" Click="NextButtonHorizontal_Click"/>
     </Grid>

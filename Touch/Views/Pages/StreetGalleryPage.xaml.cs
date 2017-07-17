@@ -46,10 +46,11 @@ namespace Touch.Views.Pages
         private ImageRecycleList imagePathList;
         private List<Image> imageList;
         /// <summary>
-        /// 读取循环队列里的第几个图片
+        /// 中心图片在循环队列中的位置
         /// </summary>
-        private int imageCount = 0;
+        private int centerImageNum = 0;
         private bool isAnimateFinished = true;
+        private enum ImageIndex { LeftEdge, Left, Center, Right, RightEdge };
 
         public StreetGalleryPage()
         {
@@ -58,7 +59,12 @@ namespace Touch.Views.Pages
             // TODO image应该从data里拿
             List<string> paths = new List<string>
             {
-                "ms-appx:///Assets/pic1_square.jpg"
+                "ms-appx:///Assets/pic1.jpg",
+                "ms-appx:///Assets/pic2.jpg",
+                "ms-appx:///Assets/pic3.jpg",
+                "ms-appx:///Assets/pic4.jpg",
+                "ms-appx:///Assets/pic5.jpg",
+                "ms-appx:///Assets/pic6.jpg"
             };
             imagePathList = new ImageRecycleList(paths);
             imageList = new List<Image>();
@@ -69,79 +75,19 @@ namespace Touch.Views.Pages
             InitImageAttribute();
 
             // 中心图片
-            var centerImage = GetImage(imagePathList.GetItem(imageCount++));
-            centerImage.SetValue(RelativePanel.AlignVerticalCenterWithPanelProperty, true);
-            centerImage.SetValue(RelativePanel.AlignHorizontalCenterWithPanelProperty, true);
-            centerImage.RenderTransform = new CompositeTransform()
-            {
-                TranslateX = 0
-            };
-            centerImage.Projection = new PlaneProjection()
-            {
-                CenterOfRotationX = 1,
-                RotationY = 0
-            };
-            centerImage.Opacity = 1;
+            var centerImage = GetImage(imagePathList.GetItem(centerImageNum), ImageIndex.Center);
             PhotosPanel.Children.Add(centerImage);
             // 左边图片
-            var leftImage = GetImage(imagePathList.GetItem(imageCount++));
-            leftImage.SetValue(RelativePanel.AlignVerticalCenterWithPanelProperty, true);
-            leftImage.SetValue(RelativePanel.AlignHorizontalCenterWithPanelProperty, true);
-            leftImage.RenderTransform = new CompositeTransform()
-            {
-                TranslateX = -imageSize - imageMargin * 2
-            };
-            leftImage.Projection = new PlaneProjection()
-            {
-                CenterOfRotationX = 1,
-                RotationY = -25
-            };
-            leftImage.Opacity = 1;
+            var leftImage = GetImage(imagePathList.GetItem(centerImageNum - 1), ImageIndex.Left);
             PhotosPanel.Children.Add(leftImage);
             // 右边图片
-            var rightImage = GetImage(imagePathList.GetItem(imageCount++));
-            rightImage.SetValue(RelativePanel.AlignVerticalCenterWithPanelProperty, true);
-            rightImage.SetValue(RelativePanel.AlignHorizontalCenterWithPanelProperty, true);
-            rightImage.RenderTransform = new CompositeTransform()
-            {
-                TranslateX = imageSize + imageMargin * 2
-            };
-            rightImage.Projection = new PlaneProjection()
-            {
-                CenterOfRotationX = 0,
-                RotationY = 25
-            };
-            rightImage.Opacity = 1;
+            var rightImage = GetImage(imagePathList.GetItem(centerImageNum + 1), ImageIndex.Right);
             PhotosPanel.Children.Add(rightImage);
             // 左边边缘图片
-            var leftEdgeImage = GetImage(imagePathList.GetItem(imageCount++));
-            leftEdgeImage.SetValue(RelativePanel.AlignVerticalCenterWithPanelProperty, true);
-            leftEdgeImage.SetValue(RelativePanel.AlignHorizontalCenterWithPanelProperty, true);
-            leftEdgeImage.RenderTransform = new CompositeTransform()
-            {
-                TranslateX = (-imageSize - imageMargin * 2) * 2
-            };
-            leftEdgeImage.Projection = new PlaneProjection()
-            {
-                CenterOfRotationX = 1,
-                RotationY = -50
-            };
-            leftEdgeImage.Opacity = 0;
+            var leftEdgeImage = GetImage(imagePathList.GetItem(centerImageNum - 2), ImageIndex.LeftEdge);
             PhotosPanel.Children.Add(leftEdgeImage);
             // 右边边缘图片
-            var rightEdgeImage = GetImage(imagePathList.GetItem(imageCount++));
-            rightEdgeImage.SetValue(RelativePanel.AlignVerticalCenterWithPanelProperty, true);
-            rightEdgeImage.SetValue(RelativePanel.AlignHorizontalCenterWithPanelProperty, true);
-            rightEdgeImage.RenderTransform = new CompositeTransform()
-            {
-                TranslateX = (imageSize + imageMargin * 2) * 2
-            };
-            rightEdgeImage.Projection = new PlaneProjection()
-            {
-                CenterOfRotationX = 0,
-                RotationY = 50
-            };
-            rightEdgeImage.Opacity = 0;
+            var rightEdgeImage = GetImage(imagePathList.GetItem(centerImageNum + 2), ImageIndex.RightEdge);
             PhotosPanel.Children.Add(rightEdgeImage);
 
             imageList.Add(leftEdgeImage);
@@ -158,7 +104,7 @@ namespace Touch.Views.Pages
         {
             panelWidth = PhotosPanel.ActualWidth;
             imageMargin = 16;
-            imageSize = (panelWidth - imageMargin * 8 - 96 * 2) / 3;
+            imageSize = (panelWidth - imageMargin * 8 - 48 * 2) / 3;
             margin = new Thickness()
             {
                 Left = imageMargin,
@@ -171,15 +117,78 @@ namespace Touch.Views.Pages
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        private Image GetImage(string path)
+        private Image GetImage(string path, ImageIndex index)
         {
             var image = new Image()
             {
                 Width = imageSize,
                 Height = imageSize,
-                Margin = margin,
-                Source = new BitmapImage(new Uri(path))
+                Source = new BitmapImage(new Uri(path)),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
             };
+            switch (index)
+            {
+                // 中心图片
+                case ImageIndex.Center:
+                    image.RenderTransform = new CompositeTransform()
+                    {
+                        TranslateX = 0
+                    };
+                    break;
+                // 左边图片
+                case ImageIndex.Left:
+                    image.RenderTransform = new CompositeTransform()
+                    {
+                        TranslateX = -imageSize - imageMargin * 2
+                    };
+                    image.Projection = new PlaneProjection()
+                    {
+                        CenterOfRotationX = 1,
+                        RotationY = -25
+                    };
+                    break;
+                // 右边图片
+                case ImageIndex.Right:
+                    image.RenderTransform = new CompositeTransform()
+                    {
+                        TranslateX = imageSize + imageMargin * 2
+                    };
+                    image.Projection = new PlaneProjection()
+                    {
+                        CenterOfRotationX = 0,
+                        RotationY = 25
+                    };
+                    break;
+                // 左边边缘图片
+                case ImageIndex.LeftEdge:
+                    image.RenderTransform = new CompositeTransform()
+                    {
+                        TranslateX = (-imageSize - imageMargin * 2) * 2
+                    };
+                    image.Projection = new PlaneProjection()
+                    {
+                        CenterOfRotationX = 1,
+                        RotationY = -50
+                    };
+                    image.Opacity = 0;
+                    break;
+                // 右边边缘图片
+                case ImageIndex.RightEdge:
+                    image.RenderTransform = new CompositeTransform()
+                    {
+                        TranslateX = (imageSize + imageMargin * 2) * 2
+                    };
+                    image.Projection = new PlaneProjection()
+                    {
+                        CenterOfRotationX = 0,
+                        RotationY = 50
+                    };
+                    image.Opacity = 0;
+                    break;
+                default:
+                    break;
+            }
             return image;
         }
 
@@ -282,18 +291,19 @@ namespace Touch.Views.Pages
         }
 
         /// <summary>
-        /// 左边button的点击事件
+        /// 左button的点击事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void PreviousButtonHorizontal_Click(object sender, RoutedEventArgs e)
         {
+            // 如果当前在播放动画，不响应点击事件
             if (!isAnimateFinished)
             {
                 return;
             }
             isAnimateFinished = false;
-            
+            // 给中心图片设置旋转轴
             var centerImage = imageList[2];
             centerImage.Projection = new PlaneProjection()
             {
@@ -301,6 +311,7 @@ namespace Touch.Views.Pages
                 RotationY = 0
             };
 
+            // 准备动画并播放
             Storyboard storyboard = new Storyboard();
             foreach (Image img in imageList)
             {
@@ -310,80 +321,34 @@ namespace Touch.Views.Pages
             storyboard.Children.Add(GetOpacityAnimation(imageList[1], true));
             storyboard.Children.Add(GetOpacityAnimation(imageList[4], false));
             storyboard.Begin();
+            // 重新准备下一波的图片
             storyboard.Completed += (_sender, _e) =>
             {
+                // 原来的左图和左边缘图都从布局中剔除
                 PhotosPanel.Children.Remove(imageList[0]);
                 PhotosPanel.Children.Remove(imageList[1]);
-                imageList.RemoveAt(0);
-                imageList.RemoveAt(0);
+
+                centerImageNum++;
                 // 中心图片
-                centerImage = imageList[1];
-                centerImage.RenderTransform = new CompositeTransform()
-                {
-                    TranslateX = 0
-                };
-                centerImage.Projection = new PlaneProjection()
-                {
-                    CenterOfRotationX = 1,
-                    RotationY = 0
-                };
-                centerImage.Opacity = 1;
+                centerImage = imageList[3];
                 // 左边图片
-                var leftImage = imageList[0];
-                leftImage.RenderTransform = new CompositeTransform()
-                {
-                    TranslateX = -imageSize - imageMargin * 2
-                };
-                leftImage.Projection = new PlaneProjection()
-                {
-                    CenterOfRotationX = 1,
-                    RotationY = -25
-                };
-                leftImage.Opacity = 1;
+                var leftImage = imageList[2];
                 // 右边图片
-                var rightImage = imageList[2];
-                rightImage.RenderTransform = new CompositeTransform()
-                {
-                    TranslateX = imageSize + imageMargin * 2
-                };
-                rightImage.Projection = new PlaneProjection()
-                {
-                    CenterOfRotationX = 0,
-                    RotationY = 25
-                };
-                rightImage.Opacity = 1;
+                var rightImage = imageList[4];
                 // 左边边缘图片
-                var leftEdgeImage = GetImage(imagePathList.GetItem(imageCount++));
-                leftEdgeImage.SetValue(RelativePanel.AlignVerticalCenterWithPanelProperty, true);
-                leftEdgeImage.SetValue(RelativePanel.AlignHorizontalCenterWithPanelProperty, true);
-                leftEdgeImage.RenderTransform = new CompositeTransform()
-                {
-                    TranslateX = (-imageSize - imageMargin * 2) * 2
-                };
-                leftEdgeImage.Projection = new PlaneProjection()
-                {
-                    CenterOfRotationX = 1,
-                    RotationY = -50
-                };
-                leftEdgeImage.Opacity = 0;
-                PhotosPanel.Children.Add(leftEdgeImage);
+                var leftEdgeImage = GetImage(imagePathList.GetItem(centerImageNum - 2), ImageIndex.LeftEdge);
                 // 右边边缘图片
-                var rightEdgeImage = GetImage(imagePathList.GetItem(imageCount++));
-                rightEdgeImage.SetValue(RelativePanel.AlignVerticalCenterWithPanelProperty, true);
-                rightEdgeImage.SetValue(RelativePanel.AlignHorizontalCenterWithPanelProperty, true);
-                rightEdgeImage.RenderTransform = new CompositeTransform()
-                {
-                    TranslateX = (imageSize + imageMargin * 2) * 2
-                };
-                rightEdgeImage.Projection = new PlaneProjection()
-                {
-                    CenterOfRotationX = 0,
-                    RotationY = 50
-                };
-                rightEdgeImage.Opacity = 0;
+                var rightEdgeImage = GetImage(imagePathList.GetItem(centerImageNum + 2), ImageIndex.RightEdge);
+
                 PhotosPanel.Children.Add(rightEdgeImage);
-                imageList.Insert(0, leftEdgeImage);
-                imageList.Insert(4, rightEdgeImage);
+                PhotosPanel.Children.Add(leftEdgeImage);
+
+                imageList.Clear();
+                imageList.Add(leftEdgeImage);
+                imageList.Add(leftImage);
+                imageList.Add(centerImage);
+                imageList.Add(rightImage);
+                imageList.Add(rightEdgeImage);
 
                 isAnimateFinished = true;
             };
@@ -396,12 +361,13 @@ namespace Touch.Views.Pages
         /// <param name="e"></param>
         private void NextButtonHorizontal_Click(object sender, RoutedEventArgs e)
         {
+            // 如果当前在播放动画，不响应点击事件
             if (!isAnimateFinished)
             {
                 return;
             }
             isAnimateFinished = false;
-
+            // 给中心图片设置旋转轴
             var centerImage = imageList[2];
             centerImage.Projection = new PlaneProjection()
             {
@@ -409,6 +375,7 @@ namespace Touch.Views.Pages
                 RotationY = 0
             };
 
+            // 准备动画并播放
             Storyboard storyboard = new Storyboard();
             foreach (Image img in imageList)
             {
@@ -418,80 +385,34 @@ namespace Touch.Views.Pages
             storyboard.Children.Add(GetOpacityAnimation(imageList[3], true));
             storyboard.Children.Add(GetOpacityAnimation(imageList[0], false));
             storyboard.Begin();
+            // 重新准备下一波的图片
             storyboard.Completed += (_sender, _e) =>
             {
+                // 原来的左图和左边缘图都从布局中剔除
                 PhotosPanel.Children.Remove(imageList[3]);
                 PhotosPanel.Children.Remove(imageList[4]);
-                imageList.RemoveAt(3);
-                imageList.RemoveAt(3);
+
+                centerImageNum--;
                 // 中心图片
                 centerImage = imageList[1];
-                centerImage.RenderTransform = new CompositeTransform()
-                {
-                    TranslateX = 0
-                };
-                centerImage.Projection = new PlaneProjection()
-                {
-                    CenterOfRotationX = 1,
-                    RotationY = 0
-                };
-                centerImage.Opacity = 1;
                 // 左边图片
                 var leftImage = imageList[0];
-                leftImage.RenderTransform = new CompositeTransform()
-                {
-                    TranslateX = -imageSize - imageMargin * 2
-                };
-                leftImage.Projection = new PlaneProjection()
-                {
-                    CenterOfRotationX = 1,
-                    RotationY = -25
-                };
-                leftImage.Opacity = 1;
                 // 右边图片
                 var rightImage = imageList[2];
-                rightImage.RenderTransform = new CompositeTransform()
-                {
-                    TranslateX = imageSize + imageMargin * 2
-                };
-                rightImage.Projection = new PlaneProjection()
-                {
-                    CenterOfRotationX = 0,
-                    RotationY = 25
-                };
-                rightImage.Opacity = 1;
                 // 左边边缘图片
-                var leftEdgeImage = GetImage(imagePathList.GetItem(imageCount++));
-                leftEdgeImage.SetValue(RelativePanel.AlignVerticalCenterWithPanelProperty, true);
-                leftEdgeImage.SetValue(RelativePanel.AlignHorizontalCenterWithPanelProperty, true);
-                leftEdgeImage.RenderTransform = new CompositeTransform()
-                {
-                    TranslateX = (-imageSize - imageMargin * 2) * 2
-                };
-                leftEdgeImage.Projection = new PlaneProjection()
-                {
-                    CenterOfRotationX = 1,
-                    RotationY = -50
-                };
-                leftEdgeImage.Opacity = 0;
-                PhotosPanel.Children.Add(leftEdgeImage);
+                var leftEdgeImage = GetImage(imagePathList.GetItem(centerImageNum - 2), ImageIndex.LeftEdge);
                 // 右边边缘图片
-                var rightEdgeImage = GetImage(imagePathList.GetItem(imageCount++));
-                rightEdgeImage.SetValue(RelativePanel.AlignVerticalCenterWithPanelProperty, true);
-                rightEdgeImage.SetValue(RelativePanel.AlignHorizontalCenterWithPanelProperty, true);
-                rightEdgeImage.RenderTransform = new CompositeTransform()
-                {
-                    TranslateX = (imageSize + imageMargin * 2) * 2
-                };
-                rightEdgeImage.Projection = new PlaneProjection()
-                {
-                    CenterOfRotationX = 0,
-                    RotationY = 50
-                };
-                rightEdgeImage.Opacity = 0;
+                var rightEdgeImage = GetImage(imagePathList.GetItem(centerImageNum + 2), ImageIndex.RightEdge);
+
                 PhotosPanel.Children.Add(rightEdgeImage);
-                imageList.Insert(0, leftEdgeImage);
-                imageList.Insert(4, rightEdgeImage);
+                PhotosPanel.Children.Add(leftEdgeImage);
+
+                imageList.Clear();
+                imageList.Add(leftEdgeImage);
+                imageList.Add(leftImage);
+                imageList.Add(centerImage);
+                imageList.Add(rightImage);
+                imageList.Add(rightEdgeImage);
 
                 isAnimateFinished = true;
             };

@@ -49,13 +49,6 @@ namespace Touch.Views.Pages
             {
                 ItemName = "测试",
                 ItemSymbol = Symbol.Home,
-                ItemPage = typeof(_3DGalleryPage)
-            };
-            hambugerMenuPrimaryListItems.Add(item);
-            item = new HambugerMenuListItem()
-            {
-                ItemName = "测试",
-                ItemSymbol = Symbol.Home,
                 ItemPage = typeof(StreetGalleryPage)
             };
             hambugerMenuPrimaryListItems.Add(item);
@@ -64,7 +57,7 @@ namespace Touch.Views.Pages
             {
                 ItemName = new ResourceLoader().GetString("Setting"),
                 ItemSymbol = Symbol.Setting,
-                ItemPage = typeof(_3DGalleryPage)
+                ItemPage = typeof(GalleryPage)
             };
             hambugerMenuSecondaryListItems.Add(item2);
         }
