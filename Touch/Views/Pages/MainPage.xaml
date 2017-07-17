@@ -9,6 +9,12 @@
     mc:Ignorable="d"
     Loaded="Page_Loaded">
 
+    <Page.Transitions>
+        <TransitionCollection>
+            <EntranceThemeTransition/>
+        </TransitionCollection>
+    </Page.Transitions>
+
     <Page.Resources>
         <Style x:Key="HamburgerMenuListItemTemplate" TargetType="ListView">
             <Setter Property="ItemTemplate">

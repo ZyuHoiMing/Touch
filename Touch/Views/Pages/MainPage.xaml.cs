@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Touch.Models;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -34,6 +35,9 @@ namespace Touch.Views.Pages
 
             hambugerMenuPrimaryListItems = new ObservableCollection<HambugerMenuListItem>();
             hambugerMenuSecondaryListItems = new ObservableCollection<HambugerMenuListItem>();
+            // 显示title bar
+            CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = false;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

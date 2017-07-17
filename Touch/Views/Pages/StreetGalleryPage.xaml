@@ -9,6 +9,12 @@
     mc:Ignorable="d"
     Loaded="Page_Loaded">
 
+    <Page.Transitions>
+        <TransitionCollection>
+            <EntranceThemeTransition/>
+        </TransitionCollection>
+    </Page.Transitions>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Image Name="BackgroundDownImage" Width="{Binding ElementName=PhotosPanel, Path=Width}" Stretch="UniformToFill"/>
         <Image Name="BackgroundUpImage" Width="{Binding ElementName=PhotosPanel, Path=Width}" Stretch="UniformToFill"/>
