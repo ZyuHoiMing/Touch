@@ -52,6 +52,13 @@ namespace Touch.Views.Pages
                 ItemPage = typeof(StreetGalleryPage)
             };
             hambugerMenuPrimaryListItems.Add(item);
+            item = new HambugerMenuListItem()
+            {
+                ItemName = new ResourceLoader().GetString("Album"),
+                ItemSymbol = Symbol.Home,
+                ItemPage = typeof(AlbumPage)
+            };
+            hambugerMenuPrimaryListItems.Add(item);
 
             HambugerMenuListItem item2 = new HambugerMenuListItem()
             {

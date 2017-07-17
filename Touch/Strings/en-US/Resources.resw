@@ -120,6 +120,12 @@
   <data name="AddPhotoFolder.Label" xml:space="preserve">
     <value>添加图片文件夹</value>
   </data>
+  <data name="Album" xml:space="preserve">
+    <value>相册</value>
+  </data>
+  <data name="AlbumTitleBar.Text" xml:space="preserve">
+    <value>相册</value>
+  </data>
   <data name="Gallery" xml:space="preserve">
     <value>图库</value>
   </data>
