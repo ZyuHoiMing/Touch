@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Graphics.Canvas.Effects;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,10 +8,12 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Touch.Models;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -89,12 +92,15 @@ namespace Touch.Views.Pages
             // 右边边缘图片
             var rightEdgeImage = GetImage(imagePathList.GetItem(centerImageNum + 2), ImageIndex.RightEdge);
             PhotosPanel.Children.Add(rightEdgeImage);
-
+            // 全部添加到图片显示list里
             imageList.Add(leftEdgeImage);
             imageList.Add(leftImage);
             imageList.Add(centerImage);
             imageList.Add(rightImage);
             imageList.Add(rightEdgeImage);
+            // 设置background
+            BackgroundUpImage.Source = new BitmapImage(new Uri(imagePathList.GetItem(centerImageNum)));
+            BackgroundDownImage.Source = new BitmapImage(new Uri(imagePathList.GetItem(centerImageNum)));
         }
 
         /// <summary>
@@ -303,6 +309,8 @@ namespace Touch.Views.Pages
                 return;
             }
             isAnimateFinished = false;
+            // 设置背景图下层图片
+            BackgroundDownImage.Source = new BitmapImage(new Uri(imagePathList.GetItem(centerImageNum + 1)));
             // 给中心图片设置旋转轴
             var centerImage = imageList[2];
             centerImage.Projection = new PlaneProjection()
@@ -310,7 +318,6 @@ namespace Touch.Views.Pages
                 CenterOfRotationX = 1,
                 RotationY = 0
             };
-
             // 准备动画并播放
             Storyboard storyboard = new Storyboard();
             foreach (Image img in imageList)
@@ -320,6 +327,8 @@ namespace Touch.Views.Pages
             }
             storyboard.Children.Add(GetOpacityAnimation(imageList[1], true));
             storyboard.Children.Add(GetOpacityAnimation(imageList[4], false));
+            // 背景切换模糊
+            storyboard.Children.Add(GetOpacityAnimation(BackgroundUpImage, true));
             storyboard.Begin();
             // 重新准备下一波的图片
             storyboard.Completed += (_sender, _e) =>
@@ -349,7 +358,8 @@ namespace Touch.Views.Pages
                 imageList.Add(centerImage);
                 imageList.Add(rightImage);
                 imageList.Add(rightEdgeImage);
-
+                // 设置背景图下层图片
+                BackgroundUpImage.Source = new BitmapImage(new Uri(imagePathList.GetItem(centerImageNum)));
                 isAnimateFinished = true;
             };
         }
@@ -367,6 +377,8 @@ namespace Touch.Views.Pages
                 return;
             }
             isAnimateFinished = false;
+            // 设置背景图下层图片
+            BackgroundDownImage.Source = new BitmapImage(new Uri(imagePathList.GetItem(centerImageNum - 1)));
             // 给中心图片设置旋转轴
             var centerImage = imageList[2];
             centerImage.Projection = new PlaneProjection()
@@ -374,7 +386,6 @@ namespace Touch.Views.Pages
                 CenterOfRotationX = 0,
                 RotationY = 0
             };
-
             // 准备动画并播放
             Storyboard storyboard = new Storyboard();
             foreach (Image img in imageList)
@@ -384,6 +395,8 @@ namespace Touch.Views.Pages
             }
             storyboard.Children.Add(GetOpacityAnimation(imageList[3], true));
             storyboard.Children.Add(GetOpacityAnimation(imageList[0], false));
+            // 背景切换模糊
+            storyboard.Children.Add(GetOpacityAnimation(BackgroundUpImage, true));
             storyboard.Begin();
             // 重新准备下一波的图片
             storyboard.Completed += (_sender, _e) =>
@@ -413,7 +426,8 @@ namespace Touch.Views.Pages
                 imageList.Add(centerImage);
                 imageList.Add(rightImage);
                 imageList.Add(rightEdgeImage);
-
+                // 设置背景图下层图片
+                BackgroundUpImage.Source = new BitmapImage(new Uri(imagePathList.GetItem(centerImageNum)));
                 isAnimateFinished = true;
             };
         }

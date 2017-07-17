@@ -5,11 +5,16 @@
     xmlns:local="using:Touch.Views.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:XamlBrewer.Uwp.Controls"
     mc:Ignorable="d"
     Loaded="Page_Loaded">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid Name="PhotosPanel" Padding="40"/>
+        <Image Name="BackgroundDownImage" Width="{Binding ElementName=PhotosPanel, Path=Width}" Stretch="UniformToFill"/>
+        <Image Name="BackgroundUpImage" Width="{Binding ElementName=PhotosPanel, Path=Width}" Stretch="UniformToFill"/>
+        <controls:BackDrop Width="{Binding ElementName=PhotosPanel, Path=Width}" BlurAmount="25"/>
+        <Grid Name="PhotosPanel" Padding="40">
+        </Grid>
         <Button x:Name="PreviousButtonHorizontal" HorizontalAlignment="Left" Style="{StaticResource FlipViewButtonHorizontal}" Template="{StaticResource HorizontalPreviousTemplate}" Click="PreviousButtonHorizontal_Click"/>
         <Button x:Name="NextButtonHorizontal" HorizontalAlignment="Right" Style="{StaticResource FlipViewButtonHorizontal}" Template="{StaticResource HorizontalNextTemplate}" Click="NextButtonHorizontal_Click"/>
     </Grid>
