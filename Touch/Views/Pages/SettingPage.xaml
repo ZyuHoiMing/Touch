@@ -12,8 +12,12 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button Click="Button_Click" Grid.Row="0" >选择文件夹</Button>
-        <Button Click="Button_Click_1" Grid.Row="0" Margin="100">显示图片</Button>
-        <GridView Name="imageView" Grid.Row="1"></GridView>
+        <Button Click="Button_Click" Grid.Row="0" VerticalAlignment="Bottom" >选择文件夹</Button>
+        <GridView Name="imgView" Grid.Row="1">
+            <DataTemplate >
+                <StackPanel Height="500" Width="500" >
+                </StackPanel>
+            </DataTemplate>
+        </GridView>
     </Grid>
 </Page>
