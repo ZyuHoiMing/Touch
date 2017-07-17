@@ -21,14 +21,13 @@ namespace Touch.Views.Pages
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            var folderPicker = new Windows.Storage.Pickers.FolderPicker();
-            folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
-          
+            var folderPicker = new FolderPicker {SuggestedStartLocation = PickerLocationId.Desktop};
+
             folderPicker.FileTypeFilter.Add(".png");
             folderPicker.FileTypeFilter.Add(".jpg");
             var folder = await folderPicker.PickSingleFolderAsync();
             var files = await folder.GetFilesAsync();
-            foreach (Windows.Storage.StorageFile file in files)
+            foreach (var file in files)
             {
                 var bitmap = new BitmapImage();
                 using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
@@ -36,7 +35,7 @@ namespace Touch.Views.Pages
                     bitmap.SetSource(stream);
                 }
                 var img = new Image {Source = bitmap};
-                imgView.Items?.Add(img);
+                ImgView.Items?.Add(img);
             }
         }
     }

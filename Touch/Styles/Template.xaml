@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Touch.Styles">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ControlTemplate x:Key="HorizontalNextTemplate" TargetType="Button">
         <Border x:Name="Root" BorderBrush="{ThemeResource FlipViewNextPreviousButtonBorderBrush}"
