@@ -113,7 +113,7 @@
 
             <!-- Content 对应具体页面 -->
             <SplitView.Content>
-                <Frame Name="MainPageFrame"/>
+               <Frame Name="MainPageFrame"/>
             </SplitView.Content>
         </SplitView>
     </Grid>
