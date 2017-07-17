@@ -57,7 +57,7 @@ namespace Touch.Views.Pages
             {
                 ItemName = new ResourceLoader().GetString("Setting"),
                 ItemSymbol = Symbol.Setting,
-                ItemPage = typeof(GalleryPage)
+                ItemPage = typeof(SettingPage)
             };
             hambugerMenuSecondaryListItems.Add(item2);
         }
