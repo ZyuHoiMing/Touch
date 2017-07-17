@@ -18,13 +18,13 @@ namespace Touch.Views.Pages
         }
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            FileOpenPicker filePicker = new FileOpenPicker();
-            filePicker.ViewMode = PickerViewMode.Thumbnail;
-            filePicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-            filePicker.FileTypeFilter.Add(".png");
-            filePicker.FileTypeFilter.Add(".jpg");
-            //Windows.Storage.StorageFile file = await filePicker.PickSingleFileAsync();
-            var files = await filePicker.PickMultipleFilesAsync();
+            var folderPicker = new Windows.Storage.Pickers.FolderPicker();
+            folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+          
+            folderPicker.FileTypeFilter.Add(".png");
+            folderPicker.FileTypeFilter.Add(".jpg");
+            var folder = await folderPicker.PickSingleFolderAsync();
+            var files = await folder.GetFilesAsync();
             foreach (Windows.Storage.StorageFile file in files)
             {
                 Windows.UI.Xaml.Media.Imaging.BitmapImage bitmap = new Windows.UI.Xaml.Media.Imaging.BitmapImage();
