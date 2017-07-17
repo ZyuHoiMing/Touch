@@ -63,11 +63,11 @@
                         <Button Name="HambugerMenuButton" Height="48" Width="48" FontSize="16" Foreground="White" Content="&#59136;" FontFamily="{StaticResource SymbolThemeFontFamily}" Background="Transparent" Click="HambugerMenuButton_Click"/>
                     </StackPanel>
 
-                    <ListView Grid.Row="1" RelativePanel.AlignTopWith="HambugerMenuButton" Name="HambugerMenuPrimaryList" SelectionMode="Single" ItemsSource="{x:Bind hambugerMenuPrimaryListItems}" SelectionChanged="HambugerMenuList_SelectionChanged" Style="{StaticResource HamburgerMenuListItemTemplate}"/>
+                    <ListView Grid.Row="1" RelativePanel.AlignTopWith="HambugerMenuButton" Name="HambugerMenuPrimaryList" SelectionMode="Single" ItemsSource="{x:Bind hambugerMenuPrimaryListItems}" SelectionChanged="HambugeMenurPrimaryList_SelectionChanged" Style="{StaticResource HamburgerMenuListItemTemplate}"/>
 
                     <Rectangle Grid.Row="2" RelativePanel.AlignTopWith="HambugerMenuSecondaryList" Height="2" Fill="LightGray"/>
 
-                    <ListView Grid.Row="3" RelativePanel.AlignBottomWithPanel="True" Name="HambugerMenuSecondaryList" SelectionMode="Single" ItemsSource="{x:Bind hambugerMenuSecondaryListItems}" SelectionChanged="HambugerMenuList_SelectionChanged" Style="{StaticResource HamburgerMenuListItemTemplate}"/>
+                    <ListView Grid.Row="3" RelativePanel.AlignBottomWithPanel="True" Name="HambugerMenuSecondaryList" SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{x:Bind hambugerMenuSecondaryListItems}" ItemClick="HambugerMenuSecondaryList_ItemClick" Style="{StaticResource HamburgerMenuListItemTemplate}"/>
                 </Grid>
             </SplitView.Pane>
 

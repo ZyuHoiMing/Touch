@@ -74,7 +74,7 @@ namespace Touch.Views.Pages
             MainPageSplitView.IsPaneOpen = !MainPageSplitView.IsPaneOpen;
         }
 
-        private void HambugerMenuList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void HambugeMenurPrimaryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedPage = ((sender as ListView).SelectedItem as HambugerMenuListItem).ItemPage;
             if (MainPageFrame.SourcePageType != selectedPage)
@@ -86,6 +86,12 @@ namespace Touch.Views.Pages
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             HambugerMenuPrimaryList.SelectedIndex = 0;
+        }
+
+        private void HambugerMenuSecondaryList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var clickedPage = (e.ClickedItem as HambugerMenuListItem).ItemPage;
+            MainPageFrame.Navigate(clickedPage);
         }
     }
 }
