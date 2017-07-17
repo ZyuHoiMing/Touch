@@ -32,4 +32,12 @@
         <Setter Property="Margin" Value="12,14"/>
     </Style>
 
+    <Style TargetType="Button" x:Key="FlipViewButtonHorizontal">
+        <Setter Property="Height" Value="36"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="UseSystemFocusVisuals" Value="False"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Width" Value="20"/>
+    </Style>
+
 </ResourceDictionary>

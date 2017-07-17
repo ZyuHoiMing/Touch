@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Touch.Models;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -39,22 +40,29 @@ namespace Touch.Views.Pages
         {
             HambugerMenuListItem item = new HambugerMenuListItem()
             {
-                ItemName = Application.Current.Resources["gallery"] as string,
+                ItemName = new ResourceLoader().GetString("Gallery"),
                 ItemSymbol = Symbol.Home,
                 ItemPage = typeof(GalleryPage)
             };
             hambugerMenuPrimaryListItems.Add(item);
             item = new HambugerMenuListItem()
             {
-                ItemName = Application.Current.Resources["3d_gallery"] as string,
+                ItemName = "测试",
                 ItemSymbol = Symbol.Home,
                 ItemPage = typeof(_3DGalleryPage)
+            };
+            hambugerMenuPrimaryListItems.Add(item);
+            item = new HambugerMenuListItem()
+            {
+                ItemName = "测试",
+                ItemSymbol = Symbol.Home,
+                ItemPage = typeof(StreetGalleryPage)
             };
             hambugerMenuPrimaryListItems.Add(item);
 
             HambugerMenuListItem item2 = new HambugerMenuListItem()
             {
-                ItemName = Application.Current.Resources["setting"] as string,
+                ItemName = new ResourceLoader().GetString("Setting"),
                 ItemSymbol = Symbol.Setting,
                 ItemPage = typeof(_3DGalleryPage)
             };

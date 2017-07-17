@@ -67,7 +67,7 @@
 
                     <Rectangle Grid.Row="2" RelativePanel.AlignTopWith="HambugerMenuSecondaryList" Height="2" Fill="LightGray"/>
 
-                    <ListView Grid.Row="3" RelativePanel.AlignBottomWithPanel="True" Name="HambugerMenuSecondaryList" SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{x:Bind hambugerMenuSecondaryListItems}" SelectionChanged="HambugerMenuList_SelectionChanged" Style="{StaticResource HamburgerMenuListItemTemplate}"/>
+                    <ListView Grid.Row="3" RelativePanel.AlignBottomWithPanel="True" Name="HambugerMenuSecondaryList" SelectionMode="Single" ItemsSource="{x:Bind hambugerMenuSecondaryListItems}" SelectionChanged="HambugerMenuList_SelectionChanged" Style="{StaticResource HamburgerMenuListItemTemplate}"/>
                 </Grid>
             </SplitView.Pane>
 
