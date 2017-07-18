@@ -87,7 +87,7 @@ namespace Touch.Data
         ///     依据主键删除一条记录
         /// </summary>
         /// <param name="primaryKey"></param>
-        public static void Delete(string primaryKey)
+        public static void Delete(int primaryKey)
         {
             using (var db = new SqliteConnection("Filename=" + DbFileName))
             {
