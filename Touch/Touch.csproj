@@ -96,6 +96,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\BackDrop.cs" />
+    <Compile Include="Data\FolderDatabase.cs" />
     <Compile Include="Models\GalleryGridItem.cs" />
     <Compile Include="Models\HambugerMenuListItem.cs" />
     <Compile Include="Models\ImagePath.cs" />

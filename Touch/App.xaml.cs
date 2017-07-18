@@ -5,6 +5,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Touch.Data;
 using Touch.Views.Pages;
 
 namespace Touch
@@ -22,6 +23,9 @@ namespace Touch
         {
             InitializeComponent();
             Suspending += OnSuspending;
+
+            // 初始化数据库
+            FolderDatabase.Init();
         }
 
         /// <summary>
@@ -41,7 +45,7 @@ namespace Touch
             // just ensure that the window is active
             if (rootFrame == null)
             {
-                // Create a Frame to act as the navigation context and navigate to the first page
+                // Init a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;

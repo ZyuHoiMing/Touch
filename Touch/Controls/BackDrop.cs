@@ -176,7 +176,7 @@ namespace Touch.Controls
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_blurVisual != null)
-                _blurVisual.Size = new Vector2((float)ActualWidth, (float)ActualHeight);
+                _blurVisual.Size = new Vector2((float) ActualWidth, (float) ActualHeight);
         }
 
         private CompositionEffectBrush BuildBlurBrush()

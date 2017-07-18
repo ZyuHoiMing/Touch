@@ -400,26 +400,15 @@ namespace Touch.Views.Pages
             };
         }
 
-        private enum ImageIndex
-        {
-            LeftEdge,
-            Left,
-            Center,
-            Right,
-            RightEdge
-        }
-
         /// <summary>
-        /// 重新初始化图片的大小和位置
+        ///     重新初始化图片的大小和位置
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void PhotosPanel_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_imageList.Count < 5)
-            {
                 return;
-            }
             InitImageAttribute();
             foreach (var img in _imageList)
             {
@@ -442,6 +431,15 @@ namespace Touch.Views.Pages
             {
                 TranslateX = (_imageSize + _imageMargin * 2) * 2
             };
+        }
+
+        private enum ImageIndex
+        {
+            LeftEdge,
+            Left,
+            Center,
+            Right,
+            RightEdge
         }
     }
 }
