@@ -12,6 +12,7 @@ namespace Touch.UnitTestProject
     /// <summary>
     ///     Provides application-specific behavior to supplement the default Application class.
     /// </summary>
+    // ReSharper disable once RedundantExtendsListEntry
     internal sealed partial class App : Application
     {
         /// <summary>

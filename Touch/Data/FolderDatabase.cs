@@ -115,7 +115,7 @@ namespace Touch.Data
         ///     返回所有记录
         /// </summary>
         /// <returns></returns>
-        public static List<MyFolder> GetFolders()
+        public static IEnumerable<MyFolder> GetFolders()
         {
             var folderList = new List<MyFolder>();
             using (var db = new SqliteConnection("Filename=" + DbFileName))
