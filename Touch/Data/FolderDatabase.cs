@@ -11,6 +11,9 @@ namespace Touch.Data
         public string FolderPath { get; set; }
     }
 
+    /// <summary>
+    ///     存储文件夹路径的SQLite数据库
+    /// </summary>
     public static class FolderDatabase
     {
         public const string DbFileName = "TouchSQLite.db";
