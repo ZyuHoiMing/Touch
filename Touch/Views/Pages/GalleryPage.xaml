@@ -40,9 +40,9 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <CommandBar Grid.Row="0" Style="{ThemeResource TitleBar}">
+        <CommandBar Grid.Row="0" Style="{StaticResource TitleBar}">
             <CommandBar.Content>
-                <TextBlock x:Uid="GalleryTitleBar" Style="{ThemeResource TitleBarTitleText}" />
+                <TextBlock x:Uid="GalleryTitleBar" Style="{StaticResource TitleBarTitleText}" />
             </CommandBar.Content>
 
             <CommandBar.SecondaryCommands>

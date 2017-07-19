@@ -19,7 +19,7 @@ namespace Touch.UnitTestProject.ViewModels
         }
 
         /// <summary>
-        /// 存的内容改变了，是否会通知事件
+        ///     存的内容改变了，是否会通知事件
         /// </summary>
         [TestMethod]
         public void PropertyChangedTest()

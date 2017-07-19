@@ -27,7 +27,7 @@ namespace Touch.UnitTestProject.ViewModels
         }
 
         /// <summary>
-        /// 删除再读应该正常
+        ///     删除再读应该正常
         /// </summary>
         [TestMethod]
         public void DeleteTest()

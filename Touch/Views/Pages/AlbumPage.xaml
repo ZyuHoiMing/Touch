@@ -6,15 +6,21 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.Transitions>
+        <TransitionCollection>
+            <EntranceThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <CommandBar Grid.Row="0" Style="{ThemeResource TitleBar}">
+        <CommandBar Grid.Row="0" Style="{StaticResource TitleBar}">
             <CommandBar.Content>
-                <TextBlock x:Uid="AlbumTitleBar" Style="{ThemeResource TitleBarTitleText}" />
+                <TextBlock x:Uid="AlbumTitleBar" Style="{StaticResource TitleBarTitleText}" />
             </CommandBar.Content>
         </CommandBar>
     </Grid>

@@ -3,20 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Data.Sqlite;
 using Microsoft.Data.Sqlite.Internal;
+using Touch.Models;
 
 namespace Touch.Data
 {
-    /// <summary>
-    ///     文件夹路径
-    /// </summary>
-    public class MyFolder
-    {
-        /// <summary>
-        ///     文件夹路径
-        /// </summary>
-        public string FolderPath { get; set; }
-    }
-
     /// <summary>
     ///     存储文件夹路径的SQLite数据库
     /// </summary>

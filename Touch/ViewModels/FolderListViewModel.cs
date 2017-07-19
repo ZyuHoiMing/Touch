@@ -52,6 +52,7 @@ namespace Touch.ViewModels
         /// </summary>
         public void Add(MyFolderViewModel myFolderVm)
         {
+            if (_myFolderVms.Contains(myFolderVm)) return;
             _myFolderVms.Add(myFolderVm);
             _folderList.Add(myFolderVm);
         }

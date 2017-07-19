@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:Touch.ViewModels"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -17,13 +18,27 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Button Click="Button_Click" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Height="100">
-            选择文件夹
-        </Button>
-        <GridView Name="ImgView" Grid.Row="1">
 
-            <StackPanel Height="250" Width="250" />
+        <CommandBar Grid.Row="0" Style="{StaticResource TitleBar}">
+            <CommandBar.Content>
+                <TextBlock x:Uid="SettingTitleBar" Style="{StaticResource TitleBarTitleText}" />
+            </CommandBar.Content>
+        </CommandBar>
 
-        </GridView>
+        <Grid Grid.Row="1" Padding="16">
+            <StackPanel>
+                <TextBlock x:Uid="Source" Style="{StaticResource SettingTitleText}" />
+                <TextBlock x:Uid="ListWhatFind" Style="{StaticResource SettingSubTitleText}" />
+                <ListView Margin="0,8" ItemsSource="{x:Bind _folderListVm.MyFolderVms, Mode=OneWay}"
+                          SelectedIndex="{x:Bind _folderListVm.SelectedIndex, Mode=TwoWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="viewModels:MyFolderViewModel">
+                            <TextBlock Text="{x:Bind FolderPath, Mode=OneWay}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Button Click="ButtonBase_OnClick">添加文件夹</Button>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>
