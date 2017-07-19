@@ -22,8 +22,7 @@ namespace Touch.Data
     /// </summary>
     public static class FolderDatabase
     {
-        public const string DbFileName = "TouchSQLite.db";
-
+        private const string DbFileName = "TouchSQLite.db";
         private const string TableName = "FolderTable";
         private const string PrimaryKeyName = "Primary_Key";
         private const string FolderPathName = "Folder_Path";

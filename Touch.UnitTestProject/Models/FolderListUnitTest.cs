@@ -27,7 +27,7 @@ namespace Touch.UnitTestProject.Models
         }
 
         /// <summary>
-        /// 添加新记录
+        ///     添加新记录
         /// </summary>
         [TestMethod]
         public void AddTest()
@@ -35,9 +35,9 @@ namespace Touch.UnitTestProject.Models
             FolderDatabase.Drop();
             FolderDatabase.Create();
             var folderList = new FolderList();
-            folderList.Add(new MyFolder { FolderPath = "test_data_1" });
-            folderList.Add(new MyFolder { FolderPath = "test_data_2" });
-            folderList.Add(new MyFolder { FolderPath = "test_data_3" });
+            folderList.Add(new MyFolder {FolderPath = "test_data_1"});
+            folderList.Add(new MyFolder {FolderPath = "test_data_2"});
+            folderList.Add(new MyFolder {FolderPath = "test_data_3"});
             // 在FolderList里读出来正常
             var count = 1;
             foreach (var folder in folderList.List)
@@ -50,7 +50,7 @@ namespace Touch.UnitTestProject.Models
         }
 
         /// <summary>
-        /// 删除记录测试
+        ///     删除记录测试
         /// </summary>
         [TestMethod]
         public void DeleteTest()
@@ -67,9 +67,7 @@ namespace Touch.UnitTestProject.Models
                 new MyFolder {FolderPath = "test_data_5"}
             };
             foreach (var data in testData)
-            {
                 folderList.Add(data);
-            }
             folderList.Delete(testData[0]);
             folderList.Delete(testData[2]);
             folderList.Delete(testData[4]);
