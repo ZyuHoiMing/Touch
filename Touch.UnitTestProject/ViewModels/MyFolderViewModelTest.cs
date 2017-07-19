@@ -18,6 +18,9 @@ namespace Touch.UnitTestProject.ViewModels
             Assert.AreEqual("test_2", myFolderVm.FolderPath);
         }
 
+        /// <summary>
+        /// 存的内容改变了，是否会通知事件
+        /// </summary>
         [TestMethod]
         public void PropertyChangedTest()
         {
