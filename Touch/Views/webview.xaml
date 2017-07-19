@@ -10,8 +10,10 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <WebView x:Name="webview1" Grid.Row="0" />
+        <Button Grid.Row="1" Click="Button_Click">js</Button>
         <!--Source="ms-appx-web:///web/test.html"-->
     </Grid>
 </Page>

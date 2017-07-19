@@ -1,46 +1,26 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8">
-    <title>Street View side-by-side</title>
+    <title>Street View</title>
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-        #map, #pano {
-            float: left;
-            height: 100%;
-            width: 45%;
-        }
-    </style>
-</head>
-<body>
-    <div id="map"></div>
-    <div id="pano"></div>
-    <script>
-
-        function initialize() {
-            var fenway = { lat: 22.277782, lng: 114.170241 };
-        var map = new google.maps.Map(document.getElementById('map'), {
-          center: fenway,
-          zoom: 14
-        });
-        var panorama = new google.maps.StreetViewPanorama(
-            document.getElementById('pano'), {
-              position: fenway,
-              pov: {
-                heading: 34,
-                pitch: 10
-              }
-            });
-        map.setStreetView(panorama);
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
       }
+      #street-view {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="street-view"></div>
+    <script>
+	var panorama;
     </script>
     <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2XzGNuHQLEd1AGjAnYkC6EoREiS_K09Q&callback=initialize">
+         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2XzGNuHQLEd1AGjAnYkC6EoREiS_K09Q&callback=initialize">
     </script>
-</body>
+  </body>
 </html>

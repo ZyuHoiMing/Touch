@@ -106,6 +106,7 @@
     <Compile Include="Views\MemoryPage.xaml.cs">
       <DependentUpon>MemoryPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\pathPov.cs" />
     <Compile Include="Views\webview.xaml.cs">
       <DependentUpon>webview.xaml</DependentUpon>
     </Compile>
