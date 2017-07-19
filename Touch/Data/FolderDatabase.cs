@@ -6,8 +6,14 @@ using Microsoft.Data.Sqlite.Internal;
 
 namespace Touch.Data
 {
+    /// <summary>
+    ///     文件夹路径
+    /// </summary>
     public class MyFolder
     {
+        /// <summary>
+        ///     文件夹路径
+        /// </summary>
         public string FolderPath { get; set; }
     }
 
@@ -23,7 +29,7 @@ namespace Touch.Data
         private const string FolderPathName = "Folder_Path";
 
         /// <summary>
-        ///     初始化数据库和表
+        ///     初始化数据库
         /// </summary>
         public static void Init()
         {
@@ -35,8 +41,14 @@ namespace Touch.Data
             catch (InvalidOperationException exception)
             {
                 Debug.WriteLine(exception);
-                throw;
             }
+        }
+
+        /// <summary>
+        ///     创建表
+        /// </summary>
+        public static void Create()
+        {
             using (var db = new SqliteConnection("Filename=" + DbFileName))
             {
                 db.Open();
@@ -60,7 +72,7 @@ namespace Touch.Data
         /// <summary>
         ///     添加一条记录
         /// </summary>
-        /// <param name="folderPath"></param>
+        /// <param name="folderPath">文件夹路径</param>
         public static void Insert(string folderPath)
         {
             using (var db = new SqliteConnection("Filename=" + DbFileName))
@@ -87,9 +99,37 @@ namespace Touch.Data
         }
 
         /// <summary>
-        ///     依据主键删除一条记录
+        ///     依据文件夹路径删除一条记录
         /// </summary>
-        /// <param name="primaryKey"></param>
+        /// <param name="folderPath">文件夹路径</param>
+        public static void Delete(string folderPath)
+        {
+            using (var db = new SqliteConnection("Filename=" + DbFileName))
+            {
+                db.Open();
+                var deleteCommand = new SqliteCommand
+                {
+                    Connection = db,
+                    CommandText = "DELETE FROM " + TableName + " WHERE " + FolderPathName + "=@" + FolderPathName + ";"
+                };
+                deleteCommand.Parameters.AddWithValue("@" + FolderPathName, folderPath);
+                try
+                {
+                    deleteCommand.ExecuteReader();
+                }
+                catch (SqliteException exception)
+                {
+                    Debug.WriteLine(exception);
+                    throw;
+                }
+                db.Close();
+            }
+        }
+
+        /// <summary>
+        ///     依据内容删除记录
+        /// </summary>
+        /// <param name="primaryKey">主键</param>
         public static void Delete(int primaryKey)
         {
             using (var db = new SqliteConnection("Filename=" + DbFileName))
@@ -117,7 +157,7 @@ namespace Touch.Data
         /// <summary>
         ///     返回所有记录
         /// </summary>
-        /// <returns></returns>
+        /// <returns>IEnumerable接口，所有的记录</returns>
         public static IEnumerable<MyFolder> GetFolders()
         {
             var folderList = new List<MyFolder>();
@@ -146,6 +186,29 @@ namespace Touch.Data
                 db.Close();
             }
             return folderList;
+        }
+
+        /// <summary>
+        ///     删除数据库表
+        /// </summary>
+        public static void Drop()
+        {
+            using (var db = new SqliteConnection("Filename=" + DbFileName))
+            {
+                db.Open();
+                const string dropCommandStr = "DROP TABLE IF EXISTS " + TableName;
+                var dropCommand = new SqliteCommand(dropCommandStr, db);
+                try
+                {
+                    dropCommand.ExecuteReader();
+                }
+                catch (SqliteException exception)
+                {
+                    Debug.WriteLine(exception);
+                    throw;
+                }
+                db.Close();
+            }
         }
     }
 }
