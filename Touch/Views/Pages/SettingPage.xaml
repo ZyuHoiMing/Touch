@@ -25,7 +25,7 @@
             </CommandBar.Content>
         </CommandBar>
 
-        <ScrollViewer Grid.Row="1" Padding="16" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="1" Padding="24" VerticalScrollBarVisibility="Auto">
             <Grid>
                 <StackPanel>
                     <TextBlock x:Uid="Source" Style="{StaticResource SettingTitleText}" />
@@ -48,6 +48,9 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+                    <TextBlock x:Uid="AboutApp" Style="{StaticResource SettingTitleText}" />
+                    <TextBlock Name="AppInfoText" Style="{StaticResource SettingSubTitleText}" />
+                    <Button Name="SendFeedbackButton" x:Uid="SendFeedback" Margin="0,8" />
                 </StackPanel>
             </Grid>
         </ScrollViewer>
