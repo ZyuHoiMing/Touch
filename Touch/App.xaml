@@ -10,6 +10,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/Style.xaml" />
                 <ResourceDictionary Source="Styles/Template.xaml" />
+                <ResourceDictionary Source="Styles/Mdl2.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

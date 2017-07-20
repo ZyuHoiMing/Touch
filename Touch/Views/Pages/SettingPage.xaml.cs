@@ -24,9 +24,9 @@ namespace Touch.Views.Pages
             var version = package.Id.Version;
             AppInfoText.Text = name + " " + $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
         }
+        //{
 
         //private async void Button_Click(object sender, RoutedEventArgs e)
-        //{
         //    var folderPicker = new FolderPicker {SuggestedStartLocation = PickerLocationId.Desktop};
 
         //    folderPicker.FileTypeFilter.Add(".png");
@@ -43,15 +43,6 @@ namespace Touch.Views.Pages
         //        var img = new Image {Source = bitmap};
         //        ImgView.Items?.Add(img);
         //    }
-        //}
-        //private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        //{
-        //    var folderPicker = new FolderPicker();
-        //    folderPicker.FileTypeFilter.Add("*");
-        //    var folder = await folderPicker.PickSingleFolderAsync();
-        //    if (folder == null)
-        //        return;
-        //    _folderListVm.Add(new MyFolderViewModel {FolderPath = folder.Path});
         //}
     }
 }

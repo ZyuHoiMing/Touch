@@ -24,7 +24,7 @@ namespace Touch.ViewModels
             set { SetProperty(This.AccessToken, value, () => This.AccessToken = value); }
         }
 
-        public Symbol ItemSymbol { get; set; } = Symbol.Folder;
+        public string ItemSymbol { get; set; } = Application.Current.Resources["Folder"] as string;
 
         public Visibility IsDeleteVisibility { get; set; } = Visibility.Visible;
 

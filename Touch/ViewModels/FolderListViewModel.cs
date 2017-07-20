@@ -39,7 +39,7 @@ namespace Touch.ViewModels
             _myFolderVms.Add(new MyFolderViewModel
             {
                 FolderPath = new ResourceLoader().GetString("AddFolder"),
-                ItemSymbol = Symbol.Add,
+                ItemSymbol = Application.Current.Resources["Add"] as string,
                 IsDeleteVisibility = Visibility.Collapsed
             });
         }

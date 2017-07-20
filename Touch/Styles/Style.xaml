@@ -40,11 +40,11 @@
     </Style>
 
     <Style TargetType="TextBlock" x:Key="SettingTitleText" BasedOn="{StaticResource TitleTextBlockStyle}">
-        <Setter Property="Margin" Value="0,8" />
+        <Setter Property="Margin" Value="8" />
     </Style>
 
     <Style TargetType="TextBlock" x:Key="SettingSubTitleText">
-        <Setter Property="Margin" Value="0,8" />
+        <Setter Property="Margin" Value="8" />
     </Style>
 
 </ResourceDictionary>

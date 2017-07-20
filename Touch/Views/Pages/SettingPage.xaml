@@ -25,7 +25,7 @@
             </CommandBar.Content>
         </CommandBar>
 
-        <ScrollViewer Grid.Row="1" Padding="24" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="1" Padding="16" VerticalScrollBarVisibility="Auto">
             <Grid>
                 <StackPanel>
                     <TextBlock x:Uid="Source" Style="{StaticResource SettingTitleText}" />
@@ -33,24 +33,49 @@
                     <ListView Name="SourceList" DataContext="{x:Bind _folderListVm}" Margin="0,8"
                               ItemsSource="{x:Bind _folderListVm.MyFolderVms, Mode=OneWay}"
                               SelectionMode="None" IsItemClickEnabled="True"
-                              ItemClick="{x:Bind _folderListVm.OnItemClick}">
+                              ItemClick="{x:Bind _folderListVm.OnItemClick}" HorizontalAlignment="Left">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="viewModels:MyFolderViewModel">
-                                <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Symbol="{x:Bind ItemSymbol, Mode=OneWay}" />
-                                    <TextBlock Text="{x:Bind FolderPath, Mode=OneWay}" />
-                                    <Button Content="&#xE711;" FontFamily="Segoe MDL2 Assets"
-                                            AutomationProperties.Name="Delete"
+                                <RelativePanel Width="320">
+                                    <TextBlock Name="IconText" Margin="8" Text="{x:Bind ItemSymbol, Mode=OneWay}"
+                                               FontFamily="Segoe MDL2 Assets" FontSize="24"
+                                               RelativePanel.AlignVerticalCenterWithPanel="True"
+                                               RelativePanel.AlignLeftWithPanel="True" />
+                                    <TextBlock Margin="8" Text="{x:Bind FolderPath, Mode=OneWay}"
+                                               RelativePanel.AlignVerticalCenterWithPanel="True"
+                                               RelativePanel.RightOf="IconText" RelativePanel.LeftOf="DeleteButton"
+                                               TextWrapping="Wrap" />
+                                    <Button Name="DeleteButton" Content="{StaticResource Cancel}"
+                                            FontFamily="Segoe MDL2 Assets" Background="Transparent"
+                                            RelativePanel.AlignVerticalCenterWithPanel="True"
+                                            RelativePanel.AlignRightWithPanel="True"
                                             Visibility="{x:Bind IsDeleteVisibility, Mode=OneWay}"
                                             Command="{Binding ElementName=SourceList, Path=DataContext.DeleteCommand}"
                                             CommandParameter="{Binding}" />
-                                </StackPanel>
+                                </RelativePanel>
+                                <!--<Grid Padding="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{x:Bind ItemSymbol, Mode=OneWay}"
+                                               FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
+                                               HorizontalAlignment="Left" />
+                                    <TextBlock Grid.Column="1" Text="{x:Bind FolderPath, Mode=OneWay}"
+                                               VerticalAlignment="Center" />
+                                    <Button Grid.Column="2" Content="{StaticResource Cancel}"
+                                            FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"
+                                            Visibility="{x:Bind IsDeleteVisibility, Mode=OneWay}"
+                                            Command="{Binding ElementName=SourceList, Path=DataContext.DeleteCommand}"
+                                            CommandParameter="{Binding}" HorizontalAlignment="Right" />
+                                </Grid>-->
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                     <TextBlock x:Uid="AboutApp" Style="{StaticResource SettingTitleText}" />
                     <TextBlock Name="AppInfoText" Style="{StaticResource SettingSubTitleText}" />
-                    <Button Name="SendFeedbackButton" x:Uid="SendFeedback" Margin="0,8" />
+                    <Button Name="SendFeedbackButton" x:Uid="SendFeedback" Margin="8" />
                 </StackPanel>
             </Grid>
         </ScrollViewer>
