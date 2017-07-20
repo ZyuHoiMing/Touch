@@ -37,16 +37,16 @@
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="viewModels:MyFolderViewModel">
                                 <RelativePanel Width="320">
-                                    <TextBlock Name="IconText" Margin="8" Text="{x:Bind ItemSymbol, Mode=OneWay}"
-                                               FontFamily="Segoe MDL2 Assets" FontSize="24"
-                                               RelativePanel.AlignVerticalCenterWithPanel="True"
-                                               RelativePanel.AlignLeftWithPanel="True" />
+                                    <FontIcon Name="IconText" Margin="8" Glyph="{x:Bind ItemSymbol, Mode=OneWay}"
+                                              FontFamily="{StaticResource SymbolThemeFontFamily}" FontSize="24"
+                                              RelativePanel.AlignVerticalCenterWithPanel="True"
+                                              RelativePanel.AlignLeftWithPanel="True" />
                                     <TextBlock Margin="8" Text="{x:Bind FolderPath, Mode=OneWay}"
                                                RelativePanel.AlignVerticalCenterWithPanel="True"
                                                RelativePanel.RightOf="IconText" RelativePanel.LeftOf="DeleteButton"
                                                TextWrapping="Wrap" />
                                     <Button Name="DeleteButton" Content="{StaticResource Cancel}"
-                                            FontFamily="Segoe MDL2 Assets" Background="Transparent"
+                                            FontFamily="{StaticResource SymbolThemeFontFamily}" Background="Transparent"
                                             RelativePanel.AlignVerticalCenterWithPanel="True"
                                             RelativePanel.AlignRightWithPanel="True"
                                             Visibility="{x:Bind IsDeleteVisibility, Mode=OneWay}"

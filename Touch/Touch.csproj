@@ -100,12 +100,12 @@
     <Compile Include="Models\MyFolder.cs" />
     <Compile Include="Models\FolderList.cs" />
     <Compile Include="Models\GalleryGridItem.cs" />
-    <Compile Include="Models\HambugerMenuListItem.cs" />
     <Compile Include="Models\ImagePath.cs" />
     <Compile Include="Models\ImageRecycleList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CommandHelpers.cs" />
     <Compile Include="ViewModels\FolderListViewModel.cs" />
+    <Compile Include="ViewModels\HamburgerMenuItemViewModel.cs" />
     <Compile Include="ViewModels\MyFolderViewModel.cs" />
     <Compile Include="ViewModels\ViewModelHelpers.cs" />
     <Compile Include="Views\Pages\AlbumPage.xaml.cs">

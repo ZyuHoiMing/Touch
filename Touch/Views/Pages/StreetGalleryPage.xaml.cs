@@ -195,14 +195,14 @@ namespace Touch.Views.Pages
                 translateXAnimation = new DoubleAnimation
                 {
                     From = currentTranslate,
-                    To = currentTranslate - _imageSize - _imageMargin * 2,
+                    To = currentTranslate + _imageSize + _imageMargin * 2,
                     Duration = new Duration(TimeSpan.FromMilliseconds(1000))
                 };
             else
                 translateXAnimation = new DoubleAnimation
                 {
                     From = currentTranslate,
-                    To = currentTranslate + _imageSize + _imageMargin * 2,
+                    To = currentTranslate - _imageSize - _imageMargin * 2,
                     Duration = new Duration(TimeSpan.FromMilliseconds(1000))
                 };
             Storyboard.SetTarget(translateXAnimation, target);
@@ -225,14 +225,14 @@ namespace Touch.Views.Pages
                 rotationYAnimation = new DoubleAnimation
                 {
                     From = currentRotation,
-                    To = currentRotation - 25,
+                    To = currentRotation + 25,
                     Duration = new Duration(TimeSpan.FromMilliseconds(1000))
                 };
             else
                 rotationYAnimation = new DoubleAnimation
                 {
                     From = currentRotation,
-                    To = currentRotation + 25,
+                    To = currentRotation - 25,
                     Duration = new Duration(TimeSpan.FromMilliseconds(1000))
                 };
             Storyboard.SetTargetProperty(rotationYAnimation, "(UIElement.Projection).(PlaneProjection.RotationY)");
@@ -280,12 +280,12 @@ namespace Touch.Views.Pages
                 return;
             _isAnimateFinished = false;
             // 设置背景图下层图片
-            BackgroundDownImage.Source = new BitmapImage(new Uri(_imagePathList.GetItem(_centerImageNum + 1)));
+            BackgroundDownImage.Source = new BitmapImage(new Uri(_imagePathList.GetItem(_centerImageNum - 1)));
             // 给中心图片设置旋转轴
             var centerImage = _imageList[2];
             centerImage.Projection = new PlaneProjection
             {
-                CenterOfRotationX = 1,
+                CenterOfRotationX = 0,
                 RotationY = 0
             };
             // 准备动画并播放
@@ -295,8 +295,8 @@ namespace Touch.Views.Pages
                 storyboard.Children.Add(GetTranslateXAnimation(img, true));
                 storyboard.Children.Add(GetRotationYAnimation(img, true));
             }
-            storyboard.Children.Add(GetOpacityAnimation(_imageList[1], true));
-            storyboard.Children.Add(GetOpacityAnimation(_imageList[4], false));
+            storyboard.Children.Add(GetOpacityAnimation(_imageList[3], true));
+            storyboard.Children.Add(GetOpacityAnimation(_imageList[0], false));
             // 背景切换模糊
             storyboard.Children.Add(GetOpacityAnimation(BackgroundUpImage, true));
             storyboard.Begin();
@@ -304,16 +304,16 @@ namespace Touch.Views.Pages
             storyboard.Completed += (_sender, _e) =>
             {
                 // 原来的左图和左边缘图都从布局中剔除
-                PhotosPanel.Children.Remove(_imageList[0]);
-                PhotosPanel.Children.Remove(_imageList[1]);
+                PhotosPanel.Children.Remove(_imageList[3]);
+                PhotosPanel.Children.Remove(_imageList[4]);
 
-                _centerImageNum++;
+                _centerImageNum--;
                 // 中心图片
-                centerImage = _imageList[3];
+                centerImage = _imageList[1];
                 // 左边图片
-                var leftImage = _imageList[2];
+                var leftImage = _imageList[0];
                 // 右边图片
-                var rightImage = _imageList[4];
+                var rightImage = _imageList[2];
                 // 左边边缘图片
                 var leftEdgeImage = GetImage(_imagePathList.GetItem(_centerImageNum - 2), ImageIndex.LeftEdge);
                 // 右边边缘图片
@@ -346,12 +346,12 @@ namespace Touch.Views.Pages
                 return;
             _isAnimateFinished = false;
             // 设置背景图下层图片
-            BackgroundDownImage.Source = new BitmapImage(new Uri(_imagePathList.GetItem(_centerImageNum - 1)));
+            BackgroundDownImage.Source = new BitmapImage(new Uri(_imagePathList.GetItem(_centerImageNum + 1)));
             // 给中心图片设置旋转轴
             var centerImage = _imageList[2];
             centerImage.Projection = new PlaneProjection
             {
-                CenterOfRotationX = 0,
+                CenterOfRotationX = 1,
                 RotationY = 0
             };
             // 准备动画并播放
@@ -361,8 +361,8 @@ namespace Touch.Views.Pages
                 storyboard.Children.Add(GetTranslateXAnimation(img, false));
                 storyboard.Children.Add(GetRotationYAnimation(img, false));
             }
-            storyboard.Children.Add(GetOpacityAnimation(_imageList[3], true));
-            storyboard.Children.Add(GetOpacityAnimation(_imageList[0], false));
+            storyboard.Children.Add(GetOpacityAnimation(_imageList[1], true));
+            storyboard.Children.Add(GetOpacityAnimation(_imageList[4], false));
             // 背景切换模糊
             storyboard.Children.Add(GetOpacityAnimation(BackgroundUpImage, true));
             storyboard.Begin();
@@ -370,16 +370,16 @@ namespace Touch.Views.Pages
             storyboard.Completed += (_sender, _e) =>
             {
                 // 原来的左图和左边缘图都从布局中剔除
-                PhotosPanel.Children.Remove(_imageList[3]);
-                PhotosPanel.Children.Remove(_imageList[4]);
+                PhotosPanel.Children.Remove(_imageList[0]);
+                PhotosPanel.Children.Remove(_imageList[1]);
 
-                _centerImageNum--;
+                _centerImageNum++;
                 // 中心图片
-                centerImage = _imageList[1];
+                centerImage = _imageList[3];
                 // 左边图片
-                var leftImage = _imageList[0];
+                var leftImage = _imageList[2];
                 // 右边图片
-                var rightImage = _imageList[2];
+                var rightImage = _imageList[4];
                 // 左边边缘图片
                 var leftEdgeImage = GetImage(_imagePathList.GetItem(_centerImageNum - 2), ImageIndex.LeftEdge);
                 // 右边边缘图片

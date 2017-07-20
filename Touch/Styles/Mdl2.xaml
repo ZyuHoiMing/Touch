@@ -4,4 +4,8 @@
     <x:String x:Key="Add">&#xE710;</x:String>
     <x:String x:Key="Cancel">&#xE711;</x:String>
     <x:String x:Key="Folder">&#xE8B7;</x:String>
+    <x:String x:Key="BrowsePhotos">&#xE7C5;</x:String>
+    <x:String x:Key="BulletedList">&#xE8FD;</x:String>
+    <x:String x:Key="Settings">&#xE713;</x:String>
+    <x:String x:Key="Hamburger">&#xE700;</x:String>
 </ResourceDictionary>
