@@ -46,7 +46,8 @@
                                                RelativePanel.RightOf="IconText" RelativePanel.LeftOf="DeleteButton"
                                                TextWrapping="Wrap" />
                                     <Button Name="DeleteButton" Content="{StaticResource Cancel}"
-                                            FontFamily="{StaticResource SymbolThemeFontFamily}" Background="Transparent"
+                                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                            Background="Transparent"
                                             RelativePanel.AlignVerticalCenterWithPanel="True"
                                             RelativePanel.AlignRightWithPanel="True"
                                             Visibility="{x:Bind IsDeleteVisibility, Mode=OneWay}"

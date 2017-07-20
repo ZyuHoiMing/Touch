@@ -7,6 +7,8 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Touch.Models;
 
+// ReSharper disable InconsistentNaming
+
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Touch.Views.Pages
@@ -14,6 +16,7 @@ namespace Touch.Views.Pages
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
+    // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class StreetGalleryPage : Page
     {
         private readonly List<Image> _imageList;

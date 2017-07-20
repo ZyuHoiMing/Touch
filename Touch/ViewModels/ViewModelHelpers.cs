@@ -29,6 +29,7 @@ namespace Touch.ViewModels
             return true;
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         protected void RaisePropertyChanged(string property)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));

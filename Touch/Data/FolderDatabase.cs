@@ -121,34 +121,6 @@ namespace Touch.Data
         }
 
         /// <summary>
-        ///     依据内容删除记录
-        /// </summary>
-        /// <param name="primaryKey">主键</param>
-        private static void Delete(int primaryKey)
-        {
-            using (var db = new SqliteConnection("Filename=" + DbFileName))
-            {
-                db.Open();
-                var deleteCommand = new SqliteCommand
-                {
-                    Connection = db,
-                    CommandText = "DELETE FROM " + TableName + " WHERE " + PrimaryKeyName + "=@" + PrimaryKeyName + ";"
-                };
-                deleteCommand.Parameters.AddWithValue("@" + PrimaryKeyName, primaryKey);
-                try
-                {
-                    deleteCommand.ExecuteReader();
-                }
-                catch (SqliteException exception)
-                {
-                    Debug.WriteLine(exception);
-                    throw;
-                }
-                db.Close();
-            }
-        }
-
-        /// <summary>
         ///     返回所有记录
         /// </summary>
         /// <returns>IEnumerable接口，所有的记录</returns>

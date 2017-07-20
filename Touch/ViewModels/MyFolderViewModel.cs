@@ -1,5 +1,4 @@
 ﻿using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Touch.Models;
 
 namespace Touch.ViewModels

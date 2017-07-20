@@ -24,9 +24,9 @@ namespace Touch.Views.Pages
             var version = package.Id.Version;
             AppInfoText.Text = name + " " + $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
         }
-        //{
 
         //private async void Button_Click(object sender, RoutedEventArgs e)
+        //{
         //    var folderPicker = new FolderPicker {SuggestedStartLocation = PickerLocationId.Desktop};
 
         //    folderPicker.FileTypeFilter.Add(".png");
