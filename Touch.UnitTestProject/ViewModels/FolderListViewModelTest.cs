@@ -21,9 +21,9 @@ namespace Touch.UnitTestProject.ViewModels
             folderListVm.Add(new MyFolderViewModel {FolderPath = "test_data_1"});
             folderListVm.Add(new MyFolderViewModel {FolderPath = "test_data_2"});
             folderListVm.Add(new MyFolderViewModel {FolderPath = "test_data_3"});
-            var count = 1;
-            foreach (var myFolderVm in folderListVm.MyFolderVms)
-                Assert.AreEqual("test_data_" + count++, myFolderVm.FolderPath);
+            var count = folderListVm.MyFolderVms.Count;
+            for (var i = 0; i < count - 1; i++)
+                Assert.AreEqual("test_data_" + (i + 1), folderListVm.MyFolderVms[i].FolderPath);
         }
 
         /// <summary>
@@ -48,17 +48,11 @@ namespace Touch.UnitTestProject.ViewModels
                 folderListVm.Add(data);
             // 删除第0 2 4条记录
             for (var i = 4; i >= 0; i -= 2)
-            {
-                folderListVm.SelectedIndex = i;
-                folderListVm.Delete();
-            }
+                folderListVm.Delete(testData[i]);
             // 读出来正常
-            var count = 2;
-            foreach (var myFolderVm in folderListVm.MyFolderVms)
-            {
-                Assert.AreEqual("test_data_" + count, myFolderVm.FolderPath);
-                count += 2;
-            }
+            var count = folderListVm.MyFolderVms.Count;
+            for (var i = 0; i < count - 1; i++)
+                Assert.AreEqual("test_data_" + 2 * (i + 1), folderListVm.MyFolderVms[i].FolderPath);
         }
     }
 }

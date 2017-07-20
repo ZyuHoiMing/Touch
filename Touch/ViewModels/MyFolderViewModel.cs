@@ -1,4 +1,6 @@
-﻿using Touch.Models;
+﻿using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Touch.Models;
 
 namespace Touch.ViewModels
 {
@@ -15,6 +17,16 @@ namespace Touch.ViewModels
             get => This.FolderPath;
             set { SetProperty(This.FolderPath, value, () => This.FolderPath = value); }
         }
+
+        public string AccessToken
+        {
+            get => This.AccessToken;
+            set { SetProperty(This.AccessToken, value, () => This.AccessToken = value); }
+        }
+
+        public Symbol ItemSymbol { get; set; } = Symbol.Add;
+
+        public Visibility IsDeleteVisibility { get; set; } = Visibility.Visible;
 
 #pragma warning disable 659
         public override bool Equals(object obj)

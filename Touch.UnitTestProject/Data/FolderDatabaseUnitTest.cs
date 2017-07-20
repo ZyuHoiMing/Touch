@@ -24,9 +24,9 @@ namespace Touch.UnitTestProject.Data
         {
             FolderDatabase.Drop();
             FolderDatabase.Create();
-            FolderDatabase.Insert("test_data_1");
-            FolderDatabase.Insert("test_data_2");
-            FolderDatabase.Insert("test_data_3");
+            FolderDatabase.Insert("test_data_1", "");
+            FolderDatabase.Insert("test_data_2", "");
+            FolderDatabase.Insert("test_data_3", "");
             var folders = FolderDatabase.GetFolders();
             var count = 1;
             foreach (var folder in folders)
@@ -41,7 +41,7 @@ namespace Touch.UnitTestProject.Data
         {
             FolderDatabase.Drop();
             FolderDatabase.Create();
-            FolderDatabase.Insert("test_data");
+            FolderDatabase.Insert("test_data", "");
             var folders = FolderDatabase.GetFolders();
             foreach (var folder in folders)
                 Assert.AreEqual("test_data", folder.FolderPath);
@@ -55,14 +55,14 @@ namespace Touch.UnitTestProject.Data
         {
             FolderDatabase.Drop();
             FolderDatabase.Create();
-            FolderDatabase.Insert("test_data_1");
-            FolderDatabase.Insert("test_data_2");
-            FolderDatabase.Insert("test_data_3");
-            FolderDatabase.Insert("test_data_4");
-            FolderDatabase.Insert("test_data_5");
-            FolderDatabase.Delete(1);
-            FolderDatabase.Delete(3);
-            FolderDatabase.Delete(5);
+            FolderDatabase.Insert("test_data_1", "");
+            FolderDatabase.Insert("test_data_2", "");
+            FolderDatabase.Insert("test_data_3", "");
+            FolderDatabase.Insert("test_data_4", "");
+            FolderDatabase.Insert("test_data_5", "");
+            FolderDatabase.Delete("test_data_1");
+            FolderDatabase.Delete("test_data_3");
+            FolderDatabase.Delete("test_data_5");
             var folders = FolderDatabase.GetFolders();
             var count = 2;
             foreach (var folder in folders)
@@ -80,11 +80,11 @@ namespace Touch.UnitTestProject.Data
         {
             FolderDatabase.Drop();
             FolderDatabase.Create();
-            FolderDatabase.Insert("test_data_1");
-            FolderDatabase.Insert("test_data_2");
-            FolderDatabase.Insert("test_data_3");
-            FolderDatabase.Insert("test_data_4");
-            FolderDatabase.Insert("test_data_5");
+            FolderDatabase.Insert("test_data_1", "");
+            FolderDatabase.Insert("test_data_2", "");
+            FolderDatabase.Insert("test_data_3", "");
+            FolderDatabase.Insert("test_data_4", "");
+            FolderDatabase.Insert("test_data_5", "");
             FolderDatabase.Delete("test_data_1");
             FolderDatabase.Delete("test_data_3");
             FolderDatabase.Delete("test_data_5");

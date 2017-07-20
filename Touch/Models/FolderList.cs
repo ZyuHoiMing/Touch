@@ -26,7 +26,7 @@ namespace Touch.Models
         {
             if (List.Contains(folder)) return;
             List.Add(folder);
-            FolderDatabase.Insert(folder.FolderPath);
+            FolderDatabase.Insert(folder.FolderPath, folder.AccessToken);
         }
 
         /// <summary>

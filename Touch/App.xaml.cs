@@ -26,6 +26,7 @@ namespace Touch
 
             // 初始化数据库
             FolderDatabase.Init();
+            FolderDatabase.Create();
         }
 
         /// <summary>

@@ -120,11 +120,8 @@
   <data name="AboutApp.Text" xml:space="preserve">
     <value>关于此应用</value>
   </data>
-  <data name="AddFolder.Content" xml:space="preserve">
+  <data name="AddFolder" xml:space="preserve">
     <value>添加文件夹</value>
-  </data>
-  <data name="AddFolder.Symbol" xml:space="preserve">
-    <value>Add</value>
   </data>
   <data name="AddPhotoFolder.Label" xml:space="preserve">
     <value>添加图片文件夹</value>

@@ -25,20 +25,31 @@
             </CommandBar.Content>
         </CommandBar>
 
-        <Grid Grid.Row="1" Padding="16">
-            <StackPanel>
-                <TextBlock x:Uid="Source" Style="{StaticResource SettingTitleText}" />
-                <TextBlock x:Uid="ListWhatFind" Style="{StaticResource SettingSubTitleText}" />
-                <ListView Margin="0,8" ItemsSource="{x:Bind _folderListVm.MyFolderVms, Mode=OneWay}"
-                          SelectedIndex="{x:Bind _folderListVm.SelectedIndex, Mode=TwoWay}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="viewModels:MyFolderViewModel">
-                            <TextBlock Text="{x:Bind FolderPath, Mode=OneWay}" />
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <Button Click="ButtonBase_OnClick">添加文件夹</Button>
-            </StackPanel>
-        </Grid>
+        <ScrollViewer Grid.Row="1" Padding="16" VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <StackPanel>
+                    <TextBlock x:Uid="Source" Style="{StaticResource SettingTitleText}" />
+                    <TextBlock x:Uid="ListWhatFind" Style="{StaticResource SettingSubTitleText}" />
+                    <ListView Name="SourceList" DataContext="{x:Bind _folderListVm}" Margin="0,8"
+                              ItemsSource="{x:Bind _folderListVm.MyFolderVms, Mode=OneWay}"
+                              SelectionMode="None" IsItemClickEnabled="True"
+                              ItemClick="{x:Bind _folderListVm.OnItemClick}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="viewModels:MyFolderViewModel">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="{x:Bind ItemSymbol, Mode=OneWay}" />
+                                    <TextBlock Text="{x:Bind FolderPath, Mode=OneWay}" />
+                                    <Button Content="&#xE711;" FontFamily="Segoe MDL2 Assets"
+                                            AutomationProperties.Name="Delete"
+                                            Visibility="{x:Bind IsDeleteVisibility, Mode=OneWay}"
+                                            Command="{Binding ElementName=SourceList, Path=DataContext.DeleteCommand}"
+                                            CommandParameter="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>

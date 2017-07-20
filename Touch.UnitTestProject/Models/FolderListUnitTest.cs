@@ -17,9 +17,9 @@ namespace Touch.UnitTestProject.Models
             FolderDatabase.Init();
             FolderDatabase.Drop();
             FolderDatabase.Create();
-            FolderDatabase.Insert("test_data_1");
-            FolderDatabase.Insert("test_data_2");
-            FolderDatabase.Insert("test_data_3");
+            FolderDatabase.Insert("test_data_1", "");
+            FolderDatabase.Insert("test_data_2", "");
+            FolderDatabase.Insert("test_data_3", "");
             var folderList = new FolderList();
             var count = 1;
             foreach (var folder in folderList.List)

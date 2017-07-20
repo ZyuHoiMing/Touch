@@ -12,6 +12,11 @@
         /// </summary>
         public string FolderPath { get; set; }
 
+        /// <summary>
+        ///     访问权限
+        /// </summary>
+        public string AccessToken { get; set; } = "";
+
 #pragma warning disable 659
         public override bool Equals(object obj)
 #pragma warning restore 659

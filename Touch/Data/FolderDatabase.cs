@@ -16,6 +16,7 @@ namespace Touch.Data
         private const string TableName = "FolderTable";
         private const string PrimaryKeyName = "Primary_Key";
         private const string FolderPathName = "Folder_Path";
+        private const string AccessTokenName = "Access_Token";
 
         /// <summary>
         ///     初始化数据库
@@ -43,7 +44,8 @@ namespace Touch.Data
                 db.Open();
                 const string createCommandStr = "CREATE TABLE IF NOT EXISTS " + TableName + " ("
                                                 + PrimaryKeyName + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                                + FolderPathName + " NVARCHAR(2048) NULL)";
+                                                + FolderPathName + " NVARCHAR(2048) NULL, "
+                                                + AccessTokenName + " NVARCHAR(2048) NULL)";
                 var createCommand = new SqliteCommand(createCommandStr, db);
                 try
                 {
@@ -62,7 +64,8 @@ namespace Touch.Data
         ///     添加一条记录
         /// </summary>
         /// <param name="folderPath">文件夹路径</param>
-        public static void Insert(string folderPath)
+        /// <param name="accessToken">访问token</param>
+        public static void Insert(string folderPath, string accessToken)
         {
             using (var db = new SqliteConnection("Filename=" + DbFileName))
             {
@@ -70,10 +73,12 @@ namespace Touch.Data
                 var insertCommand = new SqliteCommand
                 {
                     Connection = db,
-                    CommandText = "INSERT INTO " + TableName + " VALUES (NULL, @" + FolderPathName + ");"
+                    CommandText = "INSERT INTO " + TableName + " VALUES (NULL, @" + FolderPathName + ", @" +
+                                  AccessTokenName + ");"
                 };
                 // Use parameterized query to prevent SQL injection attacks
                 insertCommand.Parameters.AddWithValue("@" + FolderPathName, folderPath);
+                insertCommand.Parameters.AddWithValue("@" + AccessTokenName, accessToken);
                 try
                 {
                     insertCommand.ExecuteReader();
@@ -119,7 +124,7 @@ namespace Touch.Data
         ///     依据内容删除记录
         /// </summary>
         /// <param name="primaryKey">主键</param>
-        public static void Delete(int primaryKey)
+        private static void Delete(int primaryKey)
         {
             using (var db = new SqliteConnection("Filename=" + DbFileName))
             {
@@ -154,7 +159,7 @@ namespace Touch.Data
             {
                 db.Open();
                 var selectCommand =
-                    new SqliteCommand("SELECT " + PrimaryKeyName + ", " + FolderPathName + " from " + TableName, db);
+                    new SqliteCommand("SELECT " + FolderPathName + ", " + AccessTokenName + " from " + TableName, db);
                 try
                 {
                     var query = selectCommand.ExecuteReader();
@@ -162,7 +167,8 @@ namespace Touch.Data
                     {
                         var myFolder = new MyFolder
                         {
-                            FolderPath = query.GetString(1)
+                            FolderPath = query.GetString(0),
+                            AccessToken = query.GetString(1)
                         };
                         folderList.Add(myFolder);
                     }

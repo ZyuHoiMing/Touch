@@ -1,4 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
+using Windows.ApplicationModel.Resources;
+using Windows.Storage.AccessCache;
+using Windows.Storage.Pickers;
+using Windows.System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Touch.Models;
 
 namespace Touch.ViewModels
@@ -15,18 +23,25 @@ namespace Touch.ViewModels
         /// </summary>
         private ObservableCollection<MyFolderViewModel> _myFolderVms = new ObservableCollection<MyFolderViewModel>();
 
-        private int _selectedIndex;
-
         public FolderListViewModel()
         {
             _folderList = new FolderList();
-            _selectedIndex = -1;
             // 从数据库中加载数据，加到与list交互的VM中
             foreach (var folder in _folderList.List)
             {
-                var myFolderVm = new MyFolderViewModel(folder);
+                var myFolderVm = new MyFolderViewModel(folder)
+                {
+                    FolderPath = folder.FolderPath,
+                    AccessToken = folder.AccessToken
+                };
                 _myFolderVms.Add(myFolderVm);
             }
+            _myFolderVms.Add(new MyFolderViewModel
+            {
+                FolderPath = new ResourceLoader().GetString("AddFolder"),
+                ItemSymbol = Symbol.Add,
+                IsDeleteVisibility = Visibility.Collapsed
+            });
         }
 
         public ObservableCollection<MyFolderViewModel> MyFolderVms
@@ -35,38 +50,61 @@ namespace Touch.ViewModels
             set => SetProperty(ref _myFolderVms, value);
         }
 
-        public int SelectedIndex
+        /// <summary>
+        ///     删除点击操作
+        /// </summary>
+        public ICommand DeleteCommand
         {
-            get => _selectedIndex;
-            set
-            {
-                if (SetProperty(ref _selectedIndex, value))
-                    RaisePropertyChanged(nameof(SelectedMyFolderVm));
-            }
+            get { return new CommandHandler(myFolderVm => Delete(myFolderVm as MyFolderViewModel)); }
         }
-
-        public MyFolderViewModel SelectedMyFolderVm => _selectedIndex >= 0 ? _myFolderVms[_selectedIndex] : null;
 
         /// <summary>
         ///     增加一个文件夹路径记录
         /// </summary>
         public void Add(MyFolderViewModel myFolderVm)
         {
-            if (_myFolderVms.Contains(myFolderVm)) return;
-            _myFolderVms.Add(myFolderVm);
+            if (MyFolderVms.Contains(myFolderVm)) return;
+            MyFolderVms.Insert(MyFolderVms.Count - 1, myFolderVm);
             _folderList.Add(myFolderVm);
         }
 
         /// <summary>
         ///     删除一个文件夹路径记录
         /// </summary>
-        public void Delete()
+        public void Delete(MyFolderViewModel myFolderVm)
         {
-            if (SelectedIndex == -1) return;
-            var myFolderVm = _myFolderVms[SelectedIndex];
-            _myFolderVms.RemoveAt(SelectedIndex);
+            if (!MyFolderVms.Contains(myFolderVm))
+                return;
+            MyFolderVms.Remove(myFolderVm);
             _folderList.Delete(myFolderVm);
-            SelectedIndex = -1;
+        }
+
+        public async void OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            var item = e.ClickedItem as MyFolderViewModel;
+            if (item == null)
+                return;
+            if (item.IsDeleteVisibility == Visibility.Collapsed)
+            {
+                // 如果是添加新文件夹的按钮
+                var folderPicker = new FolderPicker();
+                folderPicker.FileTypeFilter.Add("*");
+                var folder = await folderPicker.PickSingleFolderAsync();
+                if (folder == null)
+                    return;
+                var accessToken = StorageApplicationPermissions.FutureAccessList.Add(folder);
+                item = new MyFolderViewModel
+                {
+                    FolderPath = folder.Path,
+                    AccessToken = accessToken
+                };
+                Add(item);
+            }
+            else
+            {
+                var folder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(item.AccessToken);
+                await Launcher.LaunchFolderAsync(folder);
+            }
         }
     }
 }
