@@ -21,7 +21,7 @@
 
         <CommandBar Grid.Row="0" Style="{StaticResource TitleBar}">
             <CommandBar.Content>
-                <TextBlock x:Uid="SettingTitleBar" Style="{StaticResource TitleBarTitleText}" />
+                <TextBlock x:Uid="Setting" Style="{StaticResource TitleBarTitleText}" />
             </CommandBar.Content>
         </CommandBar>
 

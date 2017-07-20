@@ -15,9 +15,7 @@ namespace Touch.Models
 
         public string GetItem(int index)
         {
-            if (index % _count < 0)
-                return _pathList[index % _count + _count];
-            return _pathList[index % _count];
+            return index % _count < 0 ? _pathList[index % _count + _count] : _pathList[index % _count];
         }
     }
 }

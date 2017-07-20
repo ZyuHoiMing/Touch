@@ -123,19 +123,10 @@
   <data name="AddFolder" xml:space="preserve">
     <value>添加文件夹</value>
   </data>
-  <data name="AddPhotoFolder.Label" xml:space="preserve">
-    <value>添加图片文件夹</value>
-  </data>
   <data name="Album.Text" xml:space="preserve">
     <value>相册</value>
   </data>
-  <data name="AlbumTitleBar.Text" xml:space="preserve">
-    <value>相册</value>
-  </data>
   <data name="Gallery.Text" xml:space="preserve">
-    <value>图库</value>
-  </data>
-  <data name="GalleryTitleBar.Text" xml:space="preserve">
     <value>图库</value>
   </data>
   <data name="ListWhatFind.Text" xml:space="preserve">
@@ -145,9 +136,6 @@
     <value>发送反馈</value>
   </data>
   <data name="Setting.Text" xml:space="preserve">
-    <value>设置</value>
-  </data>
-  <data name="SettingTitleBar.Text" xml:space="preserve">
     <value>设置</value>
   </data>
   <data name="Source.Text" xml:space="preserve">

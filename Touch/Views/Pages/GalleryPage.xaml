@@ -42,12 +42,8 @@
 
         <CommandBar Grid.Row="0" Style="{StaticResource TitleBar}">
             <CommandBar.Content>
-                <TextBlock x:Uid="GalleryTitleBar" Style="{StaticResource TitleBarTitleText}" />
+                <TextBlock x:Uid="Gallery" Style="{StaticResource TitleBarTitleText}" />
             </CommandBar.Content>
-
-            <CommandBar.SecondaryCommands>
-                <AppBarButton x:Uid="AddPhotoFolder" Icon="Add" />
-            </CommandBar.SecondaryCommands>
         </CommandBar>
 
         <GridView Grid.Row="1" ItemsSource="{x:Bind _galleryGridItems}" SelectionMode="None" IsItemClickEnabled="True">

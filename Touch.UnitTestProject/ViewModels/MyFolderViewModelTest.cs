@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Touch.ViewModels;
 
 namespace Touch.UnitTestProject.ViewModels
@@ -9,7 +10,7 @@ namespace Touch.UnitTestProject.ViewModels
         /// <summary>
         ///     set get测试
         /// </summary>
-        [TestMethod]
+        [UITestMethod]
         public void SetAndGetTest()
         {
             var myFolderVm = new MyFolderViewModel {FolderPath = "test_1"};
@@ -21,7 +22,7 @@ namespace Touch.UnitTestProject.ViewModels
         /// <summary>
         ///     存的内容改变了，是否会通知事件
         /// </summary>
-        [TestMethod]
+        [UITestMethod]
         public void PropertyChangedTest()
         {
             var myFolderVm = new MyFolderViewModel();

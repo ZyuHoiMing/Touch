@@ -20,7 +20,7 @@
 
         <CommandBar Grid.Row="0" Style="{StaticResource TitleBar}">
             <CommandBar.Content>
-                <TextBlock x:Uid="AlbumTitleBar" Style="{StaticResource TitleBarTitleText}" />
+                <TextBlock x:Uid="Album" Style="{StaticResource TitleBarTitleText}" />
             </CommandBar.Content>
         </CommandBar>
     </Grid>

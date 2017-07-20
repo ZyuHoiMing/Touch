@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Touch.Data;
 using Touch.ViewModels;
 
@@ -11,7 +12,7 @@ namespace Touch.UnitTestProject.ViewModels
         /// <summary>
         ///     写读数据测试
         /// </summary>
-        [TestMethod]
+        [UITestMethod]
         public void AddTest()
         {
             FolderDatabase.Init();
@@ -29,7 +30,7 @@ namespace Touch.UnitTestProject.ViewModels
         /// <summary>
         ///     删除再读应该正常
         /// </summary>
-        [TestMethod]
+        [UITestMethod]
         public void DeleteTest()
         {
             FolderDatabase.Drop();

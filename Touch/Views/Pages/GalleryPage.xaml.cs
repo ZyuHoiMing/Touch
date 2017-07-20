@@ -11,6 +11,7 @@ namespace Touch.Views.Pages
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
+    // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class GalleryPage : Page
     {
         private readonly ObservableCollection<GalleryGridItem> _galleryGridItems;
@@ -56,6 +57,7 @@ namespace Touch.Views.Pages
             _galleryGridItems.Add(item);
         }
 
+        // TODO 怎么考虑复用
         private void GridItem_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             // 根据窗口大小动态调整 item 长宽
