@@ -88,7 +88,9 @@ namespace Touch.ViewModels
             {
                 // 如果是添加新文件夹的按钮
                 var folderPicker = new FolderPicker();
-                folderPicker.FileTypeFilter.Add("*");
+                folderPicker.FileTypeFilter.Add(".jpg");
+                folderPicker.FileTypeFilter.Add(".jpeg");
+                folderPicker.FileTypeFilter.Add(".png");
                 var folder = await folderPicker.PickSingleFolderAsync();
                 if (folder == null)
                     return;

@@ -97,7 +97,8 @@
     </Compile>
     <Compile Include="Controls\BackDrop.cs" />
     <Compile Include="Data\FolderDatabase.cs" />
-    <Compile Include="Models\ImageList.cs" />
+    <Compile Include="Models\AllImageList.cs" />
+    <Compile Include="Models\FolderImageList.cs" />
     <Compile Include="Models\MyFolder.cs" />
     <Compile Include="Models\FolderList.cs" />
     <Compile Include="Models\GalleryGridItem.cs" />

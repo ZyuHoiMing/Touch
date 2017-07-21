@@ -6,21 +6,28 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Touch.Models
 {
-    public class ImageList
+    /// <summary>
+    ///     一个文件夹内的图片list
+    /// </summary>
+    public class FolderImageList
     {
         /// <summary>
         ///     一个文件夹内的图片list
         /// </summary>
         public List<MyImage> List;
 
-        private ImageList()
+        private FolderImageList()
         {
             List = new List<MyImage>();
         }
 
-        public static async Task<ImageList> GetInstanceAsync(StorageFolder folder)
+        /// <summary>
+        /// </summary>
+        /// <param name="folder">一定要是有访问权限的文件夹</param>
+        /// <returns></returns>
+        public static async Task<FolderImageList> GetInstanceAsync(StorageFolder folder)
         {
-            var imageList = new ImageList();
+            var imageList = new FolderImageList();
             var files = await folder.GetFilesAsync();
             foreach (var file in files)
             {
