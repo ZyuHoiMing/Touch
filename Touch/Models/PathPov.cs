@@ -8,24 +8,22 @@ namespace Touch.Models
     /// </summary>
     public class PathPov
     {
-        private Point from;
-        private Point to;
+        private Point _from;
+        private Point _to;
 
         public PathPov(Point from, Point to)
         {
-            this.from = from;
-            this.to = to;
+            this._from = from;
+            this._to = to;
         }
 
-        public int getHeading()
+        public int GetHeading()
         {
-            var tmpY = to.X - from.X; //纬度
-            var tmpX = to.Y - from.Y; //经度
+            var tmpY = _to.X - _from.X; //纬度
+            var tmpX = _to.Y - _from.Y; //经度
             if (Math.Abs(tmpY) > Math.Abs(tmpX))
-                if (tmpY > 0) return 0;
-                else return 180;
-            if (tmpX > 0) return 90;
-            return 270;
+                return tmpY > 0 ? 0 : 180;
+            return tmpX > 0 ? 90 : 270;
         }
     }
 }

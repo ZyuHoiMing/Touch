@@ -157,7 +157,7 @@ namespace Touch.Views.Pages
                 Debug.WriteLine(x);
                 Debug.WriteLine(y);
                 var pathpov = new PathPov(pathPoint.ElementAt(nodeNum - 1), pathPoint.ElementAt(nodeNum));
-                var tmpheading = pathpov.getHeading().ToString();
+                var tmpheading = pathpov.GetHeading().ToString();
                 invokeJsMove(x, y, tmpheading);
                 //
                 // Update the UI thread by using the UI core dispatcher.
