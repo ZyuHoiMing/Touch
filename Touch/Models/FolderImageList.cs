@@ -14,7 +14,7 @@ namespace Touch.Models
         /// <summary>
         ///     一个文件夹内的图片list
         /// </summary>
-        public List<MyImage> List;
+        public readonly List<MyImage> List;
 
         private FolderImageList()
         {
@@ -22,6 +22,7 @@ namespace Touch.Models
         }
 
         /// <summary>
+        ///     异步获得实例
         /// </summary>
         /// <param name="folder">一定要是有访问权限的文件夹</param>
         /// <returns></returns>
@@ -31,8 +32,10 @@ namespace Touch.Models
             var files = await folder.GetFilesAsync();
             foreach (var file in files)
             {
+                if (file.FileType != ".jpg" && file.FileType != ".png")
+                    continue;
                 var bitmap = new BitmapImage();
-                using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                using (var stream = await file.OpenAsync(FileAccessMode.Read))
                 {
                     bitmap.SetSource(stream);
                     var imageProperties = await file.Properties.GetImagePropertiesAsync();

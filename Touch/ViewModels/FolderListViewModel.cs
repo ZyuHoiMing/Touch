@@ -11,6 +11,9 @@ using Touch.Models;
 
 namespace Touch.ViewModels
 {
+    /// <summary>
+    ///     文件夹列表ViewModel
+    /// </summary>
     public class FolderListViewModel : NotificationBase
     {
         /// <summary>
@@ -30,11 +33,7 @@ namespace Touch.ViewModels
             // 从数据库中加载数据，加到与list交互的VM中
             foreach (var folder in _folderList.List)
             {
-                var myFolderVm = new MyFolderViewModel(folder)
-                {
-                    FolderPath = folder.FolderPath,
-                    AccessToken = folder.AccessToken
-                };
+                var myFolderVm = new MyFolderViewModel(folder);
                 _myFolderVms.Add(myFolderVm);
             }
             // 最后一个添加文件夹选项
@@ -45,7 +44,7 @@ namespace Touch.ViewModels
                 IsDeleteVisibility = Visibility.Collapsed
             });
         }
-        
+
         /// <summary>
         ///     与view交互的list
         /// </summary>
@@ -93,9 +92,7 @@ namespace Touch.ViewModels
             {
                 // 如果是添加新文件夹的按钮
                 var folderPicker = new FolderPicker();
-                folderPicker.FileTypeFilter.Add(".jpg");
-                folderPicker.FileTypeFilter.Add(".jpeg");
-                folderPicker.FileTypeFilter.Add(".png");
+                folderPicker.FileTypeFilter.Add("*");
                 var folder = await folderPicker.PickSingleFolderAsync();
                 if (folder == null)
                     return;

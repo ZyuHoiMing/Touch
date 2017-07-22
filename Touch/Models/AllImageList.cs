@@ -14,13 +14,17 @@ namespace Touch.Models
         /// <summary>
         ///     一个文件夹内的图片list
         /// </summary>
-        public List<MyImage> List;
+        public readonly List<MyImage> List;
 
         private AllImageList()
         {
             List = new List<MyImage>();
         }
 
+        /// <summary>
+        ///     异步获得实例
+        /// </summary>
+        /// <returns></returns>
         public static async Task<AllImageList> GetInstanceAsync()
         {
             var allImageList = new AllImageList();

@@ -3,6 +3,9 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Touch.Models
 {
+    /// <summary>
+    ///     图片
+    /// </summary>
     public class MyImage
     {
         /// <summary>
@@ -21,7 +24,7 @@ namespace Touch.Models
         public double? Latitude { get; set; }
 
         /// <summary>
-        ///     图片精度
+        ///     图片经度
         /// </summary>
         public double? Longitude { get; set; }
 

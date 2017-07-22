@@ -4,24 +4,58 @@ using Touch.Models;
 
 namespace Touch.ViewModels
 {
+    /// <summary>
+    ///     图片ViewModel
+    /// </summary>
     public class MyImageViewModel : NotificationBase<MyImage>
     {
         public MyImageViewModel(MyImage myImage = null) : base(myImage)
         {
         }
 
+        /// <summary>
+        ///     图片路径
+        /// </summary>
         public string ImagePath
         {
             get => This.ImagePath;
             set { SetProperty(This.ImagePath, value, () => This.ImagePath = value); }
         }
 
-        public BitmapImage Bitmap { get; set; }
+        /// <summary>
+        ///     图片内容
+        /// </summary>
+        public BitmapImage Bitmap
+        {
+            get => This.Bitmap;
+            set { SetProperty(This.Bitmap, value, () => This.Bitmap = value); }
+        }
 
-        public double? Latitude { get; set; }
+        /// <summary>
+        ///     图片纬度
+        /// </summary>
+        public double? Latitude
+        {
+            get => This.Latitude;
+            set { SetProperty(This.Latitude, value, () => This.Latitude = value); }
+        }
 
-        public double? Longitude { get; set; }
+        /// <summary>
+        ///     图片经度
+        /// </summary>
+        public double? Longitude
+        {
+            get => This.Longitude;
+            set { SetProperty(This.Longitude, value, () => This.Longitude = value); }
+        }
 
-        public DateTime DateTaken { get; set; }
+        /// <summary>
+        ///     拍摄日期
+        /// </summary>
+        public DateTime DateTaken
+        {
+            get => This.DateTaken;
+            set { SetProperty(This.DateTaken, value, () => This.DateTaken = value); }
+        }
     }
 }

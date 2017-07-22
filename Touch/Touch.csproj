@@ -101,8 +101,6 @@
     <Compile Include="Models\FolderImageList.cs" />
     <Compile Include="Models\MyFolder.cs" />
     <Compile Include="Models\FolderList.cs" />
-    <Compile Include="Models\GalleryGridItem.cs" />
-    <Compile Include="Models\ImagePath.cs" />
     <Compile Include="Models\ImageRecycleList.cs" />
     <Compile Include="Models\MyImage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
