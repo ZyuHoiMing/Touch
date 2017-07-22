@@ -21,7 +21,7 @@ namespace Touch.Views.Pages
 
             _allImageListVm = new AllImageListViewModel();
 
-            var group = from trigger in _allImageListVm.MyImageVms group trigger by trigger.DateTaken.Month;
+            //var group = from trigger in _allImageListVm.MyImageVms group trigger by trigger.DateTaken.Month;
         }
 
         // TODO 怎么考虑复用

@@ -75,6 +75,8 @@
                                                                Page="pages:AlbumPage" />
                         <viewModels:HamburgerMenuItemViewModel Glyph="{StaticResource BrowsePhotos}" Text="测试"
                                                                Page="pages:StreetGalleryPage" />
+                        <viewModels:HamburgerMenuItemViewModel Glyph="{StaticResource BrowsePhotos}" Text="街景"
+                                                               Page="pages:StreetViewPage" />
                     </ListView>
 
                     <Rectangle Grid.Row="2" RelativePanel.AlignTopWith="HambugerMenuSecondaryList" Height="2"

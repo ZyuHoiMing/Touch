@@ -1,0 +1,67 @@
+﻿﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Street View</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #street-view {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="street-view"></div>
+
+    <script>
+        var panorama;
+        var isClick=false;
+        function initialize() {
+            map = new google.maps.Map(document.getElementById('street-view'), {
+                center: { lat: 22.277782, lng: 114.170241 },
+                zoom: 20,
+                streetViewControl: false
+            });
+            var image = {
+                url: 'http://img02.tooopen.com/images/20160509/tooopen_sy_161967094653.jpg',
+                // This marker is 20 pixels wide by 32 pixels high.
+                size: new google.maps.Size(200, 200),
+                // The origin for this image is (0, 0).
+                origin: new google.maps.Point(0, 0),//全景位置
+                // The anchor for this image is the base of the flagpole at (0, 32).
+                anchor: new google.maps.Point(100, 400)//高度
+            };
+            panorama = map.getStreetView();
+            panorama.setPosition({ lat: 22.277782, lng: 114.170241 });
+            panorama.setVisible(true);
+            marker = new google.maps.Marker({
+                position: { lat: 22.278107, lng: 114.168546 },
+                map: panorama,
+                icon: image
+            });
+            marker.addListener('click', function () {
+               isClick = true;
+            });
+        }
+        function getClick() {
+            if (isClick)
+                return 'click';
+            else return 'not click';
+        }
+        function setMarkHeading()
+        {
+            var heading2 = google.maps.geometry.spherical.computeHeading(panorama.location.latLng, marker.getPosition());
+            panorama.setPov({ heading: heading2, pitch: 0 });
+            return heading2.toString();
+        }
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2XzGNuHQLEd1AGjAnYkC6EoREiS_K09Q&callback=initialize">
+    </script>
+</body>
+</html>
