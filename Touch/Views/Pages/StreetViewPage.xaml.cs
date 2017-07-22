@@ -19,7 +19,7 @@ namespace Touch.Views.Pages
     /// </summary>
     public sealed partial class StreetViewPage : Page
     {
-        private readonly List<Point> pathPoint = new List<Point>();
+        private readonly List<Point> _pathPoint = new List<Point>();
 
         public StreetViewPage()
         {
@@ -37,17 +37,17 @@ namespace Touch.Views.Pages
                 webview1.Navigate(uri);
             }
             //insert
-            pathPoint.Add(new Point(22.277782, 114.170241));
-            pathPoint.Add(new Point(22.277753, 114.169953));
-            pathPoint.Add(new Point(22.277759, 114.169793));
-            pathPoint.Add(new Point(22.277759, 114.169415));
-            pathPoint.Add(new Point(22.277759, 114.169179));
-            pathPoint.Add(new Point(22.277841, 114.168825));
-            pathPoint.Add(new Point(22.277968, 114.168482));
-            pathPoint.Add(new Point(22.278107, 114.168546));
+            _pathPoint.Add(new Point(22.277782, 114.170241));
+            _pathPoint.Add(new Point(22.277753, 114.169953));
+            _pathPoint.Add(new Point(22.277759, 114.169793));
+            _pathPoint.Add(new Point(22.277759, 114.169415));
+            _pathPoint.Add(new Point(22.277759, 114.169179));
+            _pathPoint.Add(new Point(22.277841, 114.168825));
+            _pathPoint.Add(new Point(22.277968, 114.168482));
+            _pathPoint.Add(new Point(22.278107, 114.168546));
         }
 
-        public async void invokeJsStart(string x, string y)
+        public async void InvokeJsStart(string x, string y)
         {
             /*string[] script = { "panorama=new google.maps.StreetViewPanorama("+
             "document.getElementById('street-view'),"+
@@ -67,14 +67,14 @@ namespace Touch.Views.Pages
             });
         }
 
-        public async void invokeJsClick()
+        public async void InvokeJsClick()
         {
             string[] args = {"getClick()"};
             var result = await webview1.InvokeScriptAsync("eval", args);
             Debug.WriteLine("result" + result);
         }
 
-        public async void invokeJsMove(string x, string y, string heading)
+        public async void InvokeJsMove(string x, string y, string heading)
         {
             string[] script =
             {
@@ -90,7 +90,7 @@ namespace Touch.Views.Pages
             });
         }
 
-        public void invokeJsHeading()
+        public void InvokeJsHeading()
         {
             var delay = TimeSpan.FromSeconds(2);
             var DelayTimer = ThreadPoolTimer.CreateTimer
@@ -102,15 +102,15 @@ namespace Touch.Views.Pages
                     var result = await webview1.InvokeScriptAsync("eval", args); //镜头转换，待改善
                     Debug.WriteLine("result" + result);
                 });
-                testClick();
+                TestClick();
             }, delay);
         }
 
-        public void testClick()
+        public void TestClick()
         {
             var completed = false;
             var delay = TimeSpan.FromSeconds(0.5);
-            var DelayTimer = ThreadPoolTimer.CreateTimer
+            var delayTimer = ThreadPoolTimer.CreateTimer
             (source => { completed = true; }, delay, async source =>
             {
                 await Dispatcher.RunAsync(
@@ -121,44 +121,41 @@ namespace Touch.Views.Pages
                         // UI components can be accessed within this scope.
                         //
 
-                        if (completed)
+                        if (!completed) return;
+                        string[] args = {"getClick()"};
+                        var result = await webview1.InvokeScriptAsync("eval", args);
+                        if (result == "click")
                         {
-                            string result;
-                            string[] args = {"getClick()"};
-                            result = await webview1.InvokeScriptAsync("eval", args);
-                            if (result == "click")
-                            {
-                                Debug.WriteLine("click");
-                                //testClick();
-                            }
-                            else
-                            {
-                                Debug.WriteLine("not click now");
-                                testClick();
-                            }
-                            // Timer completed.
+                            Debug.WriteLine("click");
+                            //testClick();
                         }
+                        else
+                        {
+                            Debug.WriteLine("not click now");
+                            TestClick();
+                        }
+                        // Timer completed.
                     });
             });
         }
 
-        public void show_path(int nodeNum)
+        public void Show_path(int nodeNum)
         {
             var completed = false;
             var delay = TimeSpan.FromSeconds(2);
-            var DelayTimer = ThreadPoolTimer.CreateTimer
+            var delayTimer = ThreadPoolTimer.CreateTimer
             (source =>
             {
                 //
                 // TODO: Work
                 //
-                var x = pathPoint.ElementAt(nodeNum).X.ToString();
-                var y = pathPoint.ElementAt(nodeNum).Y.ToString();
+                var x = _pathPoint.ElementAt(nodeNum).X.ToString();
+                var y = _pathPoint.ElementAt(nodeNum).Y.ToString();
                 Debug.WriteLine(x);
                 Debug.WriteLine(y);
-                var pathpov = new PathPov(pathPoint.ElementAt(nodeNum - 1), pathPoint.ElementAt(nodeNum));
+                var pathpov = new PathPov(_pathPoint.ElementAt(nodeNum - 1), _pathPoint.ElementAt(nodeNum));
                 var tmpheading = pathpov.GetHeading().ToString();
-                invokeJsMove(x, y, tmpheading);
+                InvokeJsMove(x, y, tmpheading);
                 //
                 // Update the UI thread by using the UI core dispatcher.
                 //
@@ -172,38 +169,38 @@ namespace Touch.Views.Pages
                     CoreDispatcherPriority.High,
                     () =>
                     {
-                        if (completed)
-                            if (nodeNum == pathPoint.Count - 1)
-                            {
-                                Debug.WriteLine("finish");
-                                invokeJsHeading();
-                            }
-                            else
-                            {
-                                show_path(nodeNum + 1);
-                            }
+                        if (!completed) return;
+                        if (nodeNum == _pathPoint.Count - 1)
+                        {
+                            Debug.WriteLine("finish");
+                            InvokeJsHeading();
+                        }
+                        else
+                        {
+                            Show_path(nodeNum + 1);
+                        }
                     });
             });
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (pathPoint.Count == 0)
+            if (_pathPoint.Count == 0)
             {
                 Debug.WriteLine("no path");
             }
             else
             {
-                var x = pathPoint.ElementAt(0).X.ToString();
-                var y = pathPoint.ElementAt(0).Y.ToString();
-                invokeJsStart(x, y);
+                var x = _pathPoint.ElementAt(0).X.ToString();
+                var y = _pathPoint.ElementAt(0).Y.ToString();
+                InvokeJsStart(x, y);
                 //testClick();
                 var delay = TimeSpan.FromSeconds(2);
-                var DelayTimer = ThreadPoolTimer.CreateTimer
+                var delayTimer = ThreadPoolTimer.CreateTimer
                 (source =>
                 {
-                    if (pathPoint.Count > 1)
-                        show_path(1);
+                    if (_pathPoint.Count > 1)
+                        Show_path(1);
                     else
                         Debug.WriteLine("can't move");
                 }, delay);
