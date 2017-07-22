@@ -86,8 +86,8 @@ namespace Touch.Controls
         /// <value>The blur amount.</value>
         public double BlurAmount
         {
-            get => (double) GetValue(BlurAmountProperty);
-            set => SetValue(BlurAmountProperty, value);
+            get { return (double) GetValue(BlurAmountProperty); }
+            set { SetValue(BlurAmountProperty, value); }
         }
 
         /// <summary>
@@ -96,8 +96,8 @@ namespace Touch.Controls
         /// <value>The tint color.</value>
         public Color TintColor
         {
-            get => (Color) GetValue(TintColorProperty);
-            set => SetValue(TintColorProperty, value);
+            get { return (Color) GetValue(TintColorProperty); }
+            set { SetValue(TintColorProperty, value); }
         }
 
         /// <summary>
@@ -106,8 +106,8 @@ namespace Touch.Controls
         /// <value>The tint alpha.</value>
         public int TintAlpha
         {
-            get => (int) GetValue(TintAlphaProperty);
-            set => SetValue(TintAlphaProperty, value);
+            get { return (int) GetValue(TintAlphaProperty); }
+            set { SetValue(TintAlphaProperty, value); }
         }
 
         /// <summary>
@@ -116,8 +116,8 @@ namespace Touch.Controls
         /// <value>The saturation intensity.</value>
         public double SaturationIntensity
         {
-            get => (double) GetValue(SaturationIntensityProperty);
-            set => SetValue(SaturationIntensityProperty, value);
+            get { return (double) GetValue(SaturationIntensityProperty); }
+            set { SetValue(SaturationIntensityProperty, value); }
         }
 
         private static void OnBlurAmountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

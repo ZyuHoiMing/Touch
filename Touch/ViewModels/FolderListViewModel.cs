@@ -50,8 +50,8 @@ namespace Touch.ViewModels
         /// </summary>
         public ObservableCollection<MyFolderViewModel> MyFolderVms
         {
-            get => _myFolderVms;
-            set => SetProperty(ref _myFolderVms, value);
+            get { return _myFolderVms; }
+            set { SetProperty(ref _myFolderVms, value); }
         }
 
         /// <summary>

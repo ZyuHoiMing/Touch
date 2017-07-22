@@ -19,7 +19,7 @@ namespace Touch.ViewModels
         /// </summary>
         public string FolderPath
         {
-            get => This.FolderPath;
+            get { return This.FolderPath; }
             set { SetProperty(This.FolderPath, value, () => This.FolderPath = value); }
         }
 
@@ -28,7 +28,7 @@ namespace Touch.ViewModels
         /// </summary>
         public string AccessToken
         {
-            get => This.AccessToken;
+            get { return This.AccessToken; }
             set { SetProperty(This.AccessToken, value, () => This.AccessToken = value); }
         }
 

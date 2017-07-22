@@ -23,8 +23,8 @@ namespace Touch.ViewModels
         /// </summary>
         public string Glyph
         {
-            get => (string) GetValue(GlyphProperty);
-            set => SetValue(GlyphProperty, value);
+            get { return (string) GetValue(GlyphProperty); }
+            set { SetValue(GlyphProperty, value); }
         }
 
         /// <summary>
@@ -32,8 +32,8 @@ namespace Touch.ViewModels
         /// </summary>
         public string Text
         {
-            get => (string) GetValue(TextProperty);
-            set => SetValue(TextProperty, value);
+            get { return (string) GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
         }
 
         /// <summary>
@@ -41,8 +41,8 @@ namespace Touch.ViewModels
         /// </summary>
         public Type Page
         {
-            get => (Type) GetValue(PageProperty);
-            set => SetValue(PageProperty, value);
+            get { return (Type) GetValue(PageProperty); }
+            set { SetValue(PageProperty, value); }
         }
     }
 }

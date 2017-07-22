@@ -18,7 +18,7 @@ namespace Touch.ViewModels
         /// </summary>
         public string ImagePath
         {
-            get => This.ImagePath;
+            get { return This.ImagePath; }
             set { SetProperty(This.ImagePath, value, () => This.ImagePath = value); }
         }
 
@@ -27,7 +27,7 @@ namespace Touch.ViewModels
         /// </summary>
         public BitmapImage Bitmap
         {
-            get => This.Bitmap;
+            get { return This.Bitmap; }
             set { SetProperty(This.Bitmap, value, () => This.Bitmap = value); }
         }
 
@@ -36,7 +36,7 @@ namespace Touch.ViewModels
         /// </summary>
         public double? Latitude
         {
-            get => This.Latitude;
+            get { return This.Latitude; }
             set { SetProperty(This.Latitude, value, () => This.Latitude = value); }
         }
 
@@ -45,7 +45,7 @@ namespace Touch.ViewModels
         /// </summary>
         public double? Longitude
         {
-            get => This.Longitude;
+            get { return This.Longitude; }
             set { SetProperty(This.Longitude, value, () => This.Longitude = value); }
         }
 
@@ -54,13 +54,16 @@ namespace Touch.ViewModels
         /// </summary>
         public DateTime DateTaken
         {
-            get => This.DateTaken;
+            get { return This.DateTaken; }
             set { SetProperty(This.DateTaken, value, () => This.DateTaken = value); }
         }
 
         /// <summary>
         ///     只有年和月的拍摄日期
         /// </summary>
-        public MonthYearDateTime MonthYearDateTaken => new MonthYearDateTime(DateTaken);
+        public MonthYearDateTime MonthYearDateTaken
+        {
+            get { return new MonthYearDateTime(DateTaken); }
+        }
     }
 }
