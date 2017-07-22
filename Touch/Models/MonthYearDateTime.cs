@@ -35,7 +35,7 @@ namespace Touch.Models
 
         public override string ToString()
         {
-            return Year+" - "+Month;
+            return Year + " - " + Month;
         }
     }
 }

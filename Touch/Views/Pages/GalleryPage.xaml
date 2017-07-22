@@ -48,7 +48,7 @@
         </CommandBar>
 
         <!--Padding="96,64,96,0" ItemsSource="{x:Bind _allImageListVm.MyImageVms, Mode=OneWay}"-->
-        <GridView Grid.Row="1" 
+        <GridView Grid.Row="1"
                   SelectionMode="None" IsItemClickEnabled="True">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>

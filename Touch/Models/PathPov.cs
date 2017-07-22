@@ -13,8 +13,8 @@ namespace Touch.Models
 
         public PathPov(Point from, Point to)
         {
-            this._from = from;
-            this._to = to;
+            _from = from;
+            _to = to;
         }
 
         public int GetHeading()
