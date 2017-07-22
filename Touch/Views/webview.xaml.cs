@@ -54,16 +54,25 @@ namespace Touch.Views
         }
         public async void invokeJsStart(string  x,string y)
         {
-            string[] script = { "panorama=new google.maps.StreetViewPanorama("+
+            /*string[] script = { "panorama=new google.maps.StreetViewPanorama("+
             "document.getElementById('street-view'),"+
             "{position: { lat: "+x+", lng:"+y+"},"+
           "pov: { heading: 90, pitch: 0},"+
-            "});" };
+            "});" };*/
+            string[] script = { "panorama.setPosition({lat:"
+            +x+",lng:"+y
+            +"});" };
             await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
              {
                  string result = await webview1.InvokeScriptAsync("eval", script);
                 //Debug.WriteLine(result);
             });
+        }
+        public async void invokeJsClick()
+        {
+            string[] args = { "getClick()" };
+            var result = await webview1.InvokeScriptAsync("eval", args);
+            Debug.WriteLine("result" + result.ToString());
         }
         public async void invokeJsMove(string x, string y, string heading)
         {
@@ -75,6 +84,63 @@ namespace Touch.Views
             {
                 string result = await webview1.InvokeScriptAsync("eval", script);
                 //Debug.WriteLine(result);
+            });
+        }
+        public void invokeJsHeading()
+        {
+            TimeSpan delay = TimeSpan.FromSeconds(2);
+            ThreadPoolTimer DelayTimer = ThreadPoolTimer.CreateTimer
+            (async (source) =>
+           {
+               await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+               {
+                   string[] args = { "setMarkHeading()" };
+                   string result = await webview1.InvokeScriptAsync("eval", args);//镜头转换，待改善
+                   Debug.WriteLine("result" + result);
+               });
+               testClick();
+           }, delay);
+        }
+        public void testClick()
+        {
+            bool completed = false;
+            TimeSpan delay = TimeSpan.FromSeconds(0.5);
+            ThreadPoolTimer DelayTimer = ThreadPoolTimer.CreateTimer
+            ( (source) =>
+            {
+                completed = true;
+            }, delay, async (source) =>
+            {
+                await Dispatcher.RunAsync(
+                    CoreDispatcherPriority.High,
+                    async () =>
+                    {
+                        //
+                        // UI components can be accessed within this scope.
+                        //
+
+                        if (completed)
+                        {
+                            string result; 
+                            string[] args = { "getClick()" };
+                            result = await webview1.InvokeScriptAsync("eval", args);
+                            if (result == "click")
+                            {
+                                Debug.WriteLine("click");
+                                //testClick();
+                            }
+                            else
+                            {
+                                Debug.WriteLine("not click now");
+                                testClick();
+                            }
+                            // Timer completed.
+                        }
+                        else
+                        {
+                            // Timer cancelled.
+                        }
+                    });
             });
         }
         public void show_path(int nodeNum)
@@ -101,26 +167,18 @@ namespace Touch.Views
             }, delay, async (source) =>
             {
                 //
-                // TODO: Handle work cancellation/completion.
-                //
-
-
-                //
                 // Update the UI thread by using the UI core dispatcher.
                 //
                 await Dispatcher.RunAsync(
                     CoreDispatcherPriority.High,
                     () =>
                     {
-                        //
-                        // UI components can be accessed within this scope.
-                        //
-
                         if (completed)
                         {
-                            if (nodeNum == pathPoint.Count-1)
+                            if (nodeNum == pathPoint.Count - 1)
                             {
                                 Debug.WriteLine("finish");
+                                invokeJsHeading();
                             }
                             else
                             {
@@ -146,12 +204,15 @@ namespace Touch.Views
                 string x = pathPoint.ElementAt(0).X.ToString();
                 string y = pathPoint.ElementAt(0).Y.ToString();
                 invokeJsStart(x, y);
+                //testClick();
                 TimeSpan delay = TimeSpan.FromSeconds(2);
                 ThreadPoolTimer DelayTimer = ThreadPoolTimer.CreateTimer
                 ((source) =>
                 {
                     if (pathPoint.Count > 1)
+                    {
                         show_path(1);
+                    }
                     else
                     {
                         Debug.WriteLine("can't move");
