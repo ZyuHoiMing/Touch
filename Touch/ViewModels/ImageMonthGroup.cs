@@ -2,24 +2,23 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Touch.Models;
 
 namespace Touch.ViewModels
 {
     /// <summary>
     ///     图片按月份分组
     /// </summary>
-    public class ImageMonthGroup : IGrouping<MonthYearDateTime, MyImageViewModel>
+    public class ImageMonthGroup : IGrouping<string, MyImageViewModel>
     {
         private readonly ObservableCollection<MyImageViewModel> _myImageVms;
 
-        public ImageMonthGroup(MonthYearDateTime key, IEnumerable<MyImageViewModel> items)
+        public ImageMonthGroup(string key, IEnumerable<MyImageViewModel> items)
         {
             Key = key;
             _myImageVms = new ObservableCollection<MyImageViewModel>(items);
         }
 
-        public MonthYearDateTime Key { get; }
+        public string Key { get; }
 
         public IEnumerator<MyImageViewModel> GetEnumerator()
         {

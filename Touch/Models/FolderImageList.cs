@@ -39,13 +39,17 @@ namespace Touch.Models
                 {
                     bitmap.SetSource(stream);
                     var imageProperties = await file.Properties.GetImagePropertiesAsync();
+                    var basicProperties = await file.GetBasicPropertiesAsync();
                     var myImage = new MyImage
                     {
                         ImagePath = file.Path,
                         Bitmap = bitmap,
                         Latitude = imageProperties.Latitude,
                         Longitude = imageProperties.Longitude,
-                        DateTaken = imageProperties.DateTaken.LocalDateTime
+                        // 如果图片的拍摄时间为空，返回文件的修改时间
+                        DateTaken = imageProperties.DateTaken.Year <= 1601
+                            ? basicProperties.DateModified.LocalDateTime
+                            : imageProperties.DateTaken.LocalDateTime
                     };
                     imageList.List.Add(myImage);
                 }

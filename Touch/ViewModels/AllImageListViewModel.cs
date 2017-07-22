@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Touch.Models;
 
@@ -11,7 +11,7 @@ namespace Touch.ViewModels
     {
         private AllImageList _allImageList;
 
-        public IEnumerable<ImageMonthGroup> ImageMonthGroups { get; private set; }
+        public IOrderedEnumerable<ImageMonthGroup> ImageMonthGroups { get; set; }
 
         /// <summary>
         ///     异步刷新list内容
@@ -20,9 +20,10 @@ namespace Touch.ViewModels
         public async Task RefreshAsync()
         {
             _allImageList = await AllImageList.GetInstanceAsync();
+            var imageVms = _allImageList.List.Select(img => new MyImageViewModel(img)).ToList();
 
-            //ImageMonthGroups = _allImageList.List.GroupBy(img => new MyImageViewModel(img).MonthYearDateTaken,
-            //    (key, list) => new ImageMonthGroup(key, list));
+            ImageMonthGroups = imageVms.GroupBy(m => m.MonthYearDate, (key, list) => new ImageMonthGroup(key, list))
+                .OrderByDescending(m => m.Key);
         }
     }
 }

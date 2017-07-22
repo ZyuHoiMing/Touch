@@ -1,5 +1,6 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 using Touch.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -19,8 +20,6 @@ namespace Touch.Views.Pages
             InitializeComponent();
 
             _allImageListVm = new AllImageListViewModel();
-
-            //var group = from trigger in _allImageListVm.MyImageVms group trigger by trigger.DateTaken.Month;
         }
 
         // TODO 怎么考虑复用
@@ -37,9 +36,12 @@ namespace Touch.Views.Pages
             grid.ItemHeight = grid.ItemWidth * 9 / 16;
         }
 
-        private async void GalleryPage_OnLoaded(object sender, RoutedEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+            base.OnNavigatedTo(e);
+
             await _allImageListVm.RefreshAsync();
+            Cvs.Source = _allImageListVm.ImageMonthGroups;
         }
     }
 }
