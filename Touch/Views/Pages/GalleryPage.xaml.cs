@@ -33,7 +33,7 @@ namespace Touch.Views.Pages
                 grid.ItemWidth = e.NewSize.Width / 3;
             else if (VisualStateGroup.CurrentState == WideVisualState)
                 grid.ItemWidth = e.NewSize.Width / 4;
-            grid.ItemHeight = grid.ItemWidth * 9 / 16;
+            grid.ItemHeight = grid.ItemWidth * 3 / 4;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)

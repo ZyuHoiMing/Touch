@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:Touch.ViewModels"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -54,7 +55,7 @@
             <SemanticZoom.ZoomedInView>
                 <!--Padding="96,64,96,0" ItemsSource="{x:Bind _allImageListVm.MyImageVms, Mode=OneWay}"-->
                 <GridView ItemsSource="{x:Bind Cvs.View, Mode=OneWay}"
-                          SelectionMode="None" IsItemClickEnabled="True">
+                          SelectionMode="None" IsItemClickEnabled="True" animations:ReorderGridAnimation.Duration="250">
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <!-- 设置 item 格式-->
@@ -89,10 +90,11 @@
             </SemanticZoom.ZoomedInView>
 
             <SemanticZoom.ZoomedOutView>
-                <ListView ItemsSource="{x:Bind Cvs.View.CollectionGroups, Mode=OneWay}" SelectionMode="None">
+                <ListView Margin="48" HorizontalAlignment="Center"
+                          ItemsSource="{x:Bind Cvs.View.CollectionGroups, Mode=OneWay}" SelectionMode="None">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="ICollectionViewGroup">
-                            <Grid>
+                            <Grid Margin="32">
                                 <TextBlock Text="{x:Bind Group.(viewModels:ImageMonthGroup.Key), Mode=OneWay}"
                                            Style="{ThemeResource SubtitleTextBlockStyle}" />
                             </Grid>
