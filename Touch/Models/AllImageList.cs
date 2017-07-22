@@ -12,7 +12,7 @@ namespace Touch.Models
     public class AllImageList
     {
         /// <summary>
-        ///     一个文件夹内的图片list
+        ///     所有文件夹的图片list
         /// </summary>
         public readonly List<MyImage> List;
 

@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using System.Linq;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Touch.ViewModels;
 
@@ -19,6 +20,8 @@ namespace Touch.Views.Pages
             InitializeComponent();
 
             _allImageListVm = new AllImageListViewModel();
+
+            var group = from trigger in _allImageListVm.MyImageVms group trigger by trigger.DateTaken.Month;
         }
 
         // TODO 怎么考虑复用

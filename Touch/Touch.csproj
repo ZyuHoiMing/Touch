@@ -99,6 +99,7 @@
     <Compile Include="Data\FolderDatabase.cs" />
     <Compile Include="Models\AllImageList.cs" />
     <Compile Include="Models\FolderImageList.cs" />
+    <Compile Include="Models\MonthYearDateTime.cs" />
     <Compile Include="Models\MyFolder.cs" />
     <Compile Include="Models\FolderList.cs" />
     <Compile Include="Models\ImageRecycleList.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="ViewModels\CommandHelpers.cs" />
     <Compile Include="ViewModels\FolderListViewModel.cs" />
     <Compile Include="ViewModels\HamburgerMenuItemViewModel.cs" />
+    <Compile Include="ViewModels\ImageMonthGroup.cs" />
     <Compile Include="ViewModels\MyFolderViewModel.cs" />
     <Compile Include="ViewModels\MyImageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelHelpers.cs" />

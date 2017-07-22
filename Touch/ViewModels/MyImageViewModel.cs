@@ -57,5 +57,10 @@ namespace Touch.ViewModels
             get => This.DateTaken;
             set { SetProperty(This.DateTaken, value, () => This.DateTaken = value); }
         }
+
+        /// <summary>
+        ///     只有年和月的拍摄日期
+        /// </summary>
+        public MonthYearDateTime MonthYearDateTaken => new MonthYearDateTime(DateTaken);
     }
 }
