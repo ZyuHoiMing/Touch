@@ -35,7 +35,16 @@ namespace Touch.Models
                 using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
                 {
                     bitmap.SetSource(stream);
-                    imageList.List.Add(new MyImage {Bitmap = bitmap});
+                    var imageProperties = await file.Properties.GetImagePropertiesAsync();
+                    var myImage = new MyImage
+                    {
+                        ImagePath = file.Path,
+                        Bitmap = bitmap,
+                        Latitude = imageProperties.Latitude,
+                        Longitude = imageProperties.Longitude,
+                        DateTaken = imageProperties.DateTaken.LocalDateTime
+                    };
+                    imageList.List.Add(myImage);
                 }
             }
             return imageList;

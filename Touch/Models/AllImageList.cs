@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Windows.Storage.AccessCache;
+using Touch.Data;
 
 namespace Touch.Models
 {
@@ -12,12 +16,26 @@ namespace Touch.Models
         /// </summary>
         public List<MyImage> List;
 
-        public AllImageList(IEnumerable<FolderImageList> folderImageLists)
+        private AllImageList()
         {
             List = new List<MyImage>();
+        }
+
+        public static async Task<AllImageList> GetInstanceAsync()
+        {
+            var allImageList = new AllImageList();
+            // 从数据库中得到folder list
+            var myFolders = FolderDatabase.GetFolders();
+            var folderImageLists = new List<FolderImageList>();
+            foreach (var myFolder in myFolders)
+            {
+                var folder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(myFolder.AccessToken);
+                folderImageLists.Add(await FolderImageList.GetInstanceAsync(folder));
+            }
             foreach (var folderImageList in folderImageLists)
             foreach (var image in folderImageList.List)
-                List.Add(image);
+                allImageList.List.Add(image);
+            return allImageList;
         }
     }
 }
