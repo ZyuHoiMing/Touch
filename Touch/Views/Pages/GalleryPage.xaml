@@ -46,7 +46,11 @@
             <CommandBar.Content>
                 <TextBlock x:Uid="Gallery" Style="{StaticResource TitleBarTitleText}" />
             </CommandBar.Content>
-            <AppBarButton Name="RefreshButton" x:Uid="Refresh"/>
+            <AppBarButton Name="RefreshButton" x:Uid="Refresh" Style="{StaticResource TitleBarButton}">
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{StaticResource Sync}"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
         </CommandBar>
 
         <SemanticZoom Grid.Row="1">

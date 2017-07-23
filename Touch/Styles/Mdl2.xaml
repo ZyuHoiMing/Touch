@@ -8,4 +8,5 @@
     <x:String x:Key="BulletedList">&#xE8FD;</x:String>
     <x:String x:Key="Settings">&#xE713;</x:String>
     <x:String x:Key="Hamburger">&#xE700;</x:String>
+    <x:String x:Key="Sync">&#xE895;</x:String>
 </ResourceDictionary>

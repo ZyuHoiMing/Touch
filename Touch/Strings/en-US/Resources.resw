@@ -144,7 +144,7 @@
   <data name="Object.Text" xml:space="preserve">
     <value>对象</value>
   </data>
-  <data name="Refresh.Text" xml:space="preserve">
+  <data name="Refresh.Label" xml:space="preserve">
     <value>刷新</value>
   </data>
   <data name="SendFeedback.Content" xml:space="preserve">
