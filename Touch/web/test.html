@@ -25,28 +25,28 @@
             {
                 center: { lat: 22.277782, lng: 114.170241 },
                 zoom: 20,
-                streetViewControl: false
             });
-        var image = {
-            url: 'http://img02.tooopen.com/images/20160509/tooopen_sy_161967094653.jpg',
-            // This marker is 20 pixels wide by 32 pixels high.
-            size: new google.maps.Size(200, 200),
-            // The origin for this image is (0, 0).
-            origin: new google.maps.Point(0, 0), //全景位置
-            // The anchor for this image is the base of the flagpole at (0, 32).
-            anchor: new google.maps.Point(100, 400) //高度
-        };
-        panorama = map.getStreetView();
-        panorama.setPosition({ lat: 22.277782, lng: 114.170241 });
-        panorama.setVisible(true);
-        marker = new google.maps.Marker({
-            position: { lat: 22.278107, lng: 114.168546 },
-            map: panorama,
-            icon: image
-        });
-        marker.addListener('click',
-            function() {
-                isClick = true;
+            var image = {
+                url: 'http://img02.tooopen.com/images/20160509/tooopen_sy_161967094653.jpg',
+                // This marker is 20 pixels wide by 32 pixels high.
+                size: new google.maps.Size(200, 200),
+                // The origin for this image is (0, 0).
+                origin: new google.maps.Point(0, 0),//全景位置
+                // The anchor for this image is the base of the flagpole at (0, 32).
+                anchor: new google.maps.Point(100, 400)//高度
+            };
+            panorama = map.getStreetView();
+            panorama.setPosition({ lat: 22.277782, lng: 114.170241 });
+            panorama.setVisible(true);
+            marker = new google.maps.Marker({
+                position: { lat: 22.278107, lng: 114.168546 },
+                map: panorama,
+                icon: image,
+                opacity: 0.8,
+                label:{test:'asd',fontsize:'20px'}
+            });
+            marker.addListener('click', function () {
+               isClick = true;
             });
     }
 
