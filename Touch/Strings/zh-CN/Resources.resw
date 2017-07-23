@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutApp.Text" xml:space="preserve">
-    <value>About this App</value>
+    <value>关于此应用</value>
   </data>
   <data name="AddFolder" xml:space="preserve">
-    <value>Add a Folder</value>
+    <value>添加文件夹</value>
   </data>
   <data name="Album.Text" xml:space="preserve">
     <value>相册</value>
@@ -133,7 +133,7 @@
     <value>图库</value>
   </data>
   <data name="ListWhatFind.Text" xml:space="preserve">
-    <value>Here's a list of what we've found so far</value>
+    <value>下面是我们目前已找到的结果的列表</value>
   </data>
   <data name="Location.Text" xml:space="preserve">
     <value>地点</value>
@@ -145,13 +145,13 @@
     <value>对象</value>
   </data>
   <data name="SendFeedback.Content" xml:space="preserve">
-    <value>Send Feedback</value>
+    <value>发送反馈</value>
   </data>
   <data name="Setting.Text" xml:space="preserve">
-    <value>Settings</value>
+    <value>设置</value>
   </data>
   <data name="Source.Text" xml:space="preserve">
-    <value>Sources</value>
+    <value>源</value>
   </data>
   <data name="Time.Text" xml:space="preserve">
     <value>时间</value>
