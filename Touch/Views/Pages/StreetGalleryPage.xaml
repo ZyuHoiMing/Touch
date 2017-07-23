@@ -37,13 +37,13 @@
                                   ItemsSource="{x:Bind _streetImageListVm.MyImageVms, Mode=OneWay}">
             <controlsToolkit:Carousel.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:MyImageViewModel">
-                    <Image Width="400" Height="400" Source="{x:Bind ImagePath, Mode=OneWay}" Stretch="UniformToFill" />
+                    <Image Width="440" Height="330" Source="{x:Bind ImagePath, Mode=OneWay}" Stretch="UniformToFill" />
                 </DataTemplate>
             </controlsToolkit:Carousel.ItemTemplate>
         </controlsToolkit:Carousel>
-        <Button HorizontalAlignment="Left" Style="{StaticResource FlipViewButtonHorizontal}"
+        <Button Name="LeftButton" HorizontalAlignment="Left" Style="{StaticResource FlipViewButtonHorizontal}"
                 Template="{StaticResource HorizontalPreviousTemplate}" />
-        <Button HorizontalAlignment="Right" Style="{StaticResource FlipViewButtonHorizontal}"
+        <Button Name="RightButton" HorizontalAlignment="Right" Style="{StaticResource FlipViewButtonHorizontal}"
                 Template="{StaticResource HorizontalNextTemplate}" />
     </Grid>
 </Page>

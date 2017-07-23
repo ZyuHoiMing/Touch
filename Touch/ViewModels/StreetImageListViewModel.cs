@@ -30,6 +30,8 @@ namespace Touch.ViewModels
                 var myImageVm = new MyImageViewModel(myImage);
                 _myImageVms.Add(myImageVm);
             }
+            // 默认选中中间的照片
+            SelectedIndex = _myImageVms.Count / 2;
         }
 
         /// <summary>
@@ -49,6 +51,8 @@ namespace Touch.ViewModels
             get { return _selectedIndex; }
             set
             {
+                if (value < 0 || value >= _myImageVms.Count)
+                    return;
                 if (SetProperty(ref _selectedIndex, value))
                     RaisePropertyChanged(nameof(SelectedPerson));
             }

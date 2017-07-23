@@ -20,6 +20,9 @@ namespace Touch.Views.Pages
             InitializeComponent();
 
             _streetImageListVm = new StreetImageListViewModel();
+            // 左右button的点击事件
+            LeftButton.Click += (sender, args) => { _streetImageListVm.SelectedIndex--; };
+            RightButton.Click += (sender, args) => { _streetImageListVm.SelectedIndex++; };
         }
     }
 }
