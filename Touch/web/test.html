@@ -25,7 +25,6 @@
             map = new google.maps.Map(document.getElementById('street-view'), {
                 center: { lat: 22.277782, lng: 114.170241 },
                 zoom: 20,
-                streetViewControl: false
             });
             var image = {
                 url: 'http://img02.tooopen.com/images/20160509/tooopen_sy_161967094653.jpg',
@@ -37,12 +36,19 @@
                 anchor: new google.maps.Point(100, 400)//高度
             };
             panorama = map.getStreetView();
+            panorama.setOptions({
+                enableCloseButton: false,
+                linksControl: false,
+                fullscreenControl:false
+            });
             panorama.setPosition({ lat: 22.277782, lng: 114.170241 });
             panorama.setVisible(true);
             marker = new google.maps.Marker({
                 position: { lat: 22.278107, lng: 114.168546 },
                 map: panorama,
-                icon: image
+                icon: image,
+                opacity: 0.8,
+                label: {text:'asd',fontSize: '20px'}
             });
             marker.addListener('click', function () {
                isClick = true;
