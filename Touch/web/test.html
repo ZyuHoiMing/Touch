@@ -9,7 +9,6 @@
             margin: 0;
             padding: 0;
         }
-
         #street-view { height: 100%; }
     </style>
 </head>
@@ -19,43 +18,85 @@
 <script>
     var panorama;
     var isClick = false;
-
+    var pathArray=new Array();
+    var directionsService;
+    var isGetPath=false;
     function initialize() {
         map = new google.maps.Map(document.getElementById('street-view'),
-            {
-                center: { lat: 22.277782, lng: 114.170241 },
-                zoom: 20,
-            });
-            var image = {
-                url: 'http://img02.tooopen.com/images/20160509/tooopen_sy_161967094653.jpg',
-                // This marker is 20 pixels wide by 32 pixels high.
-                size: new google.maps.Size(200, 200),
-                // The origin for this image is (0, 0).
-                origin: new google.maps.Point(0, 0),//全景位置
-                // The anchor for this image is the base of the flagpole at (0, 32).
-                anchor: new google.maps.Point(100, 400)//高度
-            };
-            panorama = map.getStreetView();
-            panorama.setPosition({ lat: 22.277782, lng: 114.170241 });
-            panorama.setVisible(true);
-            marker = new google.maps.Marker({
-                position: { lat: 22.278107, lng: 114.168546 },
-                map: panorama,
-                icon: image,
-                opacity: 0.8,
-                label:{test:'asd',fontsize:'20px'}
-            });
-            marker.addListener('click', function () {
-               isClick = true;
-            });
+        {
+            center: { lat: 22.277782, lng: 114.170241 },
+            zoom: 20,
+        });
+        directionsService = new google.maps.DirectionsService();
+        panorama = map.getStreetView();
+        panorama.setPosition({ lat: 22.277782, lng: 114.170241 });
+        panorama.setVisible(true);
+        panorama.setOptions({ linksControl: false, })
     }
-
+    function insertMark(markLat,markLng,num)
+    {
+        var image = {
+            url: 'http://123.206.78.137:8080/Download/Source/IMG_20160902_124718.jpg',
+            // This marker is 20 pixels wide by 32 pixels high.
+            size: new google.maps.Size(400, 300),
+            // The origin for this image is (0, 0).
+            origin: new google.maps.Point(0, 0),//全景位置
+            // The anchor for this image is the base of the flagpole at (0, 32).
+            anchor: new google.maps.Point(100, 400),//高度
+            scaledSize: new google.maps.Size(400, 300)
+        };
+        var marker = new google.maps.Marker({
+            position: { lat: 22.277782, lng: 114.170241 },
+            map: panorama,
+            icon: image,
+            opacity: 0.8,
+            label: { text: 'you have been here ',fontSize: '20px' },
+        });
+        marker.addListener('click', function () {
+            isClick = true;
+        });
+    }
     function getClick() {
         if (isClick)
             return 'click';
         else return 'not click';
     }
-
+    function getPath(startLat,startLng,endLat,endLng)
+    {
+        directionsService.route({
+            origin: { lat: startLat, lng: startLng },
+            destination: { lat: endLat, lng: endLng },
+            provideRouteAlternatives: false,
+            travelMode: 'WALKING',
+            unitSystem: google.maps.UnitSystem.IMPERIAL
+        }, function (result, status) {
+            if (status == 'OK') {
+                //directionsDisplay.setDirections(result);//地图中显示
+                var short=0;
+                var x = result.routes[0].overview_path.length;
+                for (var i in result.routes) {
+                    var tmp = result.routes[i].overview_path.length;
+                    if (tmp < x) { x = tmp; short = i; }
+                }
+                pathArray = result.routes[short].overview_path;
+                isGetPath = true;
+            }
+            else { console.log('No Route');}
+        });
+    }
+    function getPathPoint()
+    {
+        var cot;
+        var pathPoint = '';
+        for (cot in pathArray)
+            pathPoint += pathArray[cot].lat() + ',' + pathArray[cot].lng() + '\n';
+        return pathPoint;
+    }
+    function testIsGetPath()
+    {
+        if (isGetPath) return 'Y';
+        else return 'N';
+    }
     function setMarkHeading() {
         var heading2 = google.maps.geometry.spherical.computeHeading(panorama.location.latLng, marker.getPosition());
         panorama.setPov({ heading: heading2, pitch: 0 });
