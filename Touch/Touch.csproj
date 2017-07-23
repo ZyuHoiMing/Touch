@@ -99,10 +99,8 @@
     <Compile Include="Data\FolderDatabase.cs" />
     <Compile Include="Models\AllImageList.cs" />
     <Compile Include="Models\FolderImageList.cs" />
-    <Compile Include="Models\MonthYearDateTime.cs" />
     <Compile Include="Models\MyFolder.cs" />
     <Compile Include="Models\FolderList.cs" />
-    <Compile Include="Models\ImageRecycleList.cs" />
     <Compile Include="Models\MyImage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AllImageListViewModel.cs" />
@@ -112,6 +110,7 @@
     <Compile Include="ViewModels\ImageMonthGroup.cs" />
     <Compile Include="ViewModels\MyFolderViewModel.cs" />
     <Compile Include="ViewModels\MyImageViewModel.cs" />
+    <Compile Include="ViewModels\StreetImageListViewModel.cs" />
     <Compile Include="ViewModels\ViewModelHelpers.cs" />
     <Compile Include="Views\Pages\AlbumPage.xaml.cs">
       <DependentUpon>AlbumPage.xaml</DependentUpon>
@@ -138,6 +137,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <PRIResource Include="Strings\en-US\Resources.resw" />
+    <PRIResource Include="Strings\zh-CN\Resources.resw" />
     <None Include="Touch_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -155,7 +155,7 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <Content Include="web\test.html" />
+    <Content Include="Web\Test.html" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

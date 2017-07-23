@@ -4,8 +4,8 @@
 
     <!-- 窗口宽度临界值 -->
     <x:Double x:Key="NarrowMinWidth">0</x:Double>
-    <x:Double x:Key="NormalMinWidth">528</x:Double>
-    <x:Double x:Key="WideMinWidth">1056</x:Double>
+    <x:Double x:Key="NormalMinWidth">768</x:Double>
+    <x:Double x:Key="WideMinWidth">1280</x:Double>
 
     <Style TargetType="SplitView" x:Key="HambugerMenu">
         <Setter Property="PaneBackground" Value="#FF696969" />

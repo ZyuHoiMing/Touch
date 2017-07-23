@@ -5,8 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:Touch.ViewModels"
-    mc:Ignorable="d"
-    Loaded="GalleryPage_OnLoaded">
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    mc:Ignorable="d">
 
     <Page.Transitions>
         <TransitionCollection>
@@ -47,31 +47,61 @@
             </CommandBar.Content>
         </CommandBar>
 
-        <!--Padding="96,64,96,0" ItemsSource="{x:Bind _allImageListVm.MyImageVms, Mode=OneWay}"-->
-        <GridView Grid.Row="1" 
-                  SelectionMode="None" IsItemClickEnabled="True">
-            <GridView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <!-- 设置 item 格式-->
-                    <ItemsWrapGrid Orientation="Horizontal" SizeChanged="GridItem_SizeChanged" />
-                </ItemsPanelTemplate>
-            </GridView.ItemsPanel>
+        <SemanticZoom Grid.Row="1">
+            <SemanticZoom.Resources>
+                <!--Use a collection view source for content that presents a list of items that can be grouped or sorted.-->
+                <CollectionViewSource x:Name="Cvs" IsSourceGrouped="True" />
+            </SemanticZoom.Resources>
+            <SemanticZoom.ZoomedInView>
+                <!--Padding="96,64,96,0" ItemsSource="{x:Bind _allImageListVm.MyImageVms, Mode=OneWay}"-->
+                <GridView ItemsSource="{x:Bind Cvs.View, Mode=OneWay}"
+                          SelectionMode="None" IsItemClickEnabled="True" animations:ReorderGridAnimation.Duration="250">
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <!-- 设置 item 格式-->
+                            <ItemsWrapGrid Orientation="Horizontal" SizeChanged="GridItem_SizeChanged" />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
 
-            <!--<GridView.ItemContainerStyle>
-                <Style TargetType="FrameworkElement">
-                    <Setter Property="Margin" Value="4"/>
-                </Style>
-            </GridView.ItemContainerStyle>-->
+                    <!-- 指定 item 样式 -->
+                    <GridView.ItemTemplate>
+                        <!-- 当在 DataTemplate 中使用 x:Bind 标记扩展时，必须在 DataTemplate 上指定 DataType -->
+                        <DataTemplate x:DataType="viewModels:MyImageViewModel">
+                            <Grid>
+                                <Image VerticalAlignment="Center" Stretch="UniformToFill"
+                                       Source="{x:Bind Bitmap, Mode=OneWay}" />
+                            </Grid>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
 
-            <!-- 指定 item 样式 -->
-            <GridView.ItemTemplate>
-                <!-- 当在 DataTemplate 中使用 x:Bind 标记扩展时，必须在 DataTemplate 上指定 DataType -->
-                <DataTemplate x:DataType="viewModels:MyImageViewModel">
-                    <Grid>
-                        <Image VerticalAlignment="Center" Stretch="UniformToFill" Source="{x:Bind Bitmap, Mode=OneWay}" />
-                    </Grid>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
+                    <GridView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate x:DataType="viewModels:ImageMonthGroup">
+                                    <Grid Margin="0,16,0,0">
+                                        <TextBlock Text="{x:Bind Key, Mode=OneWay}"
+                                                   Style="{StaticResource SubtitleTextBlockStyle}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </GridView.GroupStyle>
+                </GridView>
+            </SemanticZoom.ZoomedInView>
+
+            <SemanticZoom.ZoomedOutView>
+                <ListView Margin="48" HorizontalAlignment="Center"
+                          ItemsSource="{x:Bind Cvs.View.CollectionGroups, Mode=OneWay}" SelectionMode="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="ICollectionViewGroup">
+                            <Grid Margin="32">
+                                <TextBlock Text="{x:Bind Group.(viewModels:ImageMonthGroup.Key), Mode=OneWay}"
+                                           Style="{ThemeResource SubtitleTextBlockStyle}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </SemanticZoom.ZoomedOutView>
+        </SemanticZoom>
     </Grid>
 </Page>

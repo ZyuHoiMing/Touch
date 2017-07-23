@@ -2,18 +2,23 @@
     x:Class="Touch.Views.Pages.StreetViewPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Touch.Views.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.Transitions>
+        <TransitionCollection>
+            <EntranceThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <WebView x:Name="webview1" Grid.Row="0" />
+        <WebView x:Name="Webview1" Grid.Row="0" />
         <Button Grid.Row="1" Click="Button_Click">js</Button>
-        <!--Source="ms-appx-web:///web/test.html"-->
+        <!--Source="ms-appx-web:///Web/Test.html"-->
     </Grid>
 </Page>

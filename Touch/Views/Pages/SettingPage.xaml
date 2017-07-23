@@ -27,6 +27,7 @@
 
         <ScrollViewer Grid.Row="1" Padding="16" VerticalScrollBarVisibility="Auto">
             <Grid>
+                <!-- 文件夹 源 -->
                 <StackPanel>
                     <TextBlock x:Uid="Source" Style="{StaticResource SettingTitleText}" />
                     <TextBlock x:Uid="ListWhatFind" Style="{StaticResource SettingSubTitleText}" />
@@ -57,6 +58,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+                    <!-- 关于 -->
                     <TextBlock x:Uid="AboutApp" Style="{StaticResource SettingTitleText}" />
                     <TextBlock Name="AppInfoText" Style="{StaticResource SettingSubTitleText}" />
                     <Button Name="SendFeedbackButton" x:Uid="SendFeedback" Margin="8" />

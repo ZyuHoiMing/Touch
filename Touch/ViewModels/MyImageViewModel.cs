@@ -61,9 +61,9 @@ namespace Touch.ViewModels
         /// <summary>
         ///     只有年和月的拍摄日期
         /// </summary>
-        public MonthYearDateTime MonthYearDateTaken
+        public string MonthYearDate
         {
-            get { return new MonthYearDateTime(DateTaken); }
+            get { return DateTaken.Year + " - " + DateTaken.Month; }
         }
     }
 }
