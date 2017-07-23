@@ -126,11 +126,23 @@
   <data name="Album.Text" xml:space="preserve">
     <value>相册</value>
   </data>
+  <data name="Folder.Text" xml:space="preserve">
+    <value>文件夹</value>
+  </data>
   <data name="Gallery.Text" xml:space="preserve">
     <value>图库</value>
   </data>
   <data name="ListWhatFind.Text" xml:space="preserve">
     <value>下面是我们目前已找到的结果的列表</value>
+  </data>
+  <data name="Location.Text" xml:space="preserve">
+    <value>地点</value>
+  </data>
+  <data name="Memory.Text" xml:space="preserve">
+    <value>回忆</value>
+  </data>
+  <data name="Object.Text" xml:space="preserve">
+    <value>对象</value>
   </data>
   <data name="SendFeedback.Content" xml:space="preserve">
     <value>发送反馈</value>
@@ -140,5 +152,8 @@
   </data>
   <data name="Source.Text" xml:space="preserve">
     <value>源</value>
+  </data>
+  <data name="Time.Text" xml:space="preserve">
+    <value>时间</value>
   </data>
 </root>
