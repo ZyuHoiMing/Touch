@@ -7,6 +7,8 @@
     xmlns:viewModels="using:Touch.ViewModels"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
 
@@ -74,7 +76,12 @@
                     <GridView.ItemTemplate>
                         <!-- 当在 DataTemplate 中使用 x:Bind 标记扩展时，必须在 DataTemplate 上指定 DataType -->
                         <DataTemplate x:DataType="viewModels:MyImageViewModel">
-                            <Grid>
+                            <Grid Name="Grid"  PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited">
+                                <!-- 阴影动画 -->
+                                <interactivity:Interaction.Behaviors>
+                                    <behaviors:Light Distance="500" AutomaticallyStart="True"/>
+                                </interactivity:Interaction.Behaviors>
+                                
                                 <Image VerticalAlignment="Center" Stretch="UniformToFill"
                                        Source="{x:Bind Bitmap, Mode=OneWay}" />
                             </Grid>

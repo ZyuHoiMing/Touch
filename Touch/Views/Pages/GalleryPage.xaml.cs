@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Touch.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -24,10 +26,14 @@ namespace Touch.Views.Pages
             RefreshButton.Click += async (sender, args) => await RefreshAsync();
         }
 
-        // TODO 怎么考虑复用
+        // TODO 考虑下怎么复用
+        /// <summary>
+        ///     根据窗口大小动态调整 item 长宽
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GridItem_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            // 根据窗口大小动态调整 item 长宽
             var grid = (ItemsWrapGrid) sender;
             if (VisualStateGroup.CurrentState == NarrowVisualState)
                 grid.ItemWidth = e.NewSize.Width / 2;
@@ -44,12 +50,38 @@ namespace Touch.Views.Pages
             await RefreshAsync();
         }
 
+        /// <summary>
+        ///     刷新图库图片
+        /// </summary>
+        /// <returns></returns>
         private async Task RefreshAsync()
         {
             LoadingControl.IsLoading = true;
             await _allImageListVm.RefreshAsync();
             Cvs.Source = _allImageListVm.ImageMonthGroups;
             LoadingControl.IsLoading = false;
+        }
+
+        /// <summary>
+        ///     鼠标进入
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            var animation = (sender as FrameworkElement).Light(300);
+            await animation.StartAsync();
+        }
+
+        /// <summary>
+        ///     鼠标移出
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Grid_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            var animation = (sender as FrameworkElement).Light(500);
+            await animation.StartAsync();
         }
     }
 }
