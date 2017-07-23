@@ -1,4 +1,4 @@
-ï»¿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -7,12 +7,12 @@ using Windows.UI.Xaml.Media.Imaging;
 namespace Touch.Models
 {
     /// <summary>
-    ///     å›¾ç‰‡list
+    ///     Í¼Æ¬list
     /// </summary>
     public class ImageList
     {
         /// <summary>
-        ///     å›¾ç‰‡list
+        ///     Í¼Æ¬list
         /// </summary>
         public readonly List<MyImage> List;
 
@@ -22,9 +22,9 @@ namespace Touch.Models
         }
 
         /// <summary>
-        ///     å¼‚æ­¥è·å¾—å®ä¾‹ï¼Œä¸€ä¸ªæ–‡ä»¶å¤¹å†…çš„å›¾ç‰‡list
+        ///     Òì²½»ñµÃÊµÀı£¬Ò»¸öÎÄ¼ş¼ĞÄÚµÄÍ¼Æ¬list
         /// </summary>
-        /// <param name="folder">ä¸€å®šè¦æ˜¯æœ‰è®¿é—®æƒé™çš„æ–‡ä»¶å¤¹</param>
+        /// <param name="folder">Ò»¶¨ÒªÊÇÓĞ·ÃÎÊÈ¨ÏŞµÄÎÄ¼ş¼Ğ</param>
         /// <returns></returns>
         public static async Task<ImageList> GetInstanceAsync(StorageFolder folder)
         {
@@ -43,7 +43,7 @@ namespace Touch.Models
         }
 
         /// <summary>
-        ///     é€šè¿‡æ–‡ä»¶è·å¾—MyImageï¼Œå¯èƒ½ä¸ºnull
+        ///     Í¨¹ıÎÄ¼ş»ñµÃMyImage£¬¿ÉÄÜÎªnull
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
@@ -62,7 +62,7 @@ namespace Touch.Models
                     Bitmap = bitmap,
                     Latitude = imageProperties.Latitude,
                     Longitude = imageProperties.Longitude,
-                    // å¦‚æœå›¾ç‰‡çš„æ‹æ‘„æ—¶é—´ä¸ºç©ºï¼Œè¿”å›æ–‡ä»¶çš„ä¿®æ”¹æ—¶é—´
+                    // Èç¹ûÍ¼Æ¬µÄÅÄÉãÊ±¼äÎª¿Õ£¬·µ»ØÎÄ¼şµÄĞŞ¸ÄÊ±¼ä
                     DateTaken = imageProperties.DateTaken.Year <= 1601
                         ? basicProperties.DateModified.LocalDateTime
                         : imageProperties.DateTaken.LocalDateTime
