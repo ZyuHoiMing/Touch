@@ -132,6 +132,33 @@ namespace Touch.Data
         }
 
         /// <summary>
+        ///     返回最新记录的keyNo
+        /// </summary>
+        /// <returns></returns>
+        public static int GetLastKeyNo()
+        {
+            var keyNo = -1;
+            using (var db = new SqliteConnection("Filename=" + DatabaseHelper.DbFileName))
+            {
+                db.Open();
+                var selectCommand = new SqliteCommand("SELECT " + PrimaryKeyName + " from " + TableName, db);
+                try
+                {
+                    var query = selectCommand.ExecuteReader();
+                    while (query.Read())
+                        keyNo = query.GetInt32(0);
+                }
+                catch (SqliteException exception)
+                {
+                    Debug.WriteLine(exception);
+                    throw;
+                }
+                db.Close();
+            }
+            return keyNo;
+        }
+
+        /// <summary>
         ///     删除数据库表
         /// </summary>
         public static void Drop()

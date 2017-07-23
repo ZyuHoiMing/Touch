@@ -62,5 +62,38 @@ namespace Touch.UnitTestProject.Data
                 count += 2;
             }
         }
+
+        /// <summary>
+        ///     返回最新记录的keyNo
+        /// </summary>
+        [TestMethod]
+        public void GetLastKeyNoTest()
+        {
+            DatabaseHelper.InitDb();
+            MemoryListDatabase.Drop();
+            MemoryListDatabase.Create();
+            MemoryListDatabase.Insert("test_data_1");
+            MemoryListDatabase.Insert("test_data_2");
+            MemoryListDatabase.Insert("test_data_3");
+            var keyNo = MemoryListDatabase.GetLastKeyNo();
+            Assert.AreEqual(3, keyNo);
+            MemoryListDatabase.Insert("test_data_4");
+            MemoryListDatabase.Insert("test_data_5");
+            MemoryListDatabase.Insert("test_data_6");
+            keyNo = MemoryListDatabase.GetLastKeyNo();
+            Assert.AreEqual(6, keyNo);
+            MemoryListDatabase.Delete(4);
+            keyNo = MemoryListDatabase.GetLastKeyNo();
+            Assert.AreEqual(6, keyNo);
+            MemoryListDatabase.Delete(2);
+            keyNo = MemoryListDatabase.GetLastKeyNo();
+            Assert.AreEqual(6, keyNo);
+            MemoryListDatabase.Delete(1);
+            MemoryListDatabase.Delete(3);
+            MemoryListDatabase.Delete(5);
+            MemoryListDatabase.Delete(6);
+            keyNo = MemoryListDatabase.GetLastKeyNo();
+            Assert.AreEqual(-1, keyNo);
+        }
     }
 }
