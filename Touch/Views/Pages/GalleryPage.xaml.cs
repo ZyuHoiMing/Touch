@@ -69,7 +69,7 @@ namespace Touch.Views.Pages
         /// <param name="e"></param>
         private async void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            var animation = (sender as FrameworkElement).Light(300);
+            var animation = (sender as FrameworkElement).Light(200);
             await animation.StartAsync();
         }
 
