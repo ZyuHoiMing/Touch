@@ -30,11 +30,11 @@ namespace Touch.Models
             var allImageList = new AllImageList();
             // 从数据库中得到folder list
             var myFolders = FolderDatabase.GetFolders();
-            var folderImageLists = new List<FolderImageList>();
+            var folderImageLists = new List<ImageList>();
             foreach (var myFolder in myFolders)
             {
                 var folder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(myFolder.AccessToken);
-                folderImageLists.Add(await FolderImageList.GetInstanceAsync(folder));
+                folderImageLists.Add(await ImageList.GetInstanceAsync(folder));
             }
             foreach (var folderImageList in folderImageLists)
             foreach (var image in folderImageList.List)
