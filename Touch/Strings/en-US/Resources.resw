@@ -141,6 +141,9 @@
   <data name="Memory.Text" xml:space="preserve">
     <value>回忆</value>
   </data>
+  <data name="NeedTime.Text" xml:space="preserve">
+    <value>这需要一些时间</value>
+  </data>
   <data name="Object.Text" xml:space="preserve">
     <value>对象</value>
   </data>

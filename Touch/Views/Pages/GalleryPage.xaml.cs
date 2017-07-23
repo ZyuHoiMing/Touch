@@ -46,8 +46,10 @@ namespace Touch.Views.Pages
 
         private async Task RefreshAsync()
         {
+            LoadingControl.IsLoading = true;
             await _allImageListVm.RefreshAsync();
             Cvs.Source = _allImageListVm.ImageMonthGroups;
+            LoadingControl.IsLoading = false;
         }
     }
 }

@@ -52,4 +52,8 @@
     <Style TargetType="AppBarButton" x:Key="TitleBarButton">
         <Setter Property="Foreground" Value="White" />
     </Style>
+    
+    <Style TargetType="TextBlock" x:Key="WhiteText">
+        <Setter Property="Foreground" Value="White" />
+    </Style>
 </ResourceDictionary>
