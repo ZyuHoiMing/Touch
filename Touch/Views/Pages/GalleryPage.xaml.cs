@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Touch.ViewModels;
@@ -20,6 +21,7 @@ namespace Touch.Views.Pages
             InitializeComponent();
 
             _allImageListVm = new AllImageListViewModel();
+            RefreshButton.Click += async (sender, args) => await RefreshAsync();
         }
 
         // TODO 怎么考虑复用
@@ -39,7 +41,11 @@ namespace Touch.Views.Pages
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            await RefreshAsync();
+        }
 
+        private async Task RefreshAsync()
+        {
             await _allImageListVm.RefreshAsync();
             Cvs.Source = _allImageListVm.ImageMonthGroups;
         }

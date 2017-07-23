@@ -56,11 +56,20 @@ namespace Touch
                     //TODO: Load state from previously suspended application
                 }
 
+                //  Display an extended splash screen if app was not previously running.
+                if (e.PreviousExecutionState != ApplicationExecutionState.Running)
+                {
+                    var extendedSplash = new SplashPage(e.SplashScreen);
+                    rootFrame.Content = extendedSplash;
+                    Window.Current.Content = rootFrame;
+                }
+
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
             }
 
-            if (e.PrelaunchActivated) return;
+            if (e.PrelaunchActivated)
+                return;
             if (rootFrame.Content == null)
                 rootFrame.Navigate(typeof(MainPage), e.Arguments);
             // Ensure the current window is active

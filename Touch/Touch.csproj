@@ -132,6 +132,9 @@
     <Compile Include="Views\Pages\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Pages\SplashPage.xaml.cs">
+      <DependentUpon>SplashPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\StreetGalleryPage.xaml.cs">
       <DependentUpon>StreetGalleryPage.xaml</DependentUpon>
     </Compile>
@@ -148,6 +151,7 @@
     <None Include="Touch_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\MySplashScreen.png" />
     <Content Include="Assets\pic1.jpg" />
     <Content Include="Assets\pic2.jpg" />
     <Content Include="Assets\pic3.jpg" />
@@ -197,6 +201,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\SettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\SplashPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

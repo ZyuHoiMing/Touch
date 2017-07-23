@@ -27,6 +27,7 @@
                 </DataTemplate>
             </controlsToolkit:Carousel.ItemTemplate>
         </controlsToolkit:Carousel>
+        <!-- 高斯模糊 -->
         <controls:BackDrop Width="{Binding ElementName=PhotosPanel, Path=Width}" BlurAmount="25" />
         <!-- 3D旋转图片 -->
         <!-- TODO 来源不该是path -->
