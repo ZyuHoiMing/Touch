@@ -6,13 +6,14 @@ using Touch.Models;
 namespace Touch.Data
 {
     /// <summary>
-    ///     存储文件夹路径的SQLite数据库
+    ///     回忆里的图片路径的数据库
     /// </summary>
-    public static class FolderDatabase
+    public static class MemoryImageDatabase
     {
-        private const string TableName = "FolderTable";
+        private const string TableName = "MemoryImageTable";
         private const string PrimaryKeyName = "Primary_Key";
-        private const string FolderPathName = "Folder_Path";
+        private const string ForeignKeyName = "Foreign_Key";
+        private const string ImagePathName = "Image_Path";
         private const string AccessTokenName = "Access_Token";
 
         /// <summary>
@@ -25,8 +26,12 @@ namespace Touch.Data
                 db.Open();
                 const string createCommandStr = "CREATE TABLE IF NOT EXISTS " + TableName + " ("
                                                 + PrimaryKeyName + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                                + FolderPathName + " NVARCHAR(2048) NULL, "
-                                                + AccessTokenName + " NVARCHAR(2048) NULL)";
+                                                + ForeignKeyName + " INTEGER, "
+                                                + ImagePathName + " NVARCHAR(2048) NULL, "
+                                                + AccessTokenName + " NVARCHAR(2048) NULL, "
+                                                + "FOREIGN KEY(" + ForeignKeyName + ") REFERENCES " +
+                                                MemoryListDatabase.TableName + "(" + MemoryListDatabase.PrimaryKeyName +
+                                                "))";
                 var createCommand = new SqliteCommand(createCommandStr, db);
                 try
                 {
@@ -44,9 +49,10 @@ namespace Touch.Data
         /// <summary>
         ///     添加一条记录
         /// </summary>
-        /// <param name="folderPath">文件夹路径</param>
-        /// <param name="accessToken">访问token</param>
-        public static void Insert(string folderPath, string accessToken)
+        /// <param name="keyNo"></param>
+        /// <param name="imagePath"></param>
+        /// <param name="accessToken"></param>
+        public static void Insert(int keyNo, string imagePath, string accessToken)
         {
             using (var db = new SqliteConnection("Filename=" + DatabaseHelper.DbFileName))
             {
@@ -54,11 +60,12 @@ namespace Touch.Data
                 var insertCommand = new SqliteCommand
                 {
                     Connection = db,
-                    CommandText = "INSERT INTO " + TableName + " VALUES (NULL, @" + FolderPathName + ", @" +
-                                  AccessTokenName + ");"
+                    CommandText = "INSERT INTO " + TableName + " VALUES (NULL, @" + ForeignKeyName + ", @" +
+                                  ImagePathName + ", @" + AccessTokenName + ");"
                 };
                 // Use parameterized query to prevent SQL injection attacks
-                insertCommand.Parameters.AddWithValue("@" + FolderPathName, folderPath);
+                insertCommand.Parameters.AddWithValue("@" + ForeignKeyName, keyNo);
+                insertCommand.Parameters.AddWithValue("@" + ImagePathName, imagePath);
                 insertCommand.Parameters.AddWithValue("@" + AccessTokenName, accessToken);
                 try
                 {
@@ -74,10 +81,10 @@ namespace Touch.Data
         }
 
         /// <summary>
-        ///     依据文件夹路径删除一条记录
+        ///     依据外键号删除一系列记录
         /// </summary>
-        /// <param name="folderPath">文件夹路径</param>
-        public static void Delete(string folderPath)
+        /// <param name="foreignKey">外键号</param>
+        public static void Delete(int foreignKey)
         {
             using (var db = new SqliteConnection("Filename=" + DatabaseHelper.DbFileName))
             {
@@ -85,9 +92,9 @@ namespace Touch.Data
                 var deleteCommand = new SqliteCommand
                 {
                     Connection = db,
-                    CommandText = "DELETE FROM " + TableName + " WHERE " + FolderPathName + "=@" + FolderPathName + ";"
+                    CommandText = "DELETE FROM " + TableName + " WHERE " + ForeignKeyName + "=@" + ForeignKeyName + ";"
                 };
-                deleteCommand.Parameters.AddWithValue("@" + FolderPathName, folderPath);
+                deleteCommand.Parameters.AddWithValue("@" + ForeignKeyName, foreignKey);
                 try
                 {
                     deleteCommand.ExecuteReader();
@@ -102,28 +109,32 @@ namespace Touch.Data
         }
 
         /// <summary>
-        ///     返回所有记录
+        ///     返回某个外键的所有记录
         /// </summary>
+        /// <param name="foreignKey">外键号</param>
         /// <returns>IEnumerable接口，所有的记录</returns>
-        public static IEnumerable<MyFolder> GetFolders()
+        public static IEnumerable<MyImage> GetImageList(int foreignKey)
         {
-            var folderList = new List<MyFolder>();
+            var imageList = new List<MyImage>();
             using (var db = new SqliteConnection("Filename=" + DatabaseHelper.DbFileName))
             {
                 db.Open();
                 var selectCommand =
-                    new SqliteCommand("SELECT " + FolderPathName + ", " + AccessTokenName + " from " + TableName, db);
+                    new SqliteCommand(
+                        "SELECT " + ImagePathName + ", " + AccessTokenName + " FROM " + TableName + " WHERE " +
+                        ForeignKeyName + "=@" + ForeignKeyName, db);
+                selectCommand.Parameters.AddWithValue("@" + ForeignKeyName, foreignKey);
                 try
                 {
                     var query = selectCommand.ExecuteReader();
                     while (query.Read())
                     {
-                        var myFolder = new MyFolder
+                        var myImage = new MyImage
                         {
-                            FolderPath = query.GetString(0),
+                            ImagePath = query.GetString(0),
                             AccessToken = query.GetString(1)
                         };
-                        folderList.Add(myFolder);
+                        imageList.Add(myImage);
                     }
                 }
                 catch (SqliteException exception)
@@ -133,7 +144,7 @@ namespace Touch.Data
                 }
                 db.Close();
             }
-            return folderList;
+            return imageList;
         }
 
         /// <summary>

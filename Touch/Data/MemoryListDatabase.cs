@@ -6,14 +6,13 @@ using Touch.Models;
 namespace Touch.Data
 {
     /// <summary>
-    ///     存储文件夹路径的SQLite数据库
+    ///     回忆列表数据库
     /// </summary>
-    public static class FolderDatabase
+    public static class MemoryListDatabase
     {
-        private const string TableName = "FolderTable";
-        private const string PrimaryKeyName = "Primary_Key";
-        private const string FolderPathName = "Folder_Path";
-        private const string AccessTokenName = "Access_Token";
+        public const string TableName = "MemoryListTable";
+        public const string PrimaryKeyName = "Primary_Key";
+        private const string MemoryNameName = "Memory_Name";
 
         /// <summary>
         ///     创建表
@@ -25,8 +24,7 @@ namespace Touch.Data
                 db.Open();
                 const string createCommandStr = "CREATE TABLE IF NOT EXISTS " + TableName + " ("
                                                 + PrimaryKeyName + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                                + FolderPathName + " NVARCHAR(2048) NULL, "
-                                                + AccessTokenName + " NVARCHAR(2048) NULL)";
+                                                + MemoryNameName + " NVARCHAR(2048) NULL)";
                 var createCommand = new SqliteCommand(createCommandStr, db);
                 try
                 {
@@ -44,9 +42,8 @@ namespace Touch.Data
         /// <summary>
         ///     添加一条记录
         /// </summary>
-        /// <param name="folderPath">文件夹路径</param>
-        /// <param name="accessToken">访问token</param>
-        public static void Insert(string folderPath, string accessToken)
+        /// <param name="memoryName">回忆名字</param>
+        public static void Insert(string memoryName)
         {
             using (var db = new SqliteConnection("Filename=" + DatabaseHelper.DbFileName))
             {
@@ -54,12 +51,10 @@ namespace Touch.Data
                 var insertCommand = new SqliteCommand
                 {
                     Connection = db,
-                    CommandText = "INSERT INTO " + TableName + " VALUES (NULL, @" + FolderPathName + ", @" +
-                                  AccessTokenName + ");"
+                    CommandText = "INSERT INTO " + TableName + " VALUES (NULL, @" + MemoryNameName + ");"
                 };
                 // Use parameterized query to prevent SQL injection attacks
-                insertCommand.Parameters.AddWithValue("@" + FolderPathName, folderPath);
-                insertCommand.Parameters.AddWithValue("@" + AccessTokenName, accessToken);
+                insertCommand.Parameters.AddWithValue("@" + MemoryNameName, memoryName);
                 try
                 {
                     insertCommand.ExecuteReader();
@@ -74,10 +69,10 @@ namespace Touch.Data
         }
 
         /// <summary>
-        ///     依据文件夹路径删除一条记录
+        ///     依据主键号删除一条记录
         /// </summary>
-        /// <param name="folderPath">文件夹路径</param>
-        public static void Delete(string folderPath)
+        /// <param name="primaryKey">主键号</param>
+        public static void Delete(int primaryKey)
         {
             using (var db = new SqliteConnection("Filename=" + DatabaseHelper.DbFileName))
             {
@@ -85,9 +80,9 @@ namespace Touch.Data
                 var deleteCommand = new SqliteCommand
                 {
                     Connection = db,
-                    CommandText = "DELETE FROM " + TableName + " WHERE " + FolderPathName + "=@" + FolderPathName + ";"
+                    CommandText = "DELETE FROM " + TableName + " WHERE " + PrimaryKeyName + "=@" + PrimaryKeyName + ";"
                 };
-                deleteCommand.Parameters.AddWithValue("@" + FolderPathName, folderPath);
+                deleteCommand.Parameters.AddWithValue("@" + PrimaryKeyName, primaryKey);
                 try
                 {
                     deleteCommand.ExecuteReader();
@@ -105,25 +100,25 @@ namespace Touch.Data
         ///     返回所有记录
         /// </summary>
         /// <returns>IEnumerable接口，所有的记录</returns>
-        public static IEnumerable<MyFolder> GetFolders()
+        public static IEnumerable<MyMemory> GetMemoryList()
         {
-            var folderList = new List<MyFolder>();
+            var memoryList = new List<MyMemory>();
             using (var db = new SqliteConnection("Filename=" + DatabaseHelper.DbFileName))
             {
                 db.Open();
                 var selectCommand =
-                    new SqliteCommand("SELECT " + FolderPathName + ", " + AccessTokenName + " from " + TableName, db);
+                    new SqliteCommand("SELECT " + PrimaryKeyName + ", " + MemoryNameName + " from " + TableName, db);
                 try
                 {
                     var query = selectCommand.ExecuteReader();
                     while (query.Read())
                     {
-                        var myFolder = new MyFolder
+                        var myMemory = new MyMemory
                         {
-                            FolderPath = query.GetString(0),
-                            AccessToken = query.GetString(1)
+                            KeyNo = query.GetInt32(0),
+                            MemoryName = query.GetString(1)
                         };
-                        folderList.Add(myFolder);
+                        memoryList.Add(myMemory);
                     }
                 }
                 catch (SqliteException exception)
@@ -133,7 +128,7 @@ namespace Touch.Data
                 }
                 db.Close();
             }
-            return folderList;
+            return memoryList;
         }
 
         /// <summary>

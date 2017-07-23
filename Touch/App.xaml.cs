@@ -13,6 +13,7 @@ namespace Touch
     /// <summary>
     ///     Provides application-specific behavior to supplement the default Application class.
     /// </summary>
+    // ReSharper disable once RedundantExtendsListEntry
     sealed partial class App : Application
     {
         /// <summary>
@@ -25,8 +26,7 @@ namespace Touch
             Suspending += OnSuspending;
 
             // 初始化数据库
-            FolderDatabase.Init();
-            FolderDatabase.Create();
+            DatabaseHelper.InitDb();
         }
 
         /// <summary>
@@ -60,13 +60,11 @@ namespace Touch
                 Window.Current.Content = rootFrame;
             }
 
-            if (e.PrelaunchActivated == false)
-            {
-                if (rootFrame.Content == null)
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
-                // Ensure the current window is active
-                Window.Current.Activate();
-            }
+            if (e.PrelaunchActivated) return;
+            if (rootFrame.Content == null)
+                rootFrame.Navigate(typeof(MainPage), e.Arguments);
+            // Ensure the current window is active
+            Window.Current.Activate();
         }
 
         /// <summary>
@@ -74,6 +72,7 @@ namespace Touch
         /// </summary>
         /// <param name="sender">The Frame which failed navigation</param>
         /// <param name="e">Details about the navigation failure</param>
+        // ReSharper disable once MemberCanBeMadeStatic.Local
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
@@ -86,6 +85,7 @@ namespace Touch
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
+        // ReSharper disable once MemberCanBeMadeStatic.Local
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();

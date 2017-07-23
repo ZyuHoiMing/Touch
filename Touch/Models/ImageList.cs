@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -7,12 +7,12 @@ using Windows.UI.Xaml.Media.Imaging;
 namespace Touch.Models
 {
     /// <summary>
-    ///     Í¼Æ¬list
+    ///     å›¾ç‰‡list
     /// </summary>
     public class ImageList
     {
         /// <summary>
-        ///     Í¼Æ¬list
+        ///     å›¾ç‰‡list
         /// </summary>
         public readonly List<MyImage> List;
 
@@ -22,14 +22,25 @@ namespace Touch.Models
         }
 
         /// <summary>
-        ///     Òì²½»ñµÃÊµÀı£¬Ò»¸öÎÄ¼ş¼ĞÄÚµÄÍ¼Æ¬list
+        ///     å¼‚æ­¥è·å¾—å®ä¾‹ï¼Œä¸€ä¸ªæ–‡ä»¶å¤¹å†…çš„å›¾ç‰‡list
         /// </summary>
-        /// <param name="folder">Ò»¶¨ÒªÊÇÓĞ·ÃÎÊÈ¨ÏŞµÄÎÄ¼ş¼Ğ</param>
+        /// <param name="folder">ä¸€å®šè¦æ˜¯æœ‰è®¿é—®æƒé™çš„æ–‡ä»¶å¤¹</param>
         /// <returns></returns>
         public static async Task<ImageList> GetInstanceAsync(StorageFolder folder)
         {
-            var imageList = new ImageList();
             var files = await folder.GetFilesAsync();
+            var imageList = await GetInstanceAsync(files);
+            return imageList;
+        }
+
+        /// <summary>
+        ///     å¼‚æ­¥è·å¾—å®ä¾‹ï¼Œä¸€ä¸ªæ–‡ä»¶å¤¹å†…çš„å›¾ç‰‡list
+        /// </summary>
+        /// <param name="files">ä¸€å®šè¦æ˜¯æœ‰è®¿é—®æƒé™çš„æ–‡ä»¶list</param>
+        /// <returns></returns>
+        public static async Task<ImageList> GetInstanceAsync(IEnumerable<StorageFile> files)
+        {
+            var imageList = new ImageList();
             foreach (var file in files)
             {
                 if (file.FileType != ".jpg" && file.FileType != ".png")
@@ -43,7 +54,7 @@ namespace Touch.Models
         }
 
         /// <summary>
-        ///     Í¨¹ıÎÄ¼ş»ñµÃMyImage£¬¿ÉÄÜÎªnull
+        ///     é€šè¿‡æ–‡ä»¶è·å¾—MyImageï¼Œå¯èƒ½ä¸ºnull
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
@@ -62,7 +73,7 @@ namespace Touch.Models
                     Bitmap = bitmap,
                     Latitude = imageProperties.Latitude,
                     Longitude = imageProperties.Longitude,
-                    // Èç¹ûÍ¼Æ¬µÄÅÄÉãÊ±¼äÎª¿Õ£¬·µ»ØÎÄ¼şµÄĞŞ¸ÄÊ±¼ä
+                    // å¦‚æœå›¾ç‰‡çš„æ‹æ‘„æ—¶é—´ä¸ºç©ºï¼Œè¿”å›æ–‡ä»¶çš„ä¿®æ”¹æ—¶é—´
                     DateTaken = imageProperties.DateTaken.Year <= 1601
                         ? basicProperties.DateModified.LocalDateTime
                         : imageProperties.DateTaken.LocalDateTime
