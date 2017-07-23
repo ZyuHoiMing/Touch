@@ -111,6 +111,7 @@
     <Compile Include="ViewModels\ImageMonthGroup.cs" />
     <Compile Include="ViewModels\MyFolderViewModel.cs" />
     <Compile Include="ViewModels\MyImageViewModel.cs" />
+    <Compile Include="ViewModels\StreetImageListViewModel.cs" />
     <Compile Include="ViewModels\ViewModelHelpers.cs" />
     <Compile Include="Views\Pages\AlbumPage.xaml.cs">
       <DependentUpon>AlbumPage.xaml</DependentUpon>
