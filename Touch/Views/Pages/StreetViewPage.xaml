@@ -1,0 +1,25 @@
+﻿<Page
+    x:Class="Touch.Views.Pages.StreetViewPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <EntranceThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <WebView x:Name="Webview1" Grid.Row="0" />
+        <Button Grid.Row="1" Click="Button_Click_1" HorizontalAlignment="Center" Margin="0,0,100,0">规划路径</Button>
+        <Button Grid.Row="1" Click="Button_Click" HorizontalAlignment="Center" Margin="100,0,0,0">街景展示</Button>
+        <!--Source="ms-appx-web:///Web/Test.html"-->
+    </Grid>
+</Page>

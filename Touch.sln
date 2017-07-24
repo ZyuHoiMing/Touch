@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Touch", "Touch\Touch.csproj", "{5B8D0BFD-603B-4C10-B679-C3A1DCFEA5CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Touch.UnitTestProject", "Touch.UnitTestProject\Touch.UnitTestProject.csproj", "{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,24 @@ Global
 		{5B8D0BFD-603B-4C10-B679-C3A1DCFEA5CF}.Release|x86.ActiveCfg = Release|x86
 		{5B8D0BFD-603B-4C10-B679-C3A1DCFEA5CF}.Release|x86.Build.0 = Release|x86
 		{5B8D0BFD-603B-4C10-B679-C3A1DCFEA5CF}.Release|x86.Deploy.0 = Release|x86
+		{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}.Debug|ARM.ActiveCfg = Debug|ARM
+		{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}.Debug|ARM.Build.0 = Debug|ARM
+		{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}.Debug|ARM.Deploy.0 = Debug|ARM
+		{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}.Debug|x64.ActiveCfg = Debug|x64
+		{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}.Debug|x64.Build.0 = Debug|x64
+		{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}.Debug|x64.Deploy.0 = Debug|x64
+		{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}.Debug|x86.ActiveCfg = Debug|x86
+		{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}.Debug|x86.Build.0 = Debug|x86
+		{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}.Debug|x86.Deploy.0 = Debug|x86
+		{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}.Release|ARM.ActiveCfg = Release|ARM
+		{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}.Release|ARM.Build.0 = Release|ARM
+		{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}.Release|ARM.Deploy.0 = Release|ARM
+		{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}.Release|x64.ActiveCfg = Release|x64
+		{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}.Release|x64.Build.0 = Release|x64
+		{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}.Release|x64.Deploy.0 = Release|x64
+		{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}.Release|x86.ActiveCfg = Release|x86
+		{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}.Release|x86.Build.0 = Release|x86
+		{BB3F8639-634D-4713-8B71-C3DD6E20BFE3}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

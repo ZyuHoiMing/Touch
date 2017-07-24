@@ -1,6 +1,10 @@
 ﻿{
   "dependencies": {
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.3"
+    "Microsoft.Data.SQLite": "1.1.1",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.3",
+    "Microsoft.Toolkit.Uwp.UI.Animations": "1.5.1",
+    "Microsoft.Toolkit.Uwp.UI.Controls": "1.5.1",
+    "Win2D.uwp": "1.21.0"
   },
   "frameworks": {
     "uap10.0": {}

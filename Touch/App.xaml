@@ -2,14 +2,14 @@
     x:Class="Touch.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Touch"
     RequestedTheme="Light">
 
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/String.xaml"/>
-                <ResourceDictionary Source="Styles/Style.xaml"/>
+                <ResourceDictionary Source="Styles/Style.xaml" />
+                <ResourceDictionary Source="Styles/Template.xaml" />
+                <ResourceDictionary Source="Styles/Mdl2.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

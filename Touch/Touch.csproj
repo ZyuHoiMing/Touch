@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -95,11 +95,42 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\HambugerMenuListItem.cs" />
-    <Compile Include="Views\GalleryPage.xaml.cs">
+    <Compile Include="Controls\BackDrop.cs" />
+    <Compile Include="Data\DatabaseHelper.cs" />
+    <Compile Include="Data\FolderDatabase.cs" />
+    <Compile Include="Data\MemoryImageDatabase.cs" />
+    <Compile Include="Data\MemoryListDatabase.cs" />
+    <Compile Include="Models\AllImageList.cs" />
+    <Compile Include="Models\FolderImageList.cs" />
+    <Compile Include="Models\ImageList.cs" />
+    <Compile Include="Models\MemoryList.cs" />
+    <Compile Include="Models\MyMemory.cs" />
+    <Compile Include="Models\MyFolder.cs" />
+    <Compile Include="Models\FolderList.cs" />
+    <Compile Include="Models\MyImage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AddMemoryViewModel.cs" />
+    <Compile Include="ViewModels\AllImageListViewModel.cs" />
+    <Compile Include="ViewModels\CommandHelpers.cs" />
+    <Compile Include="ViewModels\FolderListViewModel.cs" />
+    <Compile Include="ViewModels\HamburgerMenuItemViewModel.cs" />
+    <Compile Include="ViewModels\ImageMonthGroup.cs" />
+    <Compile Include="ViewModels\MemoryListViewModel.cs" />
+    <Compile Include="ViewModels\MyFolderViewModel.cs" />
+    <Compile Include="ViewModels\MyImageViewModel.cs" />
+    <Compile Include="ViewModels\MyMemoryViewModel.cs" />
+    <Compile Include="ViewModels\StreetImageListViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelHelpers.cs" />
+    <Compile Include="Views\Dialogs\AddMemoryDialog.xaml.cs">
+      <DependentUpon>AddMemoryDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\AlbumPage.xaml.cs">
+      <DependentUpon>AlbumPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\GalleryPage.xaml.cs">
       <DependentUpon>GalleryPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainPage.xaml.cs">
+    <Compile Include="Views\Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -118,10 +149,17 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <PRIResource Include="Strings\en-US\Resources.resw" />
+    <PRIResource Include="Strings\zh-CN\Resources.resw" />
     <None Include="Touch_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\pic1.jpg" />
+    <Content Include="Assets\pic2.jpg" />
+    <Content Include="Assets\pic3.jpg" />
+    <Content Include="Assets\pic4.jpg" />
+    <Content Include="Assets\pic5.jpg" />
+    <Content Include="Assets\pic6.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -137,7 +175,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Styles\String.xaml">
+    <Page Include="Styles\Mdl2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -147,27 +185,45 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
-    <Page Include="Views\GalleryPage.xaml">
+    <Page Include="Styles\Template.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\Dialogs\AddMemoryDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\MemoryPage.xaml">
+    <Page Include="Views\Pages\AlbumPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\webview.xaml">
+    <Page Include="Views\Pages\GalleryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\_3DGalleryPage.xaml">
+    <Page Include="Views\Pages\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\SettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\SplashPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\StreetGalleryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\StreetViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
