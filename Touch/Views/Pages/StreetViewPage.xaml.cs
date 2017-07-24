@@ -23,6 +23,7 @@ namespace Touch.Views.Pages
     {
         private readonly List<Point> _pathPoint = new List<Point>();
 
+        //
         public StreetViewPage()
         {
             InitializeComponent();
@@ -39,14 +40,14 @@ namespace Touch.Views.Pages
                 Webview1.Navigate(uri);
             }
             //insert
-            _pathPoint.Add(new Point(22.277782, 114.170241));
+            /*_pathPoint.Add(new Point(22.277782, 114.170241));
             _pathPoint.Add(new Point(22.277753, 114.169953));
             _pathPoint.Add(new Point(22.277759, 114.169793));
             _pathPoint.Add(new Point(22.277759, 114.169415));
             _pathPoint.Add(new Point(22.277759, 114.169179));
             _pathPoint.Add(new Point(22.277841, 114.168825));
             _pathPoint.Add(new Point(22.277968, 114.168482));
-            _pathPoint.Add(new Point(22.278107, 114.168546));
+            _pathPoint.Add(new Point(22.278107, 114.168546));*/
         }
 
         private async void InvokeJsStart(string x, string y)
@@ -76,6 +77,7 @@ namespace Touch.Views.Pages
             Debug.WriteLine("result" + result);
         }
 
+        //嵌入移动
         private async void InvokeJsMove(string x, string y, string heading)
         {
             string[] script =
@@ -92,6 +94,7 @@ namespace Touch.Views.Pages
             });
         }
 
+        //嵌入朝向
         private void InvokeJsHeading()
         {
             var delay = TimeSpan.FromSeconds(2);
@@ -100,14 +103,68 @@ namespace Touch.Views.Pages
             {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
+                    var result = await Webview1.InvokeScriptAsync("eval", new[] {"insertMark()"});
                     string[] args = {"setMarkHeading()"};
-                    var result = await Webview1.InvokeScriptAsync("eval", args); //镜头转换，待改善
+                    result = await Webview1.InvokeScriptAsync("eval", args); //镜头转换，待改善
                     Debug.WriteLine("result" + result);
                 });
                 TestClick();
             }, delay);
         }
 
+        //得到路径
+        private async void InvokeJsGetPath()
+        {
+            string[] script =
+            {
+                "getPath(40.75682475,-73.9883746666667, 40.7566056666667,-73.9884400555556)"
+            };
+            var result = await Webview1.InvokeScriptAsync("eval", script);
+            testGetPath();
+        }
+
+        //测试得到路径
+        private void testGetPath()
+        {
+            var completed = false;
+            var delay = TimeSpan.FromSeconds(0.5);
+            var delayTimer = ThreadPoolTimer.CreateTimer
+                // ReSharper disable once ImplicitlyCapturedClosure
+                (source => { completed = true; }, delay, async source =>
+                {
+                    await Dispatcher.RunAsync(
+                        CoreDispatcherPriority.High,
+                        async () =>
+                        {
+                            if (!completed) return;
+                            string[] args = {"testIsGetPath()"};
+                            var result = await Webview1.InvokeScriptAsync("eval", args);
+                            if (result == "Y")
+                            {
+                                var tmp = await Webview1.InvokeScriptAsync("eval", new[] {"getPathPoint()"});
+                                var pathArray = tmp.Split('\n');
+                                for (var i = 0; i < pathArray.Length; ++i)
+                                    //Debug.WriteLine(pathArray[i]);
+                                    if (pathArray[i].Length >= 3)
+                                    {
+                                        var pointArray = pathArray[i].Split(',');
+                                        var lat = Convert.ToDouble(pointArray[0]);
+                                        var lng = Convert.ToDouble(pointArray[1]);
+                                        //Debug.WriteLine();
+                                        _pathPoint.Add(new Point(lat, lng));
+                                    }
+                                startWalk();
+                            }
+                            else
+                            {
+                                testGetPath();
+                            }
+                            // Timer completed.
+                        });
+                });
+        }
+
+        //测试点击label
         private void TestClick()
         {
             var completed = false;
@@ -142,6 +199,7 @@ namespace Touch.Views.Pages
                 });
         }
 
+        //显示路径
         private void ShowPath(int nodeNum)
         {
             var completed = false;
@@ -186,7 +244,8 @@ namespace Touch.Views.Pages
             });
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        //开始行走
+        private void startWalk()
         {
             if (_pathPoint.Count == 0)
             {
@@ -208,6 +267,11 @@ namespace Touch.Views.Pages
                         Debug.WriteLine("can't move");
                 }, delay);
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            InvokeJsGetPath();
         }
     }
 }

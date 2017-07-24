@@ -96,9 +96,14 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\BackDrop.cs" />
+    <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="Data\FolderDatabase.cs" />
+    <Compile Include="Data\MemoryImageDatabase.cs" />
+    <Compile Include="Data\MemoryListDatabase.cs" />
     <Compile Include="Models\AllImageList.cs" />
-    <Compile Include="Models\FolderImageList.cs" />
+    <Compile Include="Models\ImageList.cs" />
+    <Compile Include="Models\MemoryList.cs" />
+    <Compile Include="Models\MyMemory.cs" />
     <Compile Include="Models\MyFolder.cs" />
     <Compile Include="Models\FolderList.cs" />
     <Compile Include="Models\MyImage.cs" />
@@ -108,8 +113,10 @@
     <Compile Include="ViewModels\FolderListViewModel.cs" />
     <Compile Include="ViewModels\HamburgerMenuItemViewModel.cs" />
     <Compile Include="ViewModels\ImageMonthGroup.cs" />
+    <Compile Include="ViewModels\MemoryListViewModel.cs" />
     <Compile Include="ViewModels\MyFolderViewModel.cs" />
     <Compile Include="ViewModels\MyImageViewModel.cs" />
+    <Compile Include="ViewModels\MyMemoryViewModel.cs" />
     <Compile Include="ViewModels\StreetImageListViewModel.cs" />
     <Compile Include="ViewModels\ViewModelHelpers.cs" />
     <Compile Include="Views\Pages\AlbumPage.xaml.cs">
@@ -124,6 +131,9 @@
     <Compile Include="Models\PathPov.cs" />
     <Compile Include="Views\Pages\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\SplashPage.xaml.cs">
+      <DependentUpon>SplashPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\StreetGalleryPage.xaml.cs">
       <DependentUpon>StreetGalleryPage.xaml</DependentUpon>
@@ -141,6 +151,7 @@
     <None Include="Touch_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\MySplashScreen.png" />
     <Content Include="Assets\pic1.jpg" />
     <Content Include="Assets\pic2.jpg" />
     <Content Include="Assets\pic3.jpg" />
@@ -190,6 +201,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\SettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\SplashPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -6,7 +6,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:Touch.ViewModels"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    mc:Ignorable="d">
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    mc:Ignorable="d"
+    NavigationCacheMode="Enabled">
 
     <Page.Transitions>
         <TransitionCollection>
@@ -45,6 +49,11 @@
             <CommandBar.Content>
                 <TextBlock x:Uid="Gallery" Style="{StaticResource TitleBarTitleText}" />
             </CommandBar.Content>
+            <AppBarButton Name="RefreshButton" x:Uid="Refresh" Style="{StaticResource TitleBarButton}">
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{StaticResource Sync}" />
+                </AppBarButton.Icon>
+            </AppBarButton>
         </CommandBar>
 
         <SemanticZoom Grid.Row="1">
@@ -67,7 +76,12 @@
                     <GridView.ItemTemplate>
                         <!-- 当在 DataTemplate 中使用 x:Bind 标记扩展时，必须在 DataTemplate 上指定 DataType -->
                         <DataTemplate x:DataType="viewModels:MyImageViewModel">
-                            <Grid>
+                            <Grid Name="Grid" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited">
+                                <!-- 阴影动画 -->
+                                <interactivity:Interaction.Behaviors>
+                                    <behaviors:Light Distance="500" AutomaticallyStart="True" />
+                                </interactivity:Interaction.Behaviors>
+
                                 <Image VerticalAlignment="Center" Stretch="UniformToFill"
                                        Source="{x:Bind Bitmap, Mode=OneWay}" />
                             </Grid>
@@ -103,5 +117,13 @@
                 </ListView>
             </SemanticZoom.ZoomedOutView>
         </SemanticZoom>
+
+        <controls:Loading Name="LoadingControl" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                          Background="#80000000" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ProgressRing Width="96" Height="96" Foreground="White" IsActive="True" />
+                <TextBlock x:Uid="NeedTime" Margin="8" FontSize="24" Style="{StaticResource WhiteText}" />
+            </StackPanel>
+        </controls:Loading>
     </Grid>
 </Page>

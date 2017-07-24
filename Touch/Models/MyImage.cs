@@ -14,6 +14,11 @@ namespace Touch.Models
         public string ImagePath { get; set; }
 
         /// <summary>
+        ///     访问权限
+        /// </summary>
+        public string AccessToken { get; set; }
+
+        /// <summary>
         ///     图片内容
         /// </summary>
         public BitmapImage Bitmap { get; set; }

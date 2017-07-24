@@ -14,7 +14,7 @@ namespace Touch.UnitTestProject.Models
         [TestMethod]
         public void ReadTest()
         {
-            FolderDatabase.Init();
+            DatabaseHelper.InitDb();
             FolderDatabase.Drop();
             FolderDatabase.Create();
             FolderDatabase.Insert("test_data_1", "");

@@ -15,7 +15,7 @@ namespace Touch.UnitTestProject.ViewModels
         [UITestMethod]
         public void AddTest()
         {
-            FolderDatabase.Init();
+            DatabaseHelper.InitDb();
             FolderDatabase.Drop();
             FolderDatabase.Create();
             var folderListVm = new FolderListViewModel();
