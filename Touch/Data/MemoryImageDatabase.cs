@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using Windows.Storage;
+using Windows.Storage.AccessCache;
 using Microsoft.Data.Sqlite;
 using Touch.Models;
 

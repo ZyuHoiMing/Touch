@@ -16,11 +16,11 @@
                 <StackPanel Name="StackPanel" Orientation="Horizontal" RelativePanel.AlignLeftWithPanel="True"
                             RelativePanel.AlignVerticalCenterWithPanel="True">
                     <TextBlock x:Uid="Selected" />
-                    <TextBlock Text="{x:Bind _imageNum, Mode=OneWay}" Margin="8,0,0,0" />
+                    <TextBlock Text="{x:Bind _addMemoryVm.ImageNum, Mode=OneWay}" Margin="8,0,0,0" />
                     <TextBlock x:Uid="ImageNum" Margin="8,0,0,0" />
                 </StackPanel>
-                <Button Name="SelectImageButton" x:Uid="SelectImage" RelativePanel.RightOf="StackPanel"
-                        Margin="32,0,0,0" />
+                <Button x:Uid="SelectImage" RelativePanel.RightOf="StackPanel"
+                        Margin="32,0,0,0" Click="{x:Bind _addMemoryVm.SelectImage_OnClick}"/>
             </RelativePanel>
         </StackPanel>
     </Grid>

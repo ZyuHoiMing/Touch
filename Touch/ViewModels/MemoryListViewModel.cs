@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Touch.Models;
@@ -60,7 +61,7 @@ namespace Touch.ViewModels
         }
 
         /// <summary>
-        ///     删除一个文件夹路径记录
+        ///     删除一个回忆
         /// </summary>
         public void Delete(MyMemoryViewModel myMemoryVm)
         {
@@ -78,8 +79,13 @@ namespace Touch.ViewModels
             if (item.IsAddVisibility == Visibility.Visible)
             {
                 // 如果是添加新回忆的按钮
-                var dialog = new AddMemoryDialog();
+                var dialog = new AddMemoryDialog(this);
                 await dialog.ShowAsync();
+            }
+            else
+            {
+                // 进入街景界面
+                Debug.WriteLine("进入街景界面");
             }
         }
     }

@@ -37,10 +37,11 @@ namespace Touch.Views.Pages
                 return;
             // Retrieve the window coordinates of the splash screen image.
             _splashImageRect = _splash.ImageLocation;
+            // Position the extended splash screen image in the same location as the system splash screen image.
             PositionImage();
             // Optional: Add a progress ring to your splash screen to show users that content is loading
             PositionRing();
-        } // Position the extended splash screen image in the same location as the system splash screen image.
+        }
 
         private void PositionImage()
         {
