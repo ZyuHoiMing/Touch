@@ -1,6 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using Windows.Storage.AccessCache;
+using Windows.Storage.Pickers;
+using Windows.System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Touch.Models;
+using Touch.Views.Dialogs;
 
 namespace Touch.ViewModels
 {
@@ -32,7 +38,7 @@ namespace Touch.ViewModels
             // 最后一个添加选项
             _myMemoryVms.Add(new MyMemoryViewModel
             {
-                IsAddVisibility = Visibility.Collapsed
+                IsAddVisibility = Visibility.Visible
             });
         }
 
@@ -65,6 +71,23 @@ namespace Touch.ViewModels
                 return;
             MyMemoryVms.Remove(myMemoryVm);
             _memoryList.Delete(myMemoryVm);
+        }
+
+        public async void OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            var item = e.ClickedItem as MyMemoryViewModel;
+            if (item == null)
+                return;
+            if (item.IsAddVisibility == Visibility.Visible)
+            {
+                // 如果是添加新回忆的按钮
+                var dialog = new AddMemoryDialog();
+                await dialog.ShowAsync();
+            }
+            else
+            {
+                
+            }
         }
     }
 }

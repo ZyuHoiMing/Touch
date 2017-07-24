@@ -48,7 +48,7 @@ namespace Touch.ViewModels
         /// </summary>
         public BitmapImage Bitmap
         {
-            get { return Images.Count > 0 ? Images[0].Bitmap : null; }
+            get { return Images != null && Images.Count > 0 ? Images[0].Bitmap : null; }
         }
 
         /// <summary>
