@@ -15,7 +15,7 @@
             <RelativePanel Margin="16,16,16,4">
                 <StackPanel Name="StackPanel" Orientation="Horizontal" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
                     <TextBlock x:Uid="Selected" />
-                    <TextBlock Name="ImageNumText" Text="0" Margin="8,0,0,0" />
+                    <TextBlock Text="{x:Bind _imageNum, Mode=OneWay}" Margin="8,0,0,0" />
                     <TextBlock x:Uid="ImageNum" Margin="8,0,0,0" />
                 </StackPanel>
                 <Button Name="SelectImageButton" x:Uid="SelectImage" RelativePanel.RightOf="StackPanel" Margin="32,0,0,0"/>
