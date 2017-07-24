@@ -75,7 +75,8 @@ namespace Touch.Views.Pages
         /// <param name="e"></param>
         private void GridViewItem_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (sender is Grid rootGrid)
+            var rootGrid = sender as Grid;
+            if (rootGrid != null)
                 rootGrid.Clip = new RectangleGeometry
                 {
                     Rect = new Rect(0, 0, rootGrid.ActualWidth, rootGrid.ActualHeight)
