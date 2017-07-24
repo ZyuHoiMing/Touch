@@ -1,0 +1,25 @@
+﻿<ContentDialog
+    x:Uid="AddMemory"
+    x:Class="Touch.Views.Dialogs.AddMemoryDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <Grid Width="480">
+        <StackPanel Margin="0,16,0,0">
+            <TextBox Name="MemoryNameBox" x:Uid="Name" Margin="8" />
+            <RelativePanel Margin="16,16,16,4">
+                <StackPanel Name="StackPanel" Orientation="Horizontal" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
+                    <TextBlock x:Uid="Selected" />
+                    <TextBlock Name="ImageNumText" Text="0" Margin="8,0,0,0" />
+                    <TextBlock x:Uid="ImageNum" Margin="8,0,0,0" />
+                </StackPanel>
+                <Button Name="SelectImageButton" x:Uid="SelectImage" RelativePanel.RightOf="StackPanel" Margin="32,0,0,0"/>
+            </RelativePanel>
+        </StackPanel>
+    </Grid>
+</ContentDialog>

@@ -77,6 +77,7 @@ namespace Touch.Views.Pages
             var result = await Webview1.InvokeScriptAsync("eval", args);
             Debug.WriteLine("result" + result);
         }
+
         //嵌入移动
         private async void InvokeJsMove(string x, string y, string heading)
         {
@@ -93,6 +94,7 @@ namespace Touch.Views.Pages
                 //Debug.WriteLine(result);
             });
         }
+
         //嵌入朝向
         private void InvokeJsHeading(int tmpNodeNum)
         {
@@ -113,6 +115,7 @@ namespace Touch.Views.Pages
                 });
             }, delay);
         }
+
         //得到路径
         private async void InvokeJsGetPath()
         {
@@ -122,6 +125,7 @@ namespace Touch.Views.Pages
             };
             var result = await Webview1.InvokeScriptAsync("eval", script); 
         }
+
         //测试得到路径
         private void testGetPath()
         {
@@ -136,7 +140,7 @@ namespace Touch.Views.Pages
                         async () =>
                         {
                             if (!completed) return;
-                            string[] args = { "testIsGetPath()" };
+                            string[] args = {"testIsGetPath()"};
                             var result = await Webview1.InvokeScriptAsync("eval", args);
                             if (result == "Y")
                             {
@@ -153,7 +157,6 @@ namespace Touch.Views.Pages
                                         double lng = System.Convert.ToDouble(pointArray[1]);
                                         _pathPoint.Add(new Point(lat, lng));
                                     }
-                                }
                                 startWalk();
                             }
                             else
@@ -164,6 +167,7 @@ namespace Touch.Views.Pages
                         });
                 });
         }
+
         //测试点击label
         private void TestClick()
         {
@@ -194,6 +198,7 @@ namespace Touch.Views.Pages
                         });
                 });
         }
+
         //显示路径
         private void ShowPath()
         {
@@ -239,6 +244,7 @@ namespace Touch.Views.Pages
                     });
             });
         }
+
         //开始行走
         private void startWalk()
         {
@@ -264,6 +270,7 @@ namespace Touch.Views.Pages
                 }, delay);
             }
         }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             testGetPath();

@@ -123,6 +123,15 @@
   <data name="AddFolder" xml:space="preserve">
     <value>Add a Folder</value>
   </data>
+  <data name="AddMemory.PrimaryButtonText" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="AddMemory.SecondaryButtonText" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="AddMemory.Title" xml:space="preserve">
+    <value>添加回忆</value>
+  </data>
   <data name="Album.Text" xml:space="preserve">
     <value>相册</value>
   </data>
@@ -131,6 +140,9 @@
   </data>
   <data name="Gallery.Text" xml:space="preserve">
     <value>图库</value>
+  </data>
+  <data name="ImageNum.Text" xml:space="preserve">
+    <value>张图片</value>
   </data>
   <data name="ListWhatFind.Text" xml:space="preserve">
     <value>Here's a list of what we've found so far</value>
@@ -141,6 +153,9 @@
   <data name="Memory.Text" xml:space="preserve">
     <value>回忆</value>
   </data>
+  <data name="Name.PlaceholderText" xml:space="preserve">
+    <value>名称</value>
+  </data>
   <data name="NeedTime.Text" xml:space="preserve">
     <value>这需要一些时间</value>
   </data>
@@ -149,6 +164,12 @@
   </data>
   <data name="Refresh.Label" xml:space="preserve">
     <value>刷新</value>
+  </data>
+  <data name="Selected.Text" xml:space="preserve">
+    <value>已选择</value>
+  </data>
+  <data name="SelectImage.Content" xml:space="preserve">
+    <value>选择图片</value>
   </data>
   <data name="SendFeedback.Content" xml:space="preserve">
     <value>Send Feedback</value>

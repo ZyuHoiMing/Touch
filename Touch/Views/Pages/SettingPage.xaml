@@ -35,6 +35,12 @@
                               ItemsSource="{x:Bind _folderListVm.MyFolderVms, Mode=OneWay}"
                               SelectionMode="None" IsItemClickEnabled="True"
                               ItemClick="{x:Bind _folderListVm.OnItemClick}" HorizontalAlignment="Left">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Padding" Value="0" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="viewModels:MyFolderViewModel">
                                 <RelativePanel Width="320">
@@ -46,14 +52,20 @@
                                                RelativePanel.AlignVerticalCenterWithPanel="True"
                                                RelativePanel.RightOf="IconText" RelativePanel.LeftOf="DeleteButton"
                                                TextWrapping="Wrap" />
-                                    <Button Name="DeleteButton" Content="{StaticResource Cancel}"
-                                            FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                            Background="Transparent"
+                                    <Button Name="DeleteButton" Width="48" Height="48"
+                                            Style="{StaticResource ListButtonStyle}"
                                             RelativePanel.AlignVerticalCenterWithPanel="True"
                                             RelativePanel.AlignRightWithPanel="True"
                                             Visibility="{x:Bind IsDeleteVisibility, Mode=OneWay}"
                                             Command="{Binding ElementName=SourceList, Path=DataContext.DeleteCommand}"
-                                            CommandParameter="{Binding}" />
+                                            CommandParameter="{Binding}">
+                                        <FontIcon
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Foreground="Gray"
+                                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                            Glyph="{StaticResource Cancel}" />
+                                    </Button>
                                 </RelativePanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>

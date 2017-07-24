@@ -9,6 +9,7 @@
             margin: 0;
             padding: 0;
         }
+
         #street-view { height: 100%; }
     </style>
 </head>
@@ -19,7 +20,7 @@
     var panorama;
     var directionsDisplay;
     var isClick = false;
-    var pathArray=new Array();
+    var pathArray = new Array();
     var directionsService;
     var isGetPath = false;
     var marker2;
@@ -70,13 +71,14 @@
             marker2.setVisible(false);
         });
     }
+
     function getClick() {
         if (isClick)
             return 'click';
         else return 'not click';
     }
-    function getPath(startLat,startLng,endLat,endLng)
-    {
+
+    function getPath(startLat, startLng, endLat, endLng) {
         directionsService.route({
             origin: { lat: startLat, lng: startLng },
             destination: { lat: endLat, lng: endLng },
@@ -98,16 +100,16 @@
             else { console.log('No Route');}
         });
     }
-    function getPathPoint()
-    {
+
+    function getPathPoint() {
         var cot;
         var pathPoint = '';
         for (cot in pathArray)
             pathPoint += pathArray[cot].lat() + ',' + pathArray[cot].lng() + '\n';
         return pathPoint;
     }
-    function testIsGetPath()
-    {
+
+    function testIsGetPath() {
         if (isGetPath) return 'Y';
         else return 'N';
     }

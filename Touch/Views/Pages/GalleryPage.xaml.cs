@@ -1,7 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Numerics;
+using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Touch.ViewModels;
@@ -22,8 +28,26 @@ namespace Touch.Views.Pages
         {
             InitializeComponent();
 
+            LoadingControl.IsLoading = true;
             _allImageListVm = new AllImageListViewModel();
             RefreshButton.Click += async (sender, args) => await RefreshAsync();
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            await RefreshAsync();
+        }
+
+        /// <summary>
+        ///     刷新图库图片
+        /// </summary>
+        /// <returns></returns>
+        private async Task RefreshAsync()
+        {
+            await _allImageListVm.RefreshAsync();
+            Cvs.Source = _allImageListVm.ImageMonthGroups;
+            LoadingControl.IsLoading = false;
         }
 
         // TODO 考虑下怎么复用
@@ -44,22 +68,18 @@ namespace Touch.Views.Pages
             grid.ItemHeight = grid.ItemWidth * 3 / 4;
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            await RefreshAsync();
-        }
-
         /// <summary>
-        ///     刷新图库图片
+        ///     item大小变化时需要对内容裁剪
         /// </summary>
-        /// <returns></returns>
-        private async Task RefreshAsync()
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GridViewItem_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            LoadingControl.IsLoading = true;
-            await _allImageListVm.RefreshAsync();
-            Cvs.Source = _allImageListVm.ImageMonthGroups;
-            LoadingControl.IsLoading = false;
+            if (sender is Grid rootGrid)
+                rootGrid.Clip = new RectangleGeometry
+                {
+                    Rect = new Rect(0, 0, rootGrid.ActualWidth, rootGrid.ActualHeight)
+                };
         }
 
         /// <summary>
@@ -67,9 +87,14 @@ namespace Touch.Views.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
+        private async void GridViewItem_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            var animation = (sender as FrameworkElement).Light(200);
+            var rootGrid = sender as Grid;
+            if (rootGrid == null)
+                return;
+            var img = rootGrid.Children[0] as FrameworkElement;
+            ToggleItemPointAnimation(img, true);
+            var animation = rootGrid.Light(250);
             await animation.StartAsync();
         }
 
@@ -78,10 +103,34 @@ namespace Touch.Views.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void Grid_PointerExited(object sender, PointerRoutedEventArgs e)
+        private async void GridViewItem_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            var animation = (sender as FrameworkElement).Light(500);
+            var rootGrid = sender as Grid;
+            if (rootGrid == null)
+                return;
+            var img = rootGrid.Children[0] as FrameworkElement;
+            ToggleItemPointAnimation(img, false);
+            var animation = rootGrid.Light(500);
             await animation.StartAsync();
+        }
+
+        private void ToggleItemPointAnimation(FrameworkElement img, bool show)
+        {
+            var imgVisual = ElementCompositionPreview.GetElementVisual(img);
+            var scaleAnimation = CreateScaleAnimation(show);
+            imgVisual.CenterPoint = new Vector3((float) img.ActualWidth / 2, (float) img.ActualHeight / 2, 0f);
+            imgVisual.StartAnimation("Scale.x", scaleAnimation);
+            imgVisual.StartAnimation("Scale.y", scaleAnimation);
+        }
+
+        private ScalarKeyFrameAnimation CreateScaleAnimation(bool show)
+        {
+            var compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            var scaleAnimation = compositor.CreateScalarKeyFrameAnimation();
+            scaleAnimation.InsertKeyFrame(1f, show ? 1.1f : 1f);
+            scaleAnimation.Duration = TimeSpan.FromMilliseconds(1000);
+            scaleAnimation.StopBehavior = AnimationStopBehavior.LeaveCurrentValue;
+            return scaleAnimation;
         }
     }
 }

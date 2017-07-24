@@ -32,9 +32,7 @@ namespace Touch.Models
             MemoryListDatabase.Insert(myMemory.MemoryName);
             var keyNo = MemoryListDatabase.GetLastKeyNo();
             foreach (var myImage in myMemory.Images)
-            {
                 MemoryImageDatabase.Insert(keyNo, myImage.ImagePath, myImage.AccessToken);
-            }
         }
 
         /// <summary>
