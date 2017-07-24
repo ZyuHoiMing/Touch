@@ -58,7 +58,7 @@
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
 
-                    <StackPanel Grid.Row="0" Background="SteelBlue">
+                    <StackPanel Grid.Row="0" Background="{StaticResource PrimaryColor}">
                         <!-- 左上角的hamburger显示隐藏按钮 -->
                         <Button Name="HambugerMenuButton" Height="48" Width="48" FontSize="16" Foreground="White"
                                 Content="{StaticResource Hamburger}"

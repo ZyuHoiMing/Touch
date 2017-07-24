@@ -96,7 +96,10 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\DatabaseHelperUnitTest.cs" />
     <Compile Include="Data\FolderDatabaseUnitTest.cs" />
+    <Compile Include="Data\MemoryImageDatabaseUnitTest.cs" />
+    <Compile Include="Data\MemoryListDatabaseUnitTest.cs" />
     <Compile Include="Models\FolderListUnitTest.cs" />
     <Compile Include="Models\ImageListUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
