@@ -64,14 +64,13 @@
             map: panorama,
             icon: image,
             opacity: 0.8,
-            //label: { text: 'you have been here ',fontSize: '20px' },
+            label: { text: '触动此处回忆',fontSize: '20px' },
         });
         marker2.addListener('click',
             function() {
                 isClick = true;
                 marker2.setVisible(false);
             });
-        //test.innerText = markLat+','+markLng + '<br>';
         setMarkHeading();
     }
 
