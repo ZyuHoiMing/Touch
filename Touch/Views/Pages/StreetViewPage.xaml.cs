@@ -22,9 +22,6 @@ namespace Touch.Views.Pages
     public sealed partial class StreetViewPage : Page
     {
         private readonly List<Point> _pathPoint = new List<Point>();
-
-        private int nodeNum;
-
         //
         public StreetViewPage()
         {
@@ -41,15 +38,6 @@ namespace Touch.Views.Pages
                 var uri = new Uri("ms-appx-web:///Web/Test.html");
                 Webview1.Navigate(uri);
             }
-            //insert
-            /*_pathPoint.Add(new Point(22.277782, 114.170241));
-            _pathPoint.Add(new Point(22.277753, 114.169953));
-            _pathPoint.Add(new Point(22.277759, 114.169793));
-            _pathPoint.Add(new Point(22.277759, 114.169415));
-            _pathPoint.Add(new Point(22.277759, 114.169179));
-            _pathPoint.Add(new Point(22.277841, 114.168825));
-            _pathPoint.Add(new Point(22.277968, 114.168482));
-            _pathPoint.Add(new Point(22.278107, 114.168546));*/
         }
 
         private async void InvokeJsStart(string x, string y)
@@ -73,13 +61,6 @@ namespace Touch.Views.Pages
             });
         }
 
-        public async void InvokeJsClick()
-        {
-            string[] args = {"getClick()"};
-            var result = await Webview1.InvokeScriptAsync("eval", args);
-            Debug.WriteLine("result" + result);
-        }
-
         //嵌入移动
         private async void InvokeJsMove(string x, string y, string heading)
         {
@@ -100,6 +81,7 @@ namespace Touch.Views.Pages
         //嵌入朝向
         private void InvokeJsHeading(int tmpNodeNum)
         {
+            Debug.WriteLine("run");
             var delay = TimeSpan.FromSeconds(2);
             var delayTimer = ThreadPoolTimer.CreateTimer
             (async source =>
@@ -114,9 +96,9 @@ namespace Touch.Views.Pages
                         "," + tmpNodeNum + ")"
                     };
                     var result = await Webview1.InvokeScriptAsync("eval", insertMessage);
-                    string[] args = {"setMarkHeading()"};
+                    /*string[] args = {"setMarkHeading()"};
                     result = await Webview1.InvokeScriptAsync("eval", args); //镜头转换，待改善
-                    Debug.WriteLine("result" + result);
+                    Debug.WriteLine("result" + result);*/
                 });
             }, delay);
         }
@@ -126,7 +108,7 @@ namespace Touch.Views.Pages
         {
             string[] script =
             {
-                "getPath(40.75682475,-73.9883746666667, 40.7566056666667,-73.9884400555556)"
+                "getPath(40.75682475,-73.9883746666667, 40.7583754444444,-73.9851607777778)"
             };
             var result = await Webview1.InvokeScriptAsync("eval", script);
         }
@@ -162,8 +144,8 @@ namespace Touch.Views.Pages
                                         var lng = Convert.ToDouble(pointArray[1]);
                                         _pathPoint.Add(new Point(lat, lng));
                                     }
-                                    startWalk();
                                 }
+                                startWalk();
                             }
                             else
                             {
@@ -191,7 +173,7 @@ namespace Touch.Views.Pages
                             string[] args = {"getClick()"};
                             var result = await Webview1.InvokeScriptAsync("eval", args);
                             if (result == "click")
-                                ShowPath();
+                                ShowPath(1);
                             else
                                 TestClick();
                             // Timer completed.
@@ -200,7 +182,7 @@ namespace Touch.Views.Pages
         }
 
         //显示路径
-        private void ShowPath()
+        private void ShowPath(int nodeNum)
         {
             var completed = false;
             var delay = TimeSpan.FromSeconds(2);
@@ -230,6 +212,7 @@ namespace Touch.Views.Pages
                     CoreDispatcherPriority.High,
                     () =>
                     {
+                        Debug.WriteLine(nodeNum);
                         if (!completed) return;
                         if (nodeNum == _pathPoint.Count - 1)
                         {
@@ -238,8 +221,7 @@ namespace Touch.Views.Pages
                         }
                         else
                         {
-                            nodeNum++;
-                            ShowPath();
+                            ShowPath(nodeNum+1);
                         }
                     });
             });
@@ -257,15 +239,14 @@ namespace Touch.Views.Pages
                 var x = _pathPoint.ElementAt(0).X.ToString(CultureInfo.CurrentCulture);
                 var y = _pathPoint.ElementAt(0).Y.ToString(CultureInfo.CurrentCulture);
                 InvokeJsStart(x, y);
-                nodeNum = 0;
-                InvokeJsHeading(nodeNum);
+                Debug.WriteLine("test run");
+                InvokeJsHeading(0);
                 var delay = TimeSpan.FromSeconds(2);
                 var delayTimer = ThreadPoolTimer.CreateTimer
                 (source =>
                 {
                     if (_pathPoint.Count > 1)
                     {
-                        nodeNum = 1;
                         TestClick();
                     }
                     else

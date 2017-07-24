@@ -15,7 +15,6 @@
 </head>
 <body>
 <div id="street-view"></div>
-
 <script>
     var panorama;
     var directionsDisplay;
@@ -26,6 +25,8 @@
     var marker2;
 
     function initialize() {
+        var test = document.getElementById('test');
+        var test2 = document.getElementById('test2');
         map = new google.maps.Map(document.getElementById('street-view'),
             {
                 center: { lat: 22.277782, lng: 114.170241 },
@@ -42,24 +43,24 @@
 
     function insertMark(markLat, markLng, num) {
         var imgPath;
-        if (num === 1) {
+        if (num === 0) {
             imgPath = 'http://123.206.78.137:8080/Download/Source/IMG_20160902_124718.jpg';
         } else {
             imgPath = 'http://123.206.78.137:8080/Download/Source/IMG_20160902_125939.jpg';
         }
         var image = {
-            url: 'http://123.206.78.137:8080/Download/Source/IMG_20160902_124718.jpg',
+            url: 'http://123.206.78.137:8080/Download/Source/touch.png',
             // This marker is 20 pixels wide by 32 pixels high.
-            size: new google.maps.Size(400, 300),
+            size: new google.maps.Size(300, 300),
             // The origin for this image is (0, 0).
-            origin: new google.maps.Point(150, 150), //全景位置
+            origin: new google.maps.Point(0, 0), //全景位置
             // The anchor for this image is the base of the flagpole at (0, 32).
             anchor: new google.maps.Point(100, 400), //高度
             scaledSize: new google.maps.Size(300, 300),
             //labelOrigin: new google.maps.Point(100, 100)
         };
         marker2 = new google.maps.Marker({
-            position: { lat: 40.7566056666667, lng: -73.9884400555556 },
+            position: { lat: markLat, lng: markLng },
             map: panorama,
             icon: image,
             opacity: 0.8,
@@ -70,6 +71,8 @@
                 isClick = true;
                 marker2.setVisible(false);
             });
+        //test.innerText = markLat+','+markLng + '<br>';
+        setMarkHeading();
     }
 
     function getClick() {
@@ -142,9 +145,9 @@
     function changeHeadingAnimation(heading) {
         panorama.setPov({ heading: panorama.getPov().heading + heading, pitch: 0 });
         if (cot < 4) {
-            var t = setTimeout("changeHeadingAnimation(" + heading + ")", 200);
             cot++;
-        } else console.log(panorama.getPov().heading);
+            var t = setTimeout("changeHeadingAnimation(" + heading + ")", 200);
+        }
     }
 </script>
 <script async defer
