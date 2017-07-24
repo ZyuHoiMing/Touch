@@ -8,7 +8,7 @@
     <x:Double x:Key="WideMinWidth">1280</x:Double>
 
     <SolidColorBrush x:Key="PrimaryColor" Color="{ThemeResource SystemAccentColor}" />
-    
+
     <Style TargetType="SplitView" x:Key="HambugerMenu">
         <Setter Property="PaneBackground" Value="#FF696969" />
     </Style>
@@ -48,11 +48,11 @@
     <Style TargetType="TextBlock" x:Key="SettingSubTitleText">
         <Setter Property="Margin" Value="8" />
     </Style>
-    
+
     <Style TargetType="AppBarButton" x:Key="TitleBarButton">
         <Setter Property="Foreground" Value="White" />
     </Style>
-    
+
     <Style TargetType="TextBlock" x:Key="WhiteText">
         <Setter Property="Foreground" Value="White" />
     </Style>
