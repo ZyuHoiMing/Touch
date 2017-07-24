@@ -18,47 +18,58 @@
 
 <script>
     var panorama;
+    var directionsDisplay;
     var isClick = false;
     var pathArray = new Array();
     var directionsService;
     var isGetPath = false;
-    var marker;
-
+    var marker2;
     function initialize() {
         map = new google.maps.Map(document.getElementById('street-view'),
-            {
-                center: { lat: 22.277782, lng: 114.170241 },
-                zoom: 20,
-            });
+        {
+            center: { lat: 22.277782, lng: 114.170241 },
+            zoom: 2,
+        });
+        directionsDisplay = new google.maps.DirectionsRenderer();
+        directionsDisplay.setMap(map);
         directionsService = new google.maps.DirectionsService();
         panorama = map.getStreetView();
-        panorama.setPosition({ lat: 22.277782, lng: 114.170241 });
-        panorama.setVisible(true);
-        panorama.setOptions({ linksControl: false, });
+        //panorama.setPosition({ lat: 22.277782, lng: 114.170241 });
+        panorama.setVisible(false);
+        panorama.setOptions({ linksControl: false, })
     }
-
-    function insertMark(markLat, markLng, num) {
+    function insertMark(markLat,markLng,num)
+    {
+        var imgPath;
+        if (num === 1) {
+            imgPath = 'http://123.206.78.137:8080/Download/Source/IMG_20160902_124718.jpg';
+        }
+        else
+        {
+            imgPath = 'http://123.206.78.137:8080/Download/Source/IMG_20160902_125939.jpg';
+        }
         var image = {
             url: 'http://123.206.78.137:8080/Download/Source/IMG_20160902_124718.jpg',
             // This marker is 20 pixels wide by 32 pixels high.
             size: new google.maps.Size(400, 300),
             // The origin for this image is (0, 0).
-            origin: new google.maps.Point(0, 0), //全景位置
+            origin: new google.maps.Point(150, 150),//全景位置
             // The anchor for this image is the base of the flagpole at (0, 32).
-            anchor: new google.maps.Point(100, 400), //高度
-            scaledSize: new google.maps.Size(400, 300)
+            anchor: new google.maps.Point(100, 400),//高度
+            scaledSize: new google.maps.Size(300, 300),
+            //labelOrigin: new google.maps.Point(100, 100)
         };
-        marker = new google.maps.Marker({
-            position: { lat: 40.7566056666667, lng: -73.9884400555556 },
+        marker2 = new google.maps.Marker({
+            position: { lat:markLat, lng: markLng },
             map: panorama,
             icon: image,
             opacity: 0.8,
-            label: { text: 'you have been here ', fontSize: '20px' },
+            //label: { text: 'you have been here ',fontSize: '20px' },
         });
-        marker.addListener('click',
-            function() {
-                isClick = true;
-            });
+        marker2.addListener('click', function () {
+            isClick = true;
+            marker2.setVisible(false);
+        });
     }
 
     function getClick() {
@@ -69,30 +80,25 @@
 
     function getPath(startLat, startLng, endLat, endLng) {
         directionsService.route({
-                origin: { lat: startLat, lng: startLng },
-                destination: { lat: endLat, lng: endLng },
-                provideRouteAlternatives: false,
-                travelMode: 'WALKING',
-                unitSystem: google.maps.UnitSystem.IMPERIAL
-            },
-            function(result, status) {
-                if (status == 'OK') {
-                    //directionsDisplay.setDirections(result);//地图中显示
-                    var short = 0;
-                    var x = result.routes[0].overview_path.length;
-                    for (var i in result.routes) {
-                        var tmp = result.routes[i].overview_path.length;
-                        if (tmp < x) {
-                            x = tmp;
-                            short = i;
-                        }
-                    }
-                    pathArray = result.routes[short].overview_path;
-                    isGetPath = true;
-                } else {
-                    console.log('No Route');
+            origin: { lat: startLat, lng: startLng },
+            destination: { lat: endLat, lng: endLng },
+            provideRouteAlternatives: false,
+            travelMode: 'WALKING',
+            unitSystem: google.maps.UnitSystem.IMPERIAL
+        }, function (result, status) {
+            if (status == 'OK') {
+                directionsDisplay.setDirections(result);//地图中显示
+                var short=0;
+                var x = result.routes[0].overview_path.length;
+                for (var i in result.routes) {
+                    var tmp = result.routes[i].overview_path.length;
+                    if (tmp < x) { x = tmp; short = i; }
                 }
-            });
+                pathArray = result.routes[short].overview_path;
+                isGetPath = true;
+            }
+            else { console.log('No Route');}
+        });
     }
 
     function getPathPoint() {
@@ -107,11 +113,31 @@
         if (isGetPath) return 'Y';
         else return 'N';
     }
-
+    function setIsGetPath()
+    {
+        isGetPath = false;
+    }
     function setMarkHeading() {
-        var heading2 = google.maps.geometry.spherical.computeHeading(panorama.location.latLng, marker.getPosition());
-        panorama.setPov({ heading: heading2, pitch: 0 });
-        return heading2.toString();
+        var heading2 = google.maps.geometry.spherical.computeHeading(panorama.location.latLng, marker2.getPosition());
+        //panorama.setPov({ heading: heading2, pitch: 0 });
+        var difference = heading2 - panorama.getPov().heading;
+        if (Math.abs(difference) > 180) {
+            if (difference > 0) {
+                difference = -(360 - difference);
+            }
+            else {
+                difference = 360 + difference;
+            }
+        }
+        difference = difference / 5;
+        cot = 0;
+        changeHeadingAnimation(difference);
+    }
+    function changeHeadingAnimation(heading) {
+        panorama.setPov({ heading: panorama.getPov().heading + heading, pitch: 0 });
+        if (cot < 4)
+        { var t = setTimeout("changeHeadingAnimation(" + heading + ")", 200); cot++; }
+        else console.log(panorama.getPov().heading);
     }
 </script>
 <script async defer
