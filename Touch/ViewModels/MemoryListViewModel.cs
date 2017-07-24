@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using Windows.Storage.AccessCache;
-using Windows.Storage.Pickers;
-using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Touch.Models;
@@ -83,10 +80,6 @@ namespace Touch.ViewModels
                 // 如果是添加新回忆的按钮
                 var dialog = new AddMemoryDialog();
                 await dialog.ShowAsync();
-            }
-            else
-            {
-                
             }
         }
     }

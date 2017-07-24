@@ -22,7 +22,9 @@ namespace Touch.Views.Pages
     public sealed partial class StreetViewPage : Page
     {
         private readonly List<Point> _pathPoint = new List<Point>();
-        int nodeNum=0;
+
+        private int nodeNum;
+
         //
         public StreetViewPage()
         {
@@ -61,11 +63,11 @@ namespace Touch.Views.Pages
             {
                 "panorama.setPosition({lat:"
                 + x + ",lng:" + y
-                + "});"+"panorama.setVisible(true);"
+                + "});" + "panorama.setVisible(true);"
             };
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await Webview1.InvokeScriptAsync("eval", new string[] { "setIsGetPath()" });
+                await Webview1.InvokeScriptAsync("eval", new[] {"setIsGetPath()"});
                 var result = await Webview1.InvokeScriptAsync("eval", script);
                 //Debug.WriteLine(result);
             });
@@ -104,10 +106,13 @@ namespace Touch.Views.Pages
             {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
-                    string[] insertMessage = { "insertMark(" + 
-                        _pathPoint[tmpNodeNum].X + 
-                        ","+_pathPoint[tmpNodeNum].Y +
-                        ","+tmpNodeNum+ ")" }; 
+                    string[] insertMessage =
+                    {
+                        "insertMark(" +
+                        _pathPoint[tmpNodeNum].X +
+                        "," + _pathPoint[tmpNodeNum].Y +
+                        "," + tmpNodeNum + ")"
+                    };
                     var result = await Webview1.InvokeScriptAsync("eval", insertMessage);
                     string[] args = {"setMarkHeading()"};
                     result = await Webview1.InvokeScriptAsync("eval", args); //镜头转换，待改善
@@ -123,7 +128,7 @@ namespace Touch.Views.Pages
             {
                 "getPath(40.75682475,-73.9883746666667, 40.7566056666667,-73.9884400555556)"
             };
-            var result = await Webview1.InvokeScriptAsync("eval", script); 
+            var result = await Webview1.InvokeScriptAsync("eval", script);
         }
 
         //测试得到路径
@@ -144,20 +149,21 @@ namespace Touch.Views.Pages
                             var result = await Webview1.InvokeScriptAsync("eval", args);
                             if (result == "Y")
                             {
-                                await Webview1.InvokeScriptAsync("eval", new string[]{ "setIsGetPath()" });
-                                string tmp=await Webview1.InvokeScriptAsync("eval", new string[] { "getPathPoint()" });
-                                string[] pathArray = tmp.Split('\n');
-                                for(int i=0; i<pathArray.Length; ++i)
+                                await Webview1.InvokeScriptAsync("eval", new[] {"setIsGetPath()"});
+                                var tmp = await Webview1.InvokeScriptAsync("eval", new[] {"getPathPoint()"});
+                                var pathArray = tmp.Split('\n');
+                                for (var i = 0; i < pathArray.Length; ++i)
                                 {
                                     Debug.WriteLine(pathArray[i]);
-                                    if (pathArray[i].Length>=3)
+                                    if (pathArray[i].Length >= 3)
                                     {
-                                        string[] pointArray = pathArray[i].Split(',');
-                                        double lat = System.Convert.ToDouble(pointArray[0]);
-                                        double lng = System.Convert.ToDouble(pointArray[1]);
+                                        var pointArray = pathArray[i].Split(',');
+                                        var lat = Convert.ToDouble(pointArray[0]);
+                                        var lng = Convert.ToDouble(pointArray[1]);
                                         _pathPoint.Add(new Point(lat, lng));
                                     }
-                                startWalk();
+                                    startWalk();
+                                }
                             }
                             else
                             {
@@ -185,15 +191,9 @@ namespace Touch.Views.Pages
                             string[] args = {"getClick()"};
                             var result = await Webview1.InvokeScriptAsync("eval", args);
                             if (result == "click")
-                            {
-                                //Debug.WriteLine("click");
                                 ShowPath();
-                            }
                             else
-                            {
-                                //Debug.WriteLine("not click now");
                                 TestClick();
-                            }
                             // Timer completed.
                         });
                 });
@@ -264,9 +264,14 @@ namespace Touch.Views.Pages
                 (source =>
                 {
                     if (_pathPoint.Count > 1)
-                    { nodeNum = 1; TestClick();  }
+                    {
+                        nodeNum = 1;
+                        TestClick();
+                    }
                     else
+                    {
                         Debug.WriteLine("can't move");
+                    }
                 }, delay);
             }
         }

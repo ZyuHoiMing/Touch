@@ -58,7 +58,8 @@
                     <!-- 回忆 -->
                     <TextBlock x:Uid="Memory" Style="{StaticResource SettingTitleText}" />
                     <GridView Margin="0,8" ItemsSource="{x:Bind _memoryListVm.MyMemoryVms, Mode=OneWay}"
-                              SelectionMode="None" IsItemClickEnabled="True" ItemClick="{x:Bind _memoryListVm.OnItemClick}">
+                              SelectionMode="None" IsItemClickEnabled="True"
+                              ItemClick="{x:Bind _memoryListVm.OnItemClick}">
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <!-- 设置 item 格式-->
