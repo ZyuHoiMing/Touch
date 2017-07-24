@@ -28,6 +28,7 @@ namespace Touch.Views.Pages
         {
             InitializeComponent();
 
+            LoadingControl.IsLoading = true;
             _allImageListVm = new AllImageListViewModel();
             RefreshButton.Click += async (sender, args) => await RefreshAsync();
         }
@@ -44,7 +45,6 @@ namespace Touch.Views.Pages
         /// <returns></returns>
         private async Task RefreshAsync()
         {
-            LoadingControl.IsLoading = true;
             await _allImageListVm.RefreshAsync();
             Cvs.Source = _allImageListVm.ImageMonthGroups;
             LoadingControl.IsLoading = false;

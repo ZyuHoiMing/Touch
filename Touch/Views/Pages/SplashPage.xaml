@@ -9,7 +9,7 @@
 
     <Grid Background="{StaticResource PrimaryColor}">
         <Canvas>
-            <Image Name="ExtendedSplashImage" Source="ms-appx:///Assets/MySplashScreen.png" />
+            <Image Name="ExtendedSplashImage" Source="ms-appx:///Assets/SplashScreen.png" />
             <ProgressRing Name="SplashProgressRing" IsActive="True" Width="64" Height="64"
                           HorizontalAlignment="Center" Foreground="White" />
         </Canvas>

@@ -76,7 +76,8 @@
                     <GridView.ItemTemplate>
                         <!-- 当在 DataTemplate 中使用 x:Bind 标记扩展时，必须在 DataTemplate 上指定 DataType -->
                         <DataTemplate x:DataType="viewModels:MyImageViewModel">
-                            <Grid SizeChanged="GridViewItem_SizeChanged" PointerEntered="GridViewItem_PointerEntered" PointerExited="GridViewItem_PointerExited">
+                            <Grid SizeChanged="GridViewItem_SizeChanged" PointerEntered="GridViewItem_PointerEntered"
+                                  PointerExited="GridViewItem_PointerExited">
                                 <Image VerticalAlignment="Center" Stretch="UniformToFill"
                                        Source="{x:Bind Bitmap, Mode=OneWay}" />
                                 <!-- 阴影动画 -->

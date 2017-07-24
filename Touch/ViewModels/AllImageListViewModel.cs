@@ -20,10 +20,11 @@ namespace Touch.ViewModels
         public async Task RefreshAsync()
         {
             _allImageList = await AllImageList.GetInstanceAsync();
-            var imageVms = _allImageList.List.Select(img => new MyImageViewModel(img)).ToList();//读取图片信息列表中的全部信息
-
+            // 读取图片信息列表中的全部信息
+            var imageVms = _allImageList.List.Select(img => new MyImageViewModel(img)).ToList();
+            // 第二个函数是选择
             ImageMonthGroups = imageVms.GroupBy(m => m.MonthYearDate, (key, list) => new ImageMonthGroup(key, list))
-                .OrderByDescending(m => m.Key);//第二个函数是选择
+                .OrderByDescending(m => m.Key);
         }
     }
 }
