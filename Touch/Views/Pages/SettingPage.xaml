@@ -2,28 +2,80 @@
     x:Class="Touch.Views.Pages.SettingPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Touch.Views.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:Touch.ViewModels"
     mc:Ignorable="d">
 
     <Page.Transitions>
         <TransitionCollection>
-            <EntranceThemeTransition/>
+            <EntranceThemeTransition />
         </TransitionCollection>
     </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Button Click="Button_Click" Grid.Row="0" VerticalAlignment="Bottom" >选择文件夹</Button>
-        <GridView Name="imgView" Grid.Row="1">
-            <DataTemplate >
-                <StackPanel Height="500" Width="500" >
+
+        <CommandBar Grid.Row="0" Style="{StaticResource TitleBar}">
+            <CommandBar.Content>
+                <TextBlock x:Uid="Setting" Style="{StaticResource TitleBarTitleText}" />
+            </CommandBar.Content>
+        </CommandBar>
+
+        <ScrollViewer Grid.Row="1" Padding="16" VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <!-- 文件夹 源 -->
+                <StackPanel>
+                    <TextBlock x:Uid="Source" Style="{StaticResource SettingTitleText}" />
+                    <TextBlock x:Uid="ListWhatFind" Style="{StaticResource SettingSubTitleText}" />
+                    <ListView Name="SourceList" DataContext="{x:Bind _folderListVm}" Margin="0,8"
+                              ItemsSource="{x:Bind _folderListVm.MyFolderVms, Mode=OneWay}"
+                              SelectionMode="None" IsItemClickEnabled="True"
+                              ItemClick="{x:Bind _folderListVm.OnItemClick}" HorizontalAlignment="Left">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Padding" Value="0" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="viewModels:MyFolderViewModel">
+                                <RelativePanel Width="320">
+                                    <FontIcon Name="IconText" Margin="8" Glyph="{x:Bind ItemSymbol, Mode=OneWay}"
+                                              FontFamily="{StaticResource SymbolThemeFontFamily}" FontSize="24"
+                                              RelativePanel.AlignVerticalCenterWithPanel="True"
+                                              RelativePanel.AlignLeftWithPanel="True" />
+                                    <TextBlock Margin="8" Text="{x:Bind FolderPath, Mode=OneWay}"
+                                               RelativePanel.AlignVerticalCenterWithPanel="True"
+                                               RelativePanel.RightOf="IconText" RelativePanel.LeftOf="DeleteButton"
+                                               TextWrapping="Wrap" />
+                                    <Button Name="DeleteButton" Width="48" Height="48"
+                                            Style="{StaticResource ListButtonStyle}"
+                                            RelativePanel.AlignVerticalCenterWithPanel="True"
+                                            RelativePanel.AlignRightWithPanel="True"
+                                            Visibility="{x:Bind IsDeleteVisibility, Mode=OneWay}"
+                                            Command="{Binding ElementName=SourceList, Path=DataContext.DeleteCommand}"
+                                            CommandParameter="{Binding}">
+                                        <FontIcon
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Foreground="Gray"
+                                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                            Glyph="{StaticResource Cancel}" />
+                                    </Button>
+                                </RelativePanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <!-- 关于 -->
+                    <TextBlock x:Uid="AboutApp" Style="{StaticResource SettingTitleText}" />
+                    <TextBlock Name="AppInfoText" Style="{StaticResource SettingSubTitleText}" />
+                    <Button Name="SendFeedbackButton" x:Uid="SendFeedback" Margin="8" />
                 </StackPanel>
-            </DataTemplate>
-        </GridView>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>

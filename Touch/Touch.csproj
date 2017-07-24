@@ -95,11 +95,35 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\GalleryGridItem.cs" />
-    <Compile Include="Models\HambugerMenuListItem.cs" />
-    <Compile Include="Models\ImagePath.cs" />
-    <Compile Include="Models\ImageRecycleList.cs" />
+    <Compile Include="Controls\BackDrop.cs" />
+    <Compile Include="Data\DatabaseHelper.cs" />
+    <Compile Include="Data\FolderDatabase.cs" />
+    <Compile Include="Data\MemoryImageDatabase.cs" />
+    <Compile Include="Data\MemoryListDatabase.cs" />
+    <Compile Include="Models\AllImageList.cs" />
+    <Compile Include="Models\FolderImageList.cs" />
+    <Compile Include="Models\ImageList.cs" />
+    <Compile Include="Models\MemoryList.cs" />
+    <Compile Include="Models\MyMemory.cs" />
+    <Compile Include="Models\MyFolder.cs" />
+    <Compile Include="Models\FolderList.cs" />
+    <Compile Include="Models\MyImage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AddMemoryViewModel.cs" />
+    <Compile Include="ViewModels\AllImageListViewModel.cs" />
+    <Compile Include="ViewModels\CommandHelpers.cs" />
+    <Compile Include="ViewModels\FolderListViewModel.cs" />
+    <Compile Include="ViewModels\HamburgerMenuItemViewModel.cs" />
+    <Compile Include="ViewModels\ImageMonthGroup.cs" />
+    <Compile Include="ViewModels\MemoryListViewModel.cs" />
+    <Compile Include="ViewModels\MyFolderViewModel.cs" />
+    <Compile Include="ViewModels\MyImageViewModel.cs" />
+    <Compile Include="ViewModels\MyMemoryViewModel.cs" />
+    <Compile Include="ViewModels\StreetImageListViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelHelpers.cs" />
+    <Compile Include="Views\Dialogs\AddMemoryDialog.xaml.cs">
+      <DependentUpon>AddMemoryDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\AlbumPage.xaml.cs">
       <DependentUpon>AlbumPage.xaml</DependentUpon>
     </Compile>
@@ -109,11 +133,18 @@
     <Compile Include="Views\Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\PathPov.cs" />
     <Compile Include="Views\Pages\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Pages\SplashPage.xaml.cs">
+      <DependentUpon>SplashPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\StreetGalleryPage.xaml.cs">
       <DependentUpon>StreetGalleryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\StreetViewPage.xaml.cs">
+      <DependentUpon>StreetViewPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +152,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <PRIResource Include="Strings\en-US\Resources.resw" />
+    <PRIResource Include="Strings\zh-CN\Resources.resw" />
     <None Include="Touch_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -138,12 +170,18 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Web\Test.html" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Styles\Mdl2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Styles\Style.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -153,6 +191,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\Dialogs\AddMemoryDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\AlbumPage.xaml">
       <SubType>Designer</SubType>
@@ -170,7 +212,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Pages\SplashPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Pages\StreetGalleryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\StreetViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
