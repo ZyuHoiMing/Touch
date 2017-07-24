@@ -101,8 +101,9 @@ namespace Touch.Views.Pages
             {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
+                    var result = await Webview1.InvokeScriptAsync("eval", new string[] { "insertMark()" });
                     string[] args = {"setMarkHeading()"};
-                    var result = await Webview1.InvokeScriptAsync("eval", args); //镜头转换，待改善
+                    result = await Webview1.InvokeScriptAsync("eval", args); //镜头转换，待改善
                     Debug.WriteLine("result" + result);
                 });
                 TestClick();
