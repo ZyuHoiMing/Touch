@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.AccessCache;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Touch.Models
@@ -67,6 +68,7 @@ namespace Touch.Models
                 bitmap.SetSource(stream);
                 var imageProperties = await file.Properties.GetImagePropertiesAsync();
                 var basicProperties = await file.GetBasicPropertiesAsync();
+                var accessToken = StorageApplicationPermissions.FutureAccessList.Add(file);
                 myImage = new MyImage
                 {
                     ImagePath = file.Path,
@@ -76,7 +78,8 @@ namespace Touch.Models
                     // 如果图片的拍摄时间为空，返回文件的修改时间
                     DateTaken = imageProperties.DateTaken.Year <= 1601
                         ? basicProperties.DateModified.LocalDateTime
-                        : imageProperties.DateTaken.LocalDateTime
+                        : imageProperties.DateTaken.LocalDateTime,
+                    AccessToken = accessToken
                 };
             }
             return myImage;
