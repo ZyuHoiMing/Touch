@@ -11,12 +11,12 @@ namespace Touch.Data
         /// <summary>
         ///     表名
         /// </summary>
-        private const string TableName = "FolderTable";
+        public const string TableName = "FolderTable";
 
         /// <summary>
         ///     主键名
         /// </summary>
-        private const string PrimaryKeyName = "Primary_Key";
+        public const string PrimaryKeyName = "Primary_Key";
 
         /// <summary>
         ///     文件夹路径

@@ -104,7 +104,7 @@
     <Compile Include="Data\MemoryListDatabase.cs" />
     <Compile Include="Models\ImageFolderList.cs" />
     <Compile Include="Models\MemoryList.cs" />
-    <Compile Include="Models\MyMemory.cs" />
+    <Compile Include="Models\MemoryModel.cs" />
     <Compile Include="Models\FolderModel.cs" />
     <Compile Include="Models\FolderList.cs" />
     <Compile Include="Models\ImageModel.cs" />

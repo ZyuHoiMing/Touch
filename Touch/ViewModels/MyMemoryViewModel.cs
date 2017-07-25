@@ -9,10 +9,10 @@ namespace Touch.ViewModels
     /// <summary>
     ///     回忆ViewModel
     /// </summary>
-    public class MyMemoryViewModel : NotificationBase<MyMemory>
+    public class MyMemoryViewModel : NotificationBase<MemoryModel>
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
-        public MyMemoryViewModel(MyMemory myMemory = null) : base(myMemory)
+        public MyMemoryViewModel(MemoryModel myMemory = null) : base(myMemory)
         {
         }
 

@@ -3,97 +3,60 @@ using Touch.Data;
 
 namespace Touch.UnitTestProject.Data
 {
+    /// <summary>
+    ///     回忆列表 数据库
+    /// </summary>
     [TestClass]
     public class MemoryListDatabaseUnitTest
     {
+        private readonly DatabaseHelper _databaseHelper;
+
+        /// <summary>
+        ///     文件夹 数据库
+        /// </summary>
+        public MemoryListDatabaseUnitTest()
+        {
+            _databaseHelper = DatabaseHelper.GetInstance();
+        }
+
         /// <summary>
         ///     插入并读出数据
         /// </summary>
         [TestMethod]
-        public void InsertAndGetFoldersTest()
+        public void InsertAndGetTest()
         {
-            DatabaseHelper.InitDb();
-            MemoryListDatabase.Drop();
-            MemoryListDatabase.Create();
-            MemoryListDatabase.Insert("test_data_1");
-            MemoryListDatabase.Insert("test_data_2");
-            MemoryListDatabase.Insert("test_data_3");
-            var memoryList = MemoryListDatabase.GetMemoryList();
-            var count = 1;
-            foreach (var memory in memoryList)
-                Assert.AreEqual("test_data_" + count++, memory.MemoryName);
-        }
-
-        /// <summary>
-        ///     删除表
-        /// </summary>
-        [TestMethod]
-        public void DropTest()
-        {
-            MemoryListDatabase.Drop();
-            MemoryListDatabase.Create();
-            MemoryListDatabase.Insert("test_data");
-            var memoryList = MemoryListDatabase.GetMemoryList();
-            foreach (var memory in memoryList)
-                Assert.AreEqual("test_data", memory.MemoryName);
-        }
-
-        /// <summary>
-        ///     通过主键删除并读出数据
-        /// </summary>
-        [TestMethod]
-        public void DeleteKeyAndGetFoldersTest()
-        {
-            MemoryListDatabase.Drop();
-            MemoryListDatabase.Create();
-            MemoryListDatabase.Insert("test_data_1");
-            MemoryListDatabase.Insert("test_data_2");
-            MemoryListDatabase.Insert("test_data_3");
-            MemoryListDatabase.Insert("test_data_4");
-            MemoryListDatabase.Insert("test_data_5");
-            MemoryListDatabase.Delete(1);
-            MemoryListDatabase.Delete(3);
-            MemoryListDatabase.Delete(5);
-            var memoryList = MemoryListDatabase.GetMemoryList();
-            var count = 2;
-            foreach (var memory in memoryList)
+            _databaseHelper.MemoryListDatabase.Drop();
+            _databaseHelper.MemoryListDatabase.Create();
+            for (var i = 0; i < 3; i++)
+                _databaseHelper.MemoryListDatabase.Insert("test_data_" + i);
+            var query = _databaseHelper.MemoryListDatabase.GetQuery();
+            var count = 0;
+            while (query.Read())
             {
-                Assert.AreEqual("test_data_" + count, memory.MemoryName);
-                count += 2;
+                Assert.AreEqual("test_data_" + count, query.GetString(1));
+                count++;
             }
         }
 
         /// <summary>
-        ///     返回最新记录的keyNo
+        ///     删除并读出数据
         /// </summary>
         [TestMethod]
-        public void GetLastKeyNoTest()
+        public void DeleteAndGetTest()
         {
-            DatabaseHelper.InitDb();
-            MemoryListDatabase.Drop();
-            MemoryListDatabase.Create();
-            MemoryListDatabase.Insert("test_data_1");
-            MemoryListDatabase.Insert("test_data_2");
-            MemoryListDatabase.Insert("test_data_3");
-            var keyNo = MemoryListDatabase.GetLastKeyNo();
-            Assert.AreEqual(3, keyNo);
-            MemoryListDatabase.Insert("test_data_4");
-            MemoryListDatabase.Insert("test_data_5");
-            MemoryListDatabase.Insert("test_data_6");
-            keyNo = MemoryListDatabase.GetLastKeyNo();
-            Assert.AreEqual(6, keyNo);
-            MemoryListDatabase.Delete(4);
-            keyNo = MemoryListDatabase.GetLastKeyNo();
-            Assert.AreEqual(6, keyNo);
-            MemoryListDatabase.Delete(2);
-            keyNo = MemoryListDatabase.GetLastKeyNo();
-            Assert.AreEqual(6, keyNo);
-            MemoryListDatabase.Delete(1);
-            MemoryListDatabase.Delete(3);
-            MemoryListDatabase.Delete(5);
-            MemoryListDatabase.Delete(6);
-            keyNo = MemoryListDatabase.GetLastKeyNo();
-            Assert.AreEqual(-1, keyNo);
+            _databaseHelper.MemoryListDatabase.Drop();
+            _databaseHelper.MemoryListDatabase.Create();
+            for (var i = 0; i < 5; i++)
+                _databaseHelper.MemoryListDatabase.Insert("test_data_" + i);
+            for (var i = 0; i < 5; i += 2)
+                _databaseHelper.MemoryListDatabase.Delete(i);
+            var query = _databaseHelper.MemoryListDatabase.GetQuery();
+            var count = 1;
+            while (query.Read())
+            {
+                Assert.AreEqual("test_data_" + count, query.GetString(1));
+                count += 2;
+            }
         }
     }
 }

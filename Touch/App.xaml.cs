@@ -25,8 +25,9 @@ namespace Touch
             InitializeComponent();
             Suspending += OnSuspending;
 
+            // TODO 放在splash里
             // 初始化数据库
-            DatabaseHelper.InitDb();
+            DatabaseHelper.GetInstance();
         }
 
         /// <summary>

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.Storage.AccessCache;
-using Windows.UI.Xaml.Media.Imaging;
 using Touch.Data;
 
 namespace Touch.Models
@@ -19,7 +17,7 @@ namespace Touch.Models
         private readonly DatabaseHelper _databaseHelper;
 
         /// <summary>
-        /// 文件夹
+        ///     文件夹
         /// </summary>
         private readonly FolderModel _folderModel;
 
@@ -53,6 +51,7 @@ namespace Touch.Models
                 // 查下这个图片还在不在
                 if (imageModel != null)
                 {
+                    imageModel.KeyNo = query.GetInt32(0);
                     imageFolderList.ImageModels.Add(imageModel);
                 }
                 else
@@ -65,7 +64,7 @@ namespace Touch.Models
             }
             return imageFolderList;
         }
-        
+
         /// <summary>
         ///     刷新list
         /// </summary>

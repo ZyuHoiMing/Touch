@@ -23,9 +23,19 @@ namespace Touch.Data
         public readonly FolderDatabase FolderDatabase;
 
         /// <summary>
-        /// 图片 数据库
+        ///     图片 数据库
         /// </summary>
         public readonly ImageDatabase ImageDatabase;
+
+        /// <summary>
+        ///     回忆里的图片 数据库
+        /// </summary>
+        public readonly MemoryImageDatabase MemoryImageDatabase;
+
+        /// <summary>
+        ///     回忆列表 数据库
+        /// </summary>
+        public readonly MemoryListDatabase MemoryListDatabase;
 
         private DatabaseHelper()
         {
@@ -43,6 +53,10 @@ namespace Touch.Data
             FolderDatabase.Create();
             ImageDatabase = new ImageDatabase(DbFileName);
             ImageDatabase.Create();
+            MemoryListDatabase = new MemoryListDatabase(DbFileName);
+            MemoryListDatabase.Create();
+            MemoryImageDatabase = new MemoryImageDatabase(DbFileName);
+            MemoryImageDatabase.Create();
         }
 
         /// <summary>

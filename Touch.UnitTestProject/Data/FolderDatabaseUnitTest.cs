@@ -3,63 +3,67 @@ using Touch.Data;
 
 namespace Touch.UnitTestProject.Data
 {
+    /// <summary>
+    ///     文件夹 数据库
+    /// </summary>
     [TestClass]
     public class FolderDatabaseUnitTest
     {
+        private readonly DatabaseHelper _databaseHelper;
+
+        /// <summary>
+        ///     文件夹 数据库
+        /// </summary>
+        public FolderDatabaseUnitTest()
+        {
+            _databaseHelper = DatabaseHelper.GetInstance();
+        }
+
         /// <summary>
         ///     插入并读出数据
         /// </summary>
         [TestMethod]
-        public void InsertAndGetFoldersTest()
+        public void InsertAndGetTest()
         {
-            DatabaseHelper.InitDb();
-            FolderDatabase.Drop();
-            FolderDatabase.Create();
-            FolderDatabase.Insert("test_data_1", "");
-            FolderDatabase.Insert("test_data_2", "");
-            FolderDatabase.Insert("test_data_3", "");
-            var folders = FolderDatabase.GetFolders();
-            var count = 1;
-            foreach (var folder in folders)
-                Assert.AreEqual("test_data_" + count++, folder.FolderPath);
-        }
-
-        /// <summary>
-        ///     删除表
-        /// </summary>
-        [TestMethod]
-        public void DropTest()
-        {
-            FolderDatabase.Drop();
-            FolderDatabase.Create();
-            FolderDatabase.Insert("test_data", "");
-            var folders = FolderDatabase.GetFolders();
-            foreach (var folder in folders)
-                Assert.AreEqual("test_data", folder.FolderPath);
-        }
-
-        /// <summary>
-        ///     通过文件名并读出数据
-        /// </summary>
-        [TestMethod]
-        public void DeleteKeyAndGetFoldersTest()
-        {
-            FolderDatabase.Drop();
-            FolderDatabase.Create();
-            FolderDatabase.Insert("test_data_1", "");
-            FolderDatabase.Insert("test_data_2", "");
-            FolderDatabase.Insert("test_data_3", "");
-            FolderDatabase.Insert("test_data_4", "");
-            FolderDatabase.Insert("test_data_5", "");
-            FolderDatabase.Delete("test_data_1");
-            FolderDatabase.Delete("test_data_3");
-            FolderDatabase.Delete("test_data_5");
-            var folders = FolderDatabase.GetFolders();
-            var count = 2;
-            foreach (var folder in folders)
+            _databaseHelper.FolderDatabase.Drop();
+            _databaseHelper.FolderDatabase.Create();
+            for (var i = 0; i < 3; i++)
             {
-                Assert.AreEqual("test_data_" + count, folder.FolderPath);
-                count += 2;
+                _databaseHelper.FolderDatabase.Insert("test_data_" + i, i.ToString());
+            }
+            var query = _databaseHelper.FolderDatabase.GetQuery();
+            var count = 0;
+            while (query.Read())
+            {
+                Assert.AreEqual("test_data_" + count, query.GetString(1));
+                Assert.AreEqual("test_data_" + count, query.GetString(2));
+                count++;
+            }
+        }
+
+        /// <summary>
+        ///     删除并读出数据
+        /// </summary>
+        [TestMethod]
+        public void DeleteAndGetTest()
+        {
+            _databaseHelper.FolderDatabase.Drop();
+            _databaseHelper.FolderDatabase.Create();
+            for (var i = 0; i < 5; i++)
+            {
+                _databaseHelper.FolderDatabase.Insert("test_data_" + i, i.ToString());
+            }
+            for (var i = 0; i < 5; i+=2)
+            {
+                _databaseHelper.FolderDatabase.Delete("test_data_" + i);
+            }
+            var query = _databaseHelper.FolderDatabase.GetQuery();
+            var count = 1;
+            while (query.Read())
+            {
+                Assert.AreEqual("test_data_" + count, query.GetString(1));
+                Assert.AreEqual("test_data_" + count, query.GetString(2));
+                count+=2;
             }
         }
     }

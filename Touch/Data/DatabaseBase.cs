@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.Data.Sqlite;
 
 namespace Touch.Data
@@ -61,12 +60,12 @@ namespace Touch.Data
                 db.Close();
             }
         }
-        
+
         /// <summary>
         ///     返回记录
         /// </summary>
         /// <returns>SqliteDataReader类型的SQL记录</returns>
-        public SqliteDataReader GetQuery(string selectCommandStr)
+        protected SqliteDataReader GetQuery(string selectCommandStr)
         {
             SqliteDataReader query;
             using (var db = new SqliteConnection("Filename=" + DbFileName))

@@ -3,17 +3,20 @@ using Microsoft.Data.Sqlite;
 
 namespace Touch.Data
 {
+    /// <summary>
+    ///     所有图片 数据库
+    /// </summary>
     public class ImageDatabase : DatabaseBase
     {
         /// <summary>
         ///     表名
         /// </summary>
-        private const string TableName = "ImageTable";
+        public const string TableName = "ImageTable";
 
         /// <summary>
         ///     主键名
         /// </summary>
-        private const string PrimaryKeyName = "Primary_Key";
+        public const string PrimaryKeyName = "Primary_Key";
 
         /// <summary>
         ///     所属文件夹的key号（外键）
@@ -80,7 +83,9 @@ namespace Touch.Data
                   + PrimaryKeyName + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                   + FolderKeyNoName + " INTEGER NOT NULL, "
                   + ImagePathName + " NVARCHAR(2048) NOT NULL, "
-                  + AccessTokenName + " NVARCHAR(2048) NOT NULL)";
+                  + AccessTokenName + " NVARCHAR(2048) NOT NULL, "
+                  + "FOREIGN KEY(" + FolderKeyNoName + ") REFERENCES " + FolderDatabase.TableName + "(" +
+                  FolderDatabase.PrimaryKeyName + "))";
             Create(createCommandStr);
         }
 
@@ -241,7 +246,7 @@ namespace Touch.Data
         }
 
         /// <summary>
-        ///     依据文件夹号删除一条记录
+        ///     依据文件夹号删除一系列记录
         /// </summary>
         /// <param name="folderKeyNo">文件夹号</param>
         public void Delete(int folderKeyNo)

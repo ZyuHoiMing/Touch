@@ -1,43 +1,90 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using Windows.Storage;
-using Windows.Storage.AccessCache;
+﻿using System.Diagnostics;
 using Microsoft.Data.Sqlite;
-using Touch.Models;
 
 namespace Touch.Data
 {
     /// <summary>
-    ///     回忆里的图片路径的数据库
+    ///     回忆的所有图片 数据库
     /// </summary>
-    public static class MemoryImageDatabase
+    public class MemoryImageDatabase : DatabaseBase
     {
+        /// <summary>
+        ///     表名
+        /// </summary>
         private const string TableName = "MemoryImageTable";
+
+        /// <summary>
+        ///     主键名
+        /// </summary>
         private const string PrimaryKeyName = "Primary_Key";
-        private const string ForeignKeyName = "Foreign_Key";
-        private const string ImagePathName = "Image_Path";
-        private const string AccessTokenName = "Access_Token";
+
+        /// <summary>
+        ///     所属回忆的key号（外键）
+        /// </summary>
+        private const string MemoryKeyNoName = "Memory_Key_No";
+
+        /// <summary>
+        ///     图片的key号（外键）
+        /// </summary>
+        private const string ImageKeyNoName = "Image_Key_No";
+
+        public MemoryImageDatabase(string dbFileName) : base(dbFileName)
+        {
+        }
 
         /// <summary>
         ///     创建表
         /// </summary>
-        public static void Create()
+        public void Create()
         {
-            using (var db = new SqliteConnection("Filename=" + DatabaseHelper.DbFileName))
+            const string createCommandStr
+                = "CREATE TABLE IF NOT EXISTS " + TableName + " ("
+                  + PrimaryKeyName + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                  + MemoryKeyNoName + " INTEGER NOT NULL, "
+                  + ImageKeyNoName + " INTEGER NOT NULL, "
+                  + "FOREIGN KEY(" + MemoryKeyNoName + ") REFERENCES " + MemoryListDatabase.TableName + "(" +
+                  MemoryListDatabase.PrimaryKeyName + "), "
+                  + "FOREIGN KEY(" + ImageKeyNoName + ") REFERENCES " + ImageDatabase.TableName + "(" +
+                  ImageDatabase.PrimaryKeyName + "))";
+            Create(createCommandStr);
+        }
+
+        /// <summary>
+        ///     删除表
+        /// </summary>
+        public void Drop()
+        {
+            const string dropCommandStr = "DROP TABLE IF EXISTS " + TableName;
+            Drop(dropCommandStr);
+        }
+
+        /// <summary>
+        ///     返回某个回忆下的所有图片记录
+        /// </summary>
+        /// <param name="memoryKeyNo">回忆号</param>
+        /// <returns>某个回忆下的所有图片记录</returns>
+        public SqliteDataReader GetQuery(int memoryKeyNo)
+        {
+            SqliteDataReader query;
+            using (var db = new SqliteConnection("Filename=" + DbFileName))
             {
                 db.Open();
-                const string createCommandStr = "CREATE TABLE IF NOT EXISTS " + TableName + " ("
-                                                + PrimaryKeyName + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                                + ForeignKeyName + " INTEGER, "
-                                                + ImagePathName + " NVARCHAR(2048) NULL, "
-                                                + AccessTokenName + " NVARCHAR(2048) NULL, "
-                                                + "FOREIGN KEY(" + ForeignKeyName + ") REFERENCES " +
-                                                MemoryListDatabase.TableName + "(" + MemoryListDatabase.PrimaryKeyName +
-                                                "))";
-                var createCommand = new SqliteCommand(createCommandStr, db);
+                var selectCommand = new SqliteCommand
+                {
+                    Connection = db,
+                    CommandText
+                        = "SELECT " + ImageDatabase.TableName + ".* FROM "
+                          + TableName + ", " + MemoryListDatabase.TableName + ", " + ImageDatabase.TableName
+                          + " WHERE " + TableName + "." + memoryKeyNo + " = " + MemoryListDatabase.TableName + "." +
+                          MemoryListDatabase.PrimaryKeyName + ", "
+                          + TableName + "." + ImageKeyNoName + " = " + ImageDatabase.TableName + "." +
+                          ImageDatabase.PrimaryKeyName + ", "
+                          + MemoryKeyNoName + "=@" + MemoryKeyNoName
+                };
+                selectCommand.Parameters.AddWithValue("@" + MemoryKeyNoName, memoryKeyNo);
                 try
                 {
-                    createCommand.ExecuteReader();
+                    query = selectCommand.ExecuteReader();
                 }
                 catch (SqliteException exception)
                 {
@@ -46,29 +93,27 @@ namespace Touch.Data
                 }
                 db.Close();
             }
+            return query;
         }
 
         /// <summary>
         ///     添加一条记录
         /// </summary>
-        /// <param name="keyNo"></param>
-        /// <param name="imagePath"></param>
-        /// <param name="accessToken"></param>
-        public static void Insert(int keyNo, string imagePath, string accessToken)
+        /// <param name="memoryKeyNo">回忆号</param>
+        /// <param name="imageKeyNo">图片号</param>
+        public void Insert(int memoryKeyNo, int imageKeyNo)
         {
-            using (var db = new SqliteConnection("Filename=" + DatabaseHelper.DbFileName))
+            using (var db = new SqliteConnection("Filename=" + DbFileName))
             {
                 db.Open();
                 var insertCommand = new SqliteCommand
                 {
                     Connection = db,
-                    CommandText = "INSERT INTO " + TableName + " VALUES (NULL, @" + ForeignKeyName + ", @" +
-                                  ImagePathName + ", @" + AccessTokenName + ");"
+                    CommandText = "INSERT INTO " + TableName + " VALUES (NULL, @" + MemoryKeyNoName + ", @" +
+                                  ImageKeyNoName + ")"
                 };
-                // Use parameterized query to prevent SQL injection attacks
-                insertCommand.Parameters.AddWithValue("@" + ForeignKeyName, keyNo);
-                insertCommand.Parameters.AddWithValue("@" + ImagePathName, imagePath);
-                insertCommand.Parameters.AddWithValue("@" + AccessTokenName, accessToken);
+                insertCommand.Parameters.AddWithValue("@" + MemoryKeyNoName, memoryKeyNo);
+                insertCommand.Parameters.AddWithValue("@" + ImageKeyNoName, imageKeyNo);
                 try
                 {
                     insertCommand.ExecuteReader();
@@ -83,85 +128,23 @@ namespace Touch.Data
         }
 
         /// <summary>
-        ///     依据外键号删除一系列记录
+        ///     依据回忆号删除一系列记录
         /// </summary>
-        /// <param name="foreignKey">外键号</param>
-        public static void Delete(int foreignKey)
+        /// <param name="memoryKeyNo">回忆号</param>
+        public void Delete(int memoryKeyNo)
         {
-            using (var db = new SqliteConnection("Filename=" + DatabaseHelper.DbFileName))
+            using (var db = new SqliteConnection("Filename=" + DbFileName))
             {
                 db.Open();
                 var deleteCommand = new SqliteCommand
                 {
                     Connection = db,
-                    CommandText = "DELETE FROM " + TableName + " WHERE " + ForeignKeyName + "=@" + ForeignKeyName + ";"
+                    CommandText = "DELETE FROM " + TableName + " WHERE " + MemoryKeyNoName + "=@" + MemoryKeyNoName
                 };
-                deleteCommand.Parameters.AddWithValue("@" + ForeignKeyName, foreignKey);
+                deleteCommand.Parameters.AddWithValue("@" + MemoryKeyNoName, memoryKeyNo);
                 try
                 {
                     deleteCommand.ExecuteReader();
-                }
-                catch (SqliteException exception)
-                {
-                    Debug.WriteLine(exception);
-                    throw;
-                }
-                db.Close();
-            }
-        }
-
-        /// <summary>
-        ///     返回某个外键的所有记录
-        /// </summary>
-        /// <param name="foreignKey">外键号</param>
-        /// <returns>IEnumerable接口，所有的记录</returns>
-        public static IEnumerable<ImageModel> GetImageList(int foreignKey)
-        {
-            var imageList = new List<ImageModel>();
-            using (var db = new SqliteConnection("Filename=" + DatabaseHelper.DbFileName))
-            {
-                db.Open();
-                var selectCommand =
-                    new SqliteCommand(
-                        "SELECT " + ImagePathName + ", " + AccessTokenName + " FROM " + TableName + " WHERE " +
-                        ForeignKeyName + "=@" + ForeignKeyName, db);
-                selectCommand.Parameters.AddWithValue("@" + ForeignKeyName, foreignKey);
-                try
-                {
-                    var query = selectCommand.ExecuteReader();
-                    while (query.Read())
-                    {
-                        var myImage = new ImageModel
-                        {
-                            ImagePath = query.GetString(0),
-                            AccessToken = query.GetString(1)
-                        };
-                        imageList.Add(myImage);
-                    }
-                }
-                catch (SqliteException exception)
-                {
-                    Debug.WriteLine(exception);
-                    throw;
-                }
-                db.Close();
-            }
-            return imageList;
-        }
-
-        /// <summary>
-        ///     删除数据库表
-        /// </summary>
-        public static void Drop()
-        {
-            using (var db = new SqliteConnection("Filename=" + DatabaseHelper.DbFileName))
-            {
-                db.Open();
-                const string dropCommandStr = "DROP TABLE IF EXISTS " + TableName;
-                var dropCommand = new SqliteCommand(dropCommandStr, db);
-                try
-                {
-                    dropCommand.ExecuteReader();
                 }
                 catch (SqliteException exception)
                 {

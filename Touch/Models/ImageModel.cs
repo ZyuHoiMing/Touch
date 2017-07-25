@@ -26,6 +26,11 @@ namespace Touch.Models
         }
 
         /// <summary>
+        ///     图片编号
+        /// </summary>
+        public int KeyNo { get; set; }
+
+        /// <summary>
         ///     所属文件夹编号
         /// </summary>
         public int FolderKeyNo { get; }
