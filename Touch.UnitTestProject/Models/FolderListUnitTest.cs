@@ -35,9 +35,9 @@ namespace Touch.UnitTestProject.Models
             FolderDatabase.Drop();
             FolderDatabase.Create();
             var folderList = new FolderList();
-            folderList.Add(new MyFolder {FolderPath = "test_data_1"});
-            folderList.Add(new MyFolder {FolderPath = "test_data_2"});
-            folderList.Add(new MyFolder {FolderPath = "test_data_3"});
+            folderList.Add(new FolderModel {FolderPath = "test_data_1"});
+            folderList.Add(new FolderModel {FolderPath = "test_data_2"});
+            folderList.Add(new FolderModel {FolderPath = "test_data_3"});
             // 在FolderList里读出来正常
             var count = 1;
             foreach (var folder in folderList.List)
@@ -58,13 +58,13 @@ namespace Touch.UnitTestProject.Models
             FolderDatabase.Drop();
             FolderDatabase.Create();
             var folderList = new FolderList();
-            var testData = new List<MyFolder>
+            var testData = new List<FolderModel>
             {
-                new MyFolder {FolderPath = "test_data_1"},
-                new MyFolder {FolderPath = "test_data_2"},
-                new MyFolder {FolderPath = "test_data_3"},
-                new MyFolder {FolderPath = "test_data_4"},
-                new MyFolder {FolderPath = "test_data_5"}
+                new FolderModel {FolderPath = "test_data_1"},
+                new FolderModel {FolderPath = "test_data_2"},
+                new FolderModel {FolderPath = "test_data_3"},
+                new FolderModel {FolderPath = "test_data_4"},
+                new FolderModel {FolderPath = "test_data_5"}
             };
             foreach (var data in testData)
                 folderList.Add(data);

@@ -37,7 +37,7 @@ namespace Touch.ViewModels
         /// <summary>
         ///     回忆里包含的图片
         /// </summary>
-        public List<MyImage> Images
+        public List<ImageModel> Images
         {
             get { return This.Images; }
             set { SetProperty(This.Images, value, () => This.Images = value); }

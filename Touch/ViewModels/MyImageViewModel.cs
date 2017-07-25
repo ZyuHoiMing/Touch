@@ -7,9 +7,9 @@ namespace Touch.ViewModels
     /// <summary>
     ///     图片ViewModel
     /// </summary>
-    public class MyImageViewModel : NotificationBase<MyImage>
+    public class MyImageViewModel : NotificationBase<ImageModel>
     {
-        public MyImageViewModel(MyImage myImage = null) : base(myImage)
+        public MyImageViewModel(ImageModel myImage = null) : base(myImage)
         {
         }
 

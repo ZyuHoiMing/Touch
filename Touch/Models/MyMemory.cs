@@ -22,7 +22,7 @@ namespace Touch.Models
         /// <summary>
         ///     回忆里包含的图片
         /// </summary>
-        public List<MyImage> Images { get; set; }
+        public List<ImageModel> Images { get; set; }
 
 #pragma warning disable 659
         public override bool Equals(object obj)

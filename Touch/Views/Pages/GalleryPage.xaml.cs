@@ -133,25 +133,5 @@ namespace Touch.Views.Pages
             scaleAnimation.StopBehavior = AnimationStopBehavior.LeaveCurrentValue;
             return scaleAnimation;
         }
-        
-        /// <summary>
-        /// 背景模糊特性
-        /// </summary>
-        /// <param name="panel"></param>
-        private void ApplyAcrylicAccent(Panel panel)
-        {
-            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-            _hostSprite = _compositor.CreateSpriteVisual();
-            _hostSprite.Size = new Vector2((float)panel.ActualWidth, (float)panel.ActualHeight);
-
-            ElementCompositionPreview.SetElementChildVisual(panel, _hostSprite);
-            _hostSprite.Brush = _compositor.CreateHostBackdropBrush();
-        }
-
-        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (_hostSprite != null)
-                _hostSprite.Size = e.NewSize.ToVector2();
-        }
     }
 }

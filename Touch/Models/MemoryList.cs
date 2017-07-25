@@ -18,7 +18,7 @@ namespace Touch.Models
             List = MemoryListDatabase.GetMemoryList() as List<MyMemory>;
             if (List == null) return;
             foreach (var myMemory in List)
-                myMemory.Images = MemoryImageDatabase.GetImageList(myMemory.KeyNo) as List<MyImage>;
+                myMemory.Images = MemoryImageDatabase.GetImageList(myMemory.KeyNo) as List<ImageModel>;
         }
 
         /// <summary>

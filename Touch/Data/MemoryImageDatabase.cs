@@ -115,9 +115,9 @@ namespace Touch.Data
         /// </summary>
         /// <param name="foreignKey">外键号</param>
         /// <returns>IEnumerable接口，所有的记录</returns>
-        public static IEnumerable<MyImage> GetImageList(int foreignKey)
+        public static IEnumerable<ImageModel> GetImageList(int foreignKey)
         {
-            var imageList = new List<MyImage>();
+            var imageList = new List<ImageModel>();
             using (var db = new SqliteConnection("Filename=" + DatabaseHelper.DbFileName))
             {
                 db.Open();
@@ -131,7 +131,7 @@ namespace Touch.Data
                     var query = selectCommand.ExecuteReader();
                     while (query.Read())
                     {
-                        var myImage = new MyImage
+                        var myImage = new ImageModel
                         {
                             ImagePath = query.GetString(0),
                             AccessToken = query.GetString(1)

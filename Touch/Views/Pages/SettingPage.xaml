@@ -30,7 +30,7 @@
                 <!-- 文件夹 源 -->
                 <StackPanel>
                     <TextBlock x:Uid="Source" Style="{StaticResource SettingTitleText}" />
-                    <TextBlock x:Uid="ListWhatFind" Style="{StaticResource SettingSubTitleText}" />
+                    <TextBlock x:Uid="_imageModelsWhatFind" Style="{StaticResource SettingSubTitleText}" />
                     <ListView Name="SourceList" DataContext="{x:Bind _folderListVm}" Margin="0,8"
                               ItemsSource="{x:Bind _folderListVm.MyFolderVms, Mode=OneWay}"
                               SelectionMode="None" IsItemClickEnabled="True"

@@ -17,8 +17,8 @@ namespace Touch.UnitTestProject.Models
             //    {
             //        try
             //        {
-            //            //var imageList = await ImageList.GetInstanceAsync(folder);
-            //            //Assert.IsTrue(imageList.List.Count >= 7);
+            //            //var imageList = await ImageList.GetInstance(folder);
+            //            //Assert.IsTrue(imageList.ImageModels.Count >= 7);
             //        }
             //        catch (Exception e)
             //        {

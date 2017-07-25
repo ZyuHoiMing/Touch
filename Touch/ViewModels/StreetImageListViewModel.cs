@@ -7,14 +7,14 @@ namespace Touch.ViewModels
     public class StreetImageListViewModel : NotificationBase
     {
         // TODO 数据应该来自data
-        private readonly List<MyImage> _myImages = new List<MyImage>
+        private readonly List<ImageModel> _myImages = new List<ImageModel>
         {
-            new MyImage {ImagePath = "ms-appx:///Assets/pic1.jpg"},
-            new MyImage {ImagePath = "ms-appx:///Assets/pic2.jpg"},
-            new MyImage {ImagePath = "ms-appx:///Assets/pic3.jpg"},
-            new MyImage {ImagePath = "ms-appx:///Assets/pic4.jpg"},
-            new MyImage {ImagePath = "ms-appx:///Assets/pic5.jpg"},
-            new MyImage {ImagePath = "ms-appx:///Assets/pic6.jpg"}
+            new ImageModel {ImagePath = "ms-appx:///Assets/pic1.jpg"},
+            new ImageModel {ImagePath = "ms-appx:///Assets/pic2.jpg"},
+            new ImageModel {ImagePath = "ms-appx:///Assets/pic3.jpg"},
+            new ImageModel {ImagePath = "ms-appx:///Assets/pic4.jpg"},
+            new ImageModel {ImagePath = "ms-appx:///Assets/pic5.jpg"},
+            new ImageModel {ImagePath = "ms-appx:///Assets/pic6.jpg"}
         };
 
         private ObservableCollection<MyImageViewModel> _myImageVms;

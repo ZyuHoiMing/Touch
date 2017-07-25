@@ -7,10 +7,10 @@ namespace Touch.ViewModels
     ///     文件夹ViewModel
     /// </summary>
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode() public class MyFolderViewModel : NotificationBase<MyFolder>
-    public class MyFolderViewModel : NotificationBase<MyFolder>
+    public class MyFolderViewModel : NotificationBase<FolderModel>
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
-        public MyFolderViewModel(MyFolder myFolder = null) : base(myFolder)
+        public MyFolderViewModel(FolderModel myFolder = null) : base(myFolder)
         {
         }
 

@@ -1,44 +1,67 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.Data.Sqlite;
-using Touch.Models;
 
 namespace Touch.Data
 {
     /// <summary>
-    ///     存储文件夹路径的SQLite数据库
+    ///     文件夹 数据库
     /// </summary>
-    public static class FolderDatabase
+    public class FolderDatabase : DatabaseBase
     {
+        /// <summary>
+        ///     表名
+        /// </summary>
         private const string TableName = "FolderTable";
+
+        /// <summary>
+        ///     主键名
+        /// </summary>
         private const string PrimaryKeyName = "Primary_Key";
+
+        /// <summary>
+        ///     文件夹路径
+        /// </summary>
         private const string FolderPathName = "Folder_Path";
+
+        /// <summary>
+        ///     访问权限
+        /// </summary>
         private const string AccessTokenName = "Access_Token";
+
+        public FolderDatabase(string dbFileName) : base(dbFileName)
+        {
+        }
 
         /// <summary>
         ///     创建表
         /// </summary>
-        public static void Create()
+        public void Create()
         {
-            using (var db = new SqliteConnection("Filename=" + DatabaseHelper.DbFileName))
-            {
-                db.Open();
-                const string createCommandStr = "CREATE TABLE IF NOT EXISTS " + TableName + " ("
-                                                + PrimaryKeyName + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                                + FolderPathName + " NVARCHAR(2048) NULL, "
-                                                + AccessTokenName + " NVARCHAR(2048) NULL)";
-                var createCommand = new SqliteCommand(createCommandStr, db);
-                try
-                {
-                    createCommand.ExecuteReader();
-                }
-                catch (SqliteException exception)
-                {
-                    Debug.WriteLine(exception);
-                    throw;
-                }
-                db.Close();
-            }
+            const string createCommandStr
+                = "CREATE TABLE IF NOT EXISTS " + TableName + " ("
+                  + PrimaryKeyName + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                  + FolderPathName + " NVARCHAR(2048) NOT NULL, "
+                  + AccessTokenName + " NVARCHAR(2048) NOT NULL)";
+            Create(createCommandStr);
+        }
+
+        /// <summary>
+        ///     删除表
+        /// </summary>
+        public void Drop()
+        {
+            const string dropCommandStr = "DROP TABLE IF EXISTS " + TableName;
+            Drop(dropCommandStr);
+        }
+
+        /// <summary>
+        ///     返回所有记录
+        /// </summary>
+        /// <returns>所有的记录</returns>
+        public SqliteDataReader GetQuery()
+        {
+            const string selectCommandStr = "SELECT * FROM " + TableName;
+            return GetQuery(selectCommandStr);
         }
 
         /// <summary>
@@ -46,16 +69,16 @@ namespace Touch.Data
         /// </summary>
         /// <param name="folderPath">文件夹路径</param>
         /// <param name="accessToken">访问token</param>
-        public static void Insert(string folderPath, string accessToken)
+        public void Insert(string folderPath, string accessToken)
         {
-            using (var db = new SqliteConnection("Filename=" + DatabaseHelper.DbFileName))
+            using (var db = new SqliteConnection("Filename=" + DbFileName))
             {
                 db.Open();
                 var insertCommand = new SqliteCommand
                 {
                     Connection = db,
                     CommandText = "INSERT INTO " + TableName + " VALUES (NULL, @" + FolderPathName + ", @" +
-                                  AccessTokenName + ");"
+                                  AccessTokenName + ")"
                 };
                 // Use parameterized query to prevent SQL injection attacks
                 insertCommand.Parameters.AddWithValue("@" + FolderPathName, folderPath);
@@ -77,78 +100,20 @@ namespace Touch.Data
         ///     依据文件夹路径删除一条记录
         /// </summary>
         /// <param name="folderPath">文件夹路径</param>
-        public static void Delete(string folderPath)
+        public void Delete(string folderPath)
         {
-            using (var db = new SqliteConnection("Filename=" + DatabaseHelper.DbFileName))
+            using (var db = new SqliteConnection("Filename=" + DbFileName))
             {
                 db.Open();
                 var deleteCommand = new SqliteCommand
                 {
                     Connection = db,
-                    CommandText = "DELETE FROM " + TableName + " WHERE " + FolderPathName + "=@" + FolderPathName + ";"
+                    CommandText = "DELETE FROM " + TableName + " WHERE " + FolderPathName + "=@" + FolderPathName
                 };
                 deleteCommand.Parameters.AddWithValue("@" + FolderPathName, folderPath);
                 try
                 {
                     deleteCommand.ExecuteReader();
-                }
-                catch (SqliteException exception)
-                {
-                    Debug.WriteLine(exception);
-                    throw;
-                }
-                db.Close();
-            }
-        }
-
-        /// <summary>
-        ///     返回所有记录
-        /// </summary>
-        /// <returns>IEnumerable接口，所有的记录</returns>
-        public static IEnumerable<MyFolder> GetFolders()
-        {
-            var folderList = new List<MyFolder>();
-            using (var db = new SqliteConnection("Filename=" + DatabaseHelper.DbFileName))
-            {
-                db.Open();
-                var selectCommand =
-                    new SqliteCommand("SELECT " + FolderPathName + ", " + AccessTokenName + " from " + TableName, db);
-                try
-                {
-                    var query = selectCommand.ExecuteReader();
-                    while (query.Read())
-                    {
-                        var myFolder = new MyFolder
-                        {
-                            FolderPath = query.GetString(0),
-                            AccessToken = query.GetString(1)
-                        };
-                        folderList.Add(myFolder);
-                    }
-                }
-                catch (SqliteException exception)
-                {
-                    Debug.WriteLine(exception);
-                    throw;
-                }
-                db.Close();
-            }
-            return folderList;
-        }
-
-        /// <summary>
-        ///     删除数据库表
-        /// </summary>
-        public static void Drop()
-        {
-            using (var db = new SqliteConnection("Filename=" + DatabaseHelper.DbFileName))
-            {
-                db.Open();
-                const string dropCommandStr = "DROP TABLE IF EXISTS " + TableName;
-                var dropCommand = new SqliteCommand(dropCommandStr, db);
-                try
-                {
-                    dropCommand.ExecuteReader();
                 }
                 catch (SqliteException exception)
                 {
