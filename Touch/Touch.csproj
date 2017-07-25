@@ -144,11 +144,17 @@
     <Compile Include="Views\Pages\StreetViewPage.xaml.cs">
       <DependentUpon>StreetViewPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\AboutControl.xaml.cs">
+      <DependentUpon>AboutControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\FolderSourceControl.xaml.cs">
+      <DependentUpon>FolderSourceControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\TitleBarControl.xaml.cs">
       <DependentUpon>TitleBarControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\TransparentBackgroundUserControl.xaml.cs">
-      <DependentUpon>TransparentBackgroundUserControl.xaml</DependentUpon>
+    <Compile Include="Views\UserControls\TransparentBackgroundControl.xaml.cs">
+      <DependentUpon>TransparentBackgroundControl.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -232,11 +238,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\UserControls\AboutControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\FolderSourceControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\UserControls\TitleBarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UserControls\TransparentBackgroundUserControl.xaml">
+    <Page Include="Views\UserControls\TransparentBackgroundControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

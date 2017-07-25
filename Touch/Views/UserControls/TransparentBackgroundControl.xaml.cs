@@ -9,12 +9,12 @@ using Windows.UI.Xaml.Hosting;
 namespace Touch.Views.UserControls
 {
     // ReSharper disable once RedundantExtendsListEntry
-    public sealed partial class TransparentBackgroundUserControl : UserControl
+    public sealed partial class TransparentBackgroundControl : UserControl
     {
         private Compositor _compositor;
         private SpriteVisual _hostSprite;
 
-        public TransparentBackgroundUserControl()
+        public TransparentBackgroundControl()
         {
             InitializeComponent();
             // 模糊效果

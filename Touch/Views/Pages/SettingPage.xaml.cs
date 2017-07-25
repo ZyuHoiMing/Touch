@@ -14,23 +14,10 @@ namespace Touch.Views.Pages
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class SettingPage : Page
     {
-        private FolderListViewModel _folderListViewModel;
-
         public SettingPage()
         {
             InitializeComponent();
             TitleBarControl.SetBackButtonVisibility(Visibility.Visible);
-            var package = Package.Current;
-            var name = package.DisplayName;
-            var version = package.Id.Version;
-            AppInfoText.Text = name + " " + $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
-        }
-
-        private async void SettingPage_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            _folderListViewModel = await FolderListViewModel.GetInstanceAsync();
-            SourceList.ItemsSource = _folderListViewModel.FolderViewModels;
-            SourceList.DataContext = _folderListViewModel;
         }
     }
 }

@@ -4,10 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="using:Touch.ViewModels"
     xmlns:userControls="using:Touch.Views.UserControls"
-    mc:Ignorable="d"
-    Loaded="SettingPage_OnLoaded">
+    mc:Ignorable="d">
 
     <Page.Transitions>
         <TransitionCollection>
@@ -16,7 +14,7 @@
     </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <userControls:TransparentBackgroundUserControl />
+        <userControls:TransparentBackgroundControl />
 
         <Grid>
             <Grid.RowDefinitions>
@@ -36,56 +34,11 @@
                     <Grid Background="White">
                         <ScrollViewer Padding="16" VerticalScrollBarVisibility="Auto">
                             <Grid>
-                                <!-- 文件夹 源 -->
                                 <StackPanel>
-                                    <TextBlock x:Uid="Source" Style="{ThemeResource TitleTextBlockStyle}" Margin="8" />
-                                    <TextBlock x:Uid="ListWhatFind" Margin="8" />
-                                    <ListView Name="SourceList" DataContext="{x:Bind _folderListViewModel}" Margin="0,8"
-                                              ItemsSource="{x:Bind _folderListViewModel.FolderViewModels, Mode=OneWay}"
-                                              SelectionMode="None" IsItemClickEnabled="True"
-                                              ItemClick="{x:Bind _folderListViewModel.OnItemClick}" HorizontalAlignment="Left">
-                                        <ListView.ItemContainerStyle>
-                                            <Style TargetType="ListViewItem">
-                                                <Setter Property="Padding" Value="0" />
-                                            </Style>
-                                        </ListView.ItemContainerStyle>
-
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate x:DataType="viewModels:FolderViewModel">
-                                                <RelativePanel Width="320">
-                                                    <FontIcon Name="IconText" Margin="8"
-                                                              Glyph="{x:Bind ItemSymbol, Mode=OneWay}"
-                                                              FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                              FontSize="24"
-                                                              RelativePanel.AlignVerticalCenterWithPanel="True"
-                                                              RelativePanel.AlignLeftWithPanel="True" />
-                                                    <TextBlock Margin="8" Text="{x:Bind FolderPath, Mode=OneWay}"
-                                                               RelativePanel.AlignVerticalCenterWithPanel="True"
-                                                               RelativePanel.RightOf="IconText"
-                                                               RelativePanel.LeftOf="DeleteButton"
-                                                               TextWrapping="Wrap" />
-                                                    <Button Name="DeleteButton" Width="48" Height="48"
-                                                            Style="{StaticResource ListButtonStyle}"
-                                                            RelativePanel.AlignVerticalCenterWithPanel="True"
-                                                            RelativePanel.AlignRightWithPanel="True"
-                                                            Visibility="{x:Bind IsDeleteVisibility, Mode=OneWay}"
-                                                            Command="{Binding ElementName=SourceList, Path=DataContext.DeleteCommand}"
-                                                            CommandParameter="{Binding}">
-                                                        <FontIcon
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center"
-                                                            Foreground="Gray"
-                                                            FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                            Glyph="{StaticResource Cancel}" />
-                                                    </Button>
-                                                </RelativePanel>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </ListView>
+                                    <!-- 文件夹 源 -->
+                                    <userControls:FolderSourceControl />
                                     <!-- 关于 -->
-                                    <TextBlock x:Uid="AboutApp" Style="{ThemeResource TitleTextBlockStyle}" Margin="8" />
-                                    <TextBlock Name="AppInfoText" Margin="8" />
-                                    <Button Name="SendFeedbackButton" x:Uid="SendFeedback" Margin="8" />
+                                    <userControls:AboutControl />
                                 </StackPanel>
                             </Grid>
                         </ScrollViewer>

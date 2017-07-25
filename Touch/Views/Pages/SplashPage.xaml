@@ -15,7 +15,7 @@
     </Page.Transitions>
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-        <userControls:TransparentBackgroundUserControl />
+        <userControls:TransparentBackgroundControl />
 
         <Canvas>
             <Image Name="ExtendedSplashImage" Source="ms-appx:///Assets/MySplashScreen.png" />

@@ -14,7 +14,7 @@
     </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <userControls:TransparentBackgroundUserControl />
+        <userControls:TransparentBackgroundControl />
         
         <Grid>
             <Grid.RowDefinitions>
