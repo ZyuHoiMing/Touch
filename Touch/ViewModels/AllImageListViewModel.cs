@@ -9,7 +9,7 @@ namespace Touch.ViewModels
     /// </summary>
     public class AllImageListViewModel : NotificationBase
     {
-        private ImageAllList _allImageList;
+        //private ImageAllList _allImageList;
 
         public IOrderedEnumerable<ImageMonthGroup> ImageMonthGroups { get; set; }
 
@@ -19,12 +19,12 @@ namespace Touch.ViewModels
         /// <returns></returns>
         public async Task RefreshAsync()
         {
-            _allImageList = await ImageAllList.GetInstanceAsync();
-            // 读取图片信息列表中的全部信息
-            var imageVms = _allImageList.List.Select(img => new MyImageViewModel(img)).ToList();
-            // 第二个函数是选择
-            ImageMonthGroups = imageVms.GroupBy(m => m.MonthYearDate, (key, list) => new ImageMonthGroup(key, list))
-                .OrderByDescending(m => m.Key);
+            //_allImageList = await ImageAllList.GetInstanceAsync();
+            //// 读取图片信息列表中的全部信息
+            //var imageVms = _allImageList.List.Select(img => new MyImageViewModel(img)).ToList();
+            //// 第二个函数是选择
+            //ImageMonthGroups = imageVms.GroupBy(m => m.MonthYearDate, (key, list) => new ImageMonthGroup(key, list))
+            //    .OrderByDescending(m => m.Key);
         }
     }
 }

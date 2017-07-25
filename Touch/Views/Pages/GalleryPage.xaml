@@ -78,8 +78,8 @@
                         <DataTemplate x:DataType="viewModels:MyImageViewModel">
                             <Grid SizeChanged="GridViewItem_SizeChanged" PointerEntered="GridViewItem_PointerEntered"
                                   PointerExited="GridViewItem_PointerExited">
-                                <Image VerticalAlignment="Center" Stretch="UniformToFill"
-                                       Source="{x:Bind Bitmap, Mode=OneWay}" />
+                                <!--<Image VerticalAlignment="Center" Stretch="UniformToFill"
+                                       Source="{x:Bind Bitmap, Mode=OneWay}" />-->
                                 <!-- 阴影动画 -->
                                 <interactivity:Interaction.Behaviors>
                                     <behaviors:Light Distance="500" AutomaticallyStart="True" />

@@ -28,21 +28,21 @@ namespace Touch.ViewModels
 
         public FolderListViewModel()
         {
-            _folderList = new FolderList();
-            _myFolderVms = new ObservableCollection<MyFolderViewModel>();
-            // 从数据库中加载数据，加到与list交互的VM中
-            foreach (var folder in _folderList.List)
-            {
-                var myFolderVm = new MyFolderViewModel(folder);
-                _myFolderVms.Add(myFolderVm);
-            }
-            // 最后一个添加文件夹选项
-            _myFolderVms.Add(new MyFolderViewModel
-            {
-                FolderPath = new ResourceLoader().GetString("AddFolder"),
-                ItemSymbol = Application.Current.Resources["Add"] as string,
-                IsDeleteVisibility = Visibility.Collapsed
-            });
+            //_folderList = new FolderList();
+            //_myFolderVms = new ObservableCollection<MyFolderViewModel>();
+            //// 从数据库中加载数据，加到与list交互的VM中
+            //foreach (var folder in _folderList.List)
+            //{
+            //    var myFolderVm = new MyFolderViewModel(folder);
+            //    _myFolderVms.Add(myFolderVm);
+            //}
+            //// 最后一个添加文件夹选项
+            //_myFolderVms.Add(new MyFolderViewModel
+            //{
+            //    FolderPath = new ResourceLoader().GetString("AddFolder"),
+            //    ItemSymbol = Application.Current.Resources["Add"] as string,
+            //    IsDeleteVisibility = Visibility.Collapsed
+            //});
         }
 
         /// <summary>

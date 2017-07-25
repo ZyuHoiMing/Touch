@@ -34,22 +34,22 @@ namespace Touch.ViewModels
             set { SetProperty(This.MemoryName, value, () => This.MemoryName = value); }
         }
 
-        /// <summary>
-        ///     回忆里包含的图片
-        /// </summary>
-        public List<ImageModel> Images
-        {
-            get { return This.Images; }
-            set { SetProperty(This.Images, value, () => This.Images = value); }
-        }
+        ///// <summary>
+        /////     回忆里包含的图片
+        ///// </summary>
+        //public List<ImageModel> Images
+        //{
+        //    get { return This.Images; }
+        //    set { SetProperty(This.Images, value, () => This.Images = value); }
+        //}
 
-        /// <summary>
-        ///     回忆图片里的第一个图片作为封面
-        /// </summary>
-        public BitmapImage Bitmap
-        {
-            get { return Images != null && Images.Count > 0 ? Images[0].Bitmap : null; }
-        }
+        ///// <summary>
+        /////     回忆图片里的第一个图片作为封面
+        ///// </summary>
+        //public BitmapImage Bitmap
+        //{
+        //    get { return Images != null && Images.Count > 0 ? Images[0].Bitmap : null; }
+        //}
 
         /// <summary>
         ///     添加新回忆按钮是否可见

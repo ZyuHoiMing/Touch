@@ -122,7 +122,7 @@ namespace Touch.Data
                 var selectCommand = new SqliteCommand
                 {
                     Connection = db,
-                    CommandText = "SELECT * FROM " + TableName + "WHERE " + FolderKeyNoName + "=@" + FolderKeyNoName
+                    CommandText = "SELECT * FROM " + TableName + " WHERE " + FolderKeyNoName + "=@" + FolderKeyNoName
                 };
                 selectCommand.Parameters.AddWithValue("@" + FolderKeyNoName, folderKeyNo);
                 try
@@ -229,7 +229,7 @@ namespace Touch.Data
                 var deleteCommand = new SqliteCommand
                 {
                     Connection = db,
-                    CommandText = "DELETE FROM " + TableName + " WHERE " + ImagePathName + "=@" + ImagePathName + ";"
+                    CommandText = "DELETE FROM " + TableName + " WHERE " + ImagePathName + "=@" + ImagePathName
                 };
                 deleteCommand.Parameters.AddWithValue("@" + ImagePathName, imagePath);
                 try
@@ -257,8 +257,7 @@ namespace Touch.Data
                 var deleteCommand = new SqliteCommand
                 {
                     Connection = db,
-                    CommandText = "DELETE FROM " + TableName + " WHERE " + FolderKeyNoName + "=@" + FolderKeyNoName +
-                                  ";"
+                    CommandText = "DELETE FROM " + TableName + " WHERE " + FolderKeyNoName + "=@" + FolderKeyNoName
                 };
                 deleteCommand.Parameters.AddWithValue("@" + FolderKeyNoName, folderKeyNo);
                 try

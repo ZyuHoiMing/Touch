@@ -48,7 +48,7 @@ namespace Touch.UnitTestProject.Data
             _databaseHelper.MemoryListDatabase.Create();
             for (var i = 0; i < 5; i++)
                 _databaseHelper.MemoryListDatabase.Insert("test_data_" + i);
-            for (var i = 0; i < 5; i += 2)
+            for (var i = 1; i <= 5; i += 2)
                 _databaseHelper.MemoryListDatabase.Delete(i);
             var query = _databaseHelper.MemoryListDatabase.GetQuery();
             var count = 1;

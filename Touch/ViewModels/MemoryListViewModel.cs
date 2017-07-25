@@ -4,8 +4,6 @@ using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Touch.Models;
-using Touch.Views.Dialogs;
-
 namespace Touch.ViewModels
 {
     /// <summary>
@@ -25,19 +23,19 @@ namespace Touch.ViewModels
 
         public MemoryListViewModel()
         {
-            _memoryList = new MemoryList();
-            _myMemoryVms = new ObservableCollection<MyMemoryViewModel>();
-            // 从数据库中加载数据，加到与list交互的VM中
-            foreach (var myMemory in _memoryList.List)
-            {
-                var myMemoryVm = new MyMemoryViewModel(myMemory);
-                _myMemoryVms.Add(myMemoryVm);
-            }
-            // 最后一个添加选项
-            _myMemoryVms.Add(new MyMemoryViewModel
-            {
-                IsAddVisibility = Visibility.Visible
-            });
+            //_memoryList = new MemoryList();
+            //_myMemoryVms = new ObservableCollection<MyMemoryViewModel>();
+            //// 从数据库中加载数据，加到与list交互的VM中
+            //foreach (var myMemory in _memoryList.List)
+            //{
+            //    var myMemoryVm = new MyMemoryViewModel(myMemory);
+            //    _myMemoryVms.Add(myMemoryVm);
+            //}
+            //// 最后一个添加选项
+            //_myMemoryVms.Add(new MyMemoryViewModel
+            //{
+            //    IsAddVisibility = Visibility.Visible
+            //});
         }
 
         /// <summary>
@@ -79,8 +77,8 @@ namespace Touch.ViewModels
             if (item.IsAddVisibility == Visibility.Visible)
             {
                 // 如果是添加新回忆的按钮
-                var dialog = new AddMemoryDialog(this);
-                await dialog.ShowAsync();
+                //var dialog = new AddMemoryDialog(this);
+                //await dialog.ShowAsync();
             }
             else
             {

@@ -81,8 +81,8 @@
                             <DataTemplate x:DataType="viewModels:MyMemoryViewModel">
                                 <Grid>
                                     <Border Background="#000000" Opacity="0.1" />
-                                    <Image VerticalAlignment="Center" Stretch="UniformToFill"
-                                           Source="{x:Bind Bitmap, Mode=OneWay}" />
+                                    <!--<Image VerticalAlignment="Center" Stretch="UniformToFill"
+                                           Source="{x:Bind Bitmap, Mode=OneWay}" />-->
                                     <FontIcon HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48"
                                               FontFamily="{StaticResource SymbolThemeFontFamily}"
                                               Glyph="{StaticResource Add}"

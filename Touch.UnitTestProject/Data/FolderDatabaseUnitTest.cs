@@ -36,7 +36,7 @@ namespace Touch.UnitTestProject.Data
             while (query.Read())
             {
                 Assert.AreEqual("test_data_" + count, query.GetString(1));
-                Assert.AreEqual("test_data_" + count, query.GetString(2));
+                Assert.AreEqual(count + "", query.GetString(2));
                 count++;
             }
         }
@@ -62,7 +62,7 @@ namespace Touch.UnitTestProject.Data
             while (query.Read())
             {
                 Assert.AreEqual("test_data_" + count, query.GetString(1));
-                Assert.AreEqual("test_data_" + count, query.GetString(2));
+                Assert.AreEqual(count + "", query.GetString(2));
                 count+=2;
             }
         }

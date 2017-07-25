@@ -61,14 +61,14 @@ namespace Touch.ViewModels
         /// </summary>
         public async void PrimaryButtonClick(string memoryName)
         {
-            var imageList = await ImageList.GetInstanceAsync(_images);
-            var myMemoryVm = new MyMemoryViewModel
-            {
-                KeyNo = -1,
-                MemoryName = memoryName,
-                Images = imageList.List
-            };
-            _memoryListVm.Add(myMemoryVm);
+            //var imageList = await ImageList.GetInstanceAsync(_images);
+            //var myMemoryVm = new MyMemoryViewModel
+            //{
+            //    KeyNo = -1,
+            //    MemoryName = memoryName,
+            //    Images = imageList.List
+            //};
+            //_memoryListVm.Add(myMemoryVm);
         }
     }
 }

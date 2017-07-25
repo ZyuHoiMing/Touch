@@ -121,9 +121,6 @@
     <Compile Include="ViewModels\MyMemoryViewModel.cs" />
     <Compile Include="ViewModels\StreetImageListViewModel.cs" />
     <Compile Include="ViewModels\ViewModelHelpers.cs" />
-    <Compile Include="Views\Dialogs\AddMemoryDialog.xaml.cs">
-      <DependentUpon>AddMemoryDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Pages\AlbumPage.xaml.cs">
       <DependentUpon>AlbumPage.xaml</DependentUpon>
     </Compile>
@@ -191,10 +188,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Page>
-    <Page Include="Views\Dialogs\AddMemoryDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\AlbumPage.xaml">
       <SubType>Designer</SubType>

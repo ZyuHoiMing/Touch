@@ -75,10 +75,10 @@ namespace Touch.Data
                     CommandText
                         = "SELECT " + ImageDatabase.TableName + ".* FROM "
                           + TableName + ", " + MemoryListDatabase.TableName + ", " + ImageDatabase.TableName
-                          + " WHERE " + TableName + "." + memoryKeyNo + " = " + MemoryListDatabase.TableName + "." +
-                          MemoryListDatabase.PrimaryKeyName + ", "
+                          + " WHERE " + TableName + "." + MemoryKeyNoName + " = " + MemoryListDatabase.TableName + "." +
+                          MemoryListDatabase.PrimaryKeyName + " and "
                           + TableName + "." + ImageKeyNoName + " = " + ImageDatabase.TableName + "." +
-                          ImageDatabase.PrimaryKeyName + ", "
+                          ImageDatabase.PrimaryKeyName + " and "
                           + MemoryKeyNoName + "=@" + MemoryKeyNoName
                 };
                 selectCommand.Parameters.AddWithValue("@" + MemoryKeyNoName, memoryKeyNo);
