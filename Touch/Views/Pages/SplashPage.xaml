@@ -4,12 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControls="using:Touch.Views.UserControls"
     mc:Ignorable="d"
     Loaded="Splash_OnLoaded">
 
     <Grid Background="{StaticResource PrimaryColor}">
+        <userControls:TransparentBackgroundUserControl />
+
         <Canvas>
-            <Image Name="ExtendedSplashImage" Source="ms-appx:///Assets/SplashScreen.png" />
+            <Image Name="ExtendedSplashImage" Source="ms-appx:///Assets/MySplashScreen.png" />
             <ProgressRing Name="SplashProgressRing" IsActive="True" Width="64" Height="64"
                           HorizontalAlignment="Center" Foreground="White" />
         </Canvas>
