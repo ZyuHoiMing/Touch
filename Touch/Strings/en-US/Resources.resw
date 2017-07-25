@@ -162,4 +162,7 @@
   <data name="Setting.Label" xml:space="preserve">
     <value>设置</value>
   </data>
+  <data name="SettingText.Text" xml:space="preserve">
+    <value>设置</value>
+  </data>
 </root>

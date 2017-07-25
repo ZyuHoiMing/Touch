@@ -6,6 +6,7 @@ using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Touch.Data;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -30,12 +31,6 @@ namespace Touch.Views.Pages
         public SplashPage(SplashScreen splashscreen)
         {
             InitializeComponent();
-
-            // 透明 title bar
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonBackgroundColor = Colors.Transparent;
-            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = true;
 
             // Listen for window resize events to reposition the extended splash screen image accordingly.
             // This is important to ensure that the extended splash screen is
@@ -82,6 +77,9 @@ namespace Touch.Views.Pages
 
         private async void Splash_OnLoaded(object sender, RoutedEventArgs e)
         {
+            // 初始化数据库
+            DatabaseHelper.GetInstance();
+
             await Task.Delay(1000);
 
             var rootFrame = Window.Current.Content as Frame;

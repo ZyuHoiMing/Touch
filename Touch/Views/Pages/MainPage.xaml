@@ -29,13 +29,13 @@
                     <CommandBar Background="Transparent">
                         <AppBarButton x:Uid="Refresh">
                             <AppBarButton.Icon>
-                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE895;" />
+                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{StaticResource Sync}" />
                             </AppBarButton.Icon>
                         </AppBarButton>
 
-                        <AppBarButton x:Uid="Setting">
+                        <AppBarButton x:Name="SettingButton" x:Uid="Setting">
                             <AppBarButton.Icon>
-                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE713;" />
+                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{StaticResource Settings}" />
                             </AppBarButton.Icon>
                         </AppBarButton>
                     </CommandBar>

@@ -1,4 +1,5 @@
 ﻿using Windows.ApplicationModel;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Touch.ViewModels;
 
@@ -17,9 +18,8 @@ namespace Touch.Views.Pages
         public SettingPage()
         {
             InitializeComponent();
-
             _folderListVm = new FolderListViewModel();
-
+            TitleBarControl.SetBackButtonVisibility(Visibility.Visible);
             var package = Package.Current;
             var name = package.DisplayName;
             var version = package.Id.Version;

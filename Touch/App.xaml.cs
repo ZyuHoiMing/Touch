@@ -5,6 +5,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Touch.Common;
 using Touch.Data;
 using Touch.Views.Pages;
 
@@ -24,10 +25,6 @@ namespace Touch
         {
             InitializeComponent();
             Suspending += OnSuspending;
-
-            // TODO 放在splash里
-            // 初始化数据库
-            DatabaseHelper.GetInstance();
         }
 
         /// <summary>
@@ -75,6 +72,9 @@ namespace Touch
                 rootFrame.Navigate(typeof(MainPage), e.Arguments);
             // Ensure the current window is active
             Window.Current.Activate();
+
+            // 设置透明TitleBar
+            TitleBarHelper.SetTransparentTitleBar();
         }
 
         /// <summary>

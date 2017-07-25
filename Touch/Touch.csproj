@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\TitleBarHelper.cs" />
     <Compile Include="Controls\BackDrop.cs" />
     <Compile Include="Data\DatabaseBase.cs" />
     <Compile Include="Data\DatabaseHelper.cs" />
