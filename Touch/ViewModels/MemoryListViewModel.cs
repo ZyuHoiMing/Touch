@@ -19,12 +19,12 @@ namespace Touch.ViewModels
         /// <summary>
         ///     与view交互的list
         /// </summary>
-        private ObservableCollection<MyMemoryViewModel> _myMemoryVms;
+        private ObservableCollection<MemoryViewModel> _myMemoryVms;
 
         /// <summary>
         ///     与view交互的list
         /// </summary>
-        public ObservableCollection<MyMemoryViewModel> MyMemoryVms
+        public ObservableCollection<MemoryViewModel> MyMemoryVms
         {
             get { return _myMemoryVms; }
             set { SetProperty(ref _myMemoryVms, value); }
@@ -33,7 +33,7 @@ namespace Touch.ViewModels
         /// <summary>
         ///     增加一条回忆
         /// </summary>
-        public void Add(MyMemoryViewModel myMemoryVm)
+        public void Add(MemoryViewModel myMemoryVm)
         {
             if (MyMemoryVms.Contains(myMemoryVm))
                 return;
@@ -44,7 +44,7 @@ namespace Touch.ViewModels
         /// <summary>
         ///     删除一个回忆
         /// </summary>
-        public void Delete(MyMemoryViewModel myMemoryVm)
+        public void Delete(MemoryViewModel myMemoryVm)
         {
             if (!MyMemoryVms.Contains(myMemoryVm))
                 return;
@@ -54,7 +54,7 @@ namespace Touch.ViewModels
 
         public async void OnItemClick(object sender, ItemClickEventArgs e)
         {
-            var item = e.ClickedItem as MyMemoryViewModel;
+            var item = e.ClickedItem as MemoryViewModel;
             if (item == null)
                 return;
             if (item.IsAddVisibility == Visibility.Visible)

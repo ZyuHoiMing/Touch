@@ -13,11 +13,6 @@ namespace Touch.Models
     public class ImageModel
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
-        /// <summary>
-        ///     图片文件
-        /// </summary>
-        private StorageFile _imageFile;
-
         private ImageModel(int folderKeyNo, string imagePath, string accessToken)
         {
             FolderKeyNo = folderKeyNo;
@@ -71,6 +66,11 @@ namespace Touch.Models
         public DateTime DateTaken { get; private set; }
 
         /// <summary>
+        ///     图片文件
+        /// </summary>
+        public StorageFile ImageFile { get; private set; }
+
+        /// <summary>
         ///     获得图片实例
         /// </summary>
         /// <param name="folderKeyNo">文件夹号</param>
@@ -81,12 +81,12 @@ namespace Touch.Models
         {
             var myImage = new ImageModel(folderKeyNo, imagePath, accessToken)
             {
-                _imageFile = await GetImageFile(accessToken)
+                ImageFile = await GetImageFile(accessToken)
             };
-            if (myImage._imageFile == null)
+            if (myImage.ImageFile == null)
                 return null;
-            var imageProperties = await myImage._imageFile.Properties.GetImagePropertiesAsync();
-            var basicProperties = await myImage._imageFile.GetBasicPropertiesAsync();
+            var imageProperties = await myImage.ImageFile.Properties.GetImagePropertiesAsync();
+            var basicProperties = await myImage.ImageFile.GetBasicPropertiesAsync();
             myImage.Width = imageProperties.Width;
             myImage.Height = myImage.Height;
             myImage.Latitude = imageProperties.Latitude;

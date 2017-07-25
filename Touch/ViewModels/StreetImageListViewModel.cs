@@ -15,14 +15,14 @@ namespace Touch.ViewModels
         //    new ImageModel {ImagePath = "ms-appx:///Assets/pic6.jpg"}
         //};
 
-        private ObservableCollection<MyImageViewModel> _myImageVms;
+        private ObservableCollection<ImageViewModel> _myImageVms;
 
         private int _selectedIndex;
 
         /// <summary>
         ///     与view交互的list
         /// </summary>
-        public ObservableCollection<MyImageViewModel> MyImageVms
+        public ObservableCollection<ImageViewModel> MyImageVms
         {
             get { return _myImageVms; }
             set { SetProperty(ref _myImageVms, value); }
@@ -46,7 +46,7 @@ namespace Touch.ViewModels
         /// <summary>
         ///     选中的imageVM
         /// </summary>
-        public MyImageViewModel SelectedPerson
+        public ImageViewModel SelectedPerson
         {
             get { return _selectedIndex >= 0 ? _myImageVms[_selectedIndex] : null; }
         }
