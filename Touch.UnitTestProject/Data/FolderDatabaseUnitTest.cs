@@ -28,9 +28,7 @@ namespace Touch.UnitTestProject.Data
             _databaseHelper.FolderDatabase.Drop();
             _databaseHelper.FolderDatabase.Create();
             for (var i = 0; i < 3; i++)
-            {
                 _databaseHelper.FolderDatabase.Insert("test_data_" + i, i.ToString());
-            }
             var query = _databaseHelper.FolderDatabase.GetQuery();
             var count = 0;
             while (query.Read())
@@ -50,20 +48,16 @@ namespace Touch.UnitTestProject.Data
             _databaseHelper.FolderDatabase.Drop();
             _databaseHelper.FolderDatabase.Create();
             for (var i = 0; i < 5; i++)
-            {
                 _databaseHelper.FolderDatabase.Insert("test_data_" + i, i.ToString());
-            }
-            for (var i = 0; i < 5; i+=2)
-            {
+            for (var i = 0; i < 5; i += 2)
                 _databaseHelper.FolderDatabase.Delete("test_data_" + i);
-            }
             var query = _databaseHelper.FolderDatabase.GetQuery();
             var count = 1;
             while (query.Read())
             {
                 Assert.AreEqual("test_data_" + count, query.GetString(1));
                 Assert.AreEqual(count + "", query.GetString(2));
-                count+=2;
+                count += 2;
             }
         }
     }

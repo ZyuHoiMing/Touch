@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Touch.Models;
 
 namespace Touch.ViewModels
 {

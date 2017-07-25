@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Touch.Models;
+﻿using System.Collections.ObjectModel;
 
 namespace Touch.ViewModels
 {
@@ -20,19 +18,6 @@ namespace Touch.ViewModels
         private ObservableCollection<MyImageViewModel> _myImageVms;
 
         private int _selectedIndex;
-
-        public StreetImageListViewModel()
-        {
-            //_myImageVms = new ObservableCollection<MyImageViewModel>();
-            //// 从数据库中加载数据，加到与list交互的VM中
-            //foreach (var myImage in _myImages)
-            //{
-            //    var myImageVm = new MyImageViewModel(myImage);
-            //    _myImageVms.Add(myImageVm);
-            //}
-            //// 默认选中中间的照片
-            //SelectedIndex = _myImageVms.Count / 2;
-        }
 
         /// <summary>
         ///     与view交互的list

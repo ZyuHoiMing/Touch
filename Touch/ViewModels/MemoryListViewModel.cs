@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Touch.Models;
+
 namespace Touch.ViewModels
 {
     /// <summary>
@@ -20,23 +20,6 @@ namespace Touch.ViewModels
         ///     与view交互的list
         /// </summary>
         private ObservableCollection<MyMemoryViewModel> _myMemoryVms;
-
-        public MemoryListViewModel()
-        {
-            //_memoryList = new MemoryList();
-            //_myMemoryVms = new ObservableCollection<MyMemoryViewModel>();
-            //// 从数据库中加载数据，加到与list交互的VM中
-            //foreach (var myMemory in _memoryList.List)
-            //{
-            //    var myMemoryVm = new MyMemoryViewModel(myMemory);
-            //    _myMemoryVms.Add(myMemoryVm);
-            //}
-            //// 最后一个添加选项
-            //_myMemoryVms.Add(new MyMemoryViewModel
-            //{
-            //    IsAddVisibility = Visibility.Visible
-            //});
-        }
 
         /// <summary>
         ///     与view交互的list

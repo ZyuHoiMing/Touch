@@ -15,7 +15,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <userControls:TransparentBackgroundControl />
-        
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
@@ -24,18 +24,21 @@
 
             <userControls:TitleBarControl Grid.Row="0" Margin="0,0,0,8" />
 
-            <Pivot Grid.Row="1" Style="{StaticResource MyPivotStyle}" ItemContainerStyle="{StaticResource MyPivotItemStyle}">
+            <Pivot Grid.Row="1" Style="{StaticResource MyPivotStyle}"
+                   ItemContainerStyle="{StaticResource MyPivotItemStyle}">
                 <Pivot.RightHeader>
                     <CommandBar Background="Transparent">
                         <AppBarButton x:Uid="Refresh">
                             <AppBarButton.Icon>
-                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{StaticResource Sync}" />
+                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                          Glyph="{StaticResource Sync}" />
                             </AppBarButton.Icon>
                         </AppBarButton>
 
                         <AppBarButton x:Name="SettingButton" x:Uid="Setting">
                             <AppBarButton.Icon>
-                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{StaticResource Settings}" />
+                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                          Glyph="{StaticResource Settings}" />
                             </AppBarButton.Icon>
                         </AppBarButton>
                     </CommandBar>
@@ -43,17 +46,17 @@
 
                 <PivotItem>
                     <PivotItem.Header>
-                        <TextBlock x:Uid="Gallery"/>
+                        <TextBlock x:Uid="Gallery" />
                     </PivotItem.Header>
-                    
+
                     <Grid Background="White">
                         <TextBlock Text="Content of pivot item 1." />
                     </Grid>
                 </PivotItem>
                 <PivotItem>
                     <PivotItem.Header>
-                        <TextBlock x:Uid="Memory"/>
-                        
+                        <TextBlock x:Uid="Memory" />
+
                     </PivotItem.Header>
                     <Grid Background="White">
                         <TextBlock Text="Content of pivot item 1." />
@@ -61,9 +64,9 @@
                 </PivotItem>
                 <PivotItem>
                     <PivotItem.Header>
-                        <TextBlock x:Uid="Album"/>
+                        <TextBlock x:Uid="Album" />
                     </PivotItem.Header>
-                    
+
                     <Grid Background="White">
                         <TextBlock Text="Content of pivot item 1." />
                     </Grid>

@@ -11,8 +11,10 @@
     <Grid Height="32" Background="Transparent">
         <Rectangle x:Name="TitleBar" Fill="Transparent" />
         <StackPanel Orientation="Horizontal">
-            <Button x:Name="BackButton" Width="48" VerticalAlignment="Stretch" Style="{StaticResource ListButtonStyle}" Visibility="Collapsed">
-                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{StaticResource Back}" FontSize="12" Foreground="Black" />
+            <Button x:Name="BackButton" Width="48" VerticalAlignment="Stretch" Style="{StaticResource ListButtonStyle}"
+                    Visibility="Collapsed">
+                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{StaticResource Back}"
+                          FontSize="12" Foreground="Black" />
             </Button>
             <TextBlock x:Name="TitleText" Margin="8" Style="{StaticResource CaptionTextBlockStyle}" />
         </StackPanel>

@@ -6,7 +6,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Touch.Common;
-using Touch.Data;
 using Touch.Views.Pages;
 
 namespace Touch

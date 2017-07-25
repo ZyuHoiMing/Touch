@@ -1,8 +1,4 @@
-﻿using System;
-using Windows.UI.Xaml.Media.Imaging;
-using Touch.Models;
-
-namespace Touch.ViewModels
+﻿namespace Touch.ViewModels
 {
     /// <summary>
     ///     图片ViewModel

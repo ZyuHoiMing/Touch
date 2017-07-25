@@ -82,23 +82,17 @@ namespace Touch.UnitTestProject.Data
                 _databaseHelper.MemoryListDatabase.Insert("memory_name_" + i);
             // 创建回忆图片
             for (var i = 1; i <= 5; i++)
-            {
                 _databaseHelper.MemoryImageDatabase.Insert(i, i + 1);
-            }
             // 删除回忆
             for (var i = 1; i <= 3; i++)
-            {
                 _databaseHelper.MemoryImageDatabase.Delete(i);
-            }
             // 读取回忆图片
             for (var i = 1; i <= 3; i++)
             {
                 var query = _databaseHelper.MemoryImageDatabase.GetQuery(i);
                 while (query.Read())
-                {
                     // 应该不存在
                     Assert.AreEqual(1, 2);
-                }
             }
             for (var i = 4; i <= 5; i++)
             {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
-using Touch.Models;
 
 namespace Touch.ViewModels
 {
@@ -13,6 +12,11 @@ namespace Touch.ViewModels
     public class AddMemoryViewModel : NotificationBase
     {
         /// <summary>
+        ///     回忆列表
+        /// </summary>
+        private readonly MemoryListViewModel _memoryListVm;
+
+        /// <summary>
         ///     图片个数
         /// </summary>
         private int _imageNum;
@@ -21,11 +25,6 @@ namespace Touch.ViewModels
         ///     图片list
         /// </summary>
         private IReadOnlyList<StorageFile> _images;
-
-        /// <summary>
-        ///     回忆列表
-        /// </summary>
-        private readonly MemoryListViewModel _memoryListVm;
 
         public AddMemoryViewModel(MemoryListViewModel memoryListVm)
         {

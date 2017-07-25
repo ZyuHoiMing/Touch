@@ -27,7 +27,7 @@ namespace Touch.Views.UserControls
         }
 
         /// <summary>
-        /// 设置是否显示返回按钮
+        ///     设置是否显示返回按钮
         /// </summary>
         /// <param name="visibility">是否显示</param>
         public void SetBackButtonVisibility(Visibility visibility)
