@@ -87,7 +87,7 @@ namespace Touch.Views.Pages
             var rootFrame = Window.Current.Content as Frame;
             if (rootFrame == null)
                 return;
-            //rootFrame.Navigate(typeof(MainPage));
+            rootFrame.Navigate(typeof(MainPage));
             Window.Current.Content = rootFrame;
         }
     }

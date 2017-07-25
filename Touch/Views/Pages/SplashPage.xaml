@@ -8,7 +8,13 @@
     mc:Ignorable="d"
     Loaded="Splash_OnLoaded">
 
-    <Grid Background="{StaticResource PrimaryColor}">
+    <Page.Transitions>
+        <TransitionCollection>
+            <EntranceThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
         <userControls:TransparentBackgroundUserControl />
 
         <Canvas>

@@ -37,7 +37,8 @@ namespace Touch.Views.UserControls
             _hostSprite.Size = new Vector2((float) panel.ActualWidth, (float) panel.ActualHeight);
 
             ElementCompositionPreview.SetElementChildVisual(panel, _hostSprite);
-            _hostSprite.Brush = _compositor.CreateHostBackdropBrush();
+            // TODO 14393
+            // _hostSprite.Brush = _compositor.CreateHostBackdropBrush();
         }
     }
 }
