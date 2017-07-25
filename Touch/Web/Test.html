@@ -23,10 +23,10 @@
     var directionsService;
     var isGetPath = false;
     var marker2;
+    var waypts;
 
     function initialize() {
-        var test = document.getElementById('test');
-        var test2 = document.getElementById('test2');
+        waypts = [];
         map = new google.maps.Map(document.getElementById('street-view'),
             {
                 center: { lat: 22.277782, lng: 114.170241 },
@@ -75,19 +75,27 @@
     }
 
     function getClick() {
-        if (isClick)
+        if (isClick) {
+            isClick = false;
             return 'click';
+        }
         else return 'not click';
     }
-
+    function addWayPoint(wayLat,wayLng){
+        waypts.push({
+            location: { lat: wayLat, lng: wayLng },
+            stopover: true
+        });
+    }
     function getPath(startLat, startLng, endLat, endLng) {
         directionsService.route({
-                origin: { lat: startLat, lng: startLng },
-                destination: { lat: endLat, lng: endLng },
-                provideRouteAlternatives: false,
-                travelMode: 'WALKING',
-                unitSystem: google.maps.UnitSystem.IMPERIAL
-            },
+            origin: { lat: startLat, lng: startLng },
+            destination: { lat: endLat, lng: endLng },
+            provideRouteAlternatives: false,
+            travelMode: 'WALKING',
+            waypoints: waypts,
+            unitSystem: google.maps.UnitSystem.IMPERIAL
+        },
             function(result, status) {
                 if (status == 'OK') {
                     directionsDisplay.setDirections(result); //地图中显示
@@ -103,7 +111,7 @@
                     pathArray = result.routes[short].overview_path;
                     isGetPath = true;
                 } else {
-                    console.log('No Route');
+                    console.log('no route');
                 }
             });
     }
@@ -116,38 +124,38 @@
         return pathPoint;
     }
 
-    function testIsGetPath() {
-        if (isGetPath) return 'Y';
-        else return 'N';
-    }
+        function testIsGetPath() {
+            if (isGetPath) return 'Y';
+            else return 'N';
+        }
 
-    function setIsGetPath() {
-        isGetPath = false;
-    }
+        function setIsGetPath() {
+            isGetPath = false;
+        }
 
-    function setMarkHeading() {
-        var heading2 = google.maps.geometry.spherical.computeHeading(panorama.location.latLng, marker2.getPosition());
-        //panorama.setPov({ heading: heading2, pitch: 0 });
-        var difference = heading2 - panorama.getPov().heading;
-        if (Math.abs(difference) > 180) {
-            if (difference > 0) {
-                difference = -(360 - difference);
-            } else {
-                difference = 360 + difference;
+        function setMarkHeading() {
+            var heading2 = google.maps.geometry.spherical.computeHeading(panorama.location.latLng, marker2.getPosition());
+            //panorama.setPov({ heading: heading2, pitch: 0 });
+            var difference = heading2 - panorama.getPov().heading;
+            if (Math.abs(difference) > 180) {
+                if (difference > 0) {
+                    difference = -(360 - difference);
+                } else {
+                    difference = 360 + difference;
+                }
+            }
+            difference = difference / 5;
+            cot = 0;
+            changeHeadingAnimation(difference);
+        }
+
+        function changeHeadingAnimation(heading) {
+            panorama.setPov({ heading: panorama.getPov().heading + heading, pitch: 0 });
+            if (cot < 4) {
+                cot++;
+                var t = setTimeout("changeHeadingAnimation(" + heading + ")", 200);
             }
         }
-        difference = difference / 5;
-        cot = 0;
-        changeHeadingAnimation(difference);
-    }
-
-    function changeHeadingAnimation(heading) {
-        panorama.setPov({ heading: panorama.getPov().heading + heading, pitch: 0 });
-        if (cot < 4) {
-            cot++;
-            var t = setTimeout("changeHeadingAnimation(" + heading + ")", 200);
-        }
-    }
 </script>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2XzGNuHQLEd1AGjAnYkC6EoREiS_K09Q&callback=initialize">

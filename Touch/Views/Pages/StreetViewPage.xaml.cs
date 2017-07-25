@@ -13,6 +13,7 @@ using Touch.Models;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
+
 namespace Touch.Views.Pages
 {
     /// <summary>
@@ -22,6 +23,7 @@ namespace Touch.Views.Pages
     public sealed partial class StreetViewPage : Page
     {
         private readonly List<Point> _pathPoint = new List<Point>();
+        private List<Point> _wayPoint = new List<Point>();
         //
         public StreetViewPage()
         {
@@ -103,14 +105,46 @@ namespace Touch.Views.Pages
             }, delay);
         }
 
-        //得到路径
+        //得到路径插入中途点
         private async void InvokeJsGetPath()
         {
-            string[] script =
+            string[] script = new string [1];
+            for (int i = 1; i < _wayPoint.Count-1; ++i)
             {
-                "getPath(40.75682475,-73.9883746666667, 40.7583754444444,-73.9851607777778)"
-            };
-            var result = await Webview1.InvokeScriptAsync("eval", script);
+                script[0] += "addWayPoint("+_wayPoint.ElementAt(i).X+", "+ _wayPoint.ElementAt(i).Y+ ");";
+            }
+            script[0] +="getPath("+ _wayPoint.ElementAt(0).X + ","+ _wayPoint.ElementAt(0).Y + ","
+                + _wayPoint.ElementAt(_wayPoint.Count - 1).X + ","+ _wayPoint.ElementAt(_wayPoint.Count - 1).Y + ");";
+            //var result = await Webview1.InvokeScriptAsync("eval", script);
+            //var result=await Webview1.InvokeScriptAsync("eval", new string[] { "addWayPoint(40.7548751831055, -73.9842300415039);" });
+            string result=await Webview1.InvokeScriptAsync("eval", script);
+            //Debug.WriteLine("rerutn"+result);
+        }
+
+        //在路径中加入
+        private void insertWayPoint()
+        {
+            for (int i = 1; i < _wayPoint.Count; ++i)
+            {
+                double x = _wayPoint[i].X * 1000;
+                double y = _wayPoint[i].Y * 1000;
+                double tmpx = _pathPoint[0].X * 1000;
+                double tmpy = _pathPoint[0].Y * 1000;
+                double tmp=(tmpx - x)* (tmpx - x)+ (tmpy - y) * (tmpy - y);
+                //Debug.WriteLine(tmp);
+                for (int j = 1; j < _pathPoint.Count; ++j)
+                {
+                    tmpx = _pathPoint[j].X * 1000;
+                    tmpy = _pathPoint[j].Y * 1000;
+                    double newtmp = (tmpx - x) * (tmpx - x) + (tmpy - y) * (tmpy - y);
+                    if (newtmp < tmp) tmp = newtmp;
+                    else {
+                        _pathPoint.Insert(j - 1, _wayPoint[i]); break;
+                    }
+                    //Debug.WriteLine(newtmp);
+                }
+            }
+            //Debug.WriteLine("finish insert");
         }
 
         //测试得到路径
@@ -136,7 +170,7 @@ namespace Touch.Views.Pages
                                 var pathArray = tmp.Split('\n');
                                 for (var i = 0; i < pathArray.Length; ++i)
                                 {
-                                    Debug.WriteLine(pathArray[i]);
+                                    //Debug.WriteLine(pathArray[i]);
                                     if (pathArray[i].Length >= 3)
                                     {
                                         var pointArray = pathArray[i].Split(',');
@@ -145,6 +179,8 @@ namespace Touch.Views.Pages
                                         _pathPoint.Add(new Point(lat, lng));
                                     }
                                 }
+                                //嵌入_waypoint点
+                                insertWayPoint();
                                 startWalk();
                             }
                             else
@@ -157,7 +193,7 @@ namespace Touch.Views.Pages
         }
 
         //测试点击label
-        private void TestClick()
+        private void TestClick(int nodeNum, int wayNum)
         {
             var completed = false;
             var delay = TimeSpan.FromSeconds(0.5);
@@ -173,16 +209,16 @@ namespace Touch.Views.Pages
                             string[] args = {"getClick()"};
                             var result = await Webview1.InvokeScriptAsync("eval", args);
                             if (result == "click")
-                                ShowPath(1);
+                                ShowPath(nodeNum,wayNum);
                             else
-                                TestClick();
+                                TestClick(nodeNum,wayNum);
                             // Timer completed.
                         });
                 });
         }
 
         //显示路径
-        private void ShowPath(int nodeNum)
+        private void ShowPath(int nodeNum,int wayNum)
         {
             var completed = false;
             var delay = TimeSpan.FromSeconds(2);
@@ -194,6 +230,7 @@ namespace Touch.Views.Pages
                 //
                 var x = _pathPoint.ElementAt(nodeNum).X.ToString(CultureInfo.CurrentCulture);
                 var y = _pathPoint.ElementAt(nodeNum).Y.ToString(CultureInfo.CurrentCulture);
+                //Debug.WriteLine("get point"+tmp);
                 Debug.WriteLine(x);
                 Debug.WriteLine(y);
                 var pathpov = new PathPov(_pathPoint.ElementAt(nodeNum - 1), _pathPoint.ElementAt(nodeNum));
@@ -216,12 +253,17 @@ namespace Touch.Views.Pages
                         if (!completed) return;
                         if (nodeNum == _pathPoint.Count - 1)
                         {
-                            Debug.WriteLine("finish");
+                            //Debug.WriteLine("finish");
                             InvokeJsHeading(nodeNum);
+                        }
+                        else if (wayNum< _wayPoint.Count - 1 && _wayPoint[wayNum] == _pathPoint[nodeNum])
+                        {
+                            InvokeJsHeading(nodeNum);
+                            TestClick(nodeNum + 1, wayNum + 1);
                         }
                         else
                         {
-                            ShowPath(nodeNum+1);
+                            ShowPath(nodeNum + 1, wayNum);
                         }
                     });
             });
@@ -247,7 +289,7 @@ namespace Touch.Views.Pages
                 {
                     if (_pathPoint.Count > 1)
                     {
-                        TestClick();
+                        TestClick(1,1);
                     }
                     else
                     {
@@ -264,6 +306,9 @@ namespace Touch.Views.Pages
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            _wayPoint.Add(new Point(40.75682475, -73.9883746666667));
+            _wayPoint.Add(new Point(40.754874, -73.984228));
+            _wayPoint.Add(new Point(40.7583754444444,- 73.9851607777778));
             InvokeJsGetPath();
         }
     }
