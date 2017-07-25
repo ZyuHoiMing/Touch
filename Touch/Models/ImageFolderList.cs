@@ -94,8 +94,8 @@ namespace Touch.Models
         {
             if (ImageModels.Contains(imageModel))
                 return;
-            ImageModels.Add(imageModel);
             _databaseHelper.ImageDatabase.Insert(imageModel.FolderKeyNo, imageModel.ImagePath, imageModel.AccessToken);
+            ImageModels.Add(imageModel);
         }
     }
 }

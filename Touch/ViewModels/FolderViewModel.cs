@@ -1,4 +1,9 @@
-﻿using Windows.UI.Xaml;
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Storage.AccessCache;
+using Windows.UI.Xaml;
 using Touch.Models;
 
 namespace Touch.ViewModels
@@ -7,11 +12,20 @@ namespace Touch.ViewModels
     ///     文件夹ViewModel
     /// </summary>
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode() public class MyFolderViewModel : NotificationBase<MyFolder>
-    public class MyFolderViewModel : NotificationBase<FolderModel>
+    public class FolderViewModel : NotificationBase<FolderModel>
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
-        public MyFolderViewModel(FolderModel myFolder = null) : base(myFolder)
+        public FolderViewModel(FolderModel myFolder = null) : base(myFolder)
         {
+        }
+
+        /// <summary>
+        ///     文件夹编号
+        /// </summary>
+        public int KeyNo
+        {
+            get { return This.KeyNo; }
+            set { SetProperty(This.KeyNo, value, () => This.KeyNo = value); }
         }
 
         /// <summary>
@@ -45,8 +59,24 @@ namespace Touch.ViewModels
         public override bool Equals(object obj)
 #pragma warning restore 659
         {
-            var o = obj as MyFolderViewModel;
+            var o = obj as FolderViewModel;
             return o != null && o.FolderPath == FolderPath;
+        }
+
+        /// <summary>
+        ///     获取文件夹
+        /// </summary>
+        /// <returns>存在返回Folder，不存在返回null</returns>
+        public async Task<StorageFolder> GetFolder()
+        {
+            try
+            {
+                return await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(AccessToken);
+            }
+            catch (FileNotFoundException)
+            {
+                return null;
+            }
         }
     }
 }

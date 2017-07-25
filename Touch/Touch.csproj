@@ -117,7 +117,7 @@
     <Compile Include="ViewModels\HamburgerMenuItemViewModel.cs" />
     <Compile Include="ViewModels\ImageMonthGroup.cs" />
     <Compile Include="ViewModels\MemoryListViewModel.cs" />
-    <Compile Include="ViewModels\MyFolderViewModel.cs" />
+    <Compile Include="ViewModels\FolderViewModel.cs" />
     <Compile Include="ViewModels\MyImageViewModel.cs" />
     <Compile Include="ViewModels\MyMemoryViewModel.cs" />
     <Compile Include="ViewModels\StreetImageListViewModel.cs" />

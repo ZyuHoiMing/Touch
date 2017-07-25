@@ -70,8 +70,8 @@ namespace Touch.Models
         {
             if (FolderModels.Contains(folderModel))
                 return;
-            FolderModels.Add(folderModel);
             _databaseHelper.FolderDatabase.Insert(folderModel.FolderPath, folderModel.AccessToken);
+            FolderModels.Add(folderModel);
         }
 
         /// <summary>
@@ -80,14 +80,15 @@ namespace Touch.Models
         /// <param name="folderModel">文件夹</param>
         public void Delete(FolderModel folderModel)
         {
-            if (!FolderModels.Contains(folderModel)) return;
-            FolderModels.Remove(folderModel);
+            if (!FolderModels.Contains(folderModel))
+                return;
             // 从图片数据库中删掉这个文件夹相关的图片
             _databaseHelper.ImageDatabase.Delete(folderModel.KeyNo);
             // 从数据库里删掉这个文件夹
             _databaseHelper.FolderDatabase.Delete(folderModel.FolderPath);
             // 从使用list里删掉这个文件夹
             StorageApplicationPermissions.FutureAccessList.Remove(folderModel.AccessToken);
+            FolderModels.Remove(folderModel);
         }
     }
 }

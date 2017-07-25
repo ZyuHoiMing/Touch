@@ -1,4 +1,5 @@
-﻿using Windows.ApplicationModel;
+﻿using System.Diagnostics;
+using Windows.ApplicationModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Touch.ViewModels;
@@ -13,17 +14,23 @@ namespace Touch.Views.Pages
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class SettingPage : Page
     {
-        private readonly FolderListViewModel _folderListVm;
+        private FolderListViewModel _folderListViewModel;
 
         public SettingPage()
         {
             InitializeComponent();
-            _folderListVm = new FolderListViewModel();
             TitleBarControl.SetBackButtonVisibility(Visibility.Visible);
             var package = Package.Current;
             var name = package.DisplayName;
             var version = package.Id.Version;
             AppInfoText.Text = name + " " + $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+        }
+
+        private async void SettingPage_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            _folderListViewModel = await FolderListViewModel.GetInstanceAsync();
+            SourceList.ItemsSource = _folderListViewModel.FolderViewModels;
+            SourceList.DataContext = _folderListViewModel;
         }
     }
 }

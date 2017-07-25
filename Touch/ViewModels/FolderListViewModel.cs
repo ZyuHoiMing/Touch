@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage.AccessCache;
@@ -19,39 +20,16 @@ namespace Touch.ViewModels
         /// <summary>
         ///     与data交互的model，文件夹路径list
         /// </summary>
-        private readonly FolderList _folderList;
+        private FolderList _folderList;
 
         /// <summary>
         ///     与view交互的list
         /// </summary>
-        private ObservableCollection<MyFolderViewModel> _myFolderVms;
+        public ObservableCollection<FolderViewModel> FolderViewModels;
 
-        public FolderListViewModel()
+        private FolderListViewModel()
         {
-            //_folderList = new FolderList();
-            //_myFolderVms = new ObservableCollection<MyFolderViewModel>();
-            //// 从数据库中加载数据，加到与list交互的VM中
-            //foreach (var folder in _folderList.List)
-            //{
-            //    var myFolderVm = new MyFolderViewModel(folder);
-            //    _myFolderVms.Add(myFolderVm);
-            //}
-            //// 最后一个添加文件夹选项
-            //_myFolderVms.Add(new MyFolderViewModel
-            //{
-            //    FolderPath = new ResourceLoader().GetString("AddFolder"),
-            //    ItemSymbol = Application.Current.Resources["Add"] as string,
-            //    IsDeleteVisibility = Visibility.Collapsed
-            //});
-        }
-
-        /// <summary>
-        ///     与view交互的list
-        /// </summary>
-        public ObservableCollection<MyFolderViewModel> MyFolderVms
-        {
-            get { return _myFolderVms; }
-            set { SetProperty(ref _myFolderVms, value); }
+            FolderViewModels = new ObservableCollection<FolderViewModel>();
         }
 
         /// <summary>
@@ -59,34 +37,65 @@ namespace Touch.ViewModels
         /// </summary>
         public ICommand DeleteCommand
         {
-            get { return new CommandHandler(myFolderVm => Delete(myFolderVm as MyFolderViewModel)); }
+            get { return new CommandHandler(folderViewModel => Delete(folderViewModel as FolderViewModel)); }
+        }
+
+        /// <summary>
+        ///     异步获取实例
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<FolderListViewModel> GetInstanceAsync()
+        {
+            var folderListViewModel = new FolderListViewModel
+            {
+                _folderList = await FolderList.GetInstanceAsync()
+            };
+            // 从数据库中加载数据，加到与list交互的VM中
+            foreach (var folder in folderListViewModel._folderList.FolderModels)
+            {
+                var folderViewModel = new FolderViewModel(folder);
+                folderListViewModel.FolderViewModels.Add(folderViewModel);
+            }
+            // 最后一个添加文件夹选项
+            folderListViewModel.FolderViewModels.Add(new FolderViewModel
+            {
+                FolderPath = new ResourceLoader().GetString("AddFolder"),
+                ItemSymbol = Application.Current.Resources["Add"] as string,
+                IsDeleteVisibility = Visibility.Collapsed
+            });
+            return folderListViewModel;
         }
 
         /// <summary>
         ///     增加一个文件夹路径记录
         /// </summary>
-        public void Add(MyFolderViewModel myFolderVm)
+        public void Add(FolderViewModel folderViewModel)
         {
-            if (MyFolderVms.Contains(myFolderVm))
+            if (FolderViewModels.Contains(folderViewModel))
                 return;
-            MyFolderVms.Insert(MyFolderVms.Count - 1, myFolderVm);
-            _folderList.Add(myFolderVm);
+            _folderList.Add(folderViewModel);
+            FolderViewModels.Insert(FolderViewModels.Count - 1, folderViewModel);
         }
 
         /// <summary>
         ///     删除一个文件夹路径记录
         /// </summary>
-        public void Delete(MyFolderViewModel myFolderVm)
+        public void Delete(FolderViewModel folderViewModel)
         {
-            if (!MyFolderVms.Contains(myFolderVm))
+            if (!FolderViewModels.Contains(folderViewModel))
                 return;
-            MyFolderVms.Remove(myFolderVm);
-            _folderList.Delete(myFolderVm);
+            _folderList.Delete(folderViewModel);
+            FolderViewModels.Remove(folderViewModel);
         }
 
+        /// <summary>
+        ///     item点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public async void OnItemClick(object sender, ItemClickEventArgs e)
         {
-            var item = e.ClickedItem as MyFolderViewModel;
+            var item = e.ClickedItem as FolderViewModel;
             if (item == null)
                 return;
             if (item.IsDeleteVisibility == Visibility.Collapsed)
@@ -98,7 +107,7 @@ namespace Touch.ViewModels
                 if (folder == null)
                     return;
                 var accessToken = StorageApplicationPermissions.FutureAccessList.Add(folder);
-                item = new MyFolderViewModel
+                item = new FolderViewModel
                 {
                     FolderPath = folder.Path,
                     AccessToken = accessToken
@@ -107,7 +116,7 @@ namespace Touch.ViewModels
             }
             else
             {
-                var folder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(item.AccessToken);
+                var folder = await item.GetFolder();
                 await Launcher.LaunchFolderAsync(folder);
             }
         }
