@@ -114,35 +114,35 @@ namespace Touch.Data
             }
         }
 
-        ///// <summary>
-        /////     返回最新记录的keyNo
-        ///// </summary>
-        ///// <returns>key号</returns>
-        //public int GetLastKeyNo()
-        //{
-        //    var keyNo = -1;
-        //    using (var db = new SqliteConnection("Filename=" + DbFileName))
-        //    {
-        //        db.Open();
-        //        var selectCommand = new SqliteCommand
-        //        {
-        //            Connection = db,
-        //            CommandText = "SELECT " + PrimaryKeyName + " from " + TableName
-        //        };
-        //        try
-        //        {
-        //            var query = selectCommand.ExecuteReader();
-        //            while (query.Read())
-        //                keyNo = query.GetInt32(0);
-        //        }
-        //        catch (SqliteException exception)
-        //        {
-        //            Debug.WriteLine(exception);
-        //            throw;
-        //        }
-        //        db.Close();
-        //    }
-        //    return keyNo;
-        //}
+        /// <summary>
+        ///     返回最新记录的keyNo
+        /// </summary>
+        /// <returns>key号</returns>
+        public int GetLastKeyNo()
+        {
+            var keyNo = 0;
+            using (var db = new SqliteConnection("Filename=" + DbFileName))
+            {
+                db.Open();
+                var selectCommand = new SqliteCommand
+                {
+                    Connection = db,
+                    CommandText = "SELECT " + PrimaryKeyName + " from " + TableName
+                };
+                try
+                {
+                    var query = selectCommand.ExecuteReader();
+                    while (query.Read())
+                        keyNo = query.GetInt32(0);
+                }
+                catch (SqliteException exception)
+                {
+                    Debug.WriteLine(exception);
+                    throw;
+                }
+                db.Close();
+            }
+            return keyNo;
+        }
     }
 }

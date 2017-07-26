@@ -5,8 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:viewModels="using:Touch.ViewModels"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
@@ -23,7 +21,7 @@
             </SemanticZoom.Resources>
             <SemanticZoom.ZoomedInView>
                 <!--Padding="96,64,96,0" ItemsSource="{x:Bind _allImageListVm.MyImageVms, Mode=OneWay}"-->
-                <controls:AdaptiveGridView Name="GridView" ItemsSource="{x:Bind Cvs.View, Mode=OneWay}"
+                <controls:AdaptiveGridView Name="GalleryGridView" ItemsSource="{x:Bind Cvs.View, Mode=OneWay}"
                                            SelectionMode="None" IsItemClickEnabled="True"
                                            ItemHeight="300" DesiredWidth="400"
                                            animations:ReorderGridAnimation.Duration="250">
@@ -33,10 +31,6 @@
                                   PointerExited="GridViewItem_PointerExited">
                                 <Image VerticalAlignment="Center" Stretch="UniformToFill"
                                        Source="{x:Bind ThumbnailImage, Mode=OneWay}" />
-                                <!-- 阴影动画 -->
-                                <interactivity:Interaction.Behaviors>
-                                    <behaviors:Light Distance="500" AutomaticallyStart="True" />
-                                </interactivity:Interaction.Behaviors>
                             </Grid>
                         </DataTemplate>
                     </controls:AdaptiveGridView.ItemTemplate>

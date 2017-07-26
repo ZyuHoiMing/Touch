@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Media.Imaging;
 using Touch.Models;
 
 namespace Touch.ViewModels
@@ -11,6 +13,11 @@ namespace Touch.ViewModels
     public class MemoryViewModel : NotificationBase<MemoryModel>
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
+        /// <summary>
+        ///     回忆里包含的图片
+        /// </summary>
+        private List<ImageViewModel> _imageViewModels;
+
         private MemoryViewModel(MemoryModel memoryModel = null) : base(memoryModel)
         {
         }
@@ -36,12 +43,21 @@ namespace Touch.ViewModels
         /// <summary>
         ///     回忆图片里的第一个图片作为封面
         /// </summary>
-        public ImageViewModel CoverImage { get; private set; }
+        public BitmapImage CoverImage { get; set; }
 
         /// <summary>
         ///     回忆里包含的图片
         /// </summary>
-        public List<ImageViewModel> ImageViewModels { get; private set; }
+        public List<ImageViewModel> ImageViewModels
+        {
+            get { return _imageViewModels; }
+            set
+            {
+                _imageViewModels = value;
+                var imageModels = value.Select(imageViewModel => imageViewModel.ImageModel).ToList();
+                This.ImageModels = imageModels;
+            }
+        }
 
         /// <summary>
         ///     异步获取实例
@@ -51,16 +67,16 @@ namespace Touch.ViewModels
         {
             var memoryViewModel = new MemoryViewModel(memoryModel)
             {
-                ImageViewModels = new List<ImageViewModel>()
+                _imageViewModels = new List<ImageViewModel>()
             };
             if (memoryModel?.ImageModels == null)
                 return memoryViewModel;
             foreach (var imageModel in memoryModel.ImageModels)
             {
                 var imageViewModel = await ImageViewModel.GetInstanceAsync(imageModel);
-                memoryViewModel.ImageViewModels.Add(imageViewModel);
+                memoryViewModel._imageViewModels.Add(imageViewModel);
             }
-            memoryViewModel.CoverImage = memoryViewModel.ImageViewModels[0];
+            memoryViewModel.CoverImage = memoryViewModel._imageViewModels[0].ThumbnailImage;
             return memoryViewModel;
         }
 

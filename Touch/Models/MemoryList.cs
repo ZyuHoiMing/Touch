@@ -20,6 +20,11 @@ namespace Touch.Models
         /// </summary>
         public readonly List<MemoryModel> MemoryModels;
 
+        /// <summary>
+        /// 最新key号
+        /// </summary>
+        public int LastKeyNo => _databaseHelper.MemoryListDatabase.GetLastKeyNo();
+
         private MemoryList()
         {
             _databaseHelper = DatabaseHelper.GetInstance();
@@ -43,13 +48,13 @@ namespace Touch.Models
                 var imageQuery = memoryList._databaseHelper.MemoryImageDatabase.GetQuery(memoryKeyNo);
                 while (imageQuery.Read())
                 {
-                    var imagePath = query.GetString(2);
-                    var accessToken = query.GetString(3);
-                    var imageModel = await ImageModel.GetInstanceAsync(query.GetInt32(1), imagePath, accessToken);
+                    var imagePath = imageQuery.GetString(2);
+                    var accessToken = imageQuery.GetString(3);
+                    var imageModel = await ImageModel.GetInstanceAsync(imageQuery.GetInt32(1), imagePath, accessToken);
                     // 查下这个图片还在不在
                     if (imageModel != null)
                     {
-                        imageModel.KeyNo = query.GetInt32(0);
+                        imageModel.KeyNo = imageQuery.GetInt32(0);
                         imageModels.Add(imageModel);
                     }
                     else

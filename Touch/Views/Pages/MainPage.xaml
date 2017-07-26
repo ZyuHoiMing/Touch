@@ -36,6 +36,7 @@
                             </AppBarButton.Icon>
                         </AppBarButton>
 
+                        <!-- TODO 切换标签才显示 -->
                         <AppBarButton x:Name="CreateMemoryButton" x:Uid="CreateMemory">
                             <AppBarButton.Icon>
                                 <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
@@ -67,7 +68,7 @@
 
                     </PivotItem.Header>
                     <Grid Background="White">
-                        <TextBlock Text="Content of pivot item 1." />
+                        <userControls:MemoryGridViewControl x:Name="MemoryGridViewControl"  />
                     </Grid>
                 </PivotItem>
                 <PivotItem>

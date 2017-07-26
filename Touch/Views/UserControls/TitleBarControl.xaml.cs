@@ -20,9 +20,7 @@ namespace Touch.Views.UserControls
             BackButton.Click += (sender, args) =>
             {
                 var rootFrame = Window.Current.Content as Frame;
-                if (rootFrame == null)
-                    return;
-                rootFrame.GoBack();
+                rootFrame?.GoBack();
             };
         }
 

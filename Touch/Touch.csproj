@@ -148,6 +148,9 @@
     <Compile Include="Views\UserControls\GalleryGridViewControl.xaml.cs">
       <DependentUpon>GalleryGridViewControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\MemoryGridViewControl.xaml.cs">
+      <DependentUpon>MemoryGridViewControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\TitleBarControl.xaml.cs">
       <DependentUpon>TitleBarControl.xaml</DependentUpon>
     </Compile>
@@ -241,6 +244,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\GalleryGridViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\MemoryGridViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

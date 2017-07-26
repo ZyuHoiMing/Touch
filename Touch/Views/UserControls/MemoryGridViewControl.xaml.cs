@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Numerics;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -19,67 +16,31 @@ using Touch.ViewModels;
 namespace Touch.Views.UserControls
 {
     // ReSharper disable once RedundantExtendsListEntry
-    public sealed partial class GalleryGridViewControl : UserControl
+    public sealed partial class MemoryGridViewControl : UserControl
     {
-        private GalleryImageListViewModel _galleryImageListViewModel;
+        /// <summary>
+        /// 回忆VM
+        /// </summary>
+        public MemoryListViewModel MemoryListView;
         private bool _isLoaded;
 
-        public GalleryGridViewControl()
+        public MemoryGridViewControl()
         {
             InitializeComponent();
             _isLoaded = false;
         }
 
-        /// <summary>
-        ///     选中的viewmodels
-        /// </summary>
-        public List<ImageViewModel> SelectedImageViewModels
-            => GalleryGridView.SelectedItems.Cast<ImageViewModel>().ToList();
-
-        /// <summary>
-        ///     刷新图库
-        /// </summary>
-        public async Task RefreshAsync()
-        {
-            if (_galleryImageListViewModel == null)
-                return;
-            Debug.WriteLine("RefreshAsync---" + "_galleryImageListViewModel.RefreshFolderListAsync()");
-            await _galleryImageListViewModel.RefreshFolderListAsync();
-            Debug.WriteLine("RefreshAsync---" + "_galleryImageListViewModel.RefreshImageListAsync()");
-            await _galleryImageListViewModel.RefreshImageListAsync();
-            Debug.WriteLine("RefreshAsync---" + "Cvs.Source");
-            Cvs.Source = _galleryImageListViewModel.ImageMonthGroups;
-        }
-
-        /// <summary>
-        ///     把gridview设置为多选
-        /// </summary>
-        public void SetGridViewMultipleSelection()
-        {
-            GalleryGridView.SelectionMode = ListViewSelectionMode.Multiple;
-            GalleryGridView.IsItemClickEnabled = false;
-        }
-
-        /// <summary>
-        ///     把gridview设置为点击
-        /// </summary>
-        public void SetGridViewClickable()
-        {
-            GalleryGridView.SelectionMode = ListViewSelectionMode.None;
-            GalleryGridView.IsItemClickEnabled = true;
-        }
-
-        private async void GalleryGridViewControl_OnLoading(FrameworkElement sender, object args)
+        private async void MemoryGridViewControl_OnLoaded(object sender, RoutedEventArgs e)
         {
             if (_isLoaded)
                 return;
-            Debug.WriteLine("GalleryGridViewControl_OnLoading---" + "GalleryImageListViewModel.GetInstanceAsync()");
-            _galleryImageListViewModel = await GalleryImageListViewModel.GetInstanceAsync();
-            Debug.WriteLine("GalleryGridViewControl_OnLoading---" + "Cvs.Source");
-            Cvs.Source = _galleryImageListViewModel.ImageMonthGroups;
+            MemoryListView = await MemoryListViewModel.GetInstanceAsync();
+            MemoryGridView.ItemsSource = MemoryListView.MemoryViewModels;
             _isLoaded = true;
+            Debug.WriteLine("MemoryGridViewControl_OnLoaded");
         }
 
+        // TODO 可以复用
         /// <summary>
         ///     item大小变化时需要对内容裁剪
         /// </summary>
