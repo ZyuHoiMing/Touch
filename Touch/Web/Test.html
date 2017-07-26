@@ -40,7 +40,9 @@
         panorama.setVisible(false);
         panorama.setOptions({ linksControl: false, });
     }
-
+    function streetShowEnd() {
+        panorama.setVisible(false);
+    }
     function insertMark(markLat, markLng, num) {
         var imgPath;
         if (num === 0) {
@@ -55,7 +57,7 @@
             // The origin for this image is (0, 0).
             origin: new google.maps.Point(0, 0), //全景位置
             // The anchor for this image is the base of the flagpole at (0, 32).
-            anchor: new google.maps.Point(100, 400), //高度
+            anchor: new google.maps.Point(100, 500), //高度
             scaledSize: new google.maps.Size(300, 300),
             //labelOrigin: new google.maps.Point(100, 100)
         };
@@ -133,7 +135,6 @@
     function setIsGetPath() {
         isGetPath = false;
     }
-
     function setMarkHeading() {
         var heading2 = google.maps.geometry.spherical.computeHeading(panorama.location.latLng, marker2.getPosition());
         //panorama.setPov({ heading: heading2, pitch: 0 });
