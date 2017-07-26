@@ -33,7 +33,9 @@ namespace Touch.Views.UserControls
         ///     选中的viewmodels
         /// </summary>
         public List<ImageViewModel> SelectedImageViewModels
-            => GalleryGridView.SelectedItems.Cast<ImageViewModel>().ToList();
+        {
+            get { return GalleryGridView.SelectedItems.Cast<ImageViewModel>().ToList(); }
+        }
 
         /// <summary>
         ///     刷新图库
