@@ -28,6 +28,7 @@ namespace Touch.Views.Pages
 
         private List<Point> _wayPoint = new List<Point>();
 
+        private List<int> _insertWayNum = new List<int>();
         //
         public StreetViewPage()
         {
@@ -41,95 +42,6 @@ namespace Touch.Views.Pages
             }*/
             var uri = new Uri("ms-appx-web:///Web/Test.html");
             Webview1.Navigate(uri);
-            //var test = new List<ImageViewModel>();
-            //ImageViewModel tmp = new ImageViewModel();
-            //tmp.DateTaken = new DateTime(2016, 09, 01, 15, 45, 03);
-            //tmp.Latitude = 40.8074377777778;
-            //tmp.Longitude =-73.9615143611111;
-            //test.Add(tmp);
-
-
-            //ImageViewModel tmp3 = new ImageViewModel();
-            //tmp3.DateTaken = new DateTime(2016, 09, 02, 11, 40, 47);
-            //tmp3.Latitude = 40.8074971666667;
-            //tmp3.Longitude = -73.9622030555556;
-            //test.Add(tmp3);
-
-            //ImageViewModel tmp2 = new ImageViewModel();
-            //tmp2.DateTaken = new DateTime(2016, 09, 01, 19, 19, 46);
-            //tmp2.Latitude = 40.8074971666667;
-            //tmp2.Longitude = -73.9622030555556;
-            //test.Add(tmp2);
-
-            //ImageViewModel tmp4 = new ImageViewModel();
-            //tmp4.DateTaken = new DateTime(2016, 09, 02, 12, 47, 18);
-            //tmp4.Latitude = 40.7583754444444 ;
-            //tmp4.Longitude =- 73.9851607777778;
-            //test.Add(tmp4);
-
-            //ImageViewModel tmp5 = new ImageViewModel();
-            //tmp5.DateTaken = new DateTime(2016, 09, 02, 12, 59, 39);
-            //tmp5.Latitude = 40.75682475 ;
-            //tmp5.Longitude =- 73.9883746666667;
-            //test.Add(tmp5);
-
-            //ImageViewModel tmp6 = new ImageViewModel();
-            //tmp6.DateTaken = new DateTime(2016, 09, 02, 15, 18, 57);
-            //tmp6.Latitude = 40.7566056666667 ;
-            //tmp6.Longitude =- 73.9884400555556;
-            //test.Add(tmp6);
-
-            //ImageViewModel tmp7 = new ImageViewModel();
-            //tmp7.DateTaken = new DateTime(2016, 09, 02, 15, 49, 23);
-            //tmp7.Latitude = 40.7487146666667;
-            //tmp7.Longitude = - 73.9845638055556;
-            //test.Add(tmp7);
-
-            //ImageViewModel tmp8 = new ImageViewModel();
-            //tmp8.DateTaken = new DateTime(2016, 09, 02, 15, 49, 31);
-            //tmp8.Latitude = 40.7430319722222 ;
-            //tmp8.Longitude =- 73.9880073611111;
-            //test.Add(tmp8);
-
-            //ImageViewModel tmp9 = new ImageViewModel();
-            //tmp9.DateTaken = new DateTime(2016, 09, 02, 16, 58, 31);
-            //tmp9.Latitude = 40.7430855277778 ;
-            //tmp9.Longitude =- 73.9879168333333;
-            //test.Add(tmp9);
-
-            //ImageViewModel tmp10 = new ImageViewModel();
-            //tmp10.DateTaken = new DateTime(2016, 09, 02, 17, 32, 18);
-            //tmp10.Latitude = 40.7484751944444;
-            //tmp10.Longitude = - 73.9847475555556;
-            //test.Add(tmp10);
-
-            //ImageViewModel tmp11 = new ImageViewModel();
-            //tmp11.DateTaken = new DateTime(2016, 09, 04, 12, 11, 01);
-            //tmp11.Latitude = 40.7482575555556 ;
-            //tmp11.Longitude =- 73.9857225555556;
-            //test.Add(tmp11);
-
-            //ImageViewModel tmp12 = new ImageViewModel();
-            //tmp12.DateTaken = new DateTime(2016, 09, 05, 13, 35, 15);
-            //tmp12.Latitude = 40.7406280833333;
-            //tmp12.Longitude = - 73.9931034722222;
-            //test.Add(tmp12);
-
-            //ImageViewModel tmp13 = new ImageViewModel();
-            //tmp13.DateTaken = new DateTime(2016, 09, 05, 16, 34, 32);
-            //tmp13.Latitude = 40.7823715555556 ;
-            //tmp13.Longitude =- 73.9740036944444;
-            //test.Add(tmp13);
-
-            //ImageViewModel tmp14 = new ImageViewModel();
-            //tmp14.DateTaken = new DateTime(2016, 09, 08, 11, 07, 55);
-            //tmp14.Latitude = 40.7815460555556 ;
-            //tmp14.Longitude =- 73.9749867777778;
-            //test.Add(tmp14);
-
-            //var photoClustering = new PhotoClustering(test);
-            //_wayPoint = photoClustering.getPhotoClustering();
-            //Debug.WriteLine("run");
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -138,7 +50,6 @@ namespace Touch.Views.Pages
             _test = e.Parameter as List<ImageViewModel>;
             var photoClustering = new PhotoClustering(_test);
             _wayPoint = photoClustering.GetPhotoClustering();
-            Debug.WriteLine("run");
         }
 
         private async void InvokeJsStart(string x, string y)
@@ -162,6 +73,10 @@ namespace Touch.Views.Pages
             });
         }
 
+        private async void InvokeJsEnd()
+        {
+            await Webview1.InvokeScriptAsync("eval", new[] { "streetShowEnd()" });
+        }
         //嵌入移动
         private async void InvokeJsMove(string x, string y, string heading)
         {
@@ -222,14 +137,16 @@ namespace Touch.Views.Pages
         //在路径中加入
         private void InsertWayPoint()
         {
-            for (var i = 1; i < _wayPoint.Count; ++i)
+           // Debug.WriteLine("insert Point");
+            for (var i = 1; i < _wayPoint.Count-1; ++i)
             {
+               // Debug.WriteLine(_wayPoint.ElementAt(i));
                 var x = _wayPoint[i].X * 1000;
                 var y = _wayPoint[i].Y * 1000;
                 var tmpx = _pathPoint[0].X * 1000;
                 var tmpy = _pathPoint[0].Y * 1000;
+                int numI=0;
                 var tmp = (tmpx - x) * (tmpx - x) + (tmpy - y) * (tmpy - y);
-                //Debug.WriteLine(tmp);
                 for (var j = 1; j < _pathPoint.Count; ++j)
                 {
                     tmpx = _pathPoint[j].X * 1000;
@@ -238,16 +155,16 @@ namespace Touch.Views.Pages
                     if (newtmp < tmp)
                     {
                         tmp = newtmp;
+                        numI = j;
                     }
-                    else
-                    {
-                        _pathPoint.Insert(j - 1, _wayPoint[i]);
-                        break;
-                    }
-                    //Debug.WriteLine(newtmp);
                 }
+                //Debug.WriteLine(numI);
+                _pathPoint.Insert(numI, _wayPoint[i]);
+                //_insertWayNum.Add(numI);
             }
-            //Debug.WriteLine("finish insert");
+            /* Debug.WriteLine("finish insert");
+            for (int i = 0; i < _insertWayNum.Count; ++i)
+                Debug.WriteLine(_insertWayNum.ElementAt(i));*/
         }
 
         //测试得到路径
@@ -271,19 +188,40 @@ namespace Touch.Views.Pages
                                 await Webview1.InvokeScriptAsync("eval", new[] {"setIsGetPath()"});
                                 var tmp = await Webview1.InvokeScriptAsync("eval", new[] {"getPathPoint()"});
                                 var pathArray = tmp.Split('\n');
-                                if (pathArray.Length > 100)
+                                //Debug.WriteLine("path point length" + pathArray.Length);
+                                HashSet<int> deletePoint = new HashSet<int>();//稀疏掉的数组
+                                if (pathArray.Length > 80) //稀疏点
                                 {
-                                }
-                                foreach (var t in pathArray)
-                                    if (t.Length >= 3)
+                                    double interval=pathArray.Length /((pathArray.Length - 80 + 1)*1.0);
+                                    double cot = interval;
+                                    while (cot < pathArray.Length)
                                     {
-                                        var pointArray = t.Split(',');
+                                        deletePoint.Add((int)cot);
+                                        cot += interval;
+                                    }
+                                    if (deletePoint.Contains(pathArray.Length)) deletePoint.Remove(pathArray.Length);
+                                 }
+                                int cotNum=0;
+                                for (int i = 0; i < pathArray.Length; ++i)
+                                {
+                                    if (cotNum < deletePoint.Count && deletePoint.ElementAt(cotNum) == i)
+                                    {
+                                        cotNum++;
+                                        continue;
+                                    }
+                                    if (pathArray[i].Length >= 3)
+                                    {
+                                        var pointArray = pathArray[i].Split(',');
                                         var lat = Convert.ToDouble(pointArray[0]);
                                         var lng = Convert.ToDouble(pointArray[1]);
                                         _pathPoint.Add(new Point(lat, lng));
                                     }
+                                }
+                                //Debug.WriteLine("path point length(after relax)" + _pathPoint.Count);
+                                //for (int i = 0; i < _pathPoint.Count; ++i) Debug.WriteLine(_pathPoint.ElementAt(i));
                                 //嵌入_waypoint点
                                 InsertWayPoint();
+                                for (int i = 0; i < _pathPoint.Count; ++i) Debug.WriteLine(i+" "+_pathPoint.ElementAt(i));
                                 StartWalk();
                             }
                             else
@@ -356,11 +294,13 @@ namespace Touch.Views.Pages
                         if (!completed) return;
                         if (nodeNum == _pathPoint.Count - 1)
                         {
-                            //Debug.WriteLine("finish");
+                            Debug.WriteLine("finish");
                             InvokeJsHeading(nodeNum);
+                            //InvokeJsEnd();
                         }
                         else if (wayNum < _wayPoint.Count - 1 && _wayPoint[wayNum] == _pathPoint[nodeNum])
                         {
+                            Debug.WriteLine("touch here");
                             InvokeJsHeading(nodeNum);
                             TestClick(nodeNum + 1, wayNum + 1);
                         }
@@ -405,9 +345,6 @@ namespace Touch.Views.Pages
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            /*_wayPoint.Add(new Point(40.75682475, -73.9883746666667));
-            _wayPoint.Add(new Point(40.754874, -73.984228));
-            _wayPoint.Add(new Point(40.7583754444444,- 73.9851607777778));*/
             InvokeJsGetPath();
         }
     }

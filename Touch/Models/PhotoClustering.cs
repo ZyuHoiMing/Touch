@@ -48,9 +48,11 @@ namespace Touch.Models
         {
             var path = new List<Point>();
             for (var i = 0; i < _photoPath.Count; ++i) //去掉没有经纬度的图片
+            {
                 if (!(_photoPath.ElementAt(i).Latitude.HasValue && _photoPath.ElementAt(i).Longitude.HasValue))
                     _photoPath.RemoveAt(i);
-            // Debug.WriteLine(_photoPath.ElementAt(i).Latitude.ToString() + _photoPath.ElementAt(i).Longitude.ToString());
+                //Debug.WriteLine(_photoPath.ElementAt(i).Latitude.ToString() + _photoPath.ElementAt(i).Longitude.ToString());
+            }
             for (var i = 0; i < _photoPath.Count; ++i)
                 if (!_vis[i])
                 {
