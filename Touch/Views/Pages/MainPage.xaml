@@ -25,23 +25,32 @@
 
             <userControls:TitleBarControl Grid.Row="0" Margin="0,0,0,8" />
 
-            <Pivot Grid.Row="1" Style="{StaticResource MyPivotStyle}"
+            <Pivot x:Name="MainPivot" Grid.Row="1" Style="{StaticResource MyPivotStyle}"
                    ItemContainerStyle="{StaticResource MyPivotItemStyle}">
                 <Pivot.RightHeader>
                     <CommandBar Background="Transparent">
                         <AppBarButton x:Name="RefreshButton" x:Uid="Refresh">
                             <AppBarButton.Icon>
-                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                          Glyph="{StaticResource Sync}" />
+                                <FontIcon x:Name="RefreshIcon" FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                          Glyph="{StaticResource Sync}"/>
                             </AppBarButton.Icon>
+                            <AppBarButton.Transitions>
+                                <TransitionCollection>
+                                    <AddDeleteThemeTransition />
+                                </TransitionCollection>
+                            </AppBarButton.Transitions>
                         </AppBarButton>
 
-                        <!-- TODO 切换标签才显示 -->
                         <AppBarButton x:Name="CreateMemoryButton" x:Uid="CreateMemory">
                             <AppBarButton.Icon>
                                 <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
                                           Glyph="{StaticResource Add}" />
                             </AppBarButton.Icon>
+                            <AppBarButton.Transitions>
+                                <TransitionCollection>
+                                    <AddDeleteThemeTransition />
+                                </TransitionCollection>
+                            </AppBarButton.Transitions>
                         </AppBarButton>
 
                         <AppBarButton x:Name="SettingButton" x:Uid="Setting">
@@ -49,6 +58,11 @@
                                 <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
                                           Glyph="{StaticResource Settings}" />
                             </AppBarButton.Icon>
+                            <AppBarButton.Transitions>
+                                <TransitionCollection>
+                                    <AddDeleteThemeTransition />
+                                </TransitionCollection>
+                            </AppBarButton.Transitions>
                         </AppBarButton>
                     </CommandBar>
                 </Pivot.RightHeader>

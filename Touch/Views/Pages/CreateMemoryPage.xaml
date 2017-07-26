@@ -33,6 +33,11 @@
                                 <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
                                           Glyph="{StaticResource Accept}" />
                             </AppBarButton.Icon>
+                            <AppBarButton.Transitions>
+                                <TransitionCollection>
+                                    <AddDeleteThemeTransition />
+                                </TransitionCollection>
+                            </AppBarButton.Transitions>
                         </AppBarButton>
 
                         <AppBarButton x:Name="CancelButton" x:Uid="Cancel">
@@ -40,6 +45,11 @@
                                 <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
                                           Glyph="{StaticResource Cancel}" />
                             </AppBarButton.Icon>
+                            <AppBarButton.Transitions>
+                                <TransitionCollection>
+                                    <AddDeleteThemeTransition />
+                                </TransitionCollection>
+                            </AppBarButton.Transitions>
                         </AppBarButton>
                     </CommandBar>
                 </Pivot.RightHeader>
