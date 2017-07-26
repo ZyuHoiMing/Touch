@@ -5,19 +5,39 @@ using Microsoft.Data.Sqlite.Internal;
 namespace Touch.Data
 {
     /// <summary>
-    ///     数据库的通用配置
+    ///     所有数据库集合
     /// </summary>
-    public static class DatabaseHelper
+    public class DatabaseHelper
     {
         /// <summary>
         ///     数据库文件名
         /// </summary>
-        public const string DbFileName = "TouchSQLite.db";
+        private const string DbFileName = "TouchSQLite.db";
+
+        private static DatabaseHelper _uniqueInstance;
+        private static readonly object Locker = new object();
 
         /// <summary>
-        ///     初始化数据库，并为所有数据库创建表
+        ///     文件夹 数据库
         /// </summary>
-        public static void InitDb()
+        public readonly FolderDatabase FolderDatabase;
+
+        /// <summary>
+        ///     图片 数据库
+        /// </summary>
+        public readonly ImageDatabase ImageDatabase;
+
+        /// <summary>
+        ///     回忆里的图片 数据库
+        /// </summary>
+        public readonly MemoryImageDatabase MemoryImageDatabase;
+
+        /// <summary>
+        ///     回忆列表 数据库
+        /// </summary>
+        public readonly MemoryListDatabase MemoryListDatabase;
+
+        private DatabaseHelper()
         {
             // 初始化数据库
             try
@@ -29,10 +49,32 @@ namespace Touch.Data
             {
                 Debug.WriteLine(exception);
             }
-            // 存储文件夹路径的
+            FolderDatabase = new FolderDatabase(DbFileName);
             FolderDatabase.Create();
+            ImageDatabase = new ImageDatabase(DbFileName);
+            ImageDatabase.Create();
+            MemoryListDatabase = new MemoryListDatabase(DbFileName);
             MemoryListDatabase.Create();
+            MemoryImageDatabase = new MemoryImageDatabase(DbFileName);
             MemoryImageDatabase.Create();
+        }
+
+        /// <summary>
+        ///     获得一个内存数据库的实例（单例）
+        /// </summary>
+        /// <returns></returns>
+        public static DatabaseHelper GetInstance()
+        {
+            if (_uniqueInstance != null)
+                return _uniqueInstance;
+            lock (Locker)
+            {
+                // 如果类的实例不存在则创建，否则直接返回
+                if (_uniqueInstance == null)
+                    // ReSharper disable once PossibleMultipleWriteAccessInDoubleCheckLocking
+                    _uniqueInstance = new DatabaseHelper();
+            }
+            return _uniqueInstance;
         }
     }
 }

@@ -7,9 +7,11 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/Style.xaml" />
-                <ResourceDictionary Source="Styles/Template.xaml" />
-                <ResourceDictionary Source="Styles/Mdl2.xaml" />
+                <ResourceDictionary Source="ResourceDictionaries/ColorDictionary.xaml" />
+                <ResourceDictionary Source="ResourceDictionaries/DimentionDictionary.xaml" />
+                <ResourceDictionary Source="ResourceDictionaries/Mdl2.xaml" />
+                <ResourceDictionary Source="ResourceDictionaries/StyleDictionary.xaml" />
+                <ResourceDictionary Source="ResourceDictionaries/TemplateDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

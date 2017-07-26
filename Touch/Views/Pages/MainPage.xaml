@@ -4,9 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="using:Touch.ViewModels"
-    xmlns:pages="using:Touch.Views.Pages"
-    mc:Ignorable="d">
+    xmlns:userControls="using:Touch.Views.UserControls"
+    mc:Ignorable="d"
+    NavigationCacheMode="Enabled">
 
     <Page.Transitions>
         <TransitionCollection>
@@ -14,87 +14,71 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Page.Resources>
-        <DataTemplate x:DataType="viewModels:HamburgerMenuItemViewModel" x:Key="HamburgerMenuDataTemplate">
-            <StackPanel Orientation="Horizontal">
-                <FontIcon Style="{StaticResource HambugerMenuSymbolIcon}" Glyph="{x:Bind Glyph}"
-                          FontFamily="{StaticResource SymbolThemeFontFamily}" />
-                <TextBlock Style="{StaticResource HambugerMenuText}" Text="{x:Bind Text}" />
-            </StackPanel>
-        </DataTemplate>
-    </Page.Resources>
-
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <!-- 控制hamburger根据窗口大小自动显示隐藏-->
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="MainPageSplitView.DisplayMode" Value="Overlay" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="MainPageSplitView.DisplayMode" Value="CompactInline" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+        <userControls:TransparentBackgroundControl />
 
-        <SplitView Name="MainPageSplitView" DisplayMode="CompactInline" Style="{StaticResource HambugerMenu}">
-            <!-- Pane 对应 Hamburger Menu -->
-            <SplitView.Pane>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-                    <StackPanel Grid.Row="0" Background="{StaticResource PrimaryColor}">
-                        <!-- 左上角的hamburger显示隐藏按钮 -->
-                        <Button Name="HambugerMenuButton" Height="48" Width="48" FontSize="16" Foreground="White"
-                                Content="{StaticResource Hamburger}"
-                                FontFamily="{StaticResource SymbolThemeFontFamily}" Background="Transparent" />
-                    </StackPanel>
+            <userControls:TitleBarControl Grid.Row="0" Margin="0,0,0,8" />
 
-                    <ListView Name="HambugerMenuPrimaryList" Grid.Row="1"
-                              RelativePanel.AlignTopWith="HambugerMenuButton"
-                              SelectionMode="None" IsItemClickEnabled="True"
-                              ItemTemplate="{StaticResource HamburgerMenuDataTemplate}">
-                        <viewModels:HamburgerMenuItemViewModel x:Uid="Gallery" Glyph="{StaticResource BrowsePhotos}"
-                                                               Page="pages:GalleryPage" />
-                        <viewModels:HamburgerMenuItemViewModel x:Uid="Album" Glyph="{StaticResource BulletedList}"
-                                                               Page="pages:AlbumPage" />
-                        <viewModels:HamburgerMenuItemViewModel Glyph="{StaticResource BrowsePhotos}" Text="测试"
-                                                               Page="pages:StreetGalleryPage" />
-                        <viewModels:HamburgerMenuItemViewModel Glyph="{StaticResource BrowsePhotos}" Text="街景"
-                                                               Page="pages:StreetViewPage" />
-                    </ListView>
+            <Pivot Grid.Row="1" Style="{StaticResource MyPivotStyle}"
+                   ItemContainerStyle="{StaticResource MyPivotItemStyle}">
+                <Pivot.RightHeader>
+                    <CommandBar Background="Transparent">
+                        <AppBarButton x:Name="RefreshButton" x:Uid="Refresh">
+                            <AppBarButton.Icon>
+                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                          Glyph="{StaticResource Sync}" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
 
-                    <Rectangle Grid.Row="2" RelativePanel.AlignTopWith="HambugerMenuSecondaryList" Height="2"
-                               Fill="LightGray" />
+                        <!-- TODO 切换标签才显示 -->
+                        <AppBarButton x:Name="CreateMemoryButton" x:Uid="CreateMemory">
+                            <AppBarButton.Icon>
+                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                          Glyph="{StaticResource Add}" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
 
-                    <ListView Name="HambugerMenuSecondaryList" Grid.Row="3" RelativePanel.AlignBottomWithPanel="True"
-                              SelectionMode="None" IsItemClickEnabled="True"
-                              ItemTemplate="{StaticResource HamburgerMenuDataTemplate}">
-                        <viewModels:HamburgerMenuItemViewModel x:Uid="Setting" Glyph="{StaticResource Settings}"
-                                                               Page="pages:SettingPage" />
-                    </ListView>
-                </Grid>
-            </SplitView.Pane>
+                        <AppBarButton x:Name="SettingButton" x:Uid="Setting">
+                            <AppBarButton.Icon>
+                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                          Glyph="{StaticResource Settings}" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                    </CommandBar>
+                </Pivot.RightHeader>
 
-            <!-- Content 对应具体页面 -->
-            <SplitView.Content>
-                <Frame Name="MainPageFrame" />
-            </SplitView.Content>
-        </SplitView>
+                <PivotItem>
+                    <PivotItem.Header>
+                        <TextBlock x:Uid="Gallery" />
+                    </PivotItem.Header>
+
+                    <Grid Background="White">
+                        <userControls:GalleryGridViewControl x:Name="GalleryGridViewControl" />
+                    </Grid>
+                </PivotItem>
+                <PivotItem>
+                    <PivotItem.Header>
+                        <TextBlock x:Uid="Memory" />
+
+                    </PivotItem.Header>
+                    <Grid Background="White">
+                        <userControls:MemoryGridViewControl x:Name="MemoryGridViewControl" />
+                    </Grid>
+                </PivotItem>
+                <PivotItem>
+                    <PivotItem.Header>
+                        <TextBlock x:Uid="Album" />
+                    </PivotItem.Header>
+
+                    <Grid Background="White" />
+                </PivotItem>
+            </Pivot>
+        </Grid>
     </Grid>
 </Page>

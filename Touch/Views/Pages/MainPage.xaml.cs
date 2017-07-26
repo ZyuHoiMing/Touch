@@ -1,7 +1,5 @@
-﻿using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Touch.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -16,49 +14,22 @@ namespace Touch.Views.Pages
         public MainPage()
         {
             InitializeComponent();
-
-            // 显示title bar
-            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = false;
-            // 汉堡菜单按钮的点击事件
-            HambugerMenuButton.Click += (sender, args) =>
+            // 刷新button点击事件
+            RefreshButton.Click += async (sender, args) => { await GalleryGridViewControl.RefreshAsync(); };
+            // 添加回忆点击事件
+            CreateMemoryButton.Click += (sender, args) =>
             {
-                MainPageSplitView.IsPaneOpen = !MainPageSplitView.IsPaneOpen;
+                var rootFrame = Window.Current.Content as Frame;
+                rootFrame?.Navigate(typeof(CreateMemoryPage), MemoryGridViewControl.MemoryListView);
+                Window.Current.Content = rootFrame;
             };
-            // item list点击事件
-            HambugerMenuPrimaryList.ItemClick += HambugerMenuList_ItemClick;
-            HambugerMenuSecondaryList.ItemClick += HambugerMenuList_ItemClick;
-            // 左上角返回按钮的点击事件
-            SystemNavigationManager.GetForCurrentView().BackRequested += (sender, e) =>
+            // 设置button点击事件
+            SettingButton.Click += (sender, args) =>
             {
-                if (!MainPageFrame.CanGoBack) return;
-                MainPageFrame.GoBack();
+                var rootFrame = Window.Current.Content as Frame;
+                rootFrame?.Navigate(typeof(SettingPage));
+                Window.Current.Content = rootFrame;
             };
-            // Frame nav后做的事
-            MainPageFrame.Navigated += (sender, e) =>
-            {
-                // 左上角返回按钮
-                // Each time a navigation event occurs, update the Back button's visibility
-                // Show UI in title bar if opted-in and in-app backstack is not empty.
-                // Remove the UI from the title bar if in-app back stack is empty.
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = MainPageFrame.CanGoBack
-                    ? AppViewBackButtonVisibility.Visible
-                    : AppViewBackButtonVisibility.Collapsed;
-            };
-            // 默认跳转到主页
-            MainPageFrame.Navigate(typeof(GalleryPage));
-        }
-
-        /// <summary>
-        ///     item list点击事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void HambugerMenuList_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            var clickedPage = (e.ClickedItem as HamburgerMenuItemViewModel)?.Page;
-            if (MainPageFrame.SourcePageType != clickedPage)
-                MainPageFrame.Navigate(clickedPage);
         }
     }
 }

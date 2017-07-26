@@ -6,6 +6,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.VisualStudio.TestPlatform.TestExecutor;
+using Touch.Data;
 
 namespace Touch.UnitTestProject
 {
@@ -23,6 +24,9 @@ namespace Touch.UnitTestProject
         {
             InitializeComponent();
             Suspending += OnSuspending;
+
+            // 初始化数据库
+            DatabaseHelper.GetInstance();
         }
 
         /// <summary>

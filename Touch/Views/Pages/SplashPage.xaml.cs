@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Touch.Data;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -16,20 +15,34 @@ namespace Touch.Views.Pages
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class SplashPage : Page
     {
-        private readonly SplashScreen _splash; // Variable to hold the splash screen object.
-        private Rect _splashImageRect; // Rect to store splash screen image coordinates.
+        /// <summary>
+        ///     Variable to hold the splash screen object.
+        /// </summary>
+        private readonly SplashScreen _splash;
+
+        /// <summary>
+        ///     Rect to store splash screen image coordinates.
+        /// </summary>
+        private Rect _splashImageRect;
 
         public SplashPage(SplashScreen splashscreen)
         {
             InitializeComponent();
 
-            // 显示title bar
-            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = false;
-
             // Listen for window resize events to reposition the extended splash screen image accordingly.
-            // This is important to ensure that the extended splash screen is formatted properly in response to snapping, unsnapping, rotation, etc...
-            Window.Current.SizeChanged += ExtendedSplash_OnResize;
+            // This is important to ensure that the extended splash screen is
+            // formatted properly in response to snapping, unsnapping, rotation, etc...
+            Window.Current.SizeChanged += (sender, args) =>
+            {
+                // Safely update the extended splash screen image coordinates.
+                // This function will be fired in response to snapping, unsnapping, rotation, etc...
+                if (_splash == null)
+                    return;
+                // Update the coordinates of the splash screen image.
+                _splashImageRect = _splash.ImageLocation;
+                PositionImage();
+                PositionRing();
+            };
 
             _splash = splashscreen;
 
@@ -59,19 +72,11 @@ namespace Touch.Views.Pages
                 _splashImageRect.Y + _splashImageRect.Height + _splashImageRect.Height * 0.1);
         }
 
-        private void ExtendedSplash_OnResize(object sender, WindowSizeChangedEventArgs e)
-        {
-            // Safely update the extended splash screen image coordinates. This function will be fired in response to snapping, unsnapping, rotation, etc...
-            if (_splash == null)
-                return;
-            // Update the coordinates of the splash screen image.
-            _splashImageRect = _splash.ImageLocation;
-            PositionImage();
-            PositionRing();
-        }
-
         private async void Splash_OnLoaded(object sender, RoutedEventArgs e)
         {
+            // 初始化数据库
+            DatabaseHelper.GetInstance();
+
             await Task.Delay(1000);
 
             var rootFrame = Window.Current.Content as Frame;

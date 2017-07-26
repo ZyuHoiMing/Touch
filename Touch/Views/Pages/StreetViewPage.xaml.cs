@@ -4,12 +4,13 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using Windows.Foundation;
-using Windows.Storage;
 using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 using Touch.Models;
+using Touch.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -23,7 +24,10 @@ namespace Touch.Views.Pages
     public sealed partial class StreetViewPage : Page
     {
         private readonly List<Point> _pathPoint = new List<Point>();
+
         private List<Point> _wayPoint = new List<Point>();
+
+        List<ImageViewModel> test;
         //
         public StreetViewPage()
         {
@@ -37,94 +41,103 @@ namespace Touch.Views.Pages
             }*/
             var uri = new Uri("ms-appx-web:///Web/Test.html");
             Webview1.Navigate(uri);
-            List<MyImage> test = new List<MyImage>();
-            MyImage tmp = new MyImage();
-            tmp.DateTaken = new DateTime(2016, 09, 01, 15, 45, 03);
-            tmp.Latitude = 40.8074377777778;
-            tmp.Longitude =-73.9615143611111;
-            test.Add(tmp);
+            //var test = new List<ImageViewModel>();
+            //ImageViewModel tmp = new ImageViewModel();
+            //tmp.DateTaken = new DateTime(2016, 09, 01, 15, 45, 03);
+            //tmp.Latitude = 40.8074377777778;
+            //tmp.Longitude =-73.9615143611111;
+            //test.Add(tmp);
 
 
-            MyImage tmp3 = new MyImage();
-            tmp3.DateTaken = new DateTime(2016, 09, 02, 11, 40, 47);
-            tmp3.Latitude = 40.8074971666667;
-            tmp3.Longitude = -73.9622030555556;
-            test.Add(tmp3);
+            //ImageViewModel tmp3 = new ImageViewModel();
+            //tmp3.DateTaken = new DateTime(2016, 09, 02, 11, 40, 47);
+            //tmp3.Latitude = 40.8074971666667;
+            //tmp3.Longitude = -73.9622030555556;
+            //test.Add(tmp3);
 
-            MyImage tmp2 = new MyImage();
-            tmp2.DateTaken = new DateTime(2016, 09, 01, 19, 19, 46);
-            tmp2.Latitude = 40.8074971666667;
-            tmp2.Longitude = -73.9622030555556;
-            test.Add(tmp2);
+            //ImageViewModel tmp2 = new ImageViewModel();
+            //tmp2.DateTaken = new DateTime(2016, 09, 01, 19, 19, 46);
+            //tmp2.Latitude = 40.8074971666667;
+            //tmp2.Longitude = -73.9622030555556;
+            //test.Add(tmp2);
 
-            MyImage tmp4 = new MyImage();
-            tmp4.DateTaken = new DateTime(2016, 09, 02, 12, 47, 18);
-            tmp4.Latitude = 40.7583754444444 ;
-            tmp4.Longitude =- 73.9851607777778;
-            test.Add(tmp4);
+            //ImageViewModel tmp4 = new ImageViewModel();
+            //tmp4.DateTaken = new DateTime(2016, 09, 02, 12, 47, 18);
+            //tmp4.Latitude = 40.7583754444444 ;
+            //tmp4.Longitude =- 73.9851607777778;
+            //test.Add(tmp4);
 
-            MyImage tmp5 = new MyImage();
-            tmp5.DateTaken = new DateTime(2016, 09, 02, 12, 59, 39);
-            tmp5.Latitude = 40.75682475 ;
-            tmp5.Longitude =- 73.9883746666667;
-            test.Add(tmp5);
+            //ImageViewModel tmp5 = new ImageViewModel();
+            //tmp5.DateTaken = new DateTime(2016, 09, 02, 12, 59, 39);
+            //tmp5.Latitude = 40.75682475 ;
+            //tmp5.Longitude =- 73.9883746666667;
+            //test.Add(tmp5);
 
-            MyImage tmp6 = new MyImage();
-            tmp6.DateTaken = new DateTime(2016, 09, 02, 15, 18, 57);
-            tmp6.Latitude = 40.7566056666667 ;
-            tmp6.Longitude =- 73.9884400555556;
-            test.Add(tmp6);
+            //ImageViewModel tmp6 = new ImageViewModel();
+            //tmp6.DateTaken = new DateTime(2016, 09, 02, 15, 18, 57);
+            //tmp6.Latitude = 40.7566056666667 ;
+            //tmp6.Longitude =- 73.9884400555556;
+            //test.Add(tmp6);
 
-            MyImage tmp7 = new MyImage();
-            tmp7.DateTaken = new DateTime(2016, 09, 02, 15, 49, 23);
-            tmp7.Latitude = 40.7487146666667;
-            tmp7.Longitude = - 73.9845638055556;
-            test.Add(tmp7);
+            //ImageViewModel tmp7 = new ImageViewModel();
+            //tmp7.DateTaken = new DateTime(2016, 09, 02, 15, 49, 23);
+            //tmp7.Latitude = 40.7487146666667;
+            //tmp7.Longitude = - 73.9845638055556;
+            //test.Add(tmp7);
 
-            MyImage tmp8 = new MyImage();
-            tmp8.DateTaken = new DateTime(2016, 09, 02, 15, 49, 31);
-            tmp8.Latitude = 40.7430319722222 ;
-            tmp8.Longitude =- 73.9880073611111;
-            test.Add(tmp8);
+            //ImageViewModel tmp8 = new ImageViewModel();
+            //tmp8.DateTaken = new DateTime(2016, 09, 02, 15, 49, 31);
+            //tmp8.Latitude = 40.7430319722222 ;
+            //tmp8.Longitude =- 73.9880073611111;
+            //test.Add(tmp8);
 
-            MyImage tmp9 = new MyImage();
-            tmp9.DateTaken = new DateTime(2016, 09, 02, 16, 58, 31);
-            tmp9.Latitude = 40.7430855277778 ;
-            tmp9.Longitude =- 73.9879168333333;
-            test.Add(tmp9);
+            //ImageViewModel tmp9 = new ImageViewModel();
+            //tmp9.DateTaken = new DateTime(2016, 09, 02, 16, 58, 31);
+            //tmp9.Latitude = 40.7430855277778 ;
+            //tmp9.Longitude =- 73.9879168333333;
+            //test.Add(tmp9);
 
-            MyImage tmp10 = new MyImage();
-            tmp10.DateTaken = new DateTime(2016, 09, 02, 17, 32, 18);
-            tmp10.Latitude = 40.7484751944444;
-            tmp10.Longitude = - 73.9847475555556;
-            test.Add(tmp10);
+            //ImageViewModel tmp10 = new ImageViewModel();
+            //tmp10.DateTaken = new DateTime(2016, 09, 02, 17, 32, 18);
+            //tmp10.Latitude = 40.7484751944444;
+            //tmp10.Longitude = - 73.9847475555556;
+            //test.Add(tmp10);
 
-            MyImage tmp11 = new MyImage();
-            tmp11.DateTaken = new DateTime(2016, 09, 04, 12, 11, 01);
-            tmp11.Latitude = 40.7482575555556 ;
-            tmp11.Longitude =- 73.9857225555556;
-            test.Add(tmp11);
+            //ImageViewModel tmp11 = new ImageViewModel();
+            //tmp11.DateTaken = new DateTime(2016, 09, 04, 12, 11, 01);
+            //tmp11.Latitude = 40.7482575555556 ;
+            //tmp11.Longitude =- 73.9857225555556;
+            //test.Add(tmp11);
 
-            MyImage tmp12 = new MyImage();
-            tmp12.DateTaken = new DateTime(2016, 09, 05, 13, 35, 15);
-            tmp12.Latitude = 40.7406280833333;
-            tmp12.Longitude = - 73.9931034722222;
-            test.Add(tmp12);
+            //ImageViewModel tmp12 = new ImageViewModel();
+            //tmp12.DateTaken = new DateTime(2016, 09, 05, 13, 35, 15);
+            //tmp12.Latitude = 40.7406280833333;
+            //tmp12.Longitude = - 73.9931034722222;
+            //test.Add(tmp12);
 
-            MyImage tmp13 = new MyImage();
-            tmp13.DateTaken = new DateTime(2016, 09, 05, 16, 34, 32);
-            tmp13.Latitude = 40.7823715555556 ;
-            tmp13.Longitude =- 73.9740036944444;
-            test.Add(tmp13);
+            //ImageViewModel tmp13 = new ImageViewModel();
+            //tmp13.DateTaken = new DateTime(2016, 09, 05, 16, 34, 32);
+            //tmp13.Latitude = 40.7823715555556 ;
+            //tmp13.Longitude =- 73.9740036944444;
+            //test.Add(tmp13);
 
-            MyImage tmp14 = new MyImage();
-            tmp14.DateTaken = new DateTime(2016, 09, 08, 11, 07, 55);
-            tmp14.Latitude = 40.7815460555556 ;
-            tmp14.Longitude =- 73.9749867777778;
-            test.Add(tmp14);
+            //ImageViewModel tmp14 = new ImageViewModel();
+            //tmp14.DateTaken = new DateTime(2016, 09, 08, 11, 07, 55);
+            //tmp14.Latitude = 40.7815460555556 ;
+            //tmp14.Longitude =- 73.9749867777778;
+            //test.Add(tmp14);
 
-            PhotoClustering photoClustering = new PhotoClustering(test);
-            _wayPoint= photoClustering.getPhotoClustering();
+            //var photoClustering = new PhotoClustering(test);
+            //_wayPoint = photoClustering.getPhotoClustering();
+            //Debug.WriteLine("run");
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            test = e.Parameter as List<ImageViewModel>;
+            var photoClustering = new PhotoClustering(test);
+            _wayPoint = photoClustering.getPhotoClustering();
             Debug.WriteLine("run");
         }
 
@@ -194,38 +207,42 @@ namespace Touch.Views.Pages
         //得到路径插入中途点
         private async void InvokeJsGetPath()
         {
-            string[] script = new string [1];
-            for (int i = 1; i < _wayPoint.Count-1; ++i)
-            {
-                script[0] += "addWayPoint("+_wayPoint.ElementAt(i).X+", "+ _wayPoint.ElementAt(i).Y+ ");";
-            }
-            script[0] +="getPath("+ _wayPoint.ElementAt(0).X + ","+ _wayPoint.ElementAt(0).Y + ","
-                + _wayPoint.ElementAt(_wayPoint.Count - 1).X + ","+ _wayPoint.ElementAt(_wayPoint.Count - 1).Y + ");";
+            var script = new string [1];
+            for (var i = 1; i < _wayPoint.Count - 1; ++i)
+                script[0] += "addWayPoint(" + _wayPoint.ElementAt(i).X + ", " + _wayPoint.ElementAt(i).Y + ");";
+            script[0] += "getPath(" + _wayPoint.ElementAt(0).X + "," + _wayPoint.ElementAt(0).Y + ","
+                         + _wayPoint.ElementAt(_wayPoint.Count - 1).X + "," +
+                         _wayPoint.ElementAt(_wayPoint.Count - 1).Y + ");";
             //var result = await Webview1.InvokeScriptAsync("eval", script);
             //var result=await Webview1.InvokeScriptAsync("eval", new string[] { "addWayPoint(40.7548751831055, -73.9842300415039);" });
-            string result=await Webview1.InvokeScriptAsync("eval", script);
+            var result = await Webview1.InvokeScriptAsync("eval", script);
             //Debug.WriteLine("rerutn"+result);
         }
 
         //在路径中加入
         private void insertWayPoint()
         {
-            for (int i = 1; i < _wayPoint.Count; ++i)
+            for (var i = 1; i < _wayPoint.Count; ++i)
             {
-                double x = _wayPoint[i].X * 1000;
-                double y = _wayPoint[i].Y * 1000;
-                double tmpx = _pathPoint[0].X * 1000;
-                double tmpy = _pathPoint[0].Y * 1000;
-                double tmp=(tmpx - x)* (tmpx - x)+ (tmpy - y) * (tmpy - y);
+                var x = _wayPoint[i].X * 1000;
+                var y = _wayPoint[i].Y * 1000;
+                var tmpx = _pathPoint[0].X * 1000;
+                var tmpy = _pathPoint[0].Y * 1000;
+                var tmp = (tmpx - x) * (tmpx - x) + (tmpy - y) * (tmpy - y);
                 //Debug.WriteLine(tmp);
-                for (int j = 1; j < _pathPoint.Count; ++j)
+                for (var j = 1; j < _pathPoint.Count; ++j)
                 {
                     tmpx = _pathPoint[j].X * 1000;
                     tmpy = _pathPoint[j].Y * 1000;
-                    double newtmp = (tmpx - x) * (tmpx - x) + (tmpy - y) * (tmpy - y);
-                    if (newtmp < tmp) tmp = newtmp;
-                    else {
-                        _pathPoint.Insert(j - 1, _wayPoint[i]); break;
+                    var newtmp = (tmpx - x) * (tmpx - x) + (tmpy - y) * (tmpy - y);
+                    if (newtmp < tmp)
+                    {
+                        tmp = newtmp;
+                    }
+                    else
+                    {
+                        _pathPoint.Insert(j - 1, _wayPoint[i]);
+                        break;
                     }
                     //Debug.WriteLine(newtmp);
                 }
@@ -256,10 +273,8 @@ namespace Touch.Views.Pages
                                 var pathArray = tmp.Split('\n');
                                 if (pathArray.Length > 100)
                                 {
-
                                 }
                                 for (var i = 0; i < pathArray.Length; ++i)
-                                {
                                     //Debug.WriteLine(pathArray[i]);
                                     if (pathArray[i].Length >= 3)
                                     {
@@ -268,7 +283,6 @@ namespace Touch.Views.Pages
                                         var lng = Convert.ToDouble(pointArray[1]);
                                         _pathPoint.Add(new Point(lat, lng));
                                     }
-                                }
                                 //嵌入_waypoint点
                                 insertWayPoint();
                                 startWalk();
@@ -299,16 +313,16 @@ namespace Touch.Views.Pages
                             string[] args = {"getClick()"};
                             var result = await Webview1.InvokeScriptAsync("eval", args);
                             if (result == "click")
-                                ShowPath(nodeNum,wayNum);
+                                ShowPath(nodeNum, wayNum);
                             else
-                                TestClick(nodeNum,wayNum);
+                                TestClick(nodeNum, wayNum);
                             // Timer completed.
                         });
                 });
         }
 
         //显示路径
-        private void ShowPath(int nodeNum,int wayNum)
+        private void ShowPath(int nodeNum, int wayNum)
         {
             var completed = false;
             var delay = TimeSpan.FromSeconds(2);
@@ -346,7 +360,7 @@ namespace Touch.Views.Pages
                             //Debug.WriteLine("finish");
                             InvokeJsHeading(nodeNum);
                         }
-                        else if (wayNum< _wayPoint.Count - 1 && _wayPoint[wayNum] == _pathPoint[nodeNum])
+                        else if (wayNum < _wayPoint.Count - 1 && _wayPoint[wayNum] == _pathPoint[nodeNum])
                         {
                             InvokeJsHeading(nodeNum);
                             TestClick(nodeNum + 1, wayNum + 1);
@@ -378,13 +392,9 @@ namespace Touch.Views.Pages
                 (source =>
                 {
                     if (_pathPoint.Count > 1)
-                    {
-                        TestClick(1,1);
-                    }
+                        TestClick(1, 1);
                     else
-                    {
                         Debug.WriteLine("can't move");
-                    }
                 }, delay);
             }
         }

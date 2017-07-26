@@ -1,43 +1,28 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Touch.Models;
+﻿using System.Collections.ObjectModel;
 
 namespace Touch.ViewModels
 {
     public class StreetImageListViewModel : NotificationBase
     {
         // TODO 数据应该来自data
-        private readonly List<MyImage> _myImages = new List<MyImage>
-        {
-            new MyImage {ImagePath = "ms-appx:///Assets/pic1.jpg"},
-            new MyImage {ImagePath = "ms-appx:///Assets/pic2.jpg"},
-            new MyImage {ImagePath = "ms-appx:///Assets/pic3.jpg"},
-            new MyImage {ImagePath = "ms-appx:///Assets/pic4.jpg"},
-            new MyImage {ImagePath = "ms-appx:///Assets/pic5.jpg"},
-            new MyImage {ImagePath = "ms-appx:///Assets/pic6.jpg"}
-        };
+        //private readonly List<ImageModel> _myImages = new List<ImageModel>
+        //{
+        //    new ImageModel {ImagePath = "ms-appx:///Assets/pic1.jpg"},
+        //    new ImageModel {ImagePath = "ms-appx:///Assets/pic2.jpg"},
+        //    new ImageModel {ImagePath = "ms-appx:///Assets/pic3.jpg"},
+        //    new ImageModel {ImagePath = "ms-appx:///Assets/pic4.jpg"},
+        //    new ImageModel {ImagePath = "ms-appx:///Assets/pic5.jpg"},
+        //    new ImageModel {ImagePath = "ms-appx:///Assets/pic6.jpg"}
+        //};
 
-        private ObservableCollection<MyImageViewModel> _myImageVms;
+        private ObservableCollection<ImageViewModel> _myImageVms;
 
         private int _selectedIndex;
-
-        public StreetImageListViewModel()
-        {
-            _myImageVms = new ObservableCollection<MyImageViewModel>();
-            // 从数据库中加载数据，加到与list交互的VM中
-            foreach (var myImage in _myImages)
-            {
-                var myImageVm = new MyImageViewModel(myImage);
-                _myImageVms.Add(myImageVm);
-            }
-            // 默认选中中间的照片
-            SelectedIndex = _myImageVms.Count / 2;
-        }
 
         /// <summary>
         ///     与view交互的list
         /// </summary>
-        public ObservableCollection<MyImageViewModel> MyImageVms
+        public ObservableCollection<ImageViewModel> MyImageVms
         {
             get { return _myImageVms; }
             set { SetProperty(ref _myImageVms, value); }
@@ -61,7 +46,7 @@ namespace Touch.ViewModels
         /// <summary>
         ///     选中的imageVM
         /// </summary>
-        public MyImageViewModel SelectedPerson
+        public ImageViewModel SelectedPerson
         {
             get { return _selectedIndex >= 0 ? _myImageVms[_selectedIndex] : null; }
         }

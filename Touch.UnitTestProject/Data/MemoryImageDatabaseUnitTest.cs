@@ -3,80 +3,107 @@ using Touch.Data;
 
 namespace Touch.UnitTestProject.Data
 {
+    /// <summary>
+    ///     回忆的所有图片 数据库
+    /// </summary>
     [TestClass]
     public class MemoryImageDatabaseUnitTest
     {
+        private readonly DatabaseHelper _databaseHelper;
+
+        /// <summary>
+        ///     回忆的所有图片 数据库
+        /// </summary>
+        public MemoryImageDatabaseUnitTest()
+        {
+            _databaseHelper = DatabaseHelper.GetInstance();
+        }
+
         /// <summary>
         ///     插入并读出数据
         /// </summary>
         [TestMethod]
-        public void InsertAndGetFoldersTest()
+        public void InsertAndGetTest()
         {
-            DatabaseHelper.InitDb();
-            // 先创建主表
-            MemoryListDatabase.Drop();
-            MemoryListDatabase.Create();
+            // 初始化
+            _databaseHelper.ImageDatabase.Drop();
+            _databaseHelper.ImageDatabase.Create();
+            _databaseHelper.MemoryListDatabase.Drop();
+            _databaseHelper.MemoryListDatabase.Create();
+            _databaseHelper.MemoryImageDatabase.Drop();
+            _databaseHelper.MemoryImageDatabase.Create();
+            // 创建图片数据
+            for (var i = 1; i <= 6; i++)
+                _databaseHelper.ImageDatabase.Insert(i, "image_path_" + i, "access_token_" + i);
+            // 创建回忆列表
+            for (var i = 1; i <= 6; i++)
+                _databaseHelper.MemoryListDatabase.Insert("memory_name_" + i);
+            // 创建回忆图片
             for (var i = 1; i <= 3; i++)
-                MemoryListDatabase.Insert("test_data_" + i);
-            // 再创建外键表
-            MemoryImageDatabase.Drop();
-            MemoryImageDatabase.Create();
+            {
+                _databaseHelper.MemoryImageDatabase.Insert(i, i);
+                _databaseHelper.MemoryImageDatabase.Insert(i, i + 1);
+            }
+            // 读取回忆图片
             for (var i = 1; i <= 3; i++)
-            for (var j = 1; j <= 3; j++)
-                MemoryImageDatabase.Insert(i, "test_data_" + i + "_" + j, "");
-            // 读，是否相等
-            for (var i = 1; i <= 3; i++)
-                using (var imageListEnumerator = MemoryImageDatabase.GetImageList(i).GetEnumerator())
+            {
+                var query = _databaseHelper.MemoryImageDatabase.GetQuery(i);
+                while (query.Read())
                 {
-                    for (var j = 1; j <= 3; j++)
-                    {
-                        if (!imageListEnumerator.MoveNext())
-                            return;
-                        Assert.AreEqual("test_data_" + i + "_" + j, imageListEnumerator.Current.ImagePath);
-                    }
+                    Assert.AreEqual(i, query.GetInt32(1));
+                    Assert.AreEqual("image_path_" + i, query.GetString(2));
+                    Assert.AreEqual("access_token_" + i, query.GetString(3));
+                    query.Read();
+                    Assert.AreEqual(i + 1, query.GetInt32(1));
+                    Assert.AreEqual("image_path_" + (i + 1), query.GetString(2));
+                    Assert.AreEqual("access_token_" + (i + 1), query.GetString(3));
                 }
+            }
         }
 
         /// <summary>
-        ///     通过外键删除并读出数据
+        ///     删除并读出数据
         /// </summary>
         [TestMethod]
-        public void DeleteAndGetFoldersTest()
+        public void DeleteAndGetTest()
         {
-            // 先创建主表
-            MemoryListDatabase.Drop();
-            MemoryListDatabase.Create();
+            // 初始化
+            _databaseHelper.ImageDatabase.Drop();
+            _databaseHelper.ImageDatabase.Create();
+            _databaseHelper.MemoryListDatabase.Drop();
+            _databaseHelper.MemoryListDatabase.Create();
+            _databaseHelper.MemoryImageDatabase.Drop();
+            _databaseHelper.MemoryImageDatabase.Create();
+            // 创建图片数据
+            for (var i = 1; i <= 6; i++)
+                _databaseHelper.ImageDatabase.Insert(i, "image_path_" + i, "access_token_" + i);
+            // 创建回忆列表
+            for (var i = 1; i <= 6; i++)
+                _databaseHelper.MemoryListDatabase.Insert("memory_name_" + i);
+            // 创建回忆图片
             for (var i = 1; i <= 5; i++)
-                MemoryListDatabase.Insert("test_data_" + i);
-            // 再创建外键表
-            MemoryImageDatabase.Drop();
-            MemoryImageDatabase.Create();
-            for (var i = 1; i <= 5; i++)
-            for (var j = 1; j <= 5; j++)
-                MemoryImageDatabase.Insert(i, "test_data_" + i + "_" + j, "");
-            for (var i = 1; i <= 5; i++)
-                using (var imageListEnumerator = MemoryImageDatabase.GetImageList(i).GetEnumerator())
+                _databaseHelper.MemoryImageDatabase.Insert(i, i + 1);
+            // 删除回忆
+            for (var i = 1; i <= 3; i++)
+                _databaseHelper.MemoryImageDatabase.Delete(i);
+            // 读取回忆图片
+            for (var i = 1; i <= 3; i++)
+            {
+                var query = _databaseHelper.MemoryImageDatabase.GetQuery(i);
+                while (query.Read())
+                    // 应该不存在
+                    Assert.AreEqual(1, 2);
+            }
+            for (var i = 4; i <= 5; i++)
+            {
+                var query = _databaseHelper.MemoryImageDatabase.GetQuery(i);
+                while (query.Read())
                 {
-                    for (var j = 1; j <= 5; j++)
-                    {
-                        if (!imageListEnumerator.MoveNext())
-                            return;
-                        Assert.AreEqual("test_data_" + i + "_" + j, imageListEnumerator.Current.ImagePath);
-                    }
+                    Assert.AreEqual(i + 1, query.GetInt32(1));
+                    Assert.AreEqual("image_path_" + (i + 1), query.GetString(2));
+                    Assert.AreEqual("access_token_" + (i + 1), query.GetString(3));
                 }
-            for (var i = 1; i <= 5; i += 2)
-                MemoryListDatabase.Delete(i);
-            // 读，是否相等
-            for (var i = 1; i <= 5; i++)
-                using (var imageListEnumerator = MemoryImageDatabase.GetImageList(i).GetEnumerator())
-                {
-                    for (var j = 1; j <= 5; j++)
-                    {
-                        if (!imageListEnumerator.MoveNext())
-                            return;
-                        Assert.AreEqual("test_data_" + i + "_" + j, imageListEnumerator.Current.ImagePath);
-                    }
-                }
+            }
         }
     }
 }
