@@ -6,7 +6,7 @@ namespace Touch.Models
     /// <summary>
     ///     图片
     /// </summary>
-    public class MyImage
+    public class MyImage:IComparable<MyImage>
     {
         /// <summary>
         ///     图片路径
@@ -37,5 +37,19 @@ namespace Touch.Models
         ///     拍摄日期
         /// </summary>
         public DateTime DateTaken { get; set; }
+        /// <summary>
+        /// 排序比较函数实现
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public int CompareTo(MyImage other)
+        {
+            if (this.DateTaken < other.DateTaken)
+                return -1;
+            else if (this.DateTaken == other.DateTaken)
+                return 0;
+            else return 1;
+            throw new NotImplementedException();
+        }
     }
 }

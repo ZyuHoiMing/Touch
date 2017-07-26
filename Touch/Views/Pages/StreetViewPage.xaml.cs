@@ -28,18 +28,104 @@ namespace Touch.Views.Pages
         public StreetViewPage()
         {
             InitializeComponent();
-            var localFolder = ApplicationData.Current.LocalFolder;
+            /*var localFolder = ApplicationData.Current.LocalFolder;
             Debug.WriteLine(localFolder.Path);
             var existingFile = localFolder.TryGetItemAsync("Test.html");
             if (existingFile == null)
             {
                 Debug.WriteLine("null");
-            }
-            else
-            {
-                var uri = new Uri("ms-appx-web:///Web/Test.html");
-                Webview1.Navigate(uri);
-            }
+            }*/
+            var uri = new Uri("ms-appx-web:///Web/Test.html");
+            Webview1.Navigate(uri);
+            List<MyImage> test = new List<MyImage>();
+            MyImage tmp = new MyImage();
+            tmp.DateTaken = new DateTime(2016, 09, 01, 15, 45, 03);
+            tmp.Latitude = 40.8074377777778;
+            tmp.Longitude =-73.9615143611111;
+            test.Add(tmp);
+
+
+            MyImage tmp3 = new MyImage();
+            tmp3.DateTaken = new DateTime(2016, 09, 02, 11, 40, 47);
+            tmp3.Latitude = 40.8074971666667;
+            tmp3.Longitude = -73.9622030555556;
+            test.Add(tmp3);
+
+            MyImage tmp2 = new MyImage();
+            tmp2.DateTaken = new DateTime(2016, 09, 01, 19, 19, 46);
+            tmp2.Latitude = 40.8074971666667;
+            tmp2.Longitude = -73.9622030555556;
+            test.Add(tmp2);
+
+            MyImage tmp4 = new MyImage();
+            tmp4.DateTaken = new DateTime(2016, 09, 02, 12, 47, 18);
+            tmp4.Latitude = 40.7583754444444 ;
+            tmp4.Longitude =- 73.9851607777778;
+            test.Add(tmp4);
+
+            MyImage tmp5 = new MyImage();
+            tmp5.DateTaken = new DateTime(2016, 09, 02, 12, 59, 39);
+            tmp5.Latitude = 40.75682475 ;
+            tmp5.Longitude =- 73.9883746666667;
+            test.Add(tmp5);
+
+            MyImage tmp6 = new MyImage();
+            tmp6.DateTaken = new DateTime(2016, 09, 02, 15, 18, 57);
+            tmp6.Latitude = 40.7566056666667 ;
+            tmp6.Longitude =- 73.9884400555556;
+            test.Add(tmp6);
+
+            MyImage tmp7 = new MyImage();
+            tmp7.DateTaken = new DateTime(2016, 09, 02, 15, 49, 23);
+            tmp7.Latitude = 40.7487146666667;
+            tmp7.Longitude = - 73.9845638055556;
+            test.Add(tmp7);
+
+            MyImage tmp8 = new MyImage();
+            tmp8.DateTaken = new DateTime(2016, 09, 02, 15, 49, 31);
+            tmp8.Latitude = 40.7430319722222 ;
+            tmp8.Longitude =- 73.9880073611111;
+            test.Add(tmp8);
+
+            MyImage tmp9 = new MyImage();
+            tmp9.DateTaken = new DateTime(2016, 09, 02, 16, 58, 31);
+            tmp9.Latitude = 40.7430855277778 ;
+            tmp9.Longitude =- 73.9879168333333;
+            test.Add(tmp9);
+
+            MyImage tmp10 = new MyImage();
+            tmp10.DateTaken = new DateTime(2016, 09, 02, 17, 32, 18);
+            tmp10.Latitude = 40.7484751944444;
+            tmp10.Longitude = - 73.9847475555556;
+            test.Add(tmp10);
+
+            MyImage tmp11 = new MyImage();
+            tmp11.DateTaken = new DateTime(2016, 09, 04, 12, 11, 01);
+            tmp11.Latitude = 40.7482575555556 ;
+            tmp11.Longitude =- 73.9857225555556;
+            test.Add(tmp11);
+
+            MyImage tmp12 = new MyImage();
+            tmp12.DateTaken = new DateTime(2016, 09, 05, 13, 35, 15);
+            tmp12.Latitude = 40.7406280833333;
+            tmp12.Longitude = - 73.9931034722222;
+            test.Add(tmp12);
+
+            MyImage tmp13 = new MyImage();
+            tmp13.DateTaken = new DateTime(2016, 09, 05, 16, 34, 32);
+            tmp13.Latitude = 40.7823715555556 ;
+            tmp13.Longitude =- 73.9740036944444;
+            test.Add(tmp13);
+
+            MyImage tmp14 = new MyImage();
+            tmp14.DateTaken = new DateTime(2016, 09, 08, 11, 07, 55);
+            tmp14.Latitude = 40.7815460555556 ;
+            tmp14.Longitude =- 73.9749867777778;
+            test.Add(tmp14);
+
+            PhotoClustering photoClustering = new PhotoClustering(test);
+            _wayPoint= photoClustering.getPhotoClustering();
+            Debug.WriteLine("run");
         }
 
         private async void InvokeJsStart(string x, string y)
@@ -168,6 +254,10 @@ namespace Touch.Views.Pages
                                 await Webview1.InvokeScriptAsync("eval", new[] {"setIsGetPath()"});
                                 var tmp = await Webview1.InvokeScriptAsync("eval", new[] {"getPathPoint()"});
                                 var pathArray = tmp.Split('\n');
+                                if (pathArray.Length > 100)
+                                {
+
+                                }
                                 for (var i = 0; i < pathArray.Length; ++i)
                                 {
                                     //Debug.WriteLine(pathArray[i]);
@@ -306,9 +396,9 @@ namespace Touch.Views.Pages
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            _wayPoint.Add(new Point(40.75682475, -73.9883746666667));
+            /*_wayPoint.Add(new Point(40.75682475, -73.9883746666667));
             _wayPoint.Add(new Point(40.754874, -73.984228));
-            _wayPoint.Add(new Point(40.7583754444444,- 73.9851607777778));
+            _wayPoint.Add(new Point(40.7583754444444,- 73.9851607777778));*/
             InvokeJsGetPath();
         }
     }
