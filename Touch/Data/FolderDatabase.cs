@@ -108,7 +108,9 @@ namespace Touch.Data
                 var deleteCommand = new SqliteCommand
                 {
                     Connection = db,
-                    CommandText = "DELETE FROM " + TableName + " WHERE " + FolderPathName + "=@" + FolderPathName
+                    CommandText
+                        = "PRAGMA FOREIGN_KEYS = ON; "
+                          + "DELETE FROM " + TableName + " WHERE " + FolderPathName + "=@" + FolderPathName + ";"
                 };
                 deleteCommand.Parameters.AddWithValue("@" + FolderPathName, folderPath);
                 try
