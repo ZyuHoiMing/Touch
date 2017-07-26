@@ -87,7 +87,6 @@ namespace Touch.ViewModels
         ///     原始图片
         /// </summary>
         //public BitmapImage OriginalImage { get; private set; }
-
         /// <summary>
         ///     异步获取实例
         /// </summary>

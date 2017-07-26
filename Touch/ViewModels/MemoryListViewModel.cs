@@ -18,15 +18,15 @@ namespace Touch.ViewModels
         /// </summary>
         public ObservableCollection<MemoryViewModel> MemoryViewModels;
 
-        /// <summary>
-        /// 最新key号
-        /// </summary>
-        public int LastKeyNo => _memoryList.LastKeyNo;
-
         private MemoryListViewModel()
         {
             MemoryViewModels = new ObservableCollection<MemoryViewModel>();
         }
+
+        /// <summary>
+        ///     最新key号
+        /// </summary>
+        public int LastKeyNo => _memoryList.LastKeyNo;
 
         /// <summary>
         ///     异步获取实例

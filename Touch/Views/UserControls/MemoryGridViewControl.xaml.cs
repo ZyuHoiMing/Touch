@@ -8,7 +8,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Microsoft.Toolkit.Uwp.UI.Animations;
 using Touch.ViewModels;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -18,11 +17,12 @@ namespace Touch.Views.UserControls
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class MemoryGridViewControl : UserControl
     {
+        private bool _isLoaded;
+
         /// <summary>
-        /// 回忆VM
+        ///     回忆VM
         /// </summary>
         public MemoryListViewModel MemoryListView;
-        private bool _isLoaded;
 
         public MemoryGridViewControl()
         {

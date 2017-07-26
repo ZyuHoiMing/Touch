@@ -20,16 +20,16 @@ namespace Touch.Models
         /// </summary>
         public readonly List<MemoryModel> MemoryModels;
 
-        /// <summary>
-        /// 最新key号
-        /// </summary>
-        public int LastKeyNo => _databaseHelper.MemoryListDatabase.GetLastKeyNo();
-
         private MemoryList()
         {
             _databaseHelper = DatabaseHelper.GetInstance();
             MemoryModels = new List<MemoryModel>();
         }
+
+        /// <summary>
+        ///     最新key号
+        /// </summary>
+        public int LastKeyNo => _databaseHelper.MemoryListDatabase.GetLastKeyNo();
 
         /// <summary>
         ///     异步获取实例

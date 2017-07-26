@@ -13,7 +13,8 @@
     Loaded="MemoryGridViewControl_OnLoaded">
 
     <Grid>
-        <controls:AdaptiveGridView Name="MemoryGridView" ItemsSource="{x:Bind MemoryListView.MemoryViewModels, Mode=OneWay}"
+        <controls:AdaptiveGridView Name="MemoryGridView"
+                                   ItemsSource="{x:Bind MemoryListView.MemoryViewModels, Mode=OneWay}"
                                    SelectionMode="None" IsItemClickEnabled="True"
                                    ItemHeight="300" DesiredWidth="400" ItemClick="{x:Bind MemoryListView.OnItemClick}"
                                    animations:ReorderGridAnimation.Duration="250">

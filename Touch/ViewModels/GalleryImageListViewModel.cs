@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Touch.Models;
@@ -77,12 +76,10 @@ namespace Touch.ViewModels
             // 先初始化所有图片成一个list
             var imageViewModels = new List<ImageViewModel>();
             foreach (var imageFolderList in _imageFolderLists)
+            foreach (var imageModel in imageFolderList.ImageModels)
             {
-                foreach (var imageModel in imageFolderList.ImageModels)
-                {
-                    var imageViewModel = await ImageViewModel.GetInstanceAsync(imageModel);
-                    imageViewModels.Add(imageViewModel);
-                }
+                var imageViewModel = await ImageViewModel.GetInstanceAsync(imageModel);
+                imageViewModels.Add(imageViewModel);
             }
             ImageMonthGroups = imageViewModels
                 .GroupBy(m => m.MonthYearDate, (key, list) => new ImageMonthGroup(key, list))

@@ -68,7 +68,7 @@
 
                     </PivotItem.Header>
                     <Grid Background="White">
-                        <userControls:MemoryGridViewControl x:Name="MemoryGridViewControl"  />
+                        <userControls:MemoryGridViewControl x:Name="MemoryGridViewControl" />
                     </Grid>
                 </PivotItem>
                 <PivotItem>
