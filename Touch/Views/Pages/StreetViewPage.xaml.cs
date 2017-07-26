@@ -14,7 +14,6 @@ using Touch.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-
 namespace Touch.Views.Pages
 {
     /// <summary>
@@ -25,9 +24,10 @@ namespace Touch.Views.Pages
     {
         private readonly List<Point> _pathPoint = new List<Point>();
 
+        private List<ImageViewModel> _test;
+
         private List<Point> _wayPoint = new List<Point>();
 
-        List<ImageViewModel> test;
         //
         public StreetViewPage()
         {
@@ -135,9 +135,9 @@ namespace Touch.Views.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            test = e.Parameter as List<ImageViewModel>;
-            var photoClustering = new PhotoClustering(test);
-            _wayPoint = photoClustering.getPhotoClustering();
+            _test = e.Parameter as List<ImageViewModel>;
+            var photoClustering = new PhotoClustering(_test);
+            _wayPoint = photoClustering.GetPhotoClustering();
             Debug.WriteLine("run");
         }
 
@@ -220,7 +220,7 @@ namespace Touch.Views.Pages
         }
 
         //在路径中加入
-        private void insertWayPoint()
+        private void InsertWayPoint()
         {
             for (var i = 1; i < _wayPoint.Count; ++i)
             {
@@ -251,7 +251,7 @@ namespace Touch.Views.Pages
         }
 
         //测试得到路径
-        private void testGetPath()
+        private void TestGetPath()
         {
             var completed = false;
             var delay = TimeSpan.FromSeconds(0.5);
@@ -274,22 +274,21 @@ namespace Touch.Views.Pages
                                 if (pathArray.Length > 100)
                                 {
                                 }
-                                for (var i = 0; i < pathArray.Length; ++i)
-                                    //Debug.WriteLine(pathArray[i]);
-                                    if (pathArray[i].Length >= 3)
+                                foreach (var t in pathArray)
+                                    if (t.Length >= 3)
                                     {
-                                        var pointArray = pathArray[i].Split(',');
+                                        var pointArray = t.Split(',');
                                         var lat = Convert.ToDouble(pointArray[0]);
                                         var lng = Convert.ToDouble(pointArray[1]);
                                         _pathPoint.Add(new Point(lat, lng));
                                     }
                                 //嵌入_waypoint点
-                                insertWayPoint();
-                                startWalk();
+                                InsertWayPoint();
+                                StartWalk();
                             }
                             else
                             {
-                                testGetPath();
+                                TestGetPath();
                             }
                             // Timer completed.
                         });
@@ -374,7 +373,7 @@ namespace Touch.Views.Pages
         }
 
         //开始行走
-        private void startWalk()
+        private void StartWalk()
         {
             if (_pathPoint.Count == 0)
             {
@@ -401,7 +400,7 @@ namespace Touch.Views.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            testGetPath();
+            TestGetPath();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

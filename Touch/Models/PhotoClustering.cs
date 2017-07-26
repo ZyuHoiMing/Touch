@@ -5,6 +5,9 @@ using System.Linq;
 using Windows.Foundation;
 using Touch.ViewModels;
 
+// TODO 没有检查经纬度是否为空
+// ReSharper disable PossibleInvalidOperationException
+
 namespace Touch.Models
 {
     /// <summary>
@@ -13,7 +16,7 @@ namespace Touch.Models
     public class PhotoClustering
     {
         private readonly List<List<int>> _clusteringResult = new List<List<int>>();
-        private readonly List<ImageViewModel> _photoPath = new List<ImageViewModel>();
+        private readonly List<ImageViewModel> _photoPath;
         private readonly bool[] _vis = new bool[1000];
 
         public PhotoClustering(List<ImageViewModel> photoPath)
@@ -26,7 +29,7 @@ namespace Touch.Models
                 Debug.WriteLine(_photoPath.ElementAt(i).DateTaken);*/
         }
 
-        private void dfs(int nowId, List<int> group)
+        private void Dfs(int nowId, ICollection<int> group)
         {
             _vis[nowId] = true;
             var nowX = _photoPath.ElementAt(nowId).Latitude.Value;
@@ -37,11 +40,11 @@ namespace Touch.Models
                         Math.Abs(nowY - _photoPath.ElementAt(i).Longitude.Value) < 0.001)
                     {
                         group.Add(i);
-                        dfs(i, group);
+                        Dfs(i, group);
                     }
         }
 
-        public List<Point> getPhotoClustering()
+        public List<Point> GetPhotoClustering()
         {
             var path = new List<Point>();
             for (var i = 0; i < _photoPath.Count; ++i) //去掉没有经纬度的图片
@@ -53,7 +56,7 @@ namespace Touch.Models
                 {
                     var group = new List<int>();
                     group.Add(i);
-                    dfs(i, group);
+                    Dfs(i, group);
                     _clusteringResult.Add(group);
                 }
             Debug.Write("end:" + _clusteringResult.Count);
