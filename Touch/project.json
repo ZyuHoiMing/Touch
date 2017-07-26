@@ -4,6 +4,7 @@
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.3",
     "Microsoft.Toolkit.Uwp.UI.Animations": "1.5.1",
     "Microsoft.Toolkit.Uwp.UI.Controls": "1.5.1",
+    "Microsoft.Xaml.Behaviors.Uwp.Managed": "2.0.0",
     "Win2D.uwp": "1.21.0"
   },
   "frameworks": {

@@ -22,7 +22,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <userControls:TitleBarControl x:Name="TitleBarControl" Grid.Row="0" Margin="0,0,0,8" />
+            <userControls:TitleBarControl x:Name="TitleBarControl" Grid.Row="0" />
 
             <Pivot Grid.Row="1" Style="{StaticResource MyPivotStyle}"
                    ItemContainerStyle="{StaticResource MyPivotItemStyle}">
@@ -33,6 +33,11 @@
                                 <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
                                           Glyph="{StaticResource Accept}" />
                             </AppBarButton.Icon>
+                            <AppBarButton.Transitions>
+                                <TransitionCollection>
+                                    <AddDeleteThemeTransition />
+                                </TransitionCollection>
+                            </AppBarButton.Transitions>
                         </AppBarButton>
 
                         <AppBarButton x:Name="CancelButton" x:Uid="Cancel">
@@ -40,6 +45,11 @@
                                 <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
                                           Glyph="{StaticResource Cancel}" />
                             </AppBarButton.Icon>
+                            <AppBarButton.Transitions>
+                                <TransitionCollection>
+                                    <AddDeleteThemeTransition />
+                                </TransitionCollection>
+                            </AppBarButton.Transitions>
                         </AppBarButton>
                     </CommandBar>
                 </Pivot.RightHeader>
@@ -49,16 +59,20 @@
                         <TextBlock x:Uid="SelectPhotos" />
                     </PivotItem.Header>
 
-                    <Grid Background="White">
+                    <Grid Background="White" Margin="0,48,0,0">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <StackPanel Grid.Row="0">
-                            <TextBlock x:Uid="TitleColon" HorizontalAlignment="Center" />
-                            <TextBox x:Name="TitleBox" HorizontalAlignment="Center" Width="200" />
-                        </StackPanel>
-                        <userControls:GalleryGridViewControl x:Name="GalleryGridViewControl" Grid.Row="1" />
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Uid="TitleColon" HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="3" />
+                        <TextBox x:Name="TitleBox" HorizontalAlignment="Stretch" TextAlignment="Center" Grid.Row="1" Grid.Column="1" Margin="0,16,0,0" FontSize="40"/>
+                        <userControls:GalleryGridViewControl x:Name="GalleryGridViewControl" Grid.Row="2" Grid.ColumnSpan="3" />
                     </Grid>
                 </PivotItem>
             </Pivot>

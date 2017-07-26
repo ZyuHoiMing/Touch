@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControls="using:Touch.Views.UserControls"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -14,12 +15,15 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <WebView x:Name="Webview1" Grid.Row="0" />
-        <Button Grid.Row="1" Click="Button_Click_1" HorizontalAlignment="Center" Margin="0,0,100,0">规划路径</Button>
-        <Button Grid.Row="1" Click="Button_Click" HorizontalAlignment="Center" Margin="100,0,0,0">街景展示</Button>
+        <userControls:TitleBarControl x:Name="TitleBarControl" Grid.Row="0" Margin="0,0,0,8" />
+        
+        <WebView x:Name="Webview1" Grid.Row="1" />
+        <Button Grid.Row="2" Click="Button_Click_1" HorizontalAlignment="Center" Margin="0,0,100,0">规划路径</Button>
+        <Button Grid.Row="2" Click="Button_Click" HorizontalAlignment="Center" Margin="100,0,0,0">街景展示</Button>
         <!--Source="ms-appx-web:///Web/Test.html"-->
     </Grid>
 </Page>

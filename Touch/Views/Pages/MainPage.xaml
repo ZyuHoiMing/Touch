@@ -23,25 +23,34 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <userControls:TitleBarControl Grid.Row="0" Margin="0,0,0,8" />
+            <userControls:TitleBarControl Grid.Row="0" />
 
-            <Pivot Grid.Row="1" Style="{StaticResource MyPivotStyle}"
+            <Pivot x:Name="MainPivot" Grid.Row="1" Style="{StaticResource MyPivotStyle}"
                    ItemContainerStyle="{StaticResource MyPivotItemStyle}">
                 <Pivot.RightHeader>
                     <CommandBar Background="Transparent">
                         <AppBarButton x:Name="RefreshButton" x:Uid="Refresh">
                             <AppBarButton.Icon>
-                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                <FontIcon x:Name="RefreshIcon" FontFamily="{StaticResource SymbolThemeFontFamily}"
                                           Glyph="{StaticResource Sync}" />
                             </AppBarButton.Icon>
+                            <AppBarButton.Transitions>
+                                <TransitionCollection>
+                                    <AddDeleteThemeTransition />
+                                </TransitionCollection>
+                            </AppBarButton.Transitions>
                         </AppBarButton>
 
-                        <!-- TODO 切换标签才显示 -->
                         <AppBarButton x:Name="CreateMemoryButton" x:Uid="CreateMemory">
                             <AppBarButton.Icon>
                                 <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
                                           Glyph="{StaticResource Add}" />
                             </AppBarButton.Icon>
+                            <AppBarButton.Transitions>
+                                <TransitionCollection>
+                                    <AddDeleteThemeTransition />
+                                </TransitionCollection>
+                            </AppBarButton.Transitions>
                         </AppBarButton>
 
                         <AppBarButton x:Name="SettingButton" x:Uid="Setting">
@@ -49,6 +58,11 @@
                                 <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
                                           Glyph="{StaticResource Settings}" />
                             </AppBarButton.Icon>
+                            <AppBarButton.Transitions>
+                                <TransitionCollection>
+                                    <AddDeleteThemeTransition />
+                                </TransitionCollection>
+                            </AppBarButton.Transitions>
                         </AppBarButton>
                     </CommandBar>
                 </Pivot.RightHeader>
@@ -58,7 +72,7 @@
                         <TextBlock x:Uid="Gallery" />
                     </PivotItem.Header>
 
-                    <Grid Background="White">
+                    <Grid Background="White" Margin="0,48,0,0">
                         <userControls:GalleryGridViewControl x:Name="GalleryGridViewControl" />
                     </Grid>
                 </PivotItem>
@@ -67,7 +81,7 @@
                         <TextBlock x:Uid="Memory" />
 
                     </PivotItem.Header>
-                    <Grid Background="White">
+                    <Grid Background="White" Margin="0,48,0,0">
                         <userControls:MemoryGridViewControl x:Name="MemoryGridViewControl" />
                     </Grid>
                 </PivotItem>
@@ -76,7 +90,7 @@
                         <TextBlock x:Uid="Album" />
                     </PivotItem.Header>
 
-                    <Grid Background="White" />
+                    <Grid Background="White" Margin="0,48,0,0" />
                 </PivotItem>
             </Pivot>
         </Grid>

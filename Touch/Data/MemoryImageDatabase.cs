@@ -43,9 +43,9 @@ namespace Touch.Data
                   + MemoryKeyNoName + " INTEGER NOT NULL, "
                   + ImageKeyNoName + " INTEGER NOT NULL, "
                   + "FOREIGN KEY(" + MemoryKeyNoName + ") REFERENCES " + MemoryListDatabase.TableName + "(" +
-                  MemoryListDatabase.PrimaryKeyName + "), "
+                  MemoryListDatabase.PrimaryKeyName + ") ON DELETE CASCADE, "
                   + "FOREIGN KEY(" + ImageKeyNoName + ") REFERENCES " + ImageDatabase.TableName + "(" +
-                  ImageDatabase.PrimaryKeyName + "))";
+                  ImageDatabase.PrimaryKeyName + ") ON DELETE CASCADE)";
             Create(createCommandStr);
         }
 

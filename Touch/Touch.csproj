@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="Common\TitleBarHelper.cs" />
     <Compile Include="Controls\BackDrop.cs" />
+    <Compile Include="Controls\MyAdaptiveGridView.cs" />
     <Compile Include="Data\DatabaseBase.cs" />
     <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="Data\FolderDatabase.cs" />
@@ -167,6 +168,7 @@
     <None Include="Touch_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Gray.png" />
     <Content Include="Assets\MySplashScreen.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-125.png" />

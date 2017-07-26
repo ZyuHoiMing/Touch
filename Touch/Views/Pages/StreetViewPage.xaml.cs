@@ -34,6 +34,7 @@ namespace Touch.Views.Pages
         public StreetViewPage()
         {
             InitializeComponent();
+            TitleBarControl.SetBackButtonVisibility(Visibility.Visible);
             /*var localFolder = ApplicationData.Current.LocalFolder;
             Debug.WriteLine(localFolder.Path);
             var existingFile = localFolder.TryGetItemAsync("Test.html");

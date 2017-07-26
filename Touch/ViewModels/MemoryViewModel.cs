@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media.Imaging;
@@ -76,7 +77,10 @@ namespace Touch.ViewModels
                 var imageViewModel = await ImageViewModel.GetInstanceAsync(imageModel);
                 memoryViewModel._imageViewModels.Add(imageViewModel);
             }
-            memoryViewModel.CoverImage = memoryViewModel._imageViewModels[0].ThumbnailImage;
+            if (memoryViewModel._imageViewModels != null && memoryViewModel._imageViewModels.Count > 0)
+                memoryViewModel.CoverImage = memoryViewModel._imageViewModels[0].ThumbnailImage;
+            else
+                memoryViewModel.CoverImage = new BitmapImage(new Uri("ms-appx:///Assets/Gray.png"));
             return memoryViewModel;
         }
 
