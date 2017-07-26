@@ -71,5 +71,13 @@ namespace Touch.Models
             }
             return path;
         }
+        public List<ImageViewModel> updateImageList()
+        {
+            return _photoPath;
+        }
+        public List<List<int>> getClusteringResult()
+        {
+            return _clusteringResult;
+        }
     }
 }
