@@ -23,8 +23,9 @@
             </SemanticZoom.Resources>
             <SemanticZoom.ZoomedInView>
                 <!--Padding="96,64,96,0" ItemsSource="{x:Bind _allImageListVm.MyImageVms, Mode=OneWay}"-->
-                <controls:AdaptiveGridView ItemsSource="{x:Bind Cvs.View, Mode=OneWay}" SelectionMode="None"
-                                           IsItemClickEnabled="True" ItemHeight="300" DesiredWidth="400"
+                <controls:AdaptiveGridView Name="GridView" ItemsSource="{x:Bind Cvs.View, Mode=OneWay}"
+                                           SelectionMode="None" IsItemClickEnabled="True"
+                                           ItemHeight="300" DesiredWidth="400"
                                            animations:ReorderGridAnimation.Duration="250">
                     <controls:AdaptiveGridView.ItemTemplate>
                         <DataTemplate x:DataType="viewModels:ImageViewModel">

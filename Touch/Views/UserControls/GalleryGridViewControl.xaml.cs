@@ -28,17 +28,6 @@ namespace Touch.Views.UserControls
             _isLoaded = false;
         }
 
-        private async void GalleryGridViewControl_OnLoading(FrameworkElement sender, object args)
-        {
-            if (_isLoaded)
-                return;
-            Debug.WriteLine("GalleryGridViewControl_OnLoading---" + "GalleryImageListViewModel.GetInstanceAsync()");
-            _galleryImageListViewModel = await GalleryImageListViewModel.GetInstanceAsync();
-            Debug.WriteLine("GalleryGridViewControl_OnLoading---" + "Cvs.Source");
-            Cvs.Source = _galleryImageListViewModel.ImageMonthGroups;
-            _isLoaded = true;
-        }
-
         /// <summary>
         ///     刷新图库
         /// </summary>
@@ -52,6 +41,35 @@ namespace Touch.Views.UserControls
             await _galleryImageListViewModel.RefreshImageListAsync();
             Debug.WriteLine("RefreshAsync---" + "Cvs.Source");
             Cvs.Source = _galleryImageListViewModel.ImageMonthGroups;
+        }
+
+        /// <summary>
+        ///     把gridview设置为多选
+        /// </summary>
+        public void SetGridViewMultipleSelection()
+        {
+            GridView.SelectionMode = ListViewSelectionMode.Multiple;
+            GridView.IsItemClickEnabled = false;
+        }
+
+        /// <summary>
+        ///     把gridview设置为点击
+        /// </summary>
+        public void SetGridViewClickable()
+        {
+            GridView.SelectionMode = ListViewSelectionMode.None;
+            GridView.IsItemClickEnabled = true;
+        }
+
+        private async void GalleryGridViewControl_OnLoading(FrameworkElement sender, object args)
+        {
+            if (_isLoaded)
+                return;
+            Debug.WriteLine("GalleryGridViewControl_OnLoading---" + "GalleryImageListViewModel.GetInstanceAsync()");
+            _galleryImageListViewModel = await GalleryImageListViewModel.GetInstanceAsync();
+            Debug.WriteLine("GalleryGridViewControl_OnLoading---" + "Cvs.Source");
+            Cvs.Source = _galleryImageListViewModel.ImageMonthGroups;
+            _isLoaded = true;
         }
 
         /// <summary>

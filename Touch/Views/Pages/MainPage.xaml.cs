@@ -21,6 +21,15 @@ namespace Touch.Views.Pages
             {
                 await GalleryGridViewControl.RefreshAsync();
             };
+            // 添加回忆点击事件
+            CreateMemoryButton.Click += (sender, args) =>
+            {
+                var rootFrame = Window.Current.Content as Frame;
+                if (rootFrame == null)
+                    return;
+                rootFrame.Navigate(typeof(CreateMemoryPage));
+                Window.Current.Content = rootFrame;
+            };
             // 设置button点击事件
             SettingButton.Click += (sender, args) =>
             {

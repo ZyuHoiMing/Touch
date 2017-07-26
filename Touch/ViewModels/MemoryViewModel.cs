@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Touch.Models;
 
 namespace Touch.ViewModels
@@ -10,7 +11,7 @@ namespace Touch.ViewModels
     public class MemoryViewModel : NotificationBase<MemoryModel>
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
-        public MemoryViewModel(MemoryModel myMemory = null) : base(myMemory)
+        private MemoryViewModel(MemoryModel memoryModel = null) : base(memoryModel)
         {
         }
 
@@ -24,7 +25,7 @@ namespace Touch.ViewModels
         }
 
         /// <summary>
-        ///     回忆里的名字
+        ///     回忆标题名称
         /// </summary>
         public string MemoryName
         {
@@ -32,27 +33,37 @@ namespace Touch.ViewModels
             set { SetProperty(This.MemoryName, value, () => This.MemoryName = value); }
         }
 
-        ///// <summary>
-        /////     回忆里包含的图片
-        ///// </summary>
-        //public List<ImageModel> Images
-        //{
-        //    get { return This.Images; }
-        //    set { SetProperty(This.Images, value, () => This.Images = value); }
-        //}
-
-        ///// <summary>
-        /////     回忆图片里的第一个图片作为封面
-        ///// </summary>
-        //public BitmapImage Bitmap
-        //{
-        //    get { return Images != null && Images.Count > 0 ? Images[0].Bitmap : null; }
-        //}
+        /// <summary>
+        ///     回忆图片里的第一个图片作为封面
+        /// </summary>
+        public ImageViewModel CoverImage { get; private set; }
 
         /// <summary>
-        ///     添加新回忆按钮是否可见
+        ///     回忆里包含的图片
         /// </summary>
-        public Visibility IsAddVisibility { get; set; } = Visibility.Collapsed;
+        public List<ImageViewModel> ImageViewModels { get; private set; }
+
+        /// <summary>
+        ///     异步获取实例
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<MemoryViewModel> GetInstanceAsync(MemoryModel memoryModel = null)
+        {
+            var memoryViewModel = new MemoryViewModel(memoryModel)
+            {
+                ImageViewModels = new List<ImageViewModel>()
+            };
+            if (memoryModel?.ImageModels == null)
+                return memoryViewModel;
+            foreach (var imageModel in memoryModel.ImageModels)
+            {
+                var imageViewModel = await ImageViewModel.GetInstanceAsync(imageModel);
+                memoryViewModel.ImageViewModels.Add(imageViewModel);
+            }
+            memoryViewModel.CoverImage = memoryViewModel.ImageViewModels[0];
+            return memoryViewModel;
+        }
+
 #pragma warning disable 659
         public override bool Equals(object obj)
 #pragma warning restore 659
