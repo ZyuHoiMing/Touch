@@ -78,7 +78,7 @@
                         </GridView.ItemContainerStyle>
 
                         <GridView.ItemTemplate>
-                            <DataTemplate x:DataType="viewModels:MyMemoryViewModel">
+                            <DataTemplate x:DataType="viewModels:MemoryViewModel">
                                 <Grid>
                                     <Border Background="#000000" Opacity="0.1" />
                                     <!--<Image VerticalAlignment="Center" Stretch="UniformToFill"

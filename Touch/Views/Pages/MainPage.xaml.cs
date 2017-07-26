@@ -1,5 +1,7 @@
-﻿using Windows.UI.Xaml;
+﻿using System.Diagnostics;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -14,6 +16,12 @@ namespace Touch.Views.Pages
         public MainPage()
         {
             InitializeComponent();
+            // 刷新button点击事件
+            RefreshButton.Click += async (sender, args) =>
+            {
+                await GalleryGridViewControl.RefreshAsync();
+            };
+            // 设置button点击事件
             SettingButton.Click += (sender, args) =>
             {
                 var rootFrame = Window.Current.Content as Frame;

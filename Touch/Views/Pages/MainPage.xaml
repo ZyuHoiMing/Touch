@@ -5,7 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userControls="using:Touch.Views.UserControls"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    NavigationCacheMode="Enabled">
 
     <Page.Transitions>
         <TransitionCollection>
@@ -28,7 +29,7 @@
                    ItemContainerStyle="{StaticResource MyPivotItemStyle}">
                 <Pivot.RightHeader>
                     <CommandBar Background="Transparent">
-                        <AppBarButton x:Uid="Refresh">
+                        <AppBarButton x:Name="RefreshButton" x:Uid="Refresh">
                             <AppBarButton.Icon>
                                 <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
                                           Glyph="{StaticResource Sync}" />
@@ -50,7 +51,7 @@
                     </PivotItem.Header>
 
                     <Grid Background="White">
-                        <TextBlock Text="Content of pivot item 1." />
+                        <userControls:GalleryGridViewControl x:Name="GalleryGridViewControl" />
                     </Grid>
                 </PivotItem>
                 <PivotItem>

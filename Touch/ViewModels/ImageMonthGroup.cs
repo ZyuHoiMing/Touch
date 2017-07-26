@@ -10,24 +10,24 @@ namespace Touch.ViewModels
     /// </summary>
     public class ImageMonthGroup : IGrouping<string, ImageViewModel>
     {
-        private readonly ObservableCollection<ImageViewModel> _myImageVms;
+        private readonly ObservableCollection<ImageViewModel> _imageViewModels;
 
         public ImageMonthGroup(string key, IEnumerable<ImageViewModel> items)
         {
             Key = key;
-            _myImageVms = new ObservableCollection<ImageViewModel>(items);
+            _imageViewModels = new ObservableCollection<ImageViewModel>(items);
         }
 
         public string Key { get; }
 
         public IEnumerator<ImageViewModel> GetEnumerator()
         {
-            return _myImageVms.GetEnumerator();
+            return _imageViewModels.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _myImageVms.GetEnumerator();
+            return _imageViewModels.GetEnumerator();
         }
     }
 }
