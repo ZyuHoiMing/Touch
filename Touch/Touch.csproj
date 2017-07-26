@@ -108,6 +108,7 @@
     <Compile Include="Models\MyFolder.cs" />
     <Compile Include="Models\FolderList.cs" />
     <Compile Include="Models\MyImage.cs" />
+    <Compile Include="Models\PhotoClustering.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AddMemoryViewModel.cs" />
     <Compile Include="ViewModels\AllImageListViewModel.cs" />
