@@ -23,7 +23,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <userControls:TitleBarControl Grid.Row="0" Margin="0,0,0,8" />
+            <userControls:TitleBarControl Grid.Row="0" />
 
             <Pivot x:Name="MainPivot" Grid.Row="1" Style="{StaticResource MyPivotStyle}"
                    ItemContainerStyle="{StaticResource MyPivotItemStyle}">
@@ -32,7 +32,7 @@
                         <AppBarButton x:Name="RefreshButton" x:Uid="Refresh">
                             <AppBarButton.Icon>
                                 <FontIcon x:Name="RefreshIcon" FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                          Glyph="{StaticResource Sync}"/>
+                                          Glyph="{StaticResource Sync}" />
                             </AppBarButton.Icon>
                             <AppBarButton.Transitions>
                                 <TransitionCollection>
@@ -72,7 +72,7 @@
                         <TextBlock x:Uid="Gallery" />
                     </PivotItem.Header>
 
-                    <Grid Background="White">
+                    <Grid Background="White" Margin="0,48,0,0">
                         <userControls:GalleryGridViewControl x:Name="GalleryGridViewControl" />
                     </Grid>
                 </PivotItem>
@@ -81,7 +81,7 @@
                         <TextBlock x:Uid="Memory" />
 
                     </PivotItem.Header>
-                    <Grid Background="White">
+                    <Grid Background="White" Margin="0,48,0,0">
                         <userControls:MemoryGridViewControl x:Name="MemoryGridViewControl" />
                     </Grid>
                 </PivotItem>
@@ -90,7 +90,7 @@
                         <TextBlock x:Uid="Album" />
                     </PivotItem.Header>
 
-                    <Grid Background="White" />
+                    <Grid Background="White" Margin="0,48,0,0" />
                 </PivotItem>
             </Pivot>
         </Grid>

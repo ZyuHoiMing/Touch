@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Globalization;
+using Windows.Globalization.DateTimeFormatting;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -24,7 +24,7 @@ namespace Touch.Views.Pages
             // 设置为多选
             GalleryGridViewControl.SetGridViewMultipleSelection();
             // 标题box
-            TitleBox.Text = DateTime.Now.ToString(CultureInfo.CurrentCulture);
+            TitleBox.Text = new DateTimeFormatter("longdate").Format(DateTime.Now);
             // 完成button
             DoneButton.Click += async (sender, args) =>
             {

@@ -6,7 +6,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:viewModels="using:Touch.ViewModels"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:controls="using:Touch.Controls"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
@@ -21,11 +23,17 @@
             </SemanticZoom.Resources>
             <SemanticZoom.ZoomedInView>
                 <!--Padding="96,64,96,0" ItemsSource="{x:Bind _allImageListVm.MyImageVms, Mode=OneWay}"-->
-                <controls:AdaptiveGridView Name="GalleryGridView" ItemsSource="{x:Bind Cvs.View, Mode=OneWay}"
-                                           SelectionMode="None" IsItemClickEnabled="True"
-                                           ItemHeight="300" DesiredWidth="400"
-                                           animations:ReorderGridAnimation.Duration="250">
-                    <controls:AdaptiveGridView.ItemTemplate>
+                <controls:MyAdaptiveGridView x:Name="GalleryGridView" ItemsSource="{x:Bind Cvs.View, Mode=OneWay}"
+                                             SelectionMode="None" IsItemClickEnabled="True"
+                                             MinItemHeight="300" MinItemWidth="400" Padding="144,0,144,0"
+                                             animations:ReorderGridAnimation.Duration="250">
+                    <controls:MyAdaptiveGridView.ItemContainerStyle>
+                        <Style TargetType="GridViewItem">
+                            <Setter Property="Margin" Value="4" />
+                        </Style>
+                    </controls:MyAdaptiveGridView.ItemContainerStyle>
+
+                    <controls:MyAdaptiveGridView.ItemTemplate>
                         <DataTemplate x:DataType="viewModels:ImageViewModel">
                             <Grid SizeChanged="GridViewItem_SizeChanged" PointerEntered="GridViewItem_PointerEntered"
                                   PointerExited="GridViewItem_PointerExited">
@@ -33,31 +41,78 @@
                                        Source="{x:Bind ThumbnailImage, Mode=OneWay}" />
                             </Grid>
                         </DataTemplate>
-                    </controls:AdaptiveGridView.ItemTemplate>
+                    </controls:MyAdaptiveGridView.ItemTemplate>
 
-                    <controls:AdaptiveGridView.GroupStyle>
+                    <controls:MyAdaptiveGridView.GroupStyle>
                         <GroupStyle>
                             <GroupStyle.HeaderTemplate>
                                 <DataTemplate x:DataType="viewModels:ImageMonthGroup">
                                     <Grid Margin="0,16,0,0">
-                                        <TextBlock Text="{x:Bind Key, Mode=OneWay}"
-                                                   Style="{StaticResource SubtitleTextBlockStyle}" />
+                                        <TextBlock Text="{x:Bind Key, Mode=OneWay}" Foreground="SteelBlue"
+                                                   Style="{StaticResource SubtitleTextBlockStyle}">
+                                            <interactivity:Interaction.Behaviors>
+                                                <core:EventTriggerBehavior EventName="PointerEntered">
+                                                    <core:ChangePropertyAction PropertyName="Foreground">
+                                                        <core:ChangePropertyAction.Value>
+                                                            <SolidColorBrush Color="Gray" />
+                                                        </core:ChangePropertyAction.Value>
+                                                    </core:ChangePropertyAction>
+                                                </core:EventTriggerBehavior>
+                                                <core:EventTriggerBehavior EventName="PointerExited">
+                                                    <core:ChangePropertyAction PropertyName="Foreground">
+                                                        <core:ChangePropertyAction.Value>
+                                                            <SolidColorBrush Color="SteelBlue" />
+                                                        </core:ChangePropertyAction.Value>
+                                                    </core:ChangePropertyAction>
+                                                </core:EventTriggerBehavior>
+                                                <core:EventTriggerBehavior EventName="PointerPressed">
+                                                    <core:ChangePropertyAction PropertyName="Foreground">
+                                                        <core:ChangePropertyAction.Value>
+                                                            <SolidColorBrush Color="LightGray" />
+                                                        </core:ChangePropertyAction.Value>
+                                                    </core:ChangePropertyAction>
+                                                </core:EventTriggerBehavior>
+                                            </interactivity:Interaction.Behaviors>
+                                        </TextBlock>
                                     </Grid>
                                 </DataTemplate>
                             </GroupStyle.HeaderTemplate>
                         </GroupStyle>
-                    </controls:AdaptiveGridView.GroupStyle>
-                </controls:AdaptiveGridView>
+                    </controls:MyAdaptiveGridView.GroupStyle>
+                </controls:MyAdaptiveGridView>
             </SemanticZoom.ZoomedInView>
 
             <SemanticZoom.ZoomedOutView>
-                <ListView Margin="48" HorizontalAlignment="Center"
-                          ItemsSource="{x:Bind Cvs.View.CollectionGroups, Mode=OneWay}" SelectionMode="None">
+                <ListView ItemsSource="{x:Bind Cvs.View.CollectionGroups, Mode=OneWay}" SelectionMode="None" Padding="144,0,144,0">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="ICollectionViewGroup">
-                            <Grid Margin="32">
+                            <Grid Margin="0,16,0,16">
                                 <TextBlock Text="{x:Bind Group.(viewModels:ImageMonthGroup.Key), Mode=OneWay}"
-                                           Style="{ThemeResource SubtitleTextBlockStyle}" />
+                                           Foreground="SteelBlue" Style="{ThemeResource SubtitleTextBlockStyle}">
+                                    <interactivity:Interaction.Behaviors>
+                                        <core:EventTriggerBehavior EventName="PointerEntered">
+                                            <core:ChangePropertyAction PropertyName="Foreground">
+                                                <core:ChangePropertyAction.Value>
+                                                    <SolidColorBrush Color="Gray" />
+                                                </core:ChangePropertyAction.Value>
+                                            </core:ChangePropertyAction>
+                                        </core:EventTriggerBehavior>
+                                        <core:EventTriggerBehavior EventName="PointerExited">
+                                            <core:ChangePropertyAction PropertyName="Foreground">
+                                                <core:ChangePropertyAction.Value>
+                                                    <SolidColorBrush Color="SteelBlue" />
+                                                </core:ChangePropertyAction.Value>
+                                            </core:ChangePropertyAction>
+                                        </core:EventTriggerBehavior>
+                                        <core:EventTriggerBehavior EventName="PointerPressed">
+                                            <core:ChangePropertyAction PropertyName="Foreground">
+                                                <core:ChangePropertyAction.Value>
+                                                    <SolidColorBrush Color="LightGray" />
+                                                </core:ChangePropertyAction.Value>
+                                            </core:ChangePropertyAction>
+                                        </core:EventTriggerBehavior>
+                                    </interactivity:Interaction.Behaviors>
+                                </TextBlock>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>

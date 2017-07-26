@@ -14,20 +14,26 @@
 
     <Grid>
         <controls:MyAdaptiveGridView x:Name="MemoryGridView"
-                                      ItemsSource="{x:Bind MemoryListView.MemoryViewModels, Mode=OneWay}"
-                                      SelectionMode="None" IsItemClickEnabled="True"
-                                      MinItemHeight="300" MinItemWidth="400"
-                                      ItemClick="{x:Bind MemoryListView.OnItemClick}"
-                                      animations:ReorderGridAnimation.Duration="250">
+                                     ItemsSource="{x:Bind MemoryListView.MemoryViewModels, Mode=OneWay}"
+                                     SelectionMode="None" IsItemClickEnabled="True"
+                                     MinItemHeight="300" MinItemWidth="400"
+                                     ItemClick="{x:Bind MemoryListView.OnItemClick}"
+                                     animations:ReorderGridAnimation.Duration="250">
             <controls:MyAdaptiveGridView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:MemoryViewModel">
-                    <Grid SizeChanged="GridViewItem_SizeChanged" PointerEntered="GridViewItem_PointerEntered"
+                    <Grid x:Name="Grid" SizeChanged="GridViewItem_SizeChanged" PointerEntered="GridViewItem_PointerEntered"
                           PointerExited="GridViewItem_PointerExited">
                         <Image VerticalAlignment="Center" Stretch="UniformToFill"
                                Source="{x:Bind CoverImage, Mode=OneWay}" />
                     </Grid>
                 </DataTemplate>
             </controls:MyAdaptiveGridView.ItemTemplate>
+
+            <controls:MyAdaptiveGridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="Margin" Value="0" />
+                </Style>
+            </controls:MyAdaptiveGridView.ItemContainerStyle>
         </controls:MyAdaptiveGridView>
     </Grid>
 </UserControl>
