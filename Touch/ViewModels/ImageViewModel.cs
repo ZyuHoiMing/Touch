@@ -11,7 +11,7 @@ namespace Touch.ViewModels
     /// <summary>
     ///     图片ViewModel
     /// </summary>
-    public class ImageViewModel : NotificationBase
+    public class ImageViewModel : NotificationBase, IComparable<ImageViewModel>
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
         /// <summary>
@@ -82,6 +82,18 @@ namespace Touch.ViewModels
         ///     缩略图
         /// </summary>
         public BitmapImage ThumbnailImage { get; private set; }
+
+        /// <summary>
+        ///     排序比较函数实现
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public int CompareTo(ImageViewModel other)
+        {
+            if (DateTaken < other.DateTaken)
+                return -1;
+            return DateTaken == other.DateTaken ? 0 : 1;
+        }
 
         /// <summary>
         ///     原始图片

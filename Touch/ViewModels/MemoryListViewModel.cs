@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Touch.Models;
+using Touch.Views.Pages;
 
 namespace Touch.ViewModels
 {
@@ -79,6 +81,9 @@ namespace Touch.ViewModels
             if (item == null)
                 return;
             // 进入街景界面
+            var rootFrame = Window.Current.Content as Frame;
+            rootFrame?.Navigate(typeof(StreetViewPage), item.ImageViewModels);
+            Window.Current.Content = rootFrame;
             Debug.WriteLine("进入街景界面");
         }
     }

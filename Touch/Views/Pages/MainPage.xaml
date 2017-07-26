@@ -76,9 +76,7 @@
                         <TextBlock x:Uid="Album" />
                     </PivotItem.Header>
 
-                    <Grid Background="White">
-                        <TextBlock Text="Content of pivot item 1." />
-                    </Grid>
+                    <Grid Background="White" />
                 </PivotItem>
             </Pivot>
         </Grid>
