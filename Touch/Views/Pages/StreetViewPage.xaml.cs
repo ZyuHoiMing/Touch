@@ -269,7 +269,8 @@ namespace Touch.Views.Pages
                                 _tmpNodeNum = nodeNum; //保护现场
                                 _tmpWayNum = wayNum; //保护现场
                                 List<ImageViewModel> thisPointPhoto = new List<ImageViewModel>();//得出改点的图片
-                                List<int> list = _clusteringResult.ElementAt(wayNum);
+                                List<int> list = _clusteringResult.ElementAt(wayNum-1);
+                                Debug.WriteLine("click" + (wayNum-1));
                                 for (int i = 0; i < list.Count; ++i)
                                 {
                                     thisPointPhoto.Add(_test[list.ElementAt(i)]);
@@ -327,7 +328,7 @@ namespace Touch.Views.Pages
                         {
                             Debug.WriteLine("finish");
                             InvokeJsHeading(nodeNum);
-                            TestClick(nodeNum + 1, wayNum);
+                            TestClick(nodeNum + 1, wayNum+1);
                         }
                         else if (wayNum < _wayPoint.Count - 1 && _wayPoint[wayNum] == _pathPoint[nodeNum])
                         {
@@ -372,7 +373,9 @@ namespace Touch.Views.Pages
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (!_hasPath)
-                TestGetPath();
+            {
+                TestGetPath(); _hasPath = true;
+            }
             else
             {
                 Debug.Write("already");
