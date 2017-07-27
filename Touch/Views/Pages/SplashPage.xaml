@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:userControls="using:Touch.Views.UserControls"
     mc:Ignorable="d"
     Loaded="Splash_OnLoaded">
 
@@ -15,7 +14,8 @@
     </Page.Transitions>
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-        <userControls:TransparentBackgroundControl />
+        <RelativePanel x:Name="MainGrid" MinWidth="40" />
+        <RelativePanel Width="{Binding ElementName=MainGrid, Path=Width}" Background="#60FFFFFF" />
 
         <Canvas>
             <Image Name="ExtendedSplashImage" Source="ms-appx:///Assets/MySplashScreen.png" />

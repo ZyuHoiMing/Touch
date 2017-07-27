@@ -4,6 +4,10 @@ using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Touch.Data;
+using Windows.UI.Composition;
+using Windows.UI.Xaml.Hosting;
+using System.Numerics;
+using Microsoft.Graphics.Canvas.Effects;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -15,6 +19,9 @@ namespace Touch.Views.Pages
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class SplashPage : Page
     {
+        private Compositor _compositor;
+        private SpriteVisual _hostSprite;
+
         /// <summary>
         ///     Variable to hold the splash screen object.
         /// </summary>
@@ -54,6 +61,79 @@ namespace Touch.Views.Pages
             PositionImage();
             // Optional: Add a progress ring to your splash screen to show users that content is loading
             PositionRing();
+            // 模糊效果
+            ApplyAcrylicAccent(MainGrid);
+            MainGrid.SizeChanged += (sender, args) =>
+            {
+                if (_hostSprite != null)
+                    _hostSprite.Size = args.NewSize.ToVector2();
+            };
+        }
+
+        /// <summary>
+        ///     背景模糊特性
+        /// </summary>
+        /// <param name="panel"></param>
+        private void ApplyAcrylicAccent(FrameworkElement panel)
+        {
+            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            _hostSprite = _compositor.CreateSpriteVisual();
+            _hostSprite.Size = new Vector2((float)panel.ActualWidth, (float)panel.ActualHeight);
+
+            ElementCompositionPreview.SetElementChildVisual(panel, _hostSprite);
+            // TODO 14393
+            // _hostSprite.Brush = _compositor.CreateHostBackdropBrush();
+            //var bloomEffectDesc = new ArithmeticCompositeEffect
+            //{
+            //    Name = "Bloom",
+            //    Source1Amount = 1,
+            //    Source2Amount = 2,
+            //    MultiplyAmount = 0,
+
+            //    Source1 = new CompositionEffectSourceParameter("source"),
+            //    Source2 = new GaussianBlurEffect
+            //    {
+            //        Name = "Blur",
+            //        BorderMode = EffectBorderMode.Hard,
+            //        BlurAmount = 40,
+
+            //        Source = new BlendEffect
+            //        {
+            //            Mode = BlendEffectMode.Multiply,
+
+            //            Background = new CompositionEffectSourceParameter("source2"),
+            //            Foreground = new CompositionEffectSourceParameter("source2"),
+            //        },
+            //    },
+            //};
+
+            //var bloomEffectFactory = _compositor.CreateEffectFactory(bloomEffectDesc,
+            //    new[] { "Bloom.Source2Amount", "Blur.BlurAmount" });
+            //var brush = bloomEffectFactory.CreateBrush();
+
+            //var backdropBrush = _compositor.CreateHostBackdropBrush();
+            //brush.SetSourceParameter("source", backdropBrush);
+            //brush.SetSourceParameter("source2", backdropBrush);
+
+            //// Setup some animations for the bloom effect
+            //ScalarKeyFrameAnimation blurAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            //blurAnimation.InsertKeyFrame(0, 0);
+            //blurAnimation.InsertKeyFrame(.5f, 2);
+            //blurAnimation.InsertKeyFrame(1, 0);
+            //blurAnimation.Duration = TimeSpan.FromMilliseconds(5000);
+            //blurAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
+
+            //ScalarKeyFrameAnimation bloomAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            //bloomAnimation.InsertKeyFrame(0, 0);
+            //bloomAnimation.InsertKeyFrame(.5f, 40);
+            //bloomAnimation.InsertKeyFrame(1, 0);
+            //bloomAnimation.Duration = TimeSpan.FromMilliseconds(5000);
+            //bloomAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
+
+            //brush.StartAnimation("Bloom.Source2Amount", blurAnimation);
+            //brush.StartAnimation("Blur.BlurAmount", bloomAnimation);
+
+            //_hostSprite.Brush = brush;
         }
 
         private void PositionImage()

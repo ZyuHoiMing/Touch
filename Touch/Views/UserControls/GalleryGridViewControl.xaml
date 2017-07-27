@@ -22,7 +22,6 @@
                                       Source="{x:Bind _galleryImageListViewModel.ImageMonthGroups, Mode=OneWay}" />
             </SemanticZoom.Resources>
             <SemanticZoom.ZoomedInView>
-                <!--Padding="96,64,96,0" ItemsSource="{x:Bind _allImageListVm.MyImageVms, Mode=OneWay}"-->
                 <controls:MyAdaptiveGridView x:Name="GalleryGridView" ItemsSource="{x:Bind Cvs.View, Mode=OneWay}"
                                              SelectionMode="None" IsItemClickEnabled="True"
                                              MinItemHeight="180" MinItemWidth="240" Padding="144,0,144,0"
