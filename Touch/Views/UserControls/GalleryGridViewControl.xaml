@@ -25,7 +25,7 @@
                 <!--Padding="96,64,96,0" ItemsSource="{x:Bind _allImageListVm.MyImageVms, Mode=OneWay}"-->
                 <controls:MyAdaptiveGridView x:Name="GalleryGridView" ItemsSource="{x:Bind Cvs.View, Mode=OneWay}"
                                              SelectionMode="None" IsItemClickEnabled="True"
-                                             MinItemHeight="300" MinItemWidth="400" Padding="144,0,144,0"
+                                             MinItemHeight="180" MinItemWidth="240" Padding="144,0,144,0"
                                              animations:ReorderGridAnimation.Duration="250">
                     <controls:MyAdaptiveGridView.ItemContainerStyle>
                         <Style TargetType="GridViewItem">
@@ -83,7 +83,8 @@
             </SemanticZoom.ZoomedInView>
 
             <SemanticZoom.ZoomedOutView>
-                <ListView ItemsSource="{x:Bind Cvs.View.CollectionGroups, Mode=OneWay}" SelectionMode="None" Padding="144,0,144,0">
+                <ListView ItemsSource="{x:Bind Cvs.View.CollectionGroups, Mode=OneWay}" SelectionMode="None"
+                          Padding="144,0,144,0">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="ICollectionViewGroup">
                             <Grid Margin="0,16,0,16">
