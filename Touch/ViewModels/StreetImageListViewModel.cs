@@ -1,31 +1,28 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 
 namespace Touch.ViewModels
 {
+    /// <summary>
+    ///     街景图片的VM
+    /// </summary>
     public class StreetImageListViewModel : NotificationBase
     {
-        // TODO 数据应该来自data
-        //private readonly List<ImageModel> _myImages = new List<ImageModel>
-        //{
-        //    new ImageModel {ImagePath = "ms-appx:///Assets/pic1.jpg"},
-        //    new ImageModel {ImagePath = "ms-appx:///Assets/pic2.jpg"},
-        //    new ImageModel {ImagePath = "ms-appx:///Assets/pic3.jpg"},
-        //    new ImageModel {ImagePath = "ms-appx:///Assets/pic4.jpg"},
-        //    new ImageModel {ImagePath = "ms-appx:///Assets/pic5.jpg"},
-        //    new ImageModel {ImagePath = "ms-appx:///Assets/pic6.jpg"}
-        //};
-
-        private ObservableCollection<ImageViewModel> _myImageVms;
+        private List<ImageViewModel> _imageViewModels;
 
         private int _selectedIndex;
+
+        public StreetImageListViewModel(List<ImageViewModel> imageViewModels)
+        {
+            _imageViewModels = imageViewModels;
+        }
 
         /// <summary>
         ///     与view交互的list
         /// </summary>
-        public ObservableCollection<ImageViewModel> MyImageVms
+        public List<ImageViewModel> ImageViewModels
         {
-            get { return _myImageVms; }
-            set { SetProperty(ref _myImageVms, value); }
+            get { return _imageViewModels; }
+            set { SetProperty(ref _imageViewModels, value); }
         }
 
         /// <summary>
@@ -36,19 +33,19 @@ namespace Touch.ViewModels
             get { return _selectedIndex; }
             set
             {
-                if (value < 0 || value >= _myImageVms.Count)
+                if (value < 0 || value >= _imageViewModels.Count)
                     return;
                 if (SetProperty(ref _selectedIndex, value))
-                    RaisePropertyChanged(nameof(SelectedPerson));
+                    RaisePropertyChanged(nameof(SelectedImage));
             }
         }
 
         /// <summary>
         ///     选中的imageVM
         /// </summary>
-        public ImageViewModel SelectedPerson
+        public ImageViewModel SelectedImage
         {
-            get { return _selectedIndex >= 0 ? _myImageVms[_selectedIndex] : null; }
+            get { return _selectedIndex >= 0 ? _imageViewModels[_selectedIndex] : null; }
         }
     }
 }
