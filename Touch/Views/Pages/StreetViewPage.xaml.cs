@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Touch.Models;
 using Touch.ViewModels;
+using Windows.Media.Core;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -41,6 +42,8 @@ namespace Touch.Views.Pages
         /// 暂存要显示的游览点
         /// </summary>
         private int _tmpWayNum;
+
+        private MediaPlayerElement _backgroungMusic;
         //
         public StreetViewPage()
         {
@@ -55,6 +58,10 @@ namespace Touch.Views.Pages
             }*/
             var uri = new Uri("ms-appx-web:///Web/Test.html");
             Webview1.Navigate(uri);
+            _backgroungMusic = new MediaPlayerElement();
+            _backgroungMusic.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/Media/summer.mp3"));
+            _backgroungMusic.AutoPlay = true;
+            _backgroungMusic.MediaPlayer.Play();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -92,6 +99,7 @@ namespace Touch.Views.Pages
         {
             await Webview1.InvokeScriptAsync("eval", new[] { "streetShowEnd()" });
         }
+
         //嵌入移动
         private async void InvokeJsMove(string x, string y, string heading)
         {
@@ -381,6 +389,7 @@ namespace Touch.Views.Pages
                 Debug.Write("already");
             }
         }
+
         private void ShowEndButton()
         {
             StreetGalleryControl.Visibility = Visibility.Collapsed;
@@ -388,9 +397,11 @@ namespace Touch.Views.Pages
                 ShowPath(_tmpNodeNum, _tmpWayNum);
             else InvokeJsEnd();//结束
         }
+
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             InvokeJsGetPath();
         }
+
     }
 }
