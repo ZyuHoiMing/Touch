@@ -8,16 +8,20 @@ namespace Touch.ViewModels
     /// </summary>
     public class StreetImageListViewModel : NotificationBase
     {
-        private ObservableCollection<ImageViewModel> _imageViewModels;
+        /// <summary>
+        ///     与view交互的list
+        /// </summary>
+        public ObservableCollection<ImageViewModel> ImageViewModels;
 
         private int _selectedIndex;
 
         public StreetImageListViewModel()
         {
-            _imageViewModels = new ObservableCollection<ImageViewModel>
+            ImageViewModels = new ObservableCollection<ImageViewModel>
             {
                 null
             };
+            _selectedIndex = 0;
         }
 
         /// <summary>
@@ -31,15 +35,7 @@ namespace Touch.ViewModels
             {
                 ImageViewModels.Add(imageViewModel);
             }
-        }
-
-        /// <summary>
-        ///     与view交互的list
-        /// </summary>
-        public ObservableCollection<ImageViewModel> ImageViewModels
-        {
-            get { return _imageViewModels; }
-            set { SetProperty(ref _imageViewModels, value); }
+            SelectedIndex = 0;
         }
 
         /// <summary>
@@ -50,7 +46,7 @@ namespace Touch.ViewModels
             get { return _selectedIndex; }
             set
             {
-                if (value < 0 || value >= _imageViewModels.Count)
+                if (value < 0 || value >= ImageViewModels.Count)
                     return;
                 if (SetProperty(ref _selectedIndex, value))
                     RaisePropertyChanged(nameof(SelectedImage));
@@ -62,7 +58,7 @@ namespace Touch.ViewModels
         /// </summary>
         public ImageViewModel SelectedImage
         {
-            get { return _selectedIndex >= 0 ? _imageViewModels[_selectedIndex] : null; }
+            get { return _selectedIndex >= 0 ? ImageViewModels[_selectedIndex] : null; }
         }
     }
 }
