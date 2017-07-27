@@ -26,6 +26,6 @@
         <Button Grid.Row="2" Click="Button_Click" HorizontalAlignment="Center" Margin="100,0,0,0">街景展示</Button>
         <!--Source="ms-appx-web:///Web/Test.html"-->
         <!--OnBackButtonClicked=""-->
-        <userControls:StreetGalleryControl Grid.RowSpan="3" Visibility="Collapsed"/>
+        <userControls:StreetGalleryControl x:Name="StreetGalleryControl" Grid.RowSpan="3" Visibility="Collapsed" OnBackButtonClicked="ShowEndButton"/>
     </Grid>
 </Page>

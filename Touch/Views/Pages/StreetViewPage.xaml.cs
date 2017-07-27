@@ -275,9 +275,12 @@ namespace Touch.Views.Pages
                                     thisPointPhoto.Add(_test[list.ElementAt(i)]);
                                 }
 
-                                if (nodeNum<_pathPoint.Count)
-                                    ShowPath(nodeNum, wayNum);
-                                else InvokeJsEnd();//结束
+                                StreetGalleryControl.StreetImageListViewModel.AddImages(thisPointPhoto);
+                                StreetGalleryControl.Visibility = Visibility.Visible;
+
+                                //if (nodeNum<_pathPoint.Count)
+                                //    ShowPath(nodeNum, wayNum);
+                                //else InvokeJsEnd();//结束
                             }
                             else
                                 TestClick(nodeNum, wayNum);
@@ -375,8 +378,9 @@ namespace Touch.Views.Pages
                 Debug.Write("already");
             }
         }
-        private void ShowEndButton(object sender, RoutedEventArgs e)
+        private void ShowEndButton()
         {
+            StreetGalleryControl.Visibility = Visibility.Collapsed;
             if (_tmpNodeNum < _pathPoint.Count)
                 ShowPath(_tmpNodeNum, _tmpWayNum);
             else InvokeJsEnd();//结束

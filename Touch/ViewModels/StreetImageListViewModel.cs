@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Touch.ViewModels
 {
@@ -7,19 +8,32 @@ namespace Touch.ViewModels
     /// </summary>
     public class StreetImageListViewModel : NotificationBase
     {
-        private List<ImageViewModel> _imageViewModels;
+        private ObservableCollection<ImageViewModel> _imageViewModels;
 
         private int _selectedIndex;
 
-        public StreetImageListViewModel(List<ImageViewModel> imageViewModels)
+        public StreetImageListViewModel()
         {
-            _imageViewModels = imageViewModels;
+            _imageViewModels = new ObservableCollection<ImageViewModel>();
+        }
+
+        /// <summary>
+        /// 添加街景图片
+        /// </summary>
+        /// <param name="imageViewModels"></param>
+        public void AddImages(List<ImageViewModel> imageViewModels)
+        {
+            ImageViewModels.Clear();
+            foreach (var imageViewModel in imageViewModels)
+            {
+                ImageViewModels.Add(imageViewModel);
+            }
         }
 
         /// <summary>
         ///     与view交互的list
         /// </summary>
-        public List<ImageViewModel> ImageViewModels
+        public ObservableCollection<ImageViewModel> ImageViewModels
         {
             get { return _imageViewModels; }
             set { SetProperty(ref _imageViewModels, value); }
