@@ -29,6 +29,7 @@ namespace Touch.Views.Pages
         private List<Point> _wayPoint = new List<Point>();
 
         private List<int> _insertWayNum = new List<int>();
+        private List<List<int>> _clusteringResult;
         //
         public StreetViewPage()
         {
@@ -51,6 +52,8 @@ namespace Touch.Views.Pages
             _test = e.Parameter as List<ImageViewModel>;
             var photoClustering = new PhotoClustering(_test);
             _wayPoint = photoClustering.GetPhotoClustering();
+            _test = photoClustering.updateImageList();//去掉没有GPS的图片
+            _clusteringResult = photoClustering.getClusteringResult();
         }
 
         private async void InvokeJsStart(string x, string y)
@@ -251,7 +254,19 @@ namespace Touch.Views.Pages
                             string[] args = {"getClick()"};
                             var result = await Webview1.InvokeScriptAsync("eval", args);
                             if (result == "click")
-                                ShowPath(nodeNum, wayNum);
+                            {
+
+                                List<ImageViewModel> thisPointPhoto = new List<ImageViewModel>();//得出改点的图片
+                                List<int> list = _clusteringResult.ElementAt(wayNum);
+                                for (int i = 0; i < list.Count; ++i)
+                                {
+                                    thisPointPhoto.Add(_test[list.ElementAt(i)]);
+                                }
+
+                                if (nodeNum<_pathPoint.Count)
+                                    ShowPath(nodeNum, wayNum);
+                                else InvokeJsEnd();//结束
+                            }
                             else
                                 TestClick(nodeNum, wayNum);
                             // Timer completed.
@@ -297,7 +312,7 @@ namespace Touch.Views.Pages
                         {
                             Debug.WriteLine("finish");
                             InvokeJsHeading(nodeNum);
-                            //InvokeJsEnd();
+                            TestClick(nodeNum + 1, wayNum);
                         }
                         else if (wayNum < _wayPoint.Count - 1 && _wayPoint[wayNum] == _pathPoint[nodeNum])
                         {
