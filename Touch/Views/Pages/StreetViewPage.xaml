@@ -5,6 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userControls="using:Touch.Views.UserControls"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -15,17 +17,28 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <userControls:TitleBarControl x:Name="TitleBarControl" Grid.Row="0" Margin="0,0,0,8" />
-        
-        <WebView x:Name="Webview1" Grid.Row="1" />
-        <Button Grid.Row="2" Click="Button_Click_1" HorizontalAlignment="Center" Margin="0,0,100,0">规划路径</Button>
-        <Button Grid.Row="2" Click="Button_Click" HorizontalAlignment="Center" Margin="100,0,0,0">街景展示</Button>
+        <!-- 街景地图 -->
+        <WebView x:Name="Webview1" Grid.Row="0" />
+        <Button Grid.Row="1" Click="Button_Click_1" HorizontalAlignment="Center" Margin="0,0,100,0">规划路径</Button>
+        <Button Grid.Row="1" Click="Button_Click" HorizontalAlignment="Center" Margin="100,0,0,0">街景展示</Button>
         <!--Source="ms-appx-web:///Web/Test.html"-->
-        <!--OnBackButtonClicked=""-->
-        <userControls:StreetGalleryControl x:Name="StreetGalleryControl" Grid.RowSpan="3" Visibility="Collapsed" OnBackButtonClicked="ShowEndButton"/>
+        <!-- 返回按钮 -->
+        <Grid x:Name="BackButtonGrid" Height="192" Width="192" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Transparent" PointerEntered="BackButtonGrid_PointerEntered" PointerExited="BackButtonGrid_PointerExited" />
+        <Grid x:Name="TitleStack" Margin="48, 48, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#DB000000" PointerEntered="BackButtonGrid_PointerEntered">
+            <Button x:Name="BackButton" Width="48" Height="48" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="0" Style="{StaticResource ListButtonStyle}">
+                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Foreground="#C1FFFFFF" Glyph="{StaticResource Back}" RenderTransformOrigin="0.5,0.5"/>
+            </Button>
+            <Grid.RenderTransform>
+                <CompositeTransform />
+            </Grid.RenderTransform>
+            <interactivity:Interaction.Behaviors>
+                <behaviors:Offset OffsetX="-96" Duration="500" Delay="1500" AutomaticallyStart="True"/>
+            </interactivity:Interaction.Behaviors>
+        </Grid>
+        <!-- 街景图片 -->
+        <userControls:StreetGalleryControl x:Name="StreetGalleryControl" Grid.RowSpan="2" Visibility="Collapsed" OnBackButtonClicked="ShowEndButton"/>
     </Grid>
 </Page>
