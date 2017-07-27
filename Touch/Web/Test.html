@@ -38,7 +38,15 @@
         panorama = map.getStreetView();
         //panorama.setPosition({ lat: 22.277782, lng: 114.170241 });
         panorama.setVisible(false);
-        panorama.setOptions({ linksControl: false, });
+        panorama.setOptions({
+            linksControl: false,
+            addressControlOptions:
+			{
+			    position: google.maps.ControlPosition.LEFT_BOTTOM
+			},
+            enableCloseButton: false,
+            zoomControl: false,
+        });
     }
     function streetShowEnd() {
         panorama.setVisible(false);
