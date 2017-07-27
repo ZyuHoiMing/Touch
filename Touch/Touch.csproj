@@ -135,9 +135,6 @@
     <Compile Include="Views\Pages\SplashPage.xaml.cs">
       <DependentUpon>SplashPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Pages\StreetGalleryPage.xaml.cs">
-      <DependentUpon>StreetGalleryPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Pages\StreetViewPage.xaml.cs">
       <DependentUpon>StreetViewPage.xaml</DependentUpon>
     </Compile>
@@ -152,6 +149,9 @@
     </Compile>
     <Compile Include="Views\UserControls\MemoryGridViewControl.xaml.cs">
       <DependentUpon>MemoryGridViewControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\StreetGalleryControl.xaml.cs">
+      <DependentUpon>StreetGalleryControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\TitleBarControl.xaml.cs">
       <DependentUpon>TitleBarControl.xaml</DependentUpon>
@@ -230,10 +230,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Pages\StreetGalleryPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Pages\StreetViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -251,6 +247,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\MemoryGridViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\StreetGalleryControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
