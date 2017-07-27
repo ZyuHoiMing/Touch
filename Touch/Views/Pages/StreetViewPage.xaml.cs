@@ -29,7 +29,18 @@ namespace Touch.Views.Pages
         private List<Point> _wayPoint = new List<Point>();
 
         private List<int> _insertWayNum = new List<int>();
+
         private List<List<int>> _clusteringResult;
+
+        private bool _hasPath=false;
+        /// <summary>
+        /// 暂存要显示的路径点 
+        /// </summary>
+        private int _tmpNodeNum;
+        /// <summary>
+        /// 暂存要显示的游览点
+        /// </summary>
+        private int _tmpWayNum;
         //
         public StreetViewPage()
         {
@@ -255,7 +266,8 @@ namespace Touch.Views.Pages
                             var result = await Webview1.InvokeScriptAsync("eval", args);
                             if (result == "click")
                             {
-
+                                _tmpNodeNum = nodeNum; //保护现场
+                                _tmpWayNum = wayNum; //保护现场
                                 List<ImageViewModel> thisPointPhoto = new List<ImageViewModel>();//得出改点的图片
                                 List<int> list = _clusteringResult.ElementAt(wayNum);
                                 for (int i = 0; i < list.Count; ++i)
@@ -356,9 +368,19 @@ namespace Touch.Views.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            TestGetPath();
+            if (!_hasPath)
+                TestGetPath();
+            else
+            {
+                Debug.Write("already");
+            }
         }
-
+        private void ShowEndButton(object sender, RoutedEventArgs e)
+        {
+            if (_tmpNodeNum < _pathPoint.Count)
+                ShowPath(_tmpNodeNum, _tmpWayNum);
+            else InvokeJsEnd();//结束
+        }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             InvokeJsGetPath();
