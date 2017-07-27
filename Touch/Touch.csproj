@@ -97,7 +97,9 @@
     </Compile>
     <Compile Include="Common\TitleBarHelper.cs" />
     <Compile Include="Controls\BackDrop.cs" />
+    <Compile Include="Controls\INavigableUserControl.cs" />
     <Compile Include="Controls\MyAdaptiveGridView.cs" />
+    <Compile Include="Controls\NavigableUserControl.cs" />
     <Compile Include="Data\DatabaseBase.cs" />
     <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="Data\FolderDatabase.cs" />
@@ -140,6 +142,9 @@
     </Compile>
     <Compile Include="Views\UserControls\AboutControl.xaml.cs">
       <DependentUpon>AboutControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\BackButtonControl.xaml.cs">
+      <DependentUpon>BackButtonControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\FolderSourceControl.xaml.cs">
       <DependentUpon>FolderSourceControl.xaml</DependentUpon>
@@ -236,6 +241,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\AboutControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\BackButtonControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

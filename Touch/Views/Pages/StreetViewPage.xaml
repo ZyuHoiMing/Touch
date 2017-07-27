@@ -14,18 +14,20 @@
     </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <userControls:TitleBarControl x:Name="TitleBarControl" Grid.Row="0" Margin="0,0,0,8" />
-        
-        <WebView x:Name="Webview1" Grid.Row="1" />
-        <Button Grid.Row="2" Click="Button_Click_1" HorizontalAlignment="Center" Margin="0,0,100,0">规划路径</Button>
-        <Button Grid.Row="2" Click="Button_Click" HorizontalAlignment="Center" Margin="100,0,0,0">街景展示</Button>
-        <!--Source="ms-appx-web:///Web/Test.html"-->
-        <!--OnBackButtonClicked=""-->
-        <userControls:StreetGalleryControl x:Name="StreetGalleryControl" Grid.RowSpan="3" Visibility="Collapsed" OnBackButtonClicked="ShowEndButton"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <!-- 街景地图 -->
+            <WebView x:Name="Webview1" Grid.Row="0" />
+            <Button Grid.Row="1" Click="Button_Click_1" HorizontalAlignment="Center" Margin="0,0,100,0">规划路径</Button>
+            <Button Grid.Row="1" Click="Button_Click" HorizontalAlignment="Center" Margin="100,0,0,0">街景展示</Button>
+            <!--Source="ms-appx-web:///Web/Test.html"-->
+            <!-- 返回按钮 -->
+            <userControls:BackButtonControl x:Name="BackButtonControl" />
+        </Grid>
+        <!-- 街景图片 -->
+        <userControls:StreetGalleryControl x:Name="StreetGalleryControl" Shown="False" OnBackButtonClicked="ShowEndButton"/>
     </Grid>
 </Page>

@@ -28,7 +28,7 @@
                                Source="{x:Bind CoverImage, Mode=OneWay}" />
                         <Grid x:Name="MaskBorder" Background="#60000000">
                             <!--<controls:BackDrop Width="{Binding ElementName=PhotosPanel, Path=Width}" BlurAmount="15" />-->
-                            <TextBlock Margin="16,0,0,16" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Bottom" Text="{x:Bind MemoryName, Mode=OneWay}" />
+                            <TextBlock Margin="16,0,0,16" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Bottom" Text="{x:Bind MemoryName, Mode=OneWay}" Style="{StaticResource TitleTextBlockStyle}" />
                             <Button x:Name="DeleteButton" Width="48" Height="48" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource ListButtonStyle}" Command="{Binding ElementName=MemoryGridView, Path=DataContext.DeleteCommand}" CommandParameter="{Binding}">
                                 <FontIcon HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource SymbolThemeFontFamily}" Foreground="White" Glyph="{StaticResource Cancel}" />
                             </Button>

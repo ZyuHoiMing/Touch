@@ -11,6 +11,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Touch.Models;
 using Touch.ViewModels;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml.Hosting;
+using System.Threading.Tasks;
 using Windows.Media.Core;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -33,7 +36,7 @@ namespace Touch.Views.Pages
 
         private List<List<int>> _clusteringResult;
 
-        private bool _hasPath=false;
+        private bool _hasPath = false;
         /// <summary>
         /// 暂存要显示的路径点 
         /// </summary>
@@ -48,7 +51,8 @@ namespace Touch.Views.Pages
         public StreetViewPage()
         {
             InitializeComponent();
-            TitleBarControl.SetBackButtonVisibility(Visibility.Visible);
+            // 进入全屏模式
+            ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
             /*var localFolder = ApplicationData.Current.LocalFolder;
             Debug.WriteLine(localFolder.Path);
             var existingFile = localFolder.TryGetItemAsync("Test.html");
@@ -58,6 +62,12 @@ namespace Touch.Views.Pages
             }*/
             var uri = new Uri("ms-appx-web:///Web/Test.html");
             Webview1.Navigate(uri);
+            BackButtonControl.OnBackButtonClicked += () =>
+            {
+                var rootFrame = Window.Current.Content as Frame;
+                ApplicationView.GetForCurrentView().ExitFullScreenMode();
+                rootFrame?.GoBack();
+            };
             _backgroungMusic = new MediaPlayerElement();
             _backgroungMusic.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/Media/summer.mp3"));
             _backgroungMusic.AutoPlay = true;
@@ -89,7 +99,7 @@ namespace Touch.Views.Pages
             };
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await Webview1.InvokeScriptAsync("eval", new[] {"setIsGetPath()"});
+                await Webview1.InvokeScriptAsync("eval", new[] { "setIsGetPath()" });
                 var result = await Webview1.InvokeScriptAsync("eval", script);
                 //Debug.WriteLine(result);
             });
@@ -145,7 +155,7 @@ namespace Touch.Views.Pages
         //得到路径插入中途点
         private async void InvokeJsGetPath()
         {
-            var script = new string [1];
+            var script = new string[1];
             for (var i = 1; i < _wayPoint.Count - 1; ++i)
                 script[0] += "addWayPoint(" + _wayPoint.ElementAt(i).X + ", " + _wayPoint.ElementAt(i).Y + ");";
             script[0] += "getPath(" + _wayPoint.ElementAt(0).X + "," + _wayPoint.ElementAt(0).Y + ","
@@ -160,15 +170,15 @@ namespace Touch.Views.Pages
         //在路径中加入
         private void InsertWayPoint()
         {
-           // Debug.WriteLine("insert Point");
-            for (var i = 1; i < _wayPoint.Count-1; ++i)
+            // Debug.WriteLine("insert Point");
+            for (var i = 1; i < _wayPoint.Count - 1; ++i)
             {
-               // Debug.WriteLine(_wayPoint.ElementAt(i));
+                // Debug.WriteLine(_wayPoint.ElementAt(i));
                 var x = _wayPoint[i].X * 1000;
                 var y = _wayPoint[i].Y * 1000;
                 var tmpx = _pathPoint[0].X * 1000;
                 var tmpy = _pathPoint[0].Y * 1000;
-                int numI=0;
+                int numI = 0;
                 var tmp = (tmpx - x) * (tmpx - x) + (tmpy - y) * (tmpy - y);
                 for (var j = 1; j < _pathPoint.Count; ++j)
                 {
@@ -204,18 +214,18 @@ namespace Touch.Views.Pages
                         async () =>
                         {
                             if (!completed) return;
-                            string[] args = {"testIsGetPath()"};
+                            string[] args = { "testIsGetPath()" };
                             var result = await Webview1.InvokeScriptAsync("eval", args);
                             if (result == "Y")
                             {
-                                await Webview1.InvokeScriptAsync("eval", new[] {"setIsGetPath()"});
-                                var tmp = await Webview1.InvokeScriptAsync("eval", new[] {"getPathPoint()"});
+                                await Webview1.InvokeScriptAsync("eval", new[] { "setIsGetPath()" });
+                                var tmp = await Webview1.InvokeScriptAsync("eval", new[] { "getPathPoint()" });
                                 var pathArray = tmp.Split('\n');
                                 //Debug.WriteLine("path point length" + pathArray.Length);
                                 HashSet<int> deletePoint = new HashSet<int>();//稀疏掉的数组
                                 if (pathArray.Length > 80) //稀疏点
                                 {
-                                    double interval=pathArray.Length /((pathArray.Length - 80 + 1)*1.0);
+                                    double interval = pathArray.Length / ((pathArray.Length - 80 + 1) * 1.0);
                                     double cot = interval;
                                     while (cot < pathArray.Length)
                                     {
@@ -223,8 +233,8 @@ namespace Touch.Views.Pages
                                         cot += interval;
                                     }
                                     if (deletePoint.Contains(pathArray.Length)) deletePoint.Remove(pathArray.Length);
-                                 }
-                                int cotNum=0;
+                                }
+                                int cotNum = 0;
                                 for (int i = 0; i < pathArray.Length; ++i)
                                 {
                                     if (cotNum < deletePoint.Count && deletePoint.ElementAt(cotNum) == i)
@@ -244,7 +254,7 @@ namespace Touch.Views.Pages
                                 //for (int i = 0; i < _pathPoint.Count; ++i) Debug.WriteLine(_pathPoint.ElementAt(i));
                                 //嵌入_waypoint点
                                 InsertWayPoint();
-                                for (int i = 0; i < _pathPoint.Count; ++i) Debug.WriteLine(i+" "+_pathPoint.ElementAt(i));
+                                for (int i = 0; i < _pathPoint.Count; ++i) Debug.WriteLine(i + " " + _pathPoint.ElementAt(i));
                                 StartWalk();
                             }
                             else
@@ -270,22 +280,22 @@ namespace Touch.Views.Pages
                         async () =>
                         {
                             if (!completed) return;
-                            string[] args = {"getClick()"};
+                            string[] args = { "getClick()" };
                             var result = await Webview1.InvokeScriptAsync("eval", args);
                             if (result == "click")
                             {
                                 _tmpNodeNum = nodeNum; //保护现场
                                 _tmpWayNum = wayNum; //保护现场
                                 List<ImageViewModel> thisPointPhoto = new List<ImageViewModel>();//得出改点的图片
-                                List<int> list = _clusteringResult.ElementAt(wayNum-1);
-                                Debug.WriteLine("click" + (wayNum-1));
+                                List<int> list = _clusteringResult.ElementAt(wayNum - 1);
+                                Debug.WriteLine("click" + (wayNum - 1));
                                 for (int i = 0; i < list.Count; ++i)
                                 {
                                     thisPointPhoto.Add(_test[list.ElementAt(i)]);
                                 }
-
+                                
                                 StreetGalleryControl.StreetImageListViewModel.AddImages(thisPointPhoto);
-                                StreetGalleryControl.Visibility = Visibility.Visible;
+                                StreetGalleryControl.Shown = true;
 
                                 //if (nodeNum<_pathPoint.Count)
                                 //    ShowPath(nodeNum, wayNum);
@@ -336,7 +346,7 @@ namespace Touch.Views.Pages
                         {
                             Debug.WriteLine("finish");
                             InvokeJsHeading(nodeNum);
-                            TestClick(nodeNum + 1, wayNum+1);
+                            TestClick(nodeNum + 1, wayNum + 1);
                         }
                         else if (wayNum < _wayPoint.Count - 1 && _wayPoint[wayNum] == _pathPoint[nodeNum])
                         {
@@ -392,7 +402,6 @@ namespace Touch.Views.Pages
 
         private void ShowEndButton()
         {
-            StreetGalleryControl.Visibility = Visibility.Collapsed;
             if (_tmpNodeNum < _pathPoint.Count)
                 ShowPath(_tmpNodeNum, _tmpWayNum);
             else InvokeJsEnd();//结束

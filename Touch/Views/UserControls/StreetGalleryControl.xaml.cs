@@ -1,13 +1,12 @@
-﻿using Windows.UI.Xaml.Controls;
-using Touch.ViewModels;
+﻿using Touch.ViewModels;
 using System;
+using Touch.Controls;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Touch.Views.UserControls
 {
-    // ReSharper disable once RedundantExtendsListEntry
-    public sealed partial class StreetGalleryControl : UserControl
+    public sealed partial class StreetGalleryControl : NavigableUserControl
     {
         public StreetImageListViewModel StreetImageListViewModel;
         public event Action OnBackButtonClicked;
@@ -20,8 +19,9 @@ namespace Touch.Views.UserControls
             LeftButton.Click += (sender, args) => { StreetImageListViewModel.SelectedIndex--; };
             RightButton.Click += (sender, args) => { StreetImageListViewModel.SelectedIndex++; };
 
-            BackButton.Click += (sender, args) =>
+            GalleryBackButtonControl.OnBackButtonClicked += () =>
             {
+                Shown = false;
                 OnBackButtonClicked?.Invoke();
             };
         }

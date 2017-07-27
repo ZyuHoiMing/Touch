@@ -14,7 +14,10 @@ namespace Touch.ViewModels
 
         public StreetImageListViewModel()
         {
-            _imageViewModels = new ObservableCollection<ImageViewModel>();
+            _imageViewModels = new ObservableCollection<ImageViewModel>
+            {
+                null
+            };
         }
 
         /// <summary>
