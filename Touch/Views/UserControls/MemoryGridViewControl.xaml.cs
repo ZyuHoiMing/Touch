@@ -36,8 +36,19 @@ namespace Touch.Views.UserControls
                 return;
             MemoryListView = await MemoryListViewModel.GetInstanceAsync();
             MemoryGridView.ItemsSource = MemoryListView.MemoryViewModels;
+            MemoryGridView.DataContext = MemoryListView;
             _isLoaded = true;
             Debug.WriteLine("MemoryGridViewControl_OnLoaded");
+        }
+        
+        private void ItemGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            var rootGrid = sender as Grid;
+            if (rootGrid == null)
+                return;
+            var maskBorder = rootGrid.Children[1] as FrameworkElement;
+            var maskVisual = ElementCompositionPreview.GetElementVisual(maskBorder);
+            maskVisual.Opacity = 0f;
         }
 
         // TODO 可以复用
@@ -67,7 +78,8 @@ namespace Touch.Views.UserControls
             if (rootGrid == null)
                 return;
             var img = rootGrid.Children[0] as FrameworkElement;
-            ToggleItemPointAnimation(img, true);
+            var maskBorder = rootGrid.Children[1] as FrameworkElement;
+            ToggleItemPointAnimation(maskBorder, img, true);
         }
 
         /// <summary>
@@ -81,16 +93,35 @@ namespace Touch.Views.UserControls
             if (rootGrid == null)
                 return;
             var img = rootGrid.Children[0] as FrameworkElement;
-            ToggleItemPointAnimation(img, false);
+            var maskBorder = rootGrid.Children[1] as FrameworkElement;
+            ToggleItemPointAnimation(maskBorder, img, false);
         }
 
-        private void ToggleItemPointAnimation(FrameworkElement img, bool show)
+        private void ToggleItemPointAnimation(FrameworkElement mask, FrameworkElement img, bool show)
         {
+            var maskVisual = ElementCompositionPreview.GetElementVisual(mask);
             var imgVisual = ElementCompositionPreview.GetElementVisual(img);
+
+            var fadeAnimation = CreateFadeAnimation(show);
             var scaleAnimation = CreateScaleAnimation(show);
-            imgVisual.CenterPoint = new Vector3((float) img.ActualWidth / 2, (float) img.ActualHeight / 2, 0f);
+
+            if (imgVisual.CenterPoint.X == 0 && imgVisual.CenterPoint.Y == 0)
+            {
+                imgVisual.CenterPoint = new Vector3((float)mask.ActualWidth / 2, (float)mask.ActualHeight / 2, 0f);
+            }
+
+            maskVisual.StartAnimation("Opacity", fadeAnimation);
             imgVisual.StartAnimation("Scale.x", scaleAnimation);
             imgVisual.StartAnimation("Scale.y", scaleAnimation);
+        }
+
+        private ScalarKeyFrameAnimation CreateFadeAnimation(bool show)
+        {
+            var compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            var fadeAnimation = compositor.CreateScalarKeyFrameAnimation();
+            fadeAnimation.InsertKeyFrame(1f, show ? 1f : 0f);
+            fadeAnimation.Duration = TimeSpan.FromMilliseconds(1000);
+            return fadeAnimation;
         }
 
         private ScalarKeyFrameAnimation CreateScaleAnimation(bool show)

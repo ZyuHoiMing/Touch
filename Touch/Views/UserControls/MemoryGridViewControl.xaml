@@ -13,7 +13,7 @@
     Loaded="MemoryGridViewControl_OnLoaded">
 
     <Grid>
-        <controls:MyAdaptiveGridView x:Name="MemoryGridView"
+        <controls:MyAdaptiveGridView x:Name="MemoryGridView" DataContext="{x:Bind MemoryListView, Mode=OneWay}"
                                      ItemsSource="{x:Bind MemoryListView.MemoryViewModels, Mode=OneWay}"
                                      SelectionMode="None" IsItemClickEnabled="True"
                                      MinItemHeight="270" MinItemWidth="360"
@@ -21,11 +21,18 @@
                                      animations:ReorderGridAnimation.Duration="250">
             <controls:MyAdaptiveGridView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:MemoryViewModel">
-                    <Grid x:Name="Grid" SizeChanged="GridViewItem_SizeChanged"
+                    <Grid SizeChanged="GridViewItem_SizeChanged"
                           PointerEntered="GridViewItem_PointerEntered"
-                          PointerExited="GridViewItem_PointerExited">
+                          PointerExited="GridViewItem_PointerExited" Loaded="ItemGrid_Loaded">
                         <Image VerticalAlignment="Center" Stretch="UniformToFill"
                                Source="{x:Bind CoverImage, Mode=OneWay}" />
+                        <Grid x:Name="MaskBorder" Background="#60000000">
+                            <!--<controls:BackDrop Width="{Binding ElementName=PhotosPanel, Path=Width}" BlurAmount="15" />-->
+                            <TextBlock Margin="16,0,0,16" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Bottom" Text="{x:Bind MemoryName, Mode=OneWay}" />
+                            <Button x:Name="DeleteButton" Width="48" Height="48" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource ListButtonStyle}" Command="{Binding ElementName=MemoryGridView, Path=DataContext.DeleteCommand}" CommandParameter="{Binding}">
+                                <FontIcon HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource SymbolThemeFontFamily}" Foreground="White" Glyph="{StaticResource Cancel}" />
+                            </Button>
+                        </Grid>
                     </Grid>
                 </DataTemplate>
             </controls:MyAdaptiveGridView.ItemTemplate>
