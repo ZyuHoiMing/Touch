@@ -14,7 +14,7 @@
         <StackPanel>
             <TextBlock x:Uid="Source" Style="{ThemeResource TitleTextBlockStyle}" Margin="8" />
             <TextBlock x:Uid="ListWhatFind" Margin="8" />
-            <ListView Name="SourceList" DataContext="{x:Bind _folderListViewModel}" Margin="0,8"
+            <ListView Name="SourceList" DataContext="{x:Bind _folderListViewModel, Mode=OneWay}" Margin="0,8"
                       ItemsSource="{x:Bind _folderListViewModel.FolderViewModels, Mode=OneWay}"
                       SelectionMode="None" IsItemClickEnabled="True"
                       ItemClick="{x:Bind _folderListViewModel.OnItemClick}" HorizontalAlignment="Left">

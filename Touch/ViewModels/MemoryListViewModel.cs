@@ -5,6 +5,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Touch.Models;
 using Touch.Views.Pages;
+using System.Windows.Input;
 
 namespace Touch.ViewModels
 {
@@ -29,6 +30,14 @@ namespace Touch.ViewModels
         ///     最新key号
         /// </summary>
         public int LastKeyNo => _memoryList.LastKeyNo;
+        
+        /// <summary>
+        ///     删除点击操作
+        /// </summary>
+        public ICommand DeleteCommand
+        {
+            get { return new CommandHandler(memoryViewModel => Delete(memoryViewModel as MemoryViewModel)); }
+        }
 
         /// <summary>
         ///     异步获取实例
