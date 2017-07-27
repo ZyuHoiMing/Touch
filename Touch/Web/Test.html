@@ -24,6 +24,7 @@
     var isGetPath = false;
     var marker2;
     var waypts;
+    var netCheck=false;
 
     function initialize() {
         waypts = [];
@@ -47,6 +48,14 @@
             enableCloseButton: false,
             zoomControl: false,
         });
+        if (window.navigator.onLine)
+            netCheck = true;
+        else netCheck = false;
+    }
+    function getNetCheck()
+    {
+        if (netCheck) return 'Y';
+        else return 'N';
     }
     function streetShowEnd() {
         panorama.setVisible(false);

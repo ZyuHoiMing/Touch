@@ -71,7 +71,6 @@ namespace Touch.Views.Pages
             _backgroungMusic = new MediaPlayerElement();
             _backgroungMusic.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/Media/summer.mp3"));
             _backgroungMusic.AutoPlay = true;
-            _backgroungMusic.MediaPlayer.Play();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -82,8 +81,30 @@ namespace Touch.Views.Pages
             _wayPoint = photoClustering.GetPhotoClustering();
             _test = photoClustering.updateImageList();//去掉没有GPS的图片
             _clusteringResult = photoClustering.getClusteringResult();
+            _backgroungMusic.MediaPlayer.Play();//背景音乐播放
+            delayGetPath();//得出路径
         }
-
+        private void delayGetPath()
+        {
+            var delay = TimeSpan.FromSeconds(2);
+            var delayTimer = ThreadPoolTimer.CreateTimer
+            (async source =>
+            {
+                await Dispatcher.RunAsync(
+                  CoreDispatcherPriority.High,
+                   async () =>
+                  {
+                      string result = await Webview1.InvokeScriptAsync("eval", new string[] { "getNetCheck()" });
+                      Debug.WriteLine(result);
+                      if (result.Equals("Y"))
+                          await InvokeJsGetPath();//得出路径
+                      else
+                      {
+                          Debug.WriteLine("network wrong!");
+                      }
+                  });
+            }, delay);
+        }
         private async void InvokeJsStart(string x, string y)
         {
             /*string[] script = { "panorama=new google.maps.StreetViewPanorama("+
@@ -153,7 +174,7 @@ namespace Touch.Views.Pages
         }
 
         //得到路径插入中途点
-        private async void InvokeJsGetPath()
+        private async Task InvokeJsGetPath()
         {
             var script = new string[1];
             for (var i = 1; i < _wayPoint.Count - 1; ++i)
@@ -161,7 +182,6 @@ namespace Touch.Views.Pages
             script[0] += "getPath(" + _wayPoint.ElementAt(0).X + "," + _wayPoint.ElementAt(0).Y + ","
                          + _wayPoint.ElementAt(_wayPoint.Count - 1).X + "," +
                          _wayPoint.ElementAt(_wayPoint.Count - 1).Y + ");";
-            //var result = await Webview1.InvokeScriptAsync("eval", script);
             //var result=await Webview1.InvokeScriptAsync("eval", new string[] { "addWayPoint(40.7548751831055, -73.9842300415039);" });
             var result = await Webview1.InvokeScriptAsync("eval", script);
             //Debug.WriteLine("rerutn"+result);
@@ -390,25 +410,31 @@ namespace Touch.Views.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (!_hasPath)
-            {
-                TestGetPath(); _hasPath = true;
-            }
-            else
-            {
-                Debug.Write("already");
-            }
+            TestGetPath();
         }
 
         private void ShowEndButton()
         {
             if (_tmpNodeNum < _pathPoint.Count)
                 ShowPath(_tmpNodeNum, _tmpWayNum);
-            else InvokeJsEnd();//结束
+            else
+            {
+                InvokeJsEnd();//结束
+                _backgroungMusic.MediaPlayer.Pause();
+            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            /*if (!_hasPath)
+            {
+                _hasPath = true;
+                InvokeJsGetPath();
+            }
+            else
+            {
+                Debug.Write("already");
+            }*/
             InvokeJsGetPath();
         }
 
