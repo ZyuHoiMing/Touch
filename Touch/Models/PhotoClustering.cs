@@ -61,16 +61,16 @@ namespace Touch.Models
                     Dfs(i, group);
                     _clusteringResult.Add(group);
                 }
-            Debug.Write("end:" + _clusteringResult.Count);
+            //Debug.Write("end:" + _clusteringResult.Count);
             for (var i = 0; i < _clusteringResult.Count; ++i)
             {
                 var tmp = _clusteringResult.ElementAt(i);
-                Debug.Write("group:");
+                /*Debug.Write("group:");
                 for(int j=0;j<tmp.Count;++j)
                 {
                     Debug.WriteLine(_photoPath.ElementAt(tmp[j]).DateTaken);
                     //Debug.Write(_photoPath.ElementAt(tmp[j]).Longitude);
-                }
+                }*/
                 path.Add(new Point(_photoPath.ElementAt(tmp[0]).Latitude.Value,
                     _photoPath.ElementAt(tmp[0]).Longitude.Value));
             }

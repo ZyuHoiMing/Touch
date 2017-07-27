@@ -174,6 +174,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Gray.png" />
+    <Content Include="Assets\Media\summer.mp3" />
     <Content Include="Assets\MySplashScreen.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-125.png" />
