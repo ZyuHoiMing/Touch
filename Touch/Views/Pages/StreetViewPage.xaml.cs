@@ -59,7 +59,7 @@ namespace Touch.Views.Pages
             }*/
             var uri = new Uri("ms-appx-web:///Web/Test.html");
             Webview1.Navigate(uri);
-            BackButton.Click += (sender, args) =>
+            BackButtonControl.OnBackButtonClicked += () =>
             {
                 var rootFrame = Window.Current.Content as Frame;
                 ApplicationView.GetForCurrentView().ExitFullScreenMode();
@@ -75,18 +75,6 @@ namespace Touch.Views.Pages
             _wayPoint = photoClustering.GetPhotoClustering();
             _test = photoClustering.updateImageList();//去掉没有GPS的图片
             _clusteringResult = photoClustering.getClusteringResult();
-        }
-
-        /// <summary>
-        /// 返回按钮的隐藏动画
-        /// </summary>
-        /// <param name="show"></param>
-        private void ToggleTitleStackAnimation(bool show)
-        {
-            var offsetAnimation = ElementCompositionPreview.GetElementVisual(this).Compositor.CreateScalarKeyFrameAnimation();
-            offsetAnimation.InsertKeyFrame(1f, show ? 144f : 0f);
-            offsetAnimation.Duration = TimeSpan.FromMilliseconds(500);
-            ElementCompositionPreview.GetElementVisual(TitleStack).StartAnimation("Offset.X", offsetAnimation);
         }
 
         private async void InvokeJsStart(string x, string y)
@@ -297,9 +285,9 @@ namespace Touch.Views.Pages
                                 {
                                     thisPointPhoto.Add(_test[list.ElementAt(i)]);
                                 }
-
+                                
                                 StreetGalleryControl.StreetImageListViewModel.AddImages(thisPointPhoto);
-                                StreetGalleryControl.Visibility = Visibility.Visible;
+                                StreetGalleryControl.Shown = true;
 
                                 //if (nodeNum<_pathPoint.Count)
                                 //    ShowPath(nodeNum, wayNum);
@@ -405,7 +393,6 @@ namespace Touch.Views.Pages
         }
         private void ShowEndButton()
         {
-            StreetGalleryControl.Visibility = Visibility.Collapsed;
             if (_tmpNodeNum < _pathPoint.Count)
                 ShowPath(_tmpNodeNum, _tmpWayNum);
             else InvokeJsEnd();//结束
@@ -413,16 +400,6 @@ namespace Touch.Views.Pages
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             InvokeJsGetPath();
-        }
-
-        private void BackButtonGrid_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            ToggleTitleStackAnimation(true);
-        }
-
-        private void BackButtonGrid_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            ToggleTitleStackAnimation(false);
         }
     }
 }
