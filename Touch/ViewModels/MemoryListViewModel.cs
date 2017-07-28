@@ -14,6 +14,9 @@ namespace Touch.ViewModels
     /// </summary>
     public class MemoryListViewModel : NotificationBase
     {
+        private static MemoryListViewModel _uniqueInstance;
+        private static readonly object Locker = new object();
+
         private MemoryList _memoryList;
 
         /// <summary>
@@ -45,16 +48,24 @@ namespace Touch.ViewModels
         /// <returns></returns>
         public static async Task<MemoryListViewModel> GetInstanceAsync()
         {
-            var memoryListViewModel = new MemoryListViewModel
+            if (_uniqueInstance != null)
+                return _uniqueInstance;
+            lock (Locker)
             {
-                _memoryList = await MemoryList.GetInstanceAsync()
-            };
-            foreach (var memoryModel in memoryListViewModel._memoryList.MemoryModels)
+                // 如果类的实例不存在则创建，否则直接返回
+                if (_uniqueInstance == null)
+                {
+                    // ReSharper disable once PossibleMultipleWriteAccessInDoubleCheckLocking
+                    _uniqueInstance = new MemoryListViewModel();
+                }
+            }
+            _uniqueInstance._memoryList = await MemoryList.GetInstanceAsync();
+            foreach (var memoryModel in _uniqueInstance._memoryList.MemoryModels)
             {
                 var memoryViewModel = await MemoryViewModel.GetInstanceAsync(memoryModel);
-                memoryListViewModel.MemoryViewModels.Add(memoryViewModel);
+                _uniqueInstance.MemoryViewModels.Add(memoryViewModel);
             }
-            return memoryListViewModel;
+            return _uniqueInstance;
         }
 
         /// <summary>

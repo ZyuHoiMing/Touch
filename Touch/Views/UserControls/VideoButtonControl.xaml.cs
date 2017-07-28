@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -19,19 +18,42 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Touch.Views.UserControls
 {
-    public sealed partial class ProgressRingGridControl : UserControl
+    public sealed partial class VideoButtonControl : UserControl
     {
-        public ProgressRingGridControl()
+        public event Action OnPlayButtonClicked;
+        public event Action OnReplayButtonClicked;
+
+        public VideoButtonControl()
         {
             InitializeComponent();
             ToggleAnimation(false);
+            PlayButton.Click += (sender, arg) =>
+            {
+                OnPlayButtonClicked?.Invoke();
+            };
+            ReplayButton.Click += (sender, arg) =>
+            {
+                OnReplayButtonClicked?.Invoke();
+            };
         }
 
         /// <summary>
-        /// 显示
+        /// 显示播放按钮
         /// </summary>
-        public void Show()
+        public void ShowPlayButton()
         {
+            ReplayButton.Visibility = Visibility.Collapsed;
+            PlayButton.Visibility = Visibility.Visible;
+            ToggleAnimation(true);
+        }
+
+        /// <summary>
+        /// 显示重播按钮
+        /// </summary>
+        public void ShowReplayButton()
+        {
+            PlayButton.Visibility = Visibility.Collapsed;
+            ReplayButton.Visibility = Visibility.Visible;
             ToggleAnimation(true);
         }
 
@@ -52,7 +74,7 @@ namespace Touch.Views.UserControls
             var fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
             fadeAnimation.InsertKeyFrame(1f, show ? 1f : 0f);
             fadeAnimation.Duration = TimeSpan.FromMilliseconds(700);
-            
+
             _detailGridVisual.StartAnimation("Opacity", fadeAnimation);
         }
     }

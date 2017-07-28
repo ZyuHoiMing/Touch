@@ -9,7 +9,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid Background="#80000000">
+    <Grid x:Name="RootGrid" Background="#80000000">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <ProgressRing Width="96" Height="96" Foreground="White" IsActive="True" />
             <TextBlock x:Uid="NeedTime" Margin="8" FontSize="24" Foreground="White" />

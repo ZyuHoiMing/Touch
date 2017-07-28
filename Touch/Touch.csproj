@@ -171,6 +171,9 @@
     <Compile Include="Views\UserControls\TransparentBackgroundControl.xaml.cs">
       <DependentUpon>TransparentBackgroundControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\VideoButtonControl.xaml.cs">
+      <DependentUpon>VideoButtonControl.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -284,6 +287,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\TransparentBackgroundControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\VideoButtonControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

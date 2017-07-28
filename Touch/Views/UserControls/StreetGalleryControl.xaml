@@ -14,13 +14,15 @@
 
     <Grid Name="Grid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <!-- 背景图片 -->
-        <toolkitControls:Carousel Orientation="1" ItemsSource="{x:Bind StreetImageListViewModel.ImageViewModels, Mode=OneWay}" SelectedIndex="{Binding ElementName=Carousel, Path=SelectedIndex}">
+        <!--<toolkitControls:Carousel Orientation="1" ItemsSource="{x:Bind StreetImageListViewModel.ImageViewModels, Mode=OneWay}" SelectedIndex="{Binding ElementName=Carousel, Path=SelectedIndex}">
             <toolkitControls:Carousel.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:ImageViewModel">
                     <Image Width="{Binding ElementName=Grid, Path=Width}" Height="{Binding ElementName=Grid, Path=Height}" Source="{x:Bind ThumbnailImage, Mode=OneWay}" Stretch="UniformToFill" />
                 </DataTemplate>
             </toolkitControls:Carousel.ItemTemplate>
-        </toolkitControls:Carousel>
+        </toolkitControls:Carousel>-->
+        <Image Name="BackgroundDownImage" Width="{Binding ElementName=PhotosPanel, Path=Width}" Stretch="UniformToFill" />
+        <Image Name="BackgroundUpImage" Width="{Binding ElementName=PhotosPanel, Path=Width}" Stretch="UniformToFill" />
         <!--高斯模糊-->
         <controls:BackDrop Width="{Binding ElementName=PhotosPanel, Path=Width}" BlurAmount="25" />
         <!--3D旋转图片-->
@@ -29,7 +31,7 @@
                                 ItemsSource="{x:Bind StreetImageListViewModel.ImageViewModels, Mode=OneWay}">
             <toolkitControls:Carousel.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:ImageViewModel">
-                    <Image MaxHeight="480" MaxWidth="640" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{x:Bind ThumbnailImage, Mode=OneWay}" Stretch="UniformToFill" />
+                    <Image Height="480" Width="640" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{x:Bind ThumbnailImage, Mode=OneWay}" Stretch="Uniform" />
                 </DataTemplate>
             </toolkitControls:Carousel.ItemTemplate>
         </toolkitControls:Carousel>
