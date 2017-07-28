@@ -87,9 +87,10 @@ namespace Touch.Models
                 return;
             MemoryModels.Add(memoryModel);
             _databaseHelper.MemoryListDatabase.Insert(memoryModel.MemoryName);
+            var lastKeyNo = _databaseHelper.MemoryListDatabase.GetLastKeyNo();
             // 在回忆图片数据库里加图片
             foreach (var imageModel in memoryModel.ImageModels)
-                _databaseHelper.MemoryImageDatabase.Insert(memoryModel.KeyNo, imageModel.KeyNo);
+                _databaseHelper.MemoryImageDatabase.Insert(lastKeyNo, imageModel.KeyNo);
         }
 
         /// <summary>
