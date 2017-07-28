@@ -132,7 +132,7 @@ namespace Touch.Views.Pages
         }
 
         //嵌入移动
-        private async Task<string> InvokeJsMove(string x, string y, string heading)
+        private async void InvokeJsMove(string x, string y, string heading)
         {
             string[] script =
             {
@@ -146,7 +146,6 @@ namespace Touch.Views.Pages
             {
                 result = await Webview1.InvokeScriptAsync("eval", script);
             });
-            return result;
         }
 
         //嵌入朝向
@@ -334,9 +333,9 @@ namespace Touch.Views.Pages
         {
             var completed = false;
             var delay = TimeSpan.FromSeconds(2);
-            string streetStatus="";
+            //string streetStatus="";
             var delayTimer = ThreadPoolTimer.CreateTimer
-            (async source =>
+            ( source =>
             {
                 //
                 // TODO: Work
@@ -348,10 +347,10 @@ namespace Touch.Views.Pages
                 Debug.WriteLine(y);
                 var pathpov = new PathPov(_pathPoint.ElementAt(nodeNum - 1), _pathPoint.ElementAt(nodeNum));
                 var tmpheading = pathpov.GetHeading().ToString();
-                //streetStatus = (string)await InvokeJsMove(x, y, tmpheading);
+                 InvokeJsMove(x, y, tmpheading);
 
 
-                await Dispatcher.RunAsync(
+                /*await Dispatcher.RunAsync(
                 CoreDispatcherPriority.High,
                 async () =>
                 {
@@ -364,7 +363,7 @@ namespace Touch.Views.Pages
                     };
                     streetStatus = await Webview1.InvokeScriptAsync("eval", script);
                     Debug.WriteLine("street:"+streetStatus);
-                });
+                });*/
 
                 completed = true;
             }, delay, async source =>
