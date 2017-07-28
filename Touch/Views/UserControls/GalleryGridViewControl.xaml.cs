@@ -23,13 +23,15 @@ namespace Touch.Views.UserControls
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class GalleryGridViewControl : UserControl
     {
+        public event Action<ImageViewModel> OnClickItemStarted;
+
         private GalleryImageListViewModel _galleryImageListViewModel;
         private bool _isLoaded;
 
         private SpriteVisual _destinationSprite;
         private Compositor _compositor;
         private CompositionScopedBatch _scopeBatch;
-
+        
         public GalleryGridViewControl()
         {
             InitializeComponent();
@@ -76,7 +78,7 @@ namespace Touch.Views.UserControls
 
             #endregion 
             
-            GalleryGridView.ItemClick += async (sender, e) =>
+            GalleryGridView.ItemClick += (sender, e) =>
             {
                 ImageViewModel thumbnail = (ImageViewModel)e.ClickedItem;
 
@@ -95,14 +97,8 @@ namespace Touch.Views.UserControls
                 showAnimation.InsertKeyFrame(1f, 1f);
                 showAnimation.Duration = TimeSpan.FromMilliseconds(1500);
                 _destinationSprite.StartAnimation("Opacity", showAnimation);
-
-                // TODO
-                // Create the dialog
-                var messageDialog = new MessageDialog(thumbnail.ImagePath);
-                messageDialog.Commands.Add(new UICommand("Close", new UICommandInvokedHandler(DialogDismissedHandler)));
-
-                // Show the message dialog
-                await messageDialog.ShowAsync();
+                
+                OnClickItemStarted?.Invoke(thumbnail);
             };
             GalleryGridView.SizeChanged += (sender, e) =>
             {
@@ -113,7 +109,7 @@ namespace Touch.Views.UserControls
             };
         }
 
-        private void DialogDismissedHandler(IUICommand command)
+        public void Dismissed()
         {
             // Start a scoped batch so we can register to completion event and hide the destination layer
             _scopeBatch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
