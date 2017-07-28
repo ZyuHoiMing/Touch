@@ -73,6 +73,8 @@ namespace Touch.Views.Pages
                 Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/Media/summer.mp3")),
                 AutoPlay = true
             };
+            ProgressRingGrid.Visibility = Visibility.Visible;
+            ProgressRingGrid.Show();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -441,8 +443,11 @@ namespace Touch.Views.Pages
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click()
         {
+            VideoButtonGrid.Hide();
+            await Task.Delay(700);
+            VideoButtonGrid.Visibility = Visibility.Collapsed;
             if (!_hasPath)
             {
                 TestGetPath();
@@ -462,6 +467,9 @@ namespace Touch.Views.Pages
             {
                 InvokeJsEnd();//结束
                 _backgroungMusic.MediaPlayer.Pause();
+                // 显示重播按钮
+                VideoButtonGrid.Visibility = Visibility.Visible;
+                VideoButtonGrid.ShowReplayButton();
             }
         }
 
@@ -487,7 +495,12 @@ namespace Touch.Views.Pages
                 {
                     // 延迟两秒后把progress隐藏
                     await Task.Delay(3000);
+                    ProgressRingGrid.Hide();
+                    await Task.Delay(700);
                     ProgressRingGrid.Visibility = Visibility.Collapsed;
+                    // 显示播放按钮
+                    VideoButtonGrid.Visibility = Visibility.Visible;
+                    VideoButtonGrid.ShowPlayButton();
                 });
             });
         }

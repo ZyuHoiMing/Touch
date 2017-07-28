@@ -11,4 +11,7 @@
     <x:String x:Key="Hamburger">&#xE700;</x:String>
     <x:String x:Key="Sync">&#xE895;</x:String>
     <x:String x:Key="Back">&#xE72B;</x:String>
+    <x:String x:Key="Play">&#xE768;</x:String>
+    <x:String x:Key="Refresh">&#xE72C;</x:String>
+    <x:String x:Key="Download">&#xE896;</x:String>
 </ResourceDictionary>
