@@ -4,6 +4,8 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.UI.Animations;
+using Touch.ViewModels;
+using Windows.UI.Popups;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -59,8 +61,8 @@ namespace Touch.Views.Pages
         /// <returns></returns>
         private async Task StartRotationAnimation()
         {
-            var centerX = (float) (RefreshIcon.ActualWidth / 2);
-            var centerY = (float) (RefreshIcon.ActualHeight / 2);
+            var centerX = (float)(RefreshIcon.ActualWidth / 2);
+            var centerY = (float)(RefreshIcon.ActualHeight / 2);
             await Task.Run(async () =>
             {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
@@ -73,6 +75,19 @@ namespace Touch.Views.Pages
                     }
                 });
             });
+        }
+
+        private void GalleryGridViewControl_OnClickItemStarted(ImageViewModel imageViewModel)
+        {
+            DetailControl.PhotoDetailImageViewModel = imageViewModel;
+            DetailControl.Visibility = Visibility.Visible;
+            DetailControl.Show();
+        }
+
+        private void DetailControl_OnHide()
+        {
+            DetailControl.Visibility = Visibility.Collapsed;
+            GalleryGridViewControl.Dismissed();
         }
     }
 }

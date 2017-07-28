@@ -155,6 +155,9 @@
     <Compile Include="Views\UserControls\MemoryGridViewControl.xaml.cs">
       <DependentUpon>MemoryGridViewControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\PhotoDetailControl.xaml.cs">
+      <DependentUpon>PhotoDetailControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\StreetGalleryControl.xaml.cs">
       <DependentUpon>StreetGalleryControl.xaml</DependentUpon>
     </Compile>
@@ -257,6 +260,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\MemoryGridViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\PhotoDetailControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
