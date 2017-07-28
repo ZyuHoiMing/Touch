@@ -332,6 +332,7 @@ namespace Touch.Views.Pages
                                 }
                                 
                                 StreetGalleryControl.StreetImageListViewModel.AddImages(thisPointPhoto);
+                                StreetGalleryControl.SetBackground();
                                 StreetGalleryControl.Shown = true;
 
                                 //if (nodeNum<_pathPoint.Count)
@@ -496,11 +497,10 @@ namespace Touch.Views.Pages
                     // 延迟两秒后把progress隐藏
                     await Task.Delay(3000);
                     ProgressRingGrid.Hide();
-                    await Task.Delay(700);
-                    ProgressRingGrid.Visibility = Visibility.Collapsed;
                     // 显示播放按钮
                     VideoButtonGrid.Visibility = Visibility.Visible;
                     VideoButtonGrid.ShowPlayButton();
+                    ProgressRingGrid.Visibility = Visibility.Collapsed;
                 });
             });
         }
