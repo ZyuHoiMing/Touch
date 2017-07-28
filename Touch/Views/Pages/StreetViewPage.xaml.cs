@@ -68,9 +68,11 @@ namespace Touch.Views.Pages
                 ApplicationView.GetForCurrentView().ExitFullScreenMode();
                 rootFrame?.GoBack();
             };
-            _backgroungMusic = new MediaPlayerElement();
-            _backgroungMusic.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/Media/summer.mp3"));
-            _backgroungMusic.AutoPlay = true;
+            _backgroungMusic = new MediaPlayerElement()
+            {
+                Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/Media/summer.mp3")),
+                AutoPlay = true
+            };
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -79,12 +81,13 @@ namespace Touch.Views.Pages
             _test = e.Parameter as List<ImageViewModel>;
             var photoClustering = new PhotoClustering(_test);
             _wayPoint = photoClustering.GetPhotoClustering();
-            _test = photoClustering.updateImageList();//去掉没有GPS的图片
-            _clusteringResult = photoClustering.getClusteringResult();
+            _test = photoClustering.UpdateImageList();//去掉没有GPS的图片
+            _clusteringResult = photoClustering.GetClusteringResult();
             _backgroungMusic.MediaPlayer.Play();//背景音乐播放
-            delayGetPath();//得出路径
+            DelayGetPath();//得出路径
         }
-        private void delayGetPath()
+
+        private void DelayGetPath()
         {
             var delay = TimeSpan.FromSeconds(2);
             var delayTimer = ThreadPoolTimer.CreateTimer
@@ -105,6 +108,7 @@ namespace Touch.Views.Pages
                   });
             }, delay);
         }
+
         private async void InvokeJsStart(string x, string y)
         {
             /*string[] script = { "panorama=new google.maps.StreetViewPanorama("+
@@ -459,5 +463,17 @@ namespace Touch.Views.Pages
             InvokeJsGetPath();
         }
 
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            await Task.Run(async () =>
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    // 延迟两秒后把progress隐藏
+                    await Task.Delay(3000);
+                    ProgressRingGrid.Visibility = Visibility.Collapsed;
+                });
+            });
+        }
     }
 }

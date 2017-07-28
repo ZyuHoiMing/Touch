@@ -29,7 +29,7 @@
                                 ItemsSource="{x:Bind StreetImageListViewModel.ImageViewModels, Mode=OneWay}">
             <toolkitControls:Carousel.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:ImageViewModel">
-                    <Image Width="440" Height="330" Source="{x:Bind ThumbnailImage, Mode=OneWay}" Stretch="UniformToFill" />
+                    <Image Height="480" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{x:Bind ThumbnailImage, Mode=OneWay}" Stretch="UniformToFill" />
                 </DataTemplate>
             </toolkitControls:Carousel.ItemTemplate>
         </toolkitControls:Carousel>

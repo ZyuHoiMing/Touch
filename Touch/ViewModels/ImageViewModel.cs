@@ -4,6 +4,7 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml.Media.Imaging;
 using Touch.Models;
+using Windows.Globalization.DateTimeFormatting;
 
 namespace Touch.ViewModels
 {
@@ -76,7 +77,7 @@ namespace Touch.ViewModels
         /// <summary>
         ///     只有年和月的拍摄日期
         /// </summary>
-        public string MonthYearDate => DateTaken.Year + " - " + DateTaken.Month;
+        public MonthYearDateTime MonthYearDate => new MonthYearDateTime(DateTaken);
 
         /// <summary>
         ///     缩略图
