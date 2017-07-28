@@ -83,7 +83,7 @@ namespace Touch.ViewModels
             }
             ImageMonthGroups = imageViewModels
                 .GroupBy(m => m.MonthYearDate, (key, list) => new ImageMonthGroup(key, list))
-                .OrderByDescending(m => m.Key);
+                .OrderByDescending(m => m.Key.WholeDateTime.Year).ThenByDescending(m => m.Key.WholeDateTime.Month);
         }
     }
 }

@@ -56,8 +56,10 @@ namespace Touch.Models
             for (var i = 0; i < _photoPath.Count; ++i)
                 if (!_vis[i])
                 {
-                    var group = new List<int>();
-                    group.Add(i);
+                    var group = new List<int>
+                    {
+                        i
+                    };
                     Dfs(i, group);
                     _clusteringResult.Add(group);
                 }
@@ -76,11 +78,11 @@ namespace Touch.Models
             }
             return path;
         }
-        public List<ImageViewModel> updateImageList()
+        public List<ImageViewModel> UpdateImageList()
         {
             return _photoPath;
         }
-        public List<List<int>> getClusteringResult()
+        public List<List<int>> GetClusteringResult()
         {
             return _clusteringResult;
         }
