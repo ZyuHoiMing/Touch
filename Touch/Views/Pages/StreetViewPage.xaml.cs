@@ -97,7 +97,7 @@ namespace Touch.Views.Pages
                       string result = await Webview1.InvokeScriptAsync("eval", new string[] { "getNetCheck()" });
                       Debug.WriteLine(result);
                       if (result.Equals("Y"))
-                          await InvokeJsGetPath();//得出路径
+                          InvokeJsGetPath();//得出路径
                       else
                       {
                           Debug.WriteLine("network wrong!");
@@ -132,20 +132,21 @@ namespace Touch.Views.Pages
         }
 
         //嵌入移动
-        private async void InvokeJsMove(string x, string y, string heading)
+        private async Task<string> InvokeJsMove(string x, string y, string heading)
         {
             string[] script =
             {
-                "panorama.setPosition({lat:"
-                + x + ",lng:" + y
-                + "});panorama.setPov({" +
-                "heading:" + heading + ",pitch:0})"
+                "setStreetViewPositon("+x
+                +","+y
+                +","+heading
+                +")"
             };
+            string result="";
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                var result = await Webview1.InvokeScriptAsync("eval", script);
-                //Debug.WriteLine(result);
+                result = await Webview1.InvokeScriptAsync("eval", script);
             });
+            return result;
         }
 
         //嵌入朝向
@@ -174,15 +175,14 @@ namespace Touch.Views.Pages
         }
 
         //得到路径插入中途点
-        private async Task InvokeJsGetPath()
+        private async void InvokeJsGetPath()
         {
-            var script = new string[1];
+            var script = new string[1] ;
             for (var i = 1; i < _wayPoint.Count - 1; ++i)
                 script[0] += "addWayPoint(" + _wayPoint.ElementAt(i).X + ", " + _wayPoint.ElementAt(i).Y + ");";
             script[0] += "getPath(" + _wayPoint.ElementAt(0).X + "," + _wayPoint.ElementAt(0).Y + ","
                          + _wayPoint.ElementAt(_wayPoint.Count - 1).X + "," +
                          _wayPoint.ElementAt(_wayPoint.Count - 1).Y + ");";
-            //var result=await Webview1.InvokeScriptAsync("eval", new string[] { "addWayPoint(40.7548751831055, -73.9842300415039);" });
             var result = await Webview1.InvokeScriptAsync("eval", script);
             //Debug.WriteLine("rerutn"+result);
         }
@@ -238,6 +238,7 @@ namespace Touch.Views.Pages
                             var result = await Webview1.InvokeScriptAsync("eval", args);
                             if (result == "Y")
                             {
+                                _hasPath = true;
                                 await Webview1.InvokeScriptAsync("eval", new[] { "setIsGetPath()" });
                                 var tmp = await Webview1.InvokeScriptAsync("eval", new[] { "getPathPoint()" });
                                 var pathArray = tmp.Split('\n');
@@ -333,8 +334,9 @@ namespace Touch.Views.Pages
         {
             var completed = false;
             var delay = TimeSpan.FromSeconds(2);
+            string streetStatus="";
             var delayTimer = ThreadPoolTimer.CreateTimer
-            (source =>
+            (async source =>
             {
                 //
                 // TODO: Work
@@ -346,10 +348,24 @@ namespace Touch.Views.Pages
                 Debug.WriteLine(y);
                 var pathpov = new PathPov(_pathPoint.ElementAt(nodeNum - 1), _pathPoint.ElementAt(nodeNum));
                 var tmpheading = pathpov.GetHeading().ToString();
-                InvokeJsMove(x, y, tmpheading);
-                //
-                // Update the UI thread by using the UI core dispatcher.
-                //
+                //streetStatus = (string)await InvokeJsMove(x, y, tmpheading);
+
+
+                await Dispatcher.RunAsync(
+                CoreDispatcherPriority.High,
+                async () =>
+                {
+                    string[] script =
+                    {
+                        "setStreetViewPositon("+x
+                        +","+y
+                        +","+tmpheading
+                        +")"
+                    };
+                    streetStatus = await Webview1.InvokeScriptAsync("eval", script);
+                    Debug.WriteLine("street:"+streetStatus);
+                });
+
                 completed = true;
             }, delay, async source =>
             {
@@ -410,7 +426,12 @@ namespace Touch.Views.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            TestGetPath();
+            if (!_hasPath)
+                TestGetPath();
+            else
+            {
+                StartWalk();
+            }
         }
 
         private void ShowEndButton()
