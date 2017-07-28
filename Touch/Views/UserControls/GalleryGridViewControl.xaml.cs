@@ -37,47 +37,46 @@ namespace Touch.Views.UserControls
             InitializeComponent();
             _isLoaded = false;
 
-            // TODO 模糊效果开启
-            //#region 模糊特效
+            #region 模糊特效
 
-            //// Get the current compositor
-            //_compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-            //// Create the destinatio sprite, sized to cover the entire list
-            //_destinationSprite = _compositor.CreateSpriteVisual();
-            //_destinationSprite.Size = new Vector2((float)GalleryGridView.ActualWidth, (float)GalleryGridView.ActualHeight);
-            //// Start out with the destination layer invisible to avoid any cost until necessary
-            //_destinationSprite.IsVisible = false;
-            //ElementCompositionPreview.SetElementChildVisual(GalleryGridView, _destinationSprite);
-            //if (_compositor != null)
-            //{
-            //    IGraphicsEffect graphicsEffect = new GaussianBlurEffect()
-            //    {
-            //        BlurAmount = 20,
-            //        Source = new CompositionEffectSourceParameter("ImageSource"),
-            //        Optimization = EffectOptimization.Balanced,
-            //        BorderMode = EffectBorderMode.Hard,
-            //    }; ;
-            //    CompositionBrush secondaryBrush = null;
-            //    string[] animatableProperties = null;
+            // Get the current compositor
+            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            // Create the destinatio sprite, sized to cover the entire list
+            _destinationSprite = _compositor.CreateSpriteVisual();
+            _destinationSprite.Size = new Vector2((float)GalleryGridView.ActualWidth, (float)GalleryGridView.ActualHeight);
+            // Start out with the destination layer invisible to avoid any cost until necessary
+            _destinationSprite.IsVisible = false;
+            ElementCompositionPreview.SetElementChildVisual(GalleryGridView, _destinationSprite);
+            if (_compositor != null)
+            {
+                IGraphicsEffect graphicsEffect = new GaussianBlurEffect()
+                {
+                    BlurAmount = 20,
+                    Source = new CompositionEffectSourceParameter("ImageSource"),
+                    Optimization = EffectOptimization.Balanced,
+                    BorderMode = EffectBorderMode.Hard,
+                }; ;
+                CompositionBrush secondaryBrush = null;
+                string[] animatableProperties = null;
 
-            //    // Create the effect factory and instantiate a brush
-            //    CompositionEffectFactory _effectFactory = _compositor.CreateEffectFactory(graphicsEffect, animatableProperties);
-            //    CompositionEffectBrush brush = _effectFactory.CreateBrush();
+                // Create the effect factory and instantiate a brush
+                CompositionEffectFactory _effectFactory = _compositor.CreateEffectFactory(graphicsEffect, animatableProperties);
+                CompositionEffectBrush brush = _effectFactory.CreateBrush();
 
-            //    // Set the destination brush as the source of the image content
-            //    brush.SetSourceParameter("ImageSource", _compositor.CreateBackdropBrush());
+                // Set the destination brush as the source of the image content
+                brush.SetSourceParameter("ImageSource", _compositor.CreateBackdropBrush());
 
-            //    // If his effect uses a secondary brush, set it now
-            //    if (secondaryBrush != null)
-            //    {
-            //        brush.SetSourceParameter("SecondSource", secondaryBrush);
-            //    }
+                // If his effect uses a secondary brush, set it now
+                if (secondaryBrush != null)
+                {
+                    brush.SetSourceParameter("SecondSource", secondaryBrush);
+                }
 
-            //    // Update the destination layer with the fully configured brush
-            //    _destinationSprite.Brush = brush;
-            //}
+                // Update the destination layer with the fully configured brush
+                _destinationSprite.Brush = brush;
+            }
 
-            //#endregion 
+            #endregion 
 
             GalleryGridView.ItemClick += (sender, e) =>
             {
@@ -90,16 +89,15 @@ namespace Touch.Views.UserControls
                 }
 
                 // We're starting our transition, show the destination sprite
-                //_destinationSprite.IsVisible = true;
+                _destinationSprite.IsVisible = true;
 
                 // Animate from transparent to fully opaque
-                // TODO 模糊效果开启
-                //ScalarKeyFrameAnimation showAnimation = _compositor.CreateScalarKeyFrameAnimation();
-                //showAnimation.InsertKeyFrame(0f, 0f);
-                //showAnimation.InsertKeyFrame(1f, 1f);
-                //showAnimation.Duration = TimeSpan.FromMilliseconds(1500);
-                //_destinationSprite.StartAnimation("Opacity", showAnimation);
-                
+                ScalarKeyFrameAnimation showAnimation = _compositor.CreateScalarKeyFrameAnimation();
+                showAnimation.InsertKeyFrame(0f, 0f);
+                showAnimation.InsertKeyFrame(1f, 1f);
+                showAnimation.Duration = TimeSpan.FromMilliseconds(1500);
+                _destinationSprite.StartAnimation("Opacity", showAnimation);
+
                 OnClickItemStarted?.Invoke(thumbnail);
             };
             GalleryGridView.SizeChanged += (sender, e) =>
@@ -113,20 +111,19 @@ namespace Touch.Views.UserControls
 
         public void Dismissed()
         {
-            // TODO 模糊效果开启
-            //// Start a scoped batch so we can register to completion event and hide the destination layer
-            //_scopeBatch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
+            // Start a scoped batch so we can register to completion event and hide the destination layer
+            _scopeBatch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
 
-            //// Start the hide animation to fade out the destination effect
-            //ScalarKeyFrameAnimation hideAnimation = _compositor.CreateScalarKeyFrameAnimation();
-            //hideAnimation.InsertKeyFrame(0f, 1f);
-            //hideAnimation.InsertKeyFrame(1.0f, 0f);
-            //hideAnimation.Duration = TimeSpan.FromMilliseconds(1000);
-            //_destinationSprite.StartAnimation("Opacity", hideAnimation);
+            // Start the hide animation to fade out the destination effect
+            ScalarKeyFrameAnimation hideAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            hideAnimation.InsertKeyFrame(0f, 1f);
+            hideAnimation.InsertKeyFrame(1.0f, 0f);
+            hideAnimation.Duration = TimeSpan.FromMilliseconds(1000);
+            _destinationSprite.StartAnimation("Opacity", hideAnimation);
 
-            ////Scoped batch completed event
-            //_scopeBatch.Completed += ScopeBatch_Completed;
-            //_scopeBatch.End();
+            //Scoped batch completed event
+            _scopeBatch.Completed += ScopeBatch_Completed;
+            _scopeBatch.End();
         }
 
         private void ScopeBatch_Completed(object sender, CompositionBatchCompletedEventArgs args)

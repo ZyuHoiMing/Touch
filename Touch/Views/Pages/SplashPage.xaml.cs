@@ -8,6 +8,7 @@ using Windows.UI.Composition;
 using Windows.UI.Xaml.Hosting;
 using System.Numerics;
 using Microsoft.Graphics.Canvas.Effects;
+using Touch.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -156,8 +157,10 @@ namespace Touch.Views.Pages
         {
             // 初始化数据库
             DatabaseHelper.GetInstance();
-
-            await Task.Delay(1000);
+            // 初始化图片list
+            await GalleryImageListViewModel.GetInstanceAsync();
+            // 初始化回忆list
+            //await MemoryListViewModel.GetInstanceAsync();
 
             var rootFrame = Window.Current.Content as Frame;
             if (rootFrame == null)
