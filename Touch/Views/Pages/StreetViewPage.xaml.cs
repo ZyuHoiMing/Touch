@@ -181,12 +181,23 @@ namespace Touch.Views.Pages
         private async void InvokeJsGetPath()
         {
             var script = new string[1] ;
-            for (var i = 1; i < _wayPoint.Count - 1; ++i)
-                script[0] += "addWayPoint(" + _wayPoint.ElementAt(i).X + ", " + _wayPoint.ElementAt(i).Y + ");";
-            script[0] += "getPath(" + _wayPoint.ElementAt(0).X + "," + _wayPoint.ElementAt(0).Y + ","
+            if (_wayPoint.Count > 1)
+            {
+                for (var i = 1; i < _wayPoint.Count - 1; ++i)
+                    script[0] += "addWayPoint(" + _wayPoint.ElementAt(i).X + ", " + _wayPoint.ElementAt(i).Y + ");";
+                script[0] += "getPath(" + _wayPoint.ElementAt(0).X + "," + _wayPoint.ElementAt(0).Y + ","
                          + _wayPoint.ElementAt(_wayPoint.Count - 1).X + "," +
                          _wayPoint.ElementAt(_wayPoint.Count - 1).Y + ");";
-            var result = await Webview1.InvokeScriptAsync("eval", script);
+                var result = await Webview1.InvokeScriptAsync("eval", script);
+            }
+            else
+            {
+                script[0] += "insertOneMark("+ _wayPoint[0].X
+                    +","+_wayPoint[0].Y+
+                    ")";
+                var result = await Webview1.InvokeScriptAsync("eval", script);
+                _pathPoint.Add(_wayPoint[0]);
+            }
             //Debug.WriteLine("rerutn"+result);
         }
 
@@ -422,7 +433,10 @@ namespace Touch.Views.Pages
                     if (_pathPoint.Count > 1)
                         TestClick(1, 1);
                     else
+                    {
+                        TestClick(1, 1);
                         Debug.WriteLine("can't move");
+                    }
                 }, delay);
             }
         }
@@ -430,7 +444,10 @@ namespace Touch.Views.Pages
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (!_hasPath)
+            {
                 TestGetPath();
+                Debug.WriteLine("click button");
+            }
             else
             {
                 StartWalk();

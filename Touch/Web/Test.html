@@ -68,7 +68,7 @@
             imgPath = 'http://123.206.78.137:8080/Download/Source/IMG_20160902_125939.jpg';
         }
         var image = {
-            url: 'http://123.206.78.137:8080/Download/Source/touch.png',
+            url: 'http://123.206.78.137:8080/Download/Source/touch1.png',
             // This marker is 20 pixels wide by 32 pixels high.
             size: new google.maps.Size(300, 300),
             // The origin for this image is (0, 0).
@@ -83,7 +83,7 @@
             map: panorama,
             icon: image,
             opacity: 0.8,
-            label: { text: '触动此处回忆', fontSize: '20px' },
+            //label: { text: '触动此处回忆', fontSize: '20px' },
         });
         marker2.addListener('click',
             function() {
@@ -92,7 +92,17 @@
             });
         setMarkHeading();
     }
-
+    function insertOneMark(markLat, markLng)
+    {
+        map.setCenter({ lat: markLat, lng: markLng });
+        var marker2 = new google.maps.Marker({
+            position: { lat: markLat, lng: markLng },
+            map: map,
+        });
+        map.setZoom(20);
+        isGetPath = true;
+        netCheck = true;
+    }
     function getClick() {
         if (isClick) {
             isClick = false;
