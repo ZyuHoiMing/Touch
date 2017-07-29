@@ -25,7 +25,8 @@
     var marker2;
     var waypts;
     var netCheck = false;
-
+    var currentPano;
+    
     function initialize() {
         waypts = [];
         map = new google.maps.Map(document.getElementById('street-view'),
@@ -53,7 +54,30 @@
         else netCheck = false;
     }
 
-    function getNetCheck() {
+    function firstSetPanorama(x,y)
+    {
+        panorama.setVisible(true);
+        panorama.setPosition({
+            lat:x ,lng:y
+        });
+        panorama.addListener('status_changed',setCurrentStatus);
+    }
+
+    function setCurrentStatus()
+    {
+        if (panorama.getStatus() == google.maps.StreetViewStatus.OK) {
+            currentPano=panorama.getPano();
+        }
+        else currentPano='N';
+    }//设置当前状态
+
+    function getCurrentStatus()
+    {
+        return currentPano;
+    }
+
+    function getNetCheck()
+    {
         if (netCheck) return 'Y';
         else return 'N';
     }
@@ -85,7 +109,6 @@
             map: panorama,
             icon: image,
             opacity: 0.8,
-            //label: { text: '触动此处回忆', fontSize: '20px' },
         });
         marker2.addListener('click',
             function() {
@@ -95,7 +118,8 @@
         setMarkHeading();
     }
 
-    function insertOneMark(markLat, markLng) {
+    function insertOneMark(markLat, markLng)
+    {
         map.setCenter({ lat: markLat, lng: markLng });
         var marker2 = new google.maps.Marker({
             position: { lat: markLat, lng: markLng },
@@ -157,7 +181,8 @@
         return pathPoint;
     }
 
-    function setStreetViewPositon(x, y, heading) {
+    function setStreetViewPositon(x, y, heading)
+    {
         panorama.setPosition(
             {
                 lat: x,
@@ -165,8 +190,9 @@
             });
         panorama.setPov({ heading: heading, pitch: 0 });
         if (panorama.getStatus() == google.maps.StreetViewStatus.OK) {
-            return 'Y';
-        } else return 'N';
+            return panorama.getPano();
+        }
+        else return 'N';
     }
 
     function testIsGetPath() {
