@@ -276,11 +276,12 @@ namespace Touch.Views.Pages
             }
             else//4个点及以上
             {
-                if ((_wayPoint.Count * 3 - 2) < _pathPoint.Count)
+                if ((_wayPoint.Count * 4 - 4) < _pathPoint.Count)
                 {
                     choosePoint.Add(1);
                     choosePoint.Add(_pathPoint.Count - 2);
                     int cotNum = 1;
+                    int lastNum = 0;
                     for (int i = 0; i < _pathPoint.Count; ++i)
                     {
                         if (cotNum >= _wayPoint.Count - 1)
@@ -294,14 +295,57 @@ namespace Touch.Views.Pages
                                 choosePoint.Add(i - 1);
                                 choosePoint.Add(i);
                                 choosePoint.Add(i + 1);
+                                if (i - lastNum >= 70)//中间选3个
+                                {
+                                    int interval = (int)((i - lastNum)*1.0) / 4;
+                                    choosePoint.Add(lastNum + interval);
+                                    choosePoint.Add(lastNum + 2 * interval);
+                                    choosePoint.Add(lastNum + 3 * interval);
+                                }
+                                else if (i - lastNum >= 40)//中间选2个
+                                {
+                                    int interval = (int)((i - lastNum) * 1.0) / 3;
+                                    choosePoint.Add(lastNum + interval);
+                                    choosePoint.Add(lastNum + 2 * interval);
+                                }
+                                else//中间选1个
+                                {
+                                    int interval = (int)((i - lastNum) * 1.0) / 2;
+                                    choosePoint.Add(lastNum + interval);
+                                }
+                                lastNum = i;
                                 cotNum++;
                             }
                         }
                     }
+                    //最后特判
+                    if (_pathPoint.Count - lastNum >= 70)//中间选3个
+                    {
+                        int interval = (int)((_pathPoint.Count - lastNum) * 1.0) / 4;
+                        choosePoint.Add(lastNum + interval);
+                        choosePoint.Add(lastNum + 2 * interval);
+                        choosePoint.Add(lastNum + 3 * interval);
+                    }
+                    else if (_pathPoint.Count - lastNum >= 40)//中间选2个
+                    {
+                        int interval = (int)((_pathPoint.Count - lastNum) * 1.0) / 3;
+                        choosePoint.Add(lastNum + interval);
+                        choosePoint.Add(lastNum + 2 * interval);
+                    }
+                    else//中间选1个
+                    {
+                        int interval = (int)((_pathPoint.Count - lastNum) * 1.0) / 2;
+                        choosePoint.Add(lastNum + interval);
+                    }
+                    //Debug.Write(_pathPoint.Count - lastNum);
                     if (cotNum != _wayPoint.Count - 1) Debug.WriteLine("miss way point"); 
                 }
             }
             List<int>sortPoint=choosePoint.OrderByDescending(m => m).ToList();
+            foreach (var i in sortPoint)
+            {
+                Debug.WriteLine(i);
+            }
             int choosePointNum = 0;
             for (int i = _pathPoint.Count-1; i >= 0; --i)//不知道是List如何实现
             {
@@ -314,10 +358,10 @@ namespace Touch.Views.Pages
                     _pathPoint.RemoveAt(i);
                 }
             }
-            foreach (var i in _pathPoint)
+            /*foreach (var i in _pathPoint)
             {
                 Debug.WriteLine(i.X + "," + i.Y);
-            }
+            }*/
         }
 
         //测试得到路径
@@ -413,7 +457,7 @@ namespace Touch.Views.Pages
                                 for (int i = 0; i < list.Count; ++i)
                                 {
                                     thisPointPhoto.Add(_test[list.ElementAt(i)]);
-
+                                }
                                 StreetGalleryControl.StreetImageListViewModel.AddImages(thisPointPhoto);
                                 StreetGalleryControl.SetBackground();
                                 StreetGalleryControl.Shown = true;
@@ -435,7 +479,7 @@ namespace Touch.Views.Pages
         private void ShowPath(int nodeNum, int wayNum)
         {
             var completed = false;
-            var delay = TimeSpan.FromSeconds(2);
+            var delay = TimeSpan.FromSeconds(3);
             //string streetStatus="";
             var delayTimer = ThreadPoolTimer.CreateTimer
             (source =>
