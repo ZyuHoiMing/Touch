@@ -13,11 +13,17 @@
                 VerticalAlignment="Center" Style="{StaticResource ListButtonStyle}">
             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{StaticResource Play}"
                       Foreground="White" FontSize="56" />
+            <ToolTipService.ToolTip>
+                <ToolTip x:Uid="Play" />
+            </ToolTipService.ToolTip>
         </Button>
         <Button x:Name="ReplayButton" Height="96" Width="96" Visibility="Collapsed" HorizontalAlignment="Center"
                 VerticalAlignment="Center" Style="{StaticResource ListButtonStyle}">
             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{StaticResource Refresh}"
                       Foreground="White" FontSize="56" />
+            <ToolTipService.ToolTip>
+                <ToolTip x:Uid="Replay" />
+            </ToolTipService.ToolTip>
         </Button>
     </Grid>
 </UserControl>

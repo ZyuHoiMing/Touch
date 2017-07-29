@@ -100,9 +100,8 @@ namespace Touch.ViewModels
                 return;
             // 进入街景界面
             var rootFrame = Window.Current.Content as Frame;
-            rootFrame?.Navigate(typeof(StreetViewPage), item.ImageViewModels);
+            rootFrame?.Navigate(typeof(MemoryDetailPage), item);
             Window.Current.Content = rootFrame;
-            Debug.WriteLine("进入街景界面");
         }
     }
 }

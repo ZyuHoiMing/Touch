@@ -168,4 +168,25 @@
   <data name="Done.Label" xml:space="preserve">
     <value>完成</value>
   </data>
+  <data name="Play.Content" xml:space="preserve">
+    <value>播放</value>
+  </data>
+  <data name="Replay.Content" xml:space="preserve">
+    <value>重播</value>
+  </data>
+  <data name="SelectPhotos.Text" xml:space="preserve">
+    <value>选择此回忆的照片</value>
+  </data>
+  <data name="Audio.Label" xml:space="preserve">
+    <value>添加音乐</value>
+  </data>
+  <data name="Delete.Label" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="DeleteContent.Content" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="ShowMemory.Label" xml:space="preserve">
+    <value>播放回忆</value>
+  </data>
 </root>

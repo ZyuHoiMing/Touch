@@ -24,7 +24,7 @@
             <SemanticZoom.ZoomedInView>
                 <controls:MyAdaptiveGridView x:Name="GalleryGridView" ItemsSource="{x:Bind Cvs.View, Mode=OneWay}"
                                              SelectionMode="None" IsItemClickEnabled="True"
-                                             MinItemHeight="180" MinItemWidth="240" Padding="144,0,144,0"
+                                             MinItemHeight="180" MinItemWidth="240" Padding="144,0"
                                              animations:ReorderGridAnimation.Duration="250">
                     <controls:MyAdaptiveGridView.ItemContainerStyle>
                         <Style TargetType="GridViewItem">

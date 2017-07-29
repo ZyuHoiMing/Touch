@@ -19,65 +19,58 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <userControls:TitleBarControl x:Name="TitleBarControl" Grid.Row="0" />
+            
+            <CommandBar Grid.Row="1" Background="Transparent" Margin="0,8,0,0">
+                <CommandBar.Content>
+                    <TextBlock x:Uid="SelectPhotos" Margin="24, 16"/>
+                </CommandBar.Content>
 
-            <Pivot Grid.Row="1" Style="{StaticResource MyPivotStyle}"
-                   ItemContainerStyle="{StaticResource MyPivotItemStyle}">
-                <Pivot.RightHeader>
-                    <CommandBar Background="Transparent">
-                        <AppBarButton x:Name="DoneButton" x:Uid="Done">
-                            <AppBarButton.Icon>
-                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                          Glyph="{StaticResource Accept}" />
-                            </AppBarButton.Icon>
-                            <AppBarButton.Transitions>
-                                <TransitionCollection>
-                                    <AddDeleteThemeTransition />
-                                </TransitionCollection>
-                            </AppBarButton.Transitions>
-                        </AppBarButton>
+                <AppBarButton x:Name="DoneButton" x:Uid="Done">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                  Glyph="{StaticResource Accept}" />
+                    </AppBarButton.Icon>
+                    <AppBarButton.Transitions>
+                        <TransitionCollection>
+                            <AddDeleteThemeTransition />
+                        </TransitionCollection>
+                    </AppBarButton.Transitions>
+                </AppBarButton>
 
-                        <AppBarButton x:Name="CancelButton" x:Uid="Cancel">
-                            <AppBarButton.Icon>
-                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                          Glyph="{StaticResource Cancel}" />
-                            </AppBarButton.Icon>
-                            <AppBarButton.Transitions>
-                                <TransitionCollection>
-                                    <AddDeleteThemeTransition />
-                                </TransitionCollection>
-                            </AppBarButton.Transitions>
-                        </AppBarButton>
-                    </CommandBar>
-                </Pivot.RightHeader>
+                <AppBarButton x:Name="CancelButton" x:Uid="Cancel">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                  Glyph="{StaticResource Cancel}" />
+                    </AppBarButton.Icon>
+                    <AppBarButton.Transitions>
+                        <TransitionCollection>
+                            <AddDeleteThemeTransition />
+                        </TransitionCollection>
+                    </AppBarButton.Transitions>
+                </AppBarButton>
+            </CommandBar>
 
-                <PivotItem>
-                    <PivotItem.Header>
-                        <TextBlock x:Uid="SelectPhotos" />
-                    </PivotItem.Header>
-
-                    <Grid Background="White" Margin="0,48,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock x:Uid="TitleColon" HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="3" />
-                        <TextBox x:Name="TitleBox" HorizontalAlignment="Stretch" TextAlignment="Center" Grid.Row="1"
-                                 Grid.Column="1" Margin="0,16,0,0" FontSize="40" />
-                        <userControls:GalleryGridViewControl x:Name="GalleryGridViewControl" Grid.Row="2"
-                                                             Grid.ColumnSpan="3" />
-                    </Grid>
-                </PivotItem>
-            </Pivot>
+            <Grid Grid.Row="2" Background="White" Margin="0,48,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Uid="TitleColon" HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="3" />
+                <TextBox x:Name="TitleBox" HorizontalAlignment="Stretch" TextAlignment="Center" Grid.Row="1"
+                         Grid.Column="1" Margin="0,16,0,0" FontSize="40" />
+                <userControls:GalleryGridViewControl x:Name="GalleryGridViewControl" Grid.Row="2" Grid.ColumnSpan="3" />
+            </Grid>
         </Grid>
     </Grid>
 </Page>

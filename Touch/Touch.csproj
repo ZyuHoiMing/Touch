@@ -132,6 +132,9 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\PathPov.cs" />
+    <Compile Include="Views\Pages\MemoryDetailPage.xaml.cs">
+      <DependentUpon>MemoryDetailPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
@@ -158,6 +161,9 @@
     </Compile>
     <Compile Include="Views\UserControls\PhotoDetailControl.xaml.cs">
       <DependentUpon>PhotoDetailControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\PhotoGridViewControl.xaml.cs">
+      <DependentUpon>PhotoGridViewControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\ProgressRingGridControl.xaml.cs">
       <DependentUpon>ProgressRingGridControl.xaml</DependentUpon>
@@ -238,6 +244,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Pages\MemoryDetailPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Pages\SettingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -271,6 +281,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\PhotoDetailControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\PhotoGridViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

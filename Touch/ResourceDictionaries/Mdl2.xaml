@@ -15,4 +15,7 @@
     <x:String x:Key="Refresh">&#xE72C;</x:String>
     <x:String x:Key="Download">&#xE896;</x:String>
     <x:String x:Key="Share">&#xE72D;</x:String>
+    <x:String x:Key="SlideShow">&#xE173;</x:String>
+    <x:String x:Key="Audio">&#xE8D6;</x:String>
+    <x:String x:Key="Delete">&#xE74D;</x:String>
 </ResourceDictionary>
