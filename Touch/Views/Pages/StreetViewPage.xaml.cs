@@ -293,7 +293,7 @@ namespace Touch.Views.Pages
                                 choosePoint.Add(i + 1);
                                 if (i - lastNum >= 70)//中间选3个
                                 {
-                                    int interval = (int)((i - lastNum)*1.0) / 4;
+                                    int interval = (int)((i - lastNum) * 1.0) / 4;
                                     choosePoint.Add(lastNum + interval);
                                     choosePoint.Add(lastNum + 2 * interval);
                                     choosePoint.Add(lastNum + 3 * interval);
@@ -334,22 +334,22 @@ namespace Touch.Views.Pages
                         choosePoint.Add(lastNum + interval);
                     }
                     //Debug.Write(_pathPoint.Count - lastNum);
-                    if (cotNum != _wayPoint.Count - 1) Debug.WriteLine("miss way point"); 
+                    if (cotNum != _wayPoint.Count - 1) Debug.WriteLine("miss way point");
                 }
             }
-            List<int>sortPoint=choosePoint.OrderByDescending(m => m).ToList();
+            List<int> sortPoint = choosePoint.OrderByDescending(m => m).ToList();
             foreach (var i in sortPoint)
             {
                 Debug.WriteLine(i);
             }
             int choosePointNum = 0;
-            for (int i = _pathPoint.Count-1; i >= 0; --i)//不知道是List如何实现
+            for (int i = _pathPoint.Count - 1; i >= 0; --i)//不知道是List如何实现
             {
                 if (sortPoint[choosePointNum] == i)
                     choosePointNum++;
                 else
                     _pathPoint.RemoveAt(i);
-                }
+
             }
             /*foreach (var i in _pathPoint)
             {
@@ -447,7 +447,6 @@ namespace Touch.Views.Pages
                                 //Debug.WriteLine("click" + (wayNum - 1));
                                 for (var i = 0; i < list.Count; ++i)
                                     thisPointPhoto.Add(_test[list.ElementAt(i)]);
-                                }
                                 StreetGalleryControl.StreetImageListViewModel.AddImages(thisPointPhoto);
                                 StreetGalleryControl.SetBackground();
                                 StreetGalleryControl.Shown = true;
