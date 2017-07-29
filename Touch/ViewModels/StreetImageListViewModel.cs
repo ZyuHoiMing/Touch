@@ -8,12 +8,12 @@ namespace Touch.ViewModels
     /// </summary>
     public class StreetImageListViewModel : NotificationBase
     {
+        private int _selectedIndex;
+
         /// <summary>
         ///     与view交互的list
         /// </summary>
         public ObservableCollection<ImageViewModel> ImageViewModels;
-
-        private int _selectedIndex;
 
         public StreetImageListViewModel()
         {
@@ -22,20 +22,6 @@ namespace Touch.ViewModels
                 null
             };
             _selectedIndex = 0;
-        }
-
-        /// <summary>
-        /// 添加街景图片
-        /// </summary>
-        /// <param name="imageViewModels"></param>
-        public void AddImages(List<ImageViewModel> imageViewModels)
-        {
-            ImageViewModels.Clear();
-            foreach (var imageViewModel in imageViewModels)
-            {
-                ImageViewModels.Add(imageViewModel);
-            }
-            SelectedIndex = 0;
         }
 
         /// <summary>
@@ -59,6 +45,18 @@ namespace Touch.ViewModels
         public ImageViewModel SelectedImage
         {
             get { return _selectedIndex >= 0 ? ImageViewModels[_selectedIndex] : null; }
+        }
+
+        /// <summary>
+        ///     添加街景图片
+        /// </summary>
+        /// <param name="imageViewModels"></param>
+        public void AddImages(List<ImageViewModel> imageViewModels)
+        {
+            ImageViewModels.Clear();
+            foreach (var imageViewModel in imageViewModels)
+                ImageViewModels.Add(imageViewModel);
+            SelectedIndex = 0;
         }
     }
 }

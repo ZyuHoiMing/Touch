@@ -1,59 +1,36 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 using Touch.ViewModels;
-
-// ReSharper disable CompareOfFloatsByEqualityOperator
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Touch.Views.UserControls
 {
     // ReSharper disable once RedundantExtendsListEntry
-    public sealed partial class MemoryGridViewControl : UserControl
+    public sealed partial class PhotoGridViewControl : UserControl
     {
-        private bool _isLoaded;
+        public MemoryViewModel MemoryViewModel;
 
-        /// <summary>
-        ///     回忆VM
-        /// </summary>
-        public MemoryListViewModel MemoryListView;
-
-        public MemoryGridViewControl()
+        public PhotoGridViewControl()
         {
             InitializeComponent();
-            _isLoaded = false;
         }
 
-        private async void MemoryGridViewControl_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            if (_isLoaded)
-                return;
-            MemoryListView = await MemoryListViewModel.GetInstanceAsync();
-            MemoryGridView.ItemsSource = MemoryListView.MemoryViewModels;
-            MemoryGridView.DataContext = MemoryListView;
-            _isLoaded = true;
-            Debug.WriteLine("MemoryGridViewControl_OnLoaded");
-        }
-
-        private void ItemGrid_Loaded(object sender, RoutedEventArgs e)
-        {
-            var rootGrid = sender as Grid;
-            if (rootGrid == null)
-                return;
-            var maskBorder = rootGrid.Children[1] as FrameworkElement;
-            var maskVisual = ElementCompositionPreview.GetElementVisual(maskBorder);
-            maskVisual.Opacity = 0f;
-        }
-
-        // TODO 可以复用
         /// <summary>
         ///     item大小变化时需要对内容裁剪
         /// </summary>
@@ -80,8 +57,7 @@ namespace Touch.Views.UserControls
             if (rootGrid == null)
                 return;
             var img = rootGrid.Children[0] as FrameworkElement;
-            var maskBorder = rootGrid.Children[1] as FrameworkElement;
-            ToggleItemPointAnimation(maskBorder, img, true);
+            ToggleItemPointAnimation(img, true);
         }
 
         /// <summary>
@@ -95,33 +71,16 @@ namespace Touch.Views.UserControls
             if (rootGrid == null)
                 return;
             var img = rootGrid.Children[0] as FrameworkElement;
-            var maskBorder = rootGrid.Children[1] as FrameworkElement;
-            ToggleItemPointAnimation(maskBorder, img, false);
+            ToggleItemPointAnimation(img, false);
         }
 
-        private void ToggleItemPointAnimation(FrameworkElement mask, FrameworkElement img, bool show)
+        private void ToggleItemPointAnimation(FrameworkElement img, bool show)
         {
-            var maskVisual = ElementCompositionPreview.GetElementVisual(mask);
             var imgVisual = ElementCompositionPreview.GetElementVisual(img);
-
-            var fadeAnimation = CreateFadeAnimation(show);
             var scaleAnimation = CreateScaleAnimation(show);
-
-            if (imgVisual.CenterPoint.X == 0 && imgVisual.CenterPoint.Y == 0)
-                imgVisual.CenterPoint = new Vector3((float) mask.ActualWidth / 2, (float) mask.ActualHeight / 2, 0f);
-
-            maskVisual.StartAnimation("Opacity", fadeAnimation);
+            imgVisual.CenterPoint = new Vector3((float)img.ActualWidth / 2, (float)img.ActualHeight / 2, 0f);
             imgVisual.StartAnimation("Scale.x", scaleAnimation);
             imgVisual.StartAnimation("Scale.y", scaleAnimation);
-        }
-
-        private ScalarKeyFrameAnimation CreateFadeAnimation(bool show)
-        {
-            var compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-            var fadeAnimation = compositor.CreateScalarKeyFrameAnimation();
-            fadeAnimation.InsertKeyFrame(1f, show ? 1f : 0f);
-            fadeAnimation.Duration = TimeSpan.FromMilliseconds(1000);
-            return fadeAnimation;
         }
 
         private ScalarKeyFrameAnimation CreateScaleAnimation(bool show)

@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Touch.Models;
 using Touch.Views.Pages;
-using System.Windows.Input;
 
 namespace Touch.ViewModels
 {
@@ -33,7 +33,7 @@ namespace Touch.ViewModels
         ///     最新key号
         /// </summary>
         public int LastKeyNo => _memoryList.LastKeyNo;
-        
+
         /// <summary>
         ///     删除点击操作
         /// </summary>
@@ -54,10 +54,8 @@ namespace Touch.ViewModels
             {
                 // 如果类的实例不存在则创建，否则直接返回
                 if (_uniqueInstance == null)
-                {
                     // ReSharper disable once PossibleMultipleWriteAccessInDoubleCheckLocking
                     _uniqueInstance = new MemoryListViewModel();
-                }
             }
             _uniqueInstance._memoryList = await MemoryList.GetInstanceAsync();
             foreach (var memoryModel in _uniqueInstance._memoryList.MemoryModels)
@@ -102,9 +100,19 @@ namespace Touch.ViewModels
                 return;
             // 进入街景界面
             var rootFrame = Window.Current.Content as Frame;
-            rootFrame?.Navigate(typeof(StreetViewPage), item.ImageViewModels);
+            var memoryDetailParameters = new MemoryDetailParameters
+            {
+                MemoryViewModel = item,
+                MemoryListViewModel = this
+            };
+            rootFrame?.Navigate(typeof(MemoryDetailPage), memoryDetailParameters);
             Window.Current.Content = rootFrame;
-            Debug.WriteLine("进入街景界面");
         }
+    }
+
+    public class MemoryDetailParameters
+    {
+        public MemoryViewModel MemoryViewModel { get; set; }
+        public MemoryListViewModel MemoryListViewModel { get; set; }
     }
 }

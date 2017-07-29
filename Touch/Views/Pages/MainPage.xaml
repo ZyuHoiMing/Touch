@@ -26,7 +26,7 @@
             <userControls:TitleBarControl Grid.Row="0" />
 
             <Pivot x:Name="MainPivot" Grid.Row="1" Style="{StaticResource MyPivotStyle}"
-                   ItemContainerStyle="{StaticResource MyPivotItemStyle}">
+                   ItemContainerStyle="{StaticResource MyPivotItemStyle}" Margin="0,8,0,0">
                 <Pivot.RightHeader>
                     <CommandBar Background="Transparent">
                         <AppBarButton x:Name="RefreshButton" x:Uid="Refresh">
@@ -73,7 +73,8 @@
                     </PivotItem.Header>
 
                     <Grid Background="White" Margin="0,48,0,0">
-                        <userControls:GalleryGridViewControl x:Name="GalleryGridViewControl" OnClickItemStarted="GalleryGridViewControl_OnClickItemStarted" />
+                        <userControls:GalleryGridViewControl x:Name="GalleryGridViewControl"
+                                                             OnClickItemStarted="GalleryGridViewControl_OnClickItemStarted" />
                     </Grid>
                 </PivotItem>
                 <PivotItem>
@@ -87,7 +88,8 @@
                 </PivotItem>
             </Pivot>
 
-            <userControls:PhotoDetailControl x:Name="DetailControl" Grid.RowSpan="2" Visibility="Collapsed" OnHide="DetailControl_OnHide" />
+            <userControls:PhotoDetailControl x:Name="DetailControl" Grid.RowSpan="2" Visibility="Collapsed"
+                                             OnHide="DetailControl_OnHide" />
         </Grid>
     </Grid>
 </Page>

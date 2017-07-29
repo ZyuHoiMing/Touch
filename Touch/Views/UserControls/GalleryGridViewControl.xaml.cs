@@ -5,16 +5,15 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Graphics.Effects;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Touch.ViewModels;
-using Windows.UI.Popups;
 using Microsoft.Graphics.Canvas.Effects;
-using Windows.Graphics.Effects;
+using Touch.ViewModels;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -23,15 +22,14 @@ namespace Touch.Views.UserControls
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class GalleryGridViewControl : UserControl
     {
-        public event Action<ImageViewModel> OnClickItemStarted;
+        private readonly Compositor _compositor;
+
+        private readonly SpriteVisual _destinationSprite;
 
         private GalleryImageListViewModel _galleryImageListViewModel;
         private bool _isLoaded;
-
-        private SpriteVisual _destinationSprite;
-        private Compositor _compositor;
         private CompositionScopedBatch _scopeBatch;
-        
+
         public GalleryGridViewControl()
         {
             InitializeComponent();
@@ -43,56 +41,47 @@ namespace Touch.Views.UserControls
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
             // Create the destinatio sprite, sized to cover the entire list
             _destinationSprite = _compositor.CreateSpriteVisual();
-            _destinationSprite.Size = new Vector2((float)GalleryGridView.ActualWidth, (float)GalleryGridView.ActualHeight);
+            _destinationSprite.Size = new Vector2((float) GalleryGridView.ActualWidth,
+                (float) GalleryGridView.ActualHeight);
             // Start out with the destination layer invisible to avoid any cost until necessary
             _destinationSprite.IsVisible = false;
             ElementCompositionPreview.SetElementChildVisual(GalleryGridView, _destinationSprite);
             if (_compositor != null)
             {
-                IGraphicsEffect graphicsEffect = new GaussianBlurEffect()
+                IGraphicsEffect graphicsEffect = new GaussianBlurEffect
                 {
                     BlurAmount = 20,
                     Source = new CompositionEffectSourceParameter("ImageSource"),
                     Optimization = EffectOptimization.Balanced,
-                    BorderMode = EffectBorderMode.Hard,
-                }; ;
-                CompositionBrush secondaryBrush = null;
-                string[] animatableProperties = null;
+                    BorderMode = EffectBorderMode.Hard
+                };
 
                 // Create the effect factory and instantiate a brush
-                CompositionEffectFactory _effectFactory = _compositor.CreateEffectFactory(graphicsEffect, animatableProperties);
-                CompositionEffectBrush brush = _effectFactory.CreateBrush();
+                var effectFactory = _compositor.CreateEffectFactory(graphicsEffect, null);
+                var brush = effectFactory.CreateBrush();
 
                 // Set the destination brush as the source of the image content
                 brush.SetSourceParameter("ImageSource", _compositor.CreateBackdropBrush());
-
-                // If his effect uses a secondary brush, set it now
-                if (secondaryBrush != null)
-                {
-                    brush.SetSourceParameter("SecondSource", secondaryBrush);
-                }
 
                 // Update the destination layer with the fully configured brush
                 _destinationSprite.Brush = brush;
             }
 
-            #endregion 
+            #endregion
 
             GalleryGridView.ItemClick += (sender, e) =>
             {
-                ImageViewModel thumbnail = (ImageViewModel)e.ClickedItem;
+                var thumbnail = (ImageViewModel) e.ClickedItem;
 
                 // If we're in the middle of an animation, cancel it now
                 if (_scopeBatch != null)
-                {
                     CleanupScopeBatch();
-                }
 
                 // We're starting our transition, show the destination sprite
                 _destinationSprite.IsVisible = true;
 
                 // Animate from transparent to fully opaque
-                ScalarKeyFrameAnimation showAnimation = _compositor.CreateScalarKeyFrameAnimation();
+                var showAnimation = _compositor.CreateScalarKeyFrameAnimation();
                 showAnimation.InsertKeyFrame(0f, 0f);
                 showAnimation.InsertKeyFrame(1f, 1f);
                 showAnimation.Duration = TimeSpan.FromMilliseconds(1500);
@@ -103,11 +92,19 @@ namespace Touch.Views.UserControls
             GalleryGridView.SizeChanged += (sender, e) =>
             {
                 if (_destinationSprite != null)
-                {
                     _destinationSprite.Size = e.NewSize.ToVector2();
-                }
             };
         }
+
+        /// <summary>
+        ///     选中的viewmodels
+        /// </summary>
+        public List<ImageViewModel> SelectedImageViewModels
+        {
+            get { return GalleryGridView.SelectedItems.Cast<ImageViewModel>().ToList(); }
+        }
+
+        public event Action<ImageViewModel> OnClickItemStarted;
 
         public void Dismissed()
         {
@@ -115,7 +112,7 @@ namespace Touch.Views.UserControls
             _scopeBatch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
 
             // Start the hide animation to fade out the destination effect
-            ScalarKeyFrameAnimation hideAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            var hideAnimation = _compositor.CreateScalarKeyFrameAnimation();
             hideAnimation.InsertKeyFrame(0f, 1f);
             hideAnimation.InsertKeyFrame(1.0f, 0f);
             hideAnimation.Duration = TimeSpan.FromMilliseconds(1000);
@@ -142,14 +139,6 @@ namespace Touch.Views.UserControls
                 _scopeBatch.Dispose();
                 _scopeBatch = null;
             }
-        }
-
-        /// <summary>
-        ///     选中的viewmodels
-        /// </summary>
-        public List<ImageViewModel> SelectedImageViewModels
-        {
-            get { return GalleryGridView.SelectedItems.Cast<ImageViewModel>().ToList(); }
         }
 
         /// <summary>
@@ -243,7 +232,7 @@ namespace Touch.Views.UserControls
         {
             var imgVisual = ElementCompositionPreview.GetElementVisual(img);
             var scaleAnimation = CreateScaleAnimation(show);
-            imgVisual.CenterPoint = new Vector3((float)img.ActualWidth / 2, (float)img.ActualHeight / 2, 0f);
+            imgVisual.CenterPoint = new Vector3((float) img.ActualWidth / 2, (float) img.ActualHeight / 2, 0f);
             imgVisual.StartAnimation("Scale.x", scaleAnimation);
             imgVisual.StartAnimation("Scale.y", scaleAnimation);
         }

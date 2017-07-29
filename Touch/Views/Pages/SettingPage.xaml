@@ -18,14 +18,14 @@
 
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <userControls:TitleBarControl x:Name="TitleBarControl" Grid.Row="0" Margin="0,0,0,8" />
+            <userControls:TitleBarControl x:Name="TitleBarControl" Grid.Row="0" />
 
             <Pivot Grid.Row="1" Style="{StaticResource MyPivotStyle}"
-                   ItemContainerStyle="{StaticResource MyPivotItemStyle}">
+                   ItemContainerStyle="{StaticResource MyPivotItemStyle}" Margin="0,8,0,0">
                 <PivotItem>
                     <PivotItem.Header>
                         <TextBlock x:Uid="SettingText" />

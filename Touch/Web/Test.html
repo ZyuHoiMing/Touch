@@ -26,7 +26,7 @@
     var waypts;
     var netCheck = false;
     var currentPano;
-    
+
     function initialize() {
         waypts = [];
         map = new google.maps.Map(document.getElementById('street-view'),
@@ -43,9 +43,9 @@
         panorama.setOptions({
             linksControl: false,
             addressControlOptions:
-			{
-			    position: google.maps.ControlPosition.LEFT_BOTTOM
-			},
+            {
+                position: google.maps.ControlPosition.LEFT_BOTTOM
+            },
             enableCloseButton: false,
             zoomControl: false,
         });
@@ -54,30 +54,26 @@
         else netCheck = false;
     }
 
-    function firstSetPanorama(x,y)
-    {
+    function firstSetPanorama(x, y) {
         panorama.setVisible(true);
         panorama.setPosition({
-            lat:x ,lng:y
+            lat: x,
+            lng: y
         });
-        panorama.addListener('status_changed',setCurrentStatus);
+        panorama.addListener('status_changed', setCurrentStatus);
     }
 
-    function setCurrentStatus()
-    {
+    function setCurrentStatus() {
         if (panorama.getStatus() == google.maps.StreetViewStatus.OK) {
-            currentPano=panorama.getPano();
-        }
-        else currentPano='N';
-    }//设置当前状态
+            currentPano = panorama.getPano();
+        } else currentPano = 'N';
+    } //设置当前状态
 
-    function getCurrentStatus()
-    {
+    function getCurrentStatus() {
         return currentPano;
     }
 
-    function getNetCheck()
-    {
+    function getNetCheck() {
         if (netCheck) return 'Y';
         else return 'N';
     }
@@ -118,8 +114,7 @@
         setMarkHeading();
     }
 
-    function insertOneMark(markLat, markLng)
-    {
+    function insertOneMark(markLat, markLng) {
         map.setCenter({ lat: markLat, lng: markLng });
         var marker2 = new google.maps.Marker({
             position: { lat: markLat, lng: markLng },
@@ -181,17 +176,16 @@
         return pathPoint;
     }
 
-    function setStreetViewPositon(x, y, heading)
-    {
+    function setStreetViewPositon(x, y, heading) {
         panorama.setPosition(
             {
-                lat: x, lng: y
+                lat: x,
+                lng: y
             });
         panorama.setPov({ heading: heading, pitch: 0 });
         if (panorama.getStatus() == google.maps.StreetViewStatus.OK) {
             return panorama.getPano();
-        }
-        else return 'N';
+        } else return 'N';
     }
 
     function testIsGetPath() {

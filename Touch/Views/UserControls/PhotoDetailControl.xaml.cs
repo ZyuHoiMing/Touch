@@ -1,59 +1,65 @@
-﻿using CompositionHelper;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
+﻿using System;
 using System.Numerics;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading;
-using System.Threading.Tasks;
-using Touch.ViewModels;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Composition;
-using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using CompositionHelper;
+using Touch.ViewModels;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Touch.Views.UserControls
 {
+    // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class PhotoDetailControl : UserControl
     {
-        public event Action OnHide;
-        
+        private Compositor _compositor;
+        private Visual _detailGridVisual;
+        private Visual _infoGridVisual;
+        private Visual _shareBtnVisual;
         public ImageViewModel PhotoDetailImageViewModel;
-        
+
         public PhotoDetailControl()
         {
             InitializeComponent();
+            InitComposition();
             ToggleDetailGridAnimation(false);
         }
 
+        public event Action OnHide;
+
+        private void InitComposition()
+        {
+            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            _detailGridVisual = ElementCompositionPreview.GetElementVisual(DetailGrid);
+            _infoGridVisual = ElementCompositionPreview.GetElementVisual(InfoGrid);
+            _shareBtnVisual = ElementCompositionPreview.GetElementVisual(ShareBtn);
+
+            ResetVisualInitState();
+        }
+
+        private void ResetVisualInitState()
+        {
+            _infoGridVisual.Offset = new Vector3(0f, -100f, 0);
+            _shareBtnVisual.Offset = new Vector3(150f, 0f, 0f);
+            _detailGridVisual.Opacity = 0;
+        }
+
         /// <summary>
-        /// Toggle the enter animation by passing a list item. This control will take care of the rest part.
+        ///     Toggle the enter animation by passing a list item. This control will take care of the rest part.
         /// </summary>
         public void Show()
         {
             DetailImage.Source = PhotoDetailImageViewModel.ThumbnailImage;
             ToggleDetailGridAnimation(true);
         }
-        
+
         private void ToggleDetailGridAnimation(bool show)
         {
-            var _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-            var _detailGridVisual = ElementCompositionPreview.GetElementVisual(DetailGrid);
-
             var fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
             fadeAnimation.InsertKeyFrame(1f, show ? 1f : 0f);
             fadeAnimation.Duration = TimeSpan.FromMilliseconds(show ? 700 : 300);
@@ -62,34 +68,101 @@ namespace Touch.Views.UserControls
             var batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
             _detailGridVisual.StartAnimation("Opacity", fadeAnimation);
 
+            if (show)
+            {
+                ToggleShareBtnAnimation(true);
+                ToggleInfoGridAnimation(true);
+            }
+
+            batch.Completed += (sender, e) =>
+            {
+                if (show)
+                    return;
+                ResetVisualInitState();
+                Visibility = Visibility.Collapsed;
+                ToggleElementsOpacity(true);
+            };
+
             batch.End();
+        }
+
+        private void ToggleShareBtnAnimation(bool show)
+        {
+            var offsetAnimation = _compositor.CreateVector3KeyFrameAnimation();
+            offsetAnimation.InsertKeyFrame(1f, new Vector3(show ? 0f : 150f, 0f, 0f));
+            offsetAnimation.Duration = TimeSpan.FromMilliseconds(show ? 1000 : 400);
+            offsetAnimation.DelayTime = TimeSpan.FromMilliseconds(show ? 400 : 0);
+
+            _shareBtnVisual.StartAnimation("Offset", offsetAnimation);
+        }
+
+        private void ToggleInfoGridAnimation(bool show)
+        {
+            var offsetAnimation = _compositor.CreateVector3KeyFrameAnimation();
+            offsetAnimation.InsertKeyFrame(1f, new Vector3(0f, show ? 0f : -100f, 0f));
+            offsetAnimation.Duration = TimeSpan.FromMilliseconds(500);
+            offsetAnimation.DelayTime = TimeSpan.FromMilliseconds(show ? 500 : 0);
+
+            _infoGridVisual.StartAnimation("Offset", offsetAnimation);
         }
 
         private void MaskBorder_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            var _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            ToggleShareBtnAnimation(false);
             var batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
+            ToggleInfoGridAnimation(false);
             batch.Completed += (s, ex) =>
             {
                 var innerBatch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
                 innerBatch.Completed += (ss, exx) =>
                 {
+                    OnHide?.Invoke();
                     ToggleDetailGridAnimation(false);
+                    PhotoDetailImageViewModel = null;
                 };
                 innerBatch.End();
             };
             batch.End();
-            OnHide.Invoke();
-            PhotoDetailImageViewModel = null;
         }
 
         private void DetailGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             var grid = sender as Grid;
+            if (grid == null)
+                return;
             var gridWidth = grid.ActualWidth;
             var gridHeight = grid.ActualHeight;
             DetailImage.Width = gridWidth * 0.618;
             DetailImage.Height = gridHeight * 0.618;
+            PhotoGrid.Height = PhotoGrid.ActualWidth / 1.5 + 100;
+            PhotoGrid.Clip = new RectangleGeometry
+            {
+                Rect = new Rect(0, 0, PhotoGrid.ActualWidth, PhotoGrid.Height)
+            };
+        }
+
+        private void InfoPlaceHolderGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            SetInfoPlaceholderGridClip(true);
+        }
+
+        private void SetInfoPlaceholderGridClip(bool clip)
+        {
+            if (!clip)
+            {
+                InfoPlaceHolderGrid.ClearValue(ClipProperty);
+                return;
+            }
+            InfoPlaceHolderGrid.Clip = new RectangleGeometry
+            {
+                Rect = new Rect(0, 0, InfoPlaceHolderGrid.ActualWidth, InfoPlaceHolderGrid.ActualHeight)
+            };
+        }
+
+        private void ToggleElementsOpacity(bool show)
+        {
+            InfoPlaceHolderGrid.GetVisual().Opacity = show ? 1f : 0f;
+            OperationSp.GetVisual().Opacity = show ? 1f : 0f;
         }
     }
 }
