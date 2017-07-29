@@ -10,6 +10,6 @@
 
     <Grid>
         <RelativePanel x:Name="MainGrid" MinWidth="40" />
-        <RelativePanel Width="{Binding ElementName=MainGrid, Path=Width}" Background="#60FFFFFF" />
+        <RelativePanel Width="{Binding ElementName=MainGrid, Path=Width}" Background="#A0FFFFFF" />
     </Grid>
 </UserControl>

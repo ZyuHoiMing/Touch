@@ -103,6 +103,7 @@ namespace Touch.ViewModels
                 // 如果是添加新文件夹的按钮
                 var folderPicker = new FolderPicker();
                 folderPicker.FileTypeFilter.Add("*");
+                folderPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
                 var folder = await folderPicker.PickSingleFolderAsync();
                 if (folder == null)
                     return;

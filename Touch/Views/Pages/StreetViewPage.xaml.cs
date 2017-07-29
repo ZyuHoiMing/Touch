@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Media.Core;
+using Windows.Storage;
 using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -25,7 +27,7 @@ namespace Touch.Views.Pages
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class StreetViewPage : Page
     {
-        private readonly MediaPlayerElement _backgroungMusic;
+        private MediaPlayerElement _backgroungMusic;
         private readonly List<Point> _pathPoint = new List<Point>();
 
         private List<List<int>> _clusteringResult;
@@ -34,6 +36,7 @@ namespace Touch.Views.Pages
 
         //private List<int> _insertWayNum = new List<int>();
 
+        private MemoryViewModel _memoryViewModel;
         private List<ImageViewModel> _test;
 
         /// <summary>
@@ -51,7 +54,7 @@ namespace Touch.Views.Pages
         /// <summary>
         ///     上一个街景号，用于检测是否重点
         /// </summary>
-        private string lastPano = "";
+        private string _lastPano = "";
 
         //
         public StreetViewPage()
@@ -74,11 +77,6 @@ namespace Touch.Views.Pages
                 ApplicationView.GetForCurrentView().ExitFullScreenMode();
                 rootFrame?.GoBack();
             };
-            _backgroungMusic = new MediaPlayerElement
-            {
-                Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/Media/summer.mp3")),
-                AutoPlay = true
-            };
             ProgressRingGrid.Visibility = Visibility.Visible;
             ProgressRingGrid.Show();
         }
@@ -86,12 +84,12 @@ namespace Touch.Views.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            _test = e.Parameter as List<ImageViewModel>;
+            _memoryViewModel = e.Parameter as MemoryViewModel;
+            _test = _memoryViewModel?.ImageViewModels;
             var photoClustering = new PhotoClustering(_test);
             _wayPoint = photoClustering.GetPhotoClustering();
             _test = photoClustering.UpdateImageList(); //去掉没有GPS的图片
             _clusteringResult = photoClustering.GetClusteringResult();
-            _backgroungMusic.MediaPlayer.Play(); //背景音乐播放
             DelayGetPath(); //得出路径
         }
 
@@ -105,7 +103,7 @@ namespace Touch.Views.Pages
                     CoreDispatcherPriority.High,
                     async () =>
                     {
-                        var result = await Webview1.InvokeScriptAsync("eval", new[] {"getNetCheck()"});
+                        var result = await Webview1.InvokeScriptAsync("eval", new[] { "getNetCheck()" });
                         Debug.WriteLine(result);
                         if (result.Equals("Y"))
                             InvokeJsGetPath(); //得出路径
@@ -128,7 +126,7 @@ namespace Touch.Views.Pages
             };
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await Webview1.InvokeScriptAsync("eval", new[] {"setIsGetPath()"});
+                await Webview1.InvokeScriptAsync("eval", new[] { "setIsGetPath()" });
                 var result = await Webview1.InvokeScriptAsync("eval", script);
                 Debug.WriteLine("first" + result);
             });
@@ -137,7 +135,7 @@ namespace Touch.Views.Pages
         //移动结束
         private async void InvokeJsEnd()
         {
-            await Webview1.InvokeScriptAsync("eval", new[] {"streetShowEnd()"});
+            await Webview1.InvokeScriptAsync("eval", new[] { "streetShowEnd()" });
         }
 
         //嵌入移动
@@ -153,12 +151,12 @@ namespace Touch.Views.Pages
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 var result = await Webview1.InvokeScriptAsync("eval", script);
-                streetViewControl(result);
+                StreetViewControl(result);
             });
         }
 
         //街景异常控制
-        public void streetViewControl(string status)
+        public void StreetViewControl(string status)
         {
             Debug.WriteLine("result" + status);
         }
@@ -213,9 +211,9 @@ namespace Touch.Views.Pages
         }
 
         //在路径中加入和删除点
-        private void InsertWayPoint()//算法效率不高
+        private void InsertWayPoint() //算法效率不高
         {
-            HashSet<int> choosePoint = new HashSet<int>();
+            var choosePoint = new HashSet<int>();
             for (var i = 1; i < _wayPoint.Count - 1; ++i)
             {
                 // Debug.WriteLine(_wayPoint.ElementAt(i));
@@ -241,9 +239,9 @@ namespace Touch.Views.Pages
                 //Debug.WriteLine("debug1" + numI + "," + _wayPoint[i].X + "," + _wayPoint[i].Y);
                 //Debug.WriteLine("debug2" + numI + "," +_pathPoint[numI].X+","+_pathPoint[numI].Y);
             }
-            choosePoint.Add(0);//添加起始点
-            choosePoint.Add(_pathPoint.Count()-1);//最后一个点
-            if (_wayPoint.Count == 2)//两个点
+            choosePoint.Add(0); //添加起始点
+            choosePoint.Add(_pathPoint.Count() - 1); //最后一个点
+            if (_wayPoint.Count == 2) //两个点
             {
                 if (_pathPoint.Count > 6)
                 {
@@ -253,15 +251,14 @@ namespace Touch.Views.Pages
                     choosePoint.Add(_pathPoint.Count - 3);
                 }
             }
-            else if (_wayPoint.Count == 3)//只有三个点
+            else if (_wayPoint.Count == 3) //只有三个点
             {
                 if (_pathPoint.Count > 9)
                 {
                     choosePoint.Add(1);
                     choosePoint.Add(_pathPoint.Count - 2);
-                    int cotNum = 1;
-                    for (int i = 0; i < _pathPoint.Count; ++i)
-                    {
+                    var cotNum = 1;
+                    for (var i = 0; i < _pathPoint.Count; ++i)
                         if (_wayPoint[cotNum] == _pathPoint[i])
                         {
                             choosePoint.Add(i - 2);
@@ -271,10 +268,9 @@ namespace Touch.Views.Pages
                             choosePoint.Add(i + 2);
                             break;
                         }
-                    }
                 }
             }
-            else//4个点及以上
+            else //4个点及以上
             {
                 if ((_wayPoint.Count * 4 - 4) < _pathPoint.Count)
                 {
@@ -350,11 +346,8 @@ namespace Touch.Views.Pages
             for (int i = _pathPoint.Count-1; i >= 0; --i)//不知道是List如何实现
             {
                 if (sortPoint[choosePointNum] == i)
-                {
                     choosePointNum++;
-                }
                 else
-                {
                     _pathPoint.RemoveAt(i);
                 }
             }
@@ -378,13 +371,13 @@ namespace Touch.Views.Pages
                         async () =>
                         {
                             if (!completed) return;
-                            string[] args = {"testIsGetPath()"};
+                            string[] args = { "testIsGetPath()" };
                             var result = await Webview1.InvokeScriptAsync("eval", args);
                             if (result == "Y")
                             {
                                 _hasPath = true;
-                                await Webview1.InvokeScriptAsync("eval", new[] {"setIsGetPath()"});
-                                var tmp = await Webview1.InvokeScriptAsync("eval", new[] {"getPathPoint()"});
+                                await Webview1.InvokeScriptAsync("eval", new[] { "setIsGetPath()" });
+                                var tmp = await Webview1.InvokeScriptAsync("eval", new[] { "getPathPoint()" });
                                 var pathArray = tmp.Split('\n');
                                 //Debug.WriteLine("path point length" + pathArray.Length);
                                 /*HashSet<int> deletePoint = new HashSet<int>();//稀疏掉的数组
@@ -400,13 +393,12 @@ namespace Touch.Views.Pages
                                     if (deletePoint.Contains(pathArray.Length)) deletePoint.Remove(pathArray.Length);
                                 }
                                 int cotNum = 0;*/
-                                for (int i = 0; i < pathArray.Length; ++i)
-                                {
+                                for (var i = 0; i < pathArray.Length; ++i)
                                     /*if (cotNum < deletePoint.Count && deletePoint.ElementAt(cotNum) == i)
-                                    {
-                                        cotNum++;
-                                        continue;
-                                    }*/
+                                        {
+                                            cotNum++;
+                                            continue;
+                                        }*/
                                     if (pathArray[i].Length >= 3)
                                     {
                                         var pointArray = pathArray[i].Split(',');
@@ -414,7 +406,6 @@ namespace Touch.Views.Pages
                                         var lng = Convert.ToDouble(pointArray[1]);
                                         _pathPoint.Add(new Point(lat, lng));
                                     }
-                                }
                                 //Debug.WriteLine("path point length(after relax)" + _pathPoint.Count);
                                 //for (int i = 0; i < _pathPoint.Count; ++i) Debug.WriteLine(_pathPoint.ElementAt(i));
                                 //嵌入_waypoint点
@@ -445,17 +436,16 @@ namespace Touch.Views.Pages
                         async () =>
                         {
                             if (!completed) return;
-                            string[] args = {"getClick()"};
+                            string[] args = { "getClick()" };
                             var result = await Webview1.InvokeScriptAsync("eval", args);
                             if (result == "click")
                             {
                                 _tmpNodeNum = nodeNum; //保护现场
                                 _tmpWayNum = wayNum; //保护现场
-                                List<ImageViewModel> thisPointPhoto = new List<ImageViewModel>();//得出改点的图片
-                                List<int> list = _clusteringResult.ElementAt(wayNum - 1);
+                                var thisPointPhoto = new List<ImageViewModel>(); //得出改点的图片
+                                var list = _clusteringResult.ElementAt(wayNum - 1);
                                 //Debug.WriteLine("click" + (wayNum - 1));
-                                for (int i = 0; i < list.Count; ++i)
-                                {
+                                for (var i = 0; i < list.Count; ++i)
                                     thisPointPhoto.Add(_test[list.ElementAt(i)]);
                                 }
                                 StreetGalleryControl.StreetImageListViewModel.AddImages(thisPointPhoto);
@@ -487,12 +477,16 @@ namespace Touch.Views.Pages
                 //
                 // TODO: Work
                 //
-                var x = _pathPoint.ElementAt(nodeNum).X.ToString(CultureInfo.CurrentCulture);
-                var y = _pathPoint.ElementAt(nodeNum).Y.ToString(CultureInfo.CurrentCulture);
+                var x = _pathPoint.ElementAt(nodeNum).X
+                    .ToString(CultureInfo.CurrentCulture);
+                var y = _pathPoint.ElementAt(nodeNum).Y
+                    .ToString(CultureInfo.CurrentCulture);
                 //Debug.WriteLine("get point"+tmp);
                 Debug.WriteLine(x);
                 Debug.WriteLine(y);
-                var pathpov = new PathPov(_pathPoint.ElementAt(nodeNum - 1), _pathPoint.ElementAt(nodeNum));
+                var pathpov =
+                    new PathPov(_pathPoint.ElementAt(nodeNum - 1),
+                        _pathPoint.ElementAt(nodeNum));
                 var tmpheading = pathpov.GetHeading().ToString();
                 InvokeJsMove(x, y, tmpheading);
 
@@ -530,7 +524,8 @@ namespace Touch.Views.Pages
                             InvokeJsHeading(nodeNum);
                             TestClick(nodeNum + 1, wayNum + 1);
                         }
-                        else if (wayNum < _wayPoint.Count - 1 && _wayPoint[wayNum] == _pathPoint[nodeNum])
+                        else if (wayNum < _wayPoint.Count - 1 && _wayPoint[wayNum] ==
+                                 _pathPoint[nodeNum])
                         {
                             Debug.WriteLine("touch here");
                             InvokeJsHeading(nodeNum);
@@ -589,6 +584,7 @@ namespace Touch.Views.Pages
             {
                 StartWalk();
             }
+            _backgroungMusic?.MediaPlayer.Play(); //背景音乐播放
         }
 
         private void ShowEndButton()
@@ -601,7 +597,7 @@ namespace Touch.Views.Pages
             else
             {
                 InvokeJsEnd(); //结束
-                _backgroungMusic.MediaPlayer.Pause();
+                _backgroungMusic?.MediaPlayer.Pause();
                 // 显示重播按钮
                 VideoButtonGrid.Visibility = Visibility.Visible;
                 VideoButtonGrid.ShowReplayButton();
@@ -637,6 +633,30 @@ namespace Touch.Views.Pages
                     ProgressRingGrid.Visibility = Visibility.Collapsed;
                 });
             });
+            // 背景音乐
+            var localFolder = ApplicationData.Current.LocalFolder;
+            try
+            {
+                var musicFile = await localFolder.GetFileAsync(_memoryViewModel.KeyNo.ToString());
+                using (var stream = await musicFile.OpenAsync(FileAccessMode.Read))
+                {
+                    _backgroungMusic = new MediaPlayerElement
+                    {
+                        Source = MediaSource.CreateFromStream(stream, "mp3"),
+                        AutoPlay = true
+                    };
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                _backgroungMusic = null;
+            }
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            _backgroungMusic?.MediaPlayer.Pause();
         }
     }
 }

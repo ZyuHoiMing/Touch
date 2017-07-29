@@ -72,7 +72,7 @@
                         <TextBlock x:Uid="Gallery" />
                     </PivotItem.Header>
 
-                    <Grid Background="White" Margin="0,48,0,0">
+                    <Grid Background="White" Padding="0,48,0,0">
                         <userControls:GalleryGridViewControl x:Name="GalleryGridViewControl"
                                                              OnClickItemStarted="GalleryGridViewControl_OnClickItemStarted" />
                     </Grid>
@@ -82,7 +82,7 @@
                         <TextBlock x:Uid="Memory" />
 
                     </PivotItem.Header>
-                    <Grid Background="White" Margin="0,48,0,0">
+                    <Grid Background="White">
                         <userControls:MemoryGridViewControl x:Name="MemoryGridViewControl" />
                     </Grid>
                 </PivotItem>
