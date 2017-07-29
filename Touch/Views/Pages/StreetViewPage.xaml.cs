@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Media.Core;
+using Windows.Storage;
 using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -25,7 +27,7 @@ namespace Touch.Views.Pages
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class StreetViewPage : Page
     {
-        private readonly MediaPlayerElement _backgroungMusic;
+        private MediaPlayerElement _backgroungMusic;
         private readonly List<Point> _pathPoint = new List<Point>();
 
         private List<List<int>> _clusteringResult;
@@ -34,6 +36,7 @@ namespace Touch.Views.Pages
 
         //private List<int> _insertWayNum = new List<int>();
 
+        private MemoryViewModel _memoryViewModel;
         private List<ImageViewModel> _test;
 
         /// <summary>
@@ -51,7 +54,7 @@ namespace Touch.Views.Pages
         /// <summary>
         ///     上一个街景号，用于检测是否重点
         /// </summary>
-        private string lastPano = "";
+        private string _lastPano = "";
 
         //
         public StreetViewPage()
@@ -74,11 +77,6 @@ namespace Touch.Views.Pages
                 ApplicationView.GetForCurrentView().ExitFullScreenMode();
                 rootFrame?.GoBack();
             };
-            _backgroungMusic = new MediaPlayerElement
-            {
-                Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/Media/summer.mp3")),
-                AutoPlay = true
-            };
             ProgressRingGrid.Visibility = Visibility.Visible;
             ProgressRingGrid.Show();
         }
@@ -86,12 +84,12 @@ namespace Touch.Views.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            _test = e.Parameter as List<ImageViewModel>;
+            _memoryViewModel = e.Parameter as MemoryViewModel;
+            _test = _memoryViewModel?.ImageViewModels;
             var photoClustering = new PhotoClustering(_test);
             _wayPoint = photoClustering.GetPhotoClustering();
             _test = photoClustering.UpdateImageList(); //去掉没有GPS的图片
             _clusteringResult = photoClustering.GetClusteringResult();
-            _backgroungMusic.MediaPlayer.Play(); //背景音乐播放
             DelayGetPath(); //得出路径
         }
 
@@ -105,7 +103,7 @@ namespace Touch.Views.Pages
                     CoreDispatcherPriority.High,
                     async () =>
                     {
-                        var result = await Webview1.InvokeScriptAsync("eval", new[] {"getNetCheck()"});
+                        var result = await Webview1.InvokeScriptAsync("eval", new[] { "getNetCheck()" });
                         Debug.WriteLine(result);
                         if (result.Equals("Y"))
                             InvokeJsGetPath(); //得出路径
@@ -128,7 +126,7 @@ namespace Touch.Views.Pages
             };
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await Webview1.InvokeScriptAsync("eval", new[] {"setIsGetPath()"});
+                await Webview1.InvokeScriptAsync("eval", new[] { "setIsGetPath()" });
                 var result = await Webview1.InvokeScriptAsync("eval", script);
                 Debug.WriteLine("first" + result);
             });
@@ -137,7 +135,7 @@ namespace Touch.Views.Pages
         //移动结束
         private async void InvokeJsEnd()
         {
-            await Webview1.InvokeScriptAsync("eval", new[] {"streetShowEnd()"});
+            await Webview1.InvokeScriptAsync("eval", new[] { "streetShowEnd()" });
         }
 
         //嵌入移动
@@ -153,12 +151,12 @@ namespace Touch.Views.Pages
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 var result = await Webview1.InvokeScriptAsync("eval", script);
-                streetViewControl(result);
+                StreetViewControl(result);
             });
         }
 
         //街景异常控制
-        public void streetViewControl(string status)
+        public void StreetViewControl(string status)
         {
             Debug.WriteLine("result" + status);
         }
@@ -322,13 +320,13 @@ namespace Touch.Views.Pages
                         async () =>
                         {
                             if (!completed) return;
-                            string[] args = {"testIsGetPath()"};
+                            string[] args = { "testIsGetPath()" };
                             var result = await Webview1.InvokeScriptAsync("eval", args);
                             if (result == "Y")
                             {
                                 _hasPath = true;
-                                await Webview1.InvokeScriptAsync("eval", new[] {"setIsGetPath()"});
-                                var tmp = await Webview1.InvokeScriptAsync("eval", new[] {"getPathPoint()"});
+                                await Webview1.InvokeScriptAsync("eval", new[] { "setIsGetPath()" });
+                                var tmp = await Webview1.InvokeScriptAsync("eval", new[] { "getPathPoint()" });
                                 var pathArray = tmp.Split('\n');
                                 //Debug.WriteLine("path point length" + pathArray.Length);
                                 /*HashSet<int> deletePoint = new HashSet<int>();//稀疏掉的数组
@@ -387,7 +385,7 @@ namespace Touch.Views.Pages
                         async () =>
                         {
                             if (!completed) return;
-                            string[] args = {"getClick()"};
+                            string[] args = { "getClick()" };
                             var result = await Webview1.InvokeScriptAsync("eval", args);
                             if (result == "click")
                             {
@@ -536,6 +534,7 @@ namespace Touch.Views.Pages
             {
                 StartWalk();
             }
+            _backgroungMusic?.MediaPlayer.Play(); //背景音乐播放
         }
 
         private void ShowEndButton()
@@ -548,7 +547,7 @@ namespace Touch.Views.Pages
             else
             {
                 InvokeJsEnd(); //结束
-                _backgroungMusic.MediaPlayer.Pause();
+                _backgroungMusic?.MediaPlayer.Pause();
                 // 显示重播按钮
                 VideoButtonGrid.Visibility = Visibility.Visible;
                 VideoButtonGrid.ShowReplayButton();
@@ -584,6 +583,30 @@ namespace Touch.Views.Pages
                     ProgressRingGrid.Visibility = Visibility.Collapsed;
                 });
             });
+            // 背景音乐
+            var localFolder = ApplicationData.Current.LocalFolder;
+            try
+            {
+                var musicFile = await localFolder.GetFileAsync(_memoryViewModel.KeyNo.ToString());
+                using (var stream = await musicFile.OpenAsync(FileAccessMode.Read))
+                {
+                    _backgroungMusic = new MediaPlayerElement
+                    {
+                        Source = MediaSource.CreateFromStream(stream, "mp3"),
+                        AutoPlay = true
+                    };
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                _backgroungMusic = null;
+            }
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            _backgroungMusic?.MediaPlayer.Pause();
         }
     }
 }

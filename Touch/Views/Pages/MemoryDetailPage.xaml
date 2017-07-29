@@ -49,6 +49,11 @@
                             <AddDeleteThemeTransition />
                         </TransitionCollection>
                     </AppBarButton.Transitions>
+                    <FlyoutBase.AttachedFlyout>
+                        <Flyout>
+                            <TextBlock x:Uid="AddCompleted" />
+                        </Flyout>
+                    </FlyoutBase.AttachedFlyout>
                 </AppBarButton>
 
                 <AppBarButton x:Name="DeleteButton" x:Uid="Delete">

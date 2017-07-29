@@ -1,6 +1,12 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Touch.ViewModels;
@@ -27,9 +33,31 @@ namespace Touch.Views.Pages
             {
                 // 进入街景界面
                 var rootFrame = Window.Current.Content as Frame;
-                rootFrame?.Navigate(typeof(StreetViewPage), _memoryViewModel.ImageViewModels);
+                rootFrame?.Navigate(typeof(StreetViewPage), _memoryViewModel);
                 Window.Current.Content = rootFrame;
                 Debug.WriteLine("进入街景界面");
+            };
+            AudioButton.Click += async (sender, args) =>
+            {
+                var filePicker = new FileOpenPicker();
+                filePicker.FileTypeFilter.Add(".mp3");
+                filePicker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
+                var file = await filePicker.PickSingleFileAsync();
+                if (file == null)
+                    return;
+                var newFile = await file.CopyAsync(ApplicationData.Current.LocalFolder);
+                await newFile.RenameAsync(_memoryViewModel.KeyNo.ToString(), NameCollisionOption.ReplaceExisting);
+                // 显示成功通知
+                var flyout = FlyoutBase.GetAttachedFlyout((FrameworkElement)sender);
+                flyout.ShowAt((FrameworkElement)sender);
+                await Task.Run(async () =>
+                {
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        await Task.Delay(1000);
+                        flyout.Hide();
+                    });
+                });
             };
             DeleteButton.Click += (sender, args) =>
             {
