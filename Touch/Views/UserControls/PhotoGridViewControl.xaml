@@ -12,7 +12,8 @@
     d:DesignWidth="400">
 
     <Grid>
-        <controls:MyAdaptiveGridView x:Name="GalleryGridView" ItemsSource="{x:Bind MemoryViewModel.ImageViewModels, Mode=OneWay}"
+        <controls:MyAdaptiveGridView x:Name="GalleryGridView"
+                                     ItemsSource="{x:Bind MemoryViewModel.ImageViewModels, Mode=OneWay}"
                                      SelectionMode="None" IsItemClickEnabled="True"
                                      MinItemHeight="180" MinItemWidth="240"
                                      animations:ReorderGridAnimation.Duration="250">

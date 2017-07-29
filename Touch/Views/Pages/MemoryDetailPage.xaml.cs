@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Touch.ViewModels;
 
@@ -20,13 +9,13 @@ using Touch.ViewModels;
 namespace Touch.Views.Pages
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class MemoryDetailPage : Page
     {
-        private MemoryViewModel _memoryViewModel;
         private MemoryListViewModel _memoryListViewModel;
+        private MemoryViewModel _memoryViewModel;
 
         public MemoryDetailPage()
         {

@@ -24,10 +24,10 @@
             </Grid.RowDefinitions>
 
             <userControls:TitleBarControl x:Name="TitleBarControl" Grid.Row="0" />
-            
+
             <CommandBar Grid.Row="1" Background="Transparent" Margin="0,8,0,0">
                 <CommandBar.Content>
-                    <TextBlock x:Uid="SelectPhotos" Margin="24, 16"/>
+                    <TextBlock x:Uid="SelectPhotos" Margin="24, 16" />
                 </CommandBar.Content>
 
                 <AppBarButton x:Name="DoneButton" x:Uid="Done">

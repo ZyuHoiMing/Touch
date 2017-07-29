@@ -213,9 +213,9 @@ namespace Touch.Views.Pages
         }
 
         //在路径中加入和删除点
-        private void InsertWayPoint()//算法效率不高
+        private void InsertWayPoint() //算法效率不高
         {
-            HashSet<int> choosePoint = new HashSet<int>();
+            var choosePoint = new HashSet<int>();
             for (var i = 1; i < _wayPoint.Count - 1; ++i)
             {
                 // Debug.WriteLine(_wayPoint.ElementAt(i));
@@ -241,9 +241,9 @@ namespace Touch.Views.Pages
                 //Debug.WriteLine("debug1" + numI + "," + _wayPoint[i].X + "," + _wayPoint[i].Y);
                 //Debug.WriteLine("debug2" + numI + "," +_pathPoint[numI].X+","+_pathPoint[numI].Y);
             }
-            choosePoint.Add(0);//添加起始点
-            choosePoint.Add(_pathPoint.Count()-1);//最后一个点
-            if (_wayPoint.Count == 2)//两个点
+            choosePoint.Add(0); //添加起始点
+            choosePoint.Add(_pathPoint.Count() - 1); //最后一个点
+            if (_wayPoint.Count == 2) //两个点
             {
                 if (_pathPoint.Count > 6)
                 {
@@ -253,15 +253,14 @@ namespace Touch.Views.Pages
                     choosePoint.Add(_pathPoint.Count - 3);
                 }
             }
-            else if (_wayPoint.Count == 3)//只有三个点
+            else if (_wayPoint.Count == 3) //只有三个点
             {
                 if (_pathPoint.Count > 9)
                 {
                     choosePoint.Add(1);
                     choosePoint.Add(_pathPoint.Count - 2);
-                    int cotNum = 1;
-                    for (int i = 0; i < _pathPoint.Count; ++i)
-                    {
+                    var cotNum = 1;
+                    for (var i = 0; i < _pathPoint.Count; ++i)
                         if (_wayPoint[cotNum] == _pathPoint[i])
                         {
                             choosePoint.Add(i - 2);
@@ -271,18 +270,16 @@ namespace Touch.Views.Pages
                             choosePoint.Add(i + 2);
                             break;
                         }
-                    }
                 }
             }
-            else//4个点及以上
+            else //4个点及以上
             {
-                if ((_wayPoint.Count * 3 - 2) < _pathPoint.Count)
+                if (_wayPoint.Count * 3 - 2 < _pathPoint.Count)
                 {
                     choosePoint.Add(1);
                     choosePoint.Add(_pathPoint.Count - 2);
-                    int cotNum = 1;
-                    for (int i = 0; i < _pathPoint.Count; ++i)
-                    {
+                    var cotNum = 1;
+                    for (var i = 0; i < _pathPoint.Count; ++i)
                         if (cotNum >= _wayPoint.Count - 1)
                         {
                             break;
@@ -297,27 +294,18 @@ namespace Touch.Views.Pages
                                 cotNum++;
                             }
                         }
-                    }
-                    if (cotNum != _wayPoint.Count - 1) Debug.WriteLine("miss way point"); 
+                    if (cotNum != _wayPoint.Count - 1) Debug.WriteLine("miss way point");
                 }
             }
-            List<int>sortPoint=choosePoint.OrderByDescending(m => m).ToList();
-            int choosePointNum = 0;
-            for (int i = _pathPoint.Count-1; i >= 0; --i)//不知道是List如何实现
-            {
+            var sortPoint = choosePoint.OrderByDescending(m => m).ToList();
+            var choosePointNum = 0;
+            for (var i = _pathPoint.Count - 1; i >= 0; --i) //不知道是List如何实现
                 if (sortPoint[choosePointNum] == i)
-                {
                     choosePointNum++;
-                }
                 else
-                {
                     _pathPoint.RemoveAt(i);
-                }
-            }
             foreach (var i in _pathPoint)
-            {
                 Debug.WriteLine(i.X + "," + i.Y);
-            }
         }
 
         //测试得到路径
@@ -356,13 +344,12 @@ namespace Touch.Views.Pages
                                     if (deletePoint.Contains(pathArray.Length)) deletePoint.Remove(pathArray.Length);
                                 }
                                 int cotNum = 0;*/
-                                for (int i = 0; i < pathArray.Length; ++i)
-                                {
+                                for (var i = 0; i < pathArray.Length; ++i)
                                     /*if (cotNum < deletePoint.Count && deletePoint.ElementAt(cotNum) == i)
-                                    {
-                                        cotNum++;
-                                        continue;
-                                    }*/
+                                        {
+                                            cotNum++;
+                                            continue;
+                                        }*/
                                     if (pathArray[i].Length >= 3)
                                     {
                                         var pointArray = pathArray[i].Split(',');
@@ -370,7 +357,6 @@ namespace Touch.Views.Pages
                                         var lng = Convert.ToDouble(pointArray[1]);
                                         _pathPoint.Add(new Point(lat, lng));
                                     }
-                                }
                                 //Debug.WriteLine("path point length(after relax)" + _pathPoint.Count);
                                 //for (int i = 0; i < _pathPoint.Count; ++i) Debug.WriteLine(_pathPoint.ElementAt(i));
                                 //嵌入_waypoint点
@@ -407,13 +393,14 @@ namespace Touch.Views.Pages
                             {
                                 _tmpNodeNum = nodeNum; //保护现场
                                 _tmpWayNum = wayNum; //保护现场
-                                List<ImageViewModel> thisPointPhoto = new List<ImageViewModel>();//得出改点的图片
-                                List<int> list = _clusteringResult.ElementAt(wayNum - 1);
+                                var thisPointPhoto = new List<ImageViewModel>(); //得出改点的图片
+                                var list = _clusteringResult.ElementAt(wayNum - 1);
                                 //Debug.WriteLine("click" + (wayNum - 1));
-                                for (int i = 0; i < list.Count; ++i)
+                                for (var i = 0; i < list.Count; ++i)
                                     thisPointPhoto.Add(_test[list.ElementAt(i)]);
 
-                                StreetGalleryControl.StreetImageListViewModel.AddImages(thisPointPhoto);
+                                StreetGalleryControl.StreetImageListViewModel.AddImages(
+                                    thisPointPhoto);
                                 StreetGalleryControl.SetBackground();
                                 StreetGalleryControl.Shown = true;
 
@@ -442,12 +429,16 @@ namespace Touch.Views.Pages
                 //
                 // TODO: Work
                 //
-                var x = _pathPoint.ElementAt(nodeNum).X.ToString(CultureInfo.CurrentCulture);
-                var y = _pathPoint.ElementAt(nodeNum).Y.ToString(CultureInfo.CurrentCulture);
+                var x = _pathPoint.ElementAt(nodeNum).X
+                    .ToString(CultureInfo.CurrentCulture);
+                var y = _pathPoint.ElementAt(nodeNum).Y
+                    .ToString(CultureInfo.CurrentCulture);
                 //Debug.WriteLine("get point"+tmp);
                 Debug.WriteLine(x);
                 Debug.WriteLine(y);
-                var pathpov = new PathPov(_pathPoint.ElementAt(nodeNum - 1), _pathPoint.ElementAt(nodeNum));
+                var pathpov =
+                    new PathPov(_pathPoint.ElementAt(nodeNum - 1),
+                        _pathPoint.ElementAt(nodeNum));
                 var tmpheading = pathpov.GetHeading().ToString();
                 InvokeJsMove(x, y, tmpheading);
 
@@ -485,7 +476,8 @@ namespace Touch.Views.Pages
                             InvokeJsHeading(nodeNum);
                             TestClick(nodeNum + 1, wayNum + 1);
                         }
-                        else if (wayNum < _wayPoint.Count - 1 && _wayPoint[wayNum] == _pathPoint[nodeNum])
+                        else if (wayNum < _wayPoint.Count - 1 && _wayPoint[wayNum] ==
+                                 _pathPoint[nodeNum])
                         {
                             Debug.WriteLine("touch here");
                             InvokeJsHeading(nodeNum);

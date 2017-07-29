@@ -71,12 +71,16 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
-                        <Image Source="{x:Bind _memoryViewModel.CoverImage, Mode=OneWay}" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center" animations:ParallaxService.VerticalMultiplier="-0.5" />
-                        <Rectangle Fill="#60000000" animations:ParallaxService.VerticalMultiplier="-0.5"/>
-                        <TextBlock Text="{x:Bind _memoryViewModel.MemoryName, Mode=OneWay}" Foreground="White" Margin="0,0,0,48" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{ThemeResource SubheaderTextBlockStyle}"/>
+                        <Image Source="{x:Bind _memoryViewModel.CoverImage, Mode=OneWay}" Stretch="UniformToFill"
+                               VerticalAlignment="Center" HorizontalAlignment="Center"
+                               animations:ParallaxService.VerticalMultiplier="-0.5" />
+                        <Rectangle Fill="#60000000" animations:ParallaxService.VerticalMultiplier="-0.5" />
+                        <TextBlock Text="{x:Bind _memoryViewModel.MemoryName, Mode=OneWay}" Foreground="White"
+                                   Margin="0,0,0,48" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                                   Style="{ThemeResource SubheaderTextBlockStyle}" />
                     </Grid>
                     <Grid Grid.Row="1" Background="White">
-                        <userControls:PhotoGridViewControl x:Name="PhotoGridView" Margin="0,32"/>
+                        <userControls:PhotoGridViewControl x:Name="PhotoGridView" Margin="0,32" />
                     </Grid>
                 </Grid>
             </ScrollViewer>
