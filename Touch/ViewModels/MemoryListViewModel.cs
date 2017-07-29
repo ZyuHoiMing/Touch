@@ -1,8 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 using Touch.Models;
 using Touch.Views.Pages;
 
@@ -104,6 +106,13 @@ namespace Touch.ViewModels
                 MemoryViewModel = item,
                 MemoryListViewModel = this
             };
+
+            // connected animation
+            ConnectedAnimationService.GetForCurrentView().DefaultDuration = TimeSpan.FromSeconds(0.5);
+            var gridView = sender as GridView;
+            // TODO 14393 15063
+            // gridView?.PrepareConnectedAnimation("CoverImage", item, "CoverImage");
+
             rootFrame?.Navigate(typeof(MemoryDetailPage), memoryDetailParameters);
             Window.Current.Content = rootFrame;
         }

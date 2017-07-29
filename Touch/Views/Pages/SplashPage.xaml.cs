@@ -80,8 +80,8 @@ namespace Touch.Views.Pages
             _hostSprite.Size = new Vector2((float) panel.ActualWidth, (float) panel.ActualHeight);
 
             ElementCompositionPreview.SetElementChildVisual(panel, _hostSprite);
-            // TODO 14393
-            // _hostSprite.Brush = _compositor.CreateHostBackdropBrush();
+            // TODO 14393 15063
+            //_hostSprite.Brush = _compositor.CreateHostBackdropBrush();
             //var bloomEffectDesc = new ArithmeticCompositeEffect
             //{
             //    Name = "Bloom",
@@ -101,13 +101,13 @@ namespace Touch.Views.Pages
             //            Mode = BlendEffectMode.Multiply,
 
             //            Background = new CompositionEffectSourceParameter("source2"),
-            //            Foreground = new CompositionEffectSourceParameter("source2"),
-            //        },
-            //    },
+            //            Foreground = new CompositionEffectSourceParameter("source2")
+            //        }
+            //    }
             //};
 
             //var bloomEffectFactory = _compositor.CreateEffectFactory(bloomEffectDesc,
-            //    new[] { "Bloom.Source2Amount", "Blur.BlurAmount" });
+            //    new[] {"Bloom.Source2Amount", "Blur.BlurAmount"});
             //var brush = bloomEffectFactory.CreateBrush();
 
             //var backdropBrush = _compositor.CreateHostBackdropBrush();
@@ -115,14 +115,14 @@ namespace Touch.Views.Pages
             //brush.SetSourceParameter("source2", backdropBrush);
 
             //// Setup some animations for the bloom effect
-            //ScalarKeyFrameAnimation blurAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            //var blurAnimation = _compositor.CreateScalarKeyFrameAnimation();
             //blurAnimation.InsertKeyFrame(0, 0);
             //blurAnimation.InsertKeyFrame(.5f, 2);
             //blurAnimation.InsertKeyFrame(1, 0);
             //blurAnimation.Duration = TimeSpan.FromMilliseconds(5000);
             //blurAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
 
-            //ScalarKeyFrameAnimation bloomAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            //var bloomAnimation = _compositor.CreateScalarKeyFrameAnimation();
             //bloomAnimation.InsertKeyFrame(0, 0);
             //bloomAnimation.InsertKeyFrame(.5f, 40);
             //bloomAnimation.InsertKeyFrame(1, 0);
@@ -158,7 +158,7 @@ namespace Touch.Views.Pages
             // 初始化图片list
             await GalleryImageListViewModel.GetInstanceAsync();
             // 初始化回忆list
-            //await MemoryListViewModel.GetInstanceAsync();
+            // await MemoryListViewModel.GetInstanceAsync();
 
             var rootFrame = Window.Current.Content as Frame;
             if (rootFrame == null)

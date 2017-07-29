@@ -24,7 +24,7 @@
                     <Grid SizeChanged="GridViewItem_SizeChanged"
                           PointerEntered="GridViewItem_PointerEntered"
                           PointerExited="GridViewItem_PointerExited" Loaded="ItemGrid_Loaded">
-                        <Image VerticalAlignment="Center" Stretch="UniformToFill"
+                        <Image x:Name="CoverImage" VerticalAlignment="Center" Stretch="UniformToFill"
                                Source="{x:Bind CoverImage, Mode=OneWay}" />
                         <Grid x:Name="MaskBorder" Background="#60000000">
                             <!--<controls:BackDrop Width="{Binding ElementName=PhotosPanel, Path=Width}" BlurAmount="15" />-->
