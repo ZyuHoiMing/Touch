@@ -26,6 +26,7 @@ namespace Touch.Views.Pages
     public sealed partial class MemoryDetailPage : Page
     {
         private MemoryViewModel _memoryViewModel;
+        private MemoryListViewModel _memoryListViewModel;
 
         public MemoryDetailPage()
         {
@@ -39,12 +40,20 @@ namespace Touch.Views.Pages
                 Window.Current.Content = rootFrame;
                 Debug.WriteLine("进入街景界面");
             };
+            DeleteButton.Click += (sender, args) =>
+            {
+                var rootFrame = Window.Current.Content as Frame;
+                _memoryListViewModel.Delete(_memoryViewModel);
+                rootFrame?.GoBack();
+            };
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            _memoryViewModel = e.Parameter as MemoryViewModel;
+            var memoryDetailParameters = e.Parameter as MemoryDetailParameters;
+            _memoryViewModel = memoryDetailParameters?.MemoryViewModel;
+            _memoryListViewModel = memoryDetailParameters?.MemoryListViewModel;
             PhotoGridView.MemoryViewModel = _memoryViewModel;
         }
     }

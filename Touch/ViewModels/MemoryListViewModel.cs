@@ -100,8 +100,19 @@ namespace Touch.ViewModels
                 return;
             // 进入街景界面
             var rootFrame = Window.Current.Content as Frame;
-            rootFrame?.Navigate(typeof(MemoryDetailPage), item);
+            var memoryDetailParameters = new MemoryDetailParameters
+            {
+                MemoryViewModel = item,
+                MemoryListViewModel = this
+            };
+            rootFrame?.Navigate(typeof(MemoryDetailPage), memoryDetailParameters);
             Window.Current.Content = rootFrame;
         }
+    }
+
+    public class MemoryDetailParameters
+    {
+        public MemoryViewModel MemoryViewModel { get; set; }
+        public MemoryListViewModel MemoryListViewModel { get; set; }
     }
 }
