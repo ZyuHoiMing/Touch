@@ -411,7 +411,6 @@ namespace Touch.Views.Pages
                                 List<int> list = _clusteringResult.ElementAt(wayNum - 1);
                                 //Debug.WriteLine("click" + (wayNum - 1));
                                 for (int i = 0; i < list.Count; ++i)
-                                {
                                     thisPointPhoto.Add(_test[list.ElementAt(i)]);
 
                                 StreetGalleryControl.StreetImageListViewModel.AddImages(thisPointPhoto);
