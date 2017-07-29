@@ -37,11 +37,7 @@ namespace Touch.Views.Pages
         private List<ImageViewModel> _test;
 
         /// <summary>
-        /// 上一个街景号，用于检测是否重点
-        /// </summary>
-        private string lastPano = "";
-        /// <summary>
-        /// 暂存要显示的路径点 
+        ///     暂存要显示的路径点
         /// </summary>
         private int _tmpNodeNum;
 
@@ -51,6 +47,11 @@ namespace Touch.Views.Pages
         private int _tmpWayNum;
 
         private List<Point> _wayPoint = new List<Point>();
+
+        /// <summary>
+        ///     上一个街景号，用于检测是否重点
+        /// </summary>
+        private string lastPano = "";
 
         //
         public StreetViewPage()
@@ -123,13 +124,13 @@ namespace Touch.Views.Pages
             "});" };*/
             string[] script =
             {
-                "firstSetPanorama("+x+","+y+");"
+                "firstSetPanorama(" + x + "," + y + ");"
             };
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 await Webview1.InvokeScriptAsync("eval", new[] {"setIsGetPath()"});
                 var result = await Webview1.InvokeScriptAsync("eval", script);
-                Debug.WriteLine("first"+result);
+                Debug.WriteLine("first" + result);
             });
         }
 
@@ -151,7 +152,7 @@ namespace Touch.Views.Pages
             };
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                string result = await Webview1.InvokeScriptAsync("eval", script);
+                var result = await Webview1.InvokeScriptAsync("eval", script);
                 streetViewControl(result);
             });
         }
@@ -159,7 +160,7 @@ namespace Touch.Views.Pages
         //街景异常控制
         public void streetViewControl(string status)
         {
-            Debug.WriteLine("result"+status);
+            Debug.WriteLine("result" + status);
         }
 
         //嵌入朝向
