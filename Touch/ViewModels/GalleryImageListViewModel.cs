@@ -45,10 +45,8 @@ namespace Touch.ViewModels
             {
                 // 如果类的实例不存在则创建，否则直接返回
                 if (_uniqueInstance == null)
-                {
                     // ReSharper disable once PossibleMultipleWriteAccessInDoubleCheckLocking
                     _uniqueInstance = new GalleryImageListViewModel();
-                }
             }
             await _uniqueInstance.RefreshFolderListAsync();
             await _uniqueInstance.GroupImageAsync();

@@ -10,6 +10,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Touch.ViewModels;
 
+// ReSharper disable CompareOfFloatsByEqualityOperator
+
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Touch.Views.UserControls
@@ -40,7 +42,7 @@ namespace Touch.Views.UserControls
             _isLoaded = true;
             Debug.WriteLine("MemoryGridViewControl_OnLoaded");
         }
-        
+
         private void ItemGrid_Loaded(object sender, RoutedEventArgs e)
         {
             var rootGrid = sender as Grid;
@@ -106,9 +108,7 @@ namespace Touch.Views.UserControls
             var scaleAnimation = CreateScaleAnimation(show);
 
             if (imgVisual.CenterPoint.X == 0 && imgVisual.CenterPoint.Y == 0)
-            {
-                imgVisual.CenterPoint = new Vector3((float)mask.ActualWidth / 2, (float)mask.ActualHeight / 2, 0f);
-            }
+                imgVisual.CenterPoint = new Vector3((float) mask.ActualWidth / 2, (float) mask.ActualHeight / 2, 0f);
 
             maskVisual.StartAnimation("Opacity", fadeAnimation);
             imgVisual.StartAnimation("Scale.x", scaleAnimation);

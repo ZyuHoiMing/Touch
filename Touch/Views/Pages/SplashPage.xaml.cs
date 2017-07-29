@@ -1,13 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Numerics;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Touch.Data;
-using Windows.UI.Composition;
 using Windows.UI.Xaml.Hosting;
-using System.Numerics;
-using Microsoft.Graphics.Canvas.Effects;
+using Touch.Data;
 using Touch.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -20,13 +18,13 @@ namespace Touch.Views.Pages
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class SplashPage : Page
     {
-        private Compositor _compositor;
-        private SpriteVisual _hostSprite;
-
         /// <summary>
         ///     Variable to hold the splash screen object.
         /// </summary>
         private readonly SplashScreen _splash;
+
+        private Compositor _compositor;
+        private SpriteVisual _hostSprite;
 
         /// <summary>
         ///     Rect to store splash screen image coordinates.
@@ -79,7 +77,7 @@ namespace Touch.Views.Pages
         {
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
             _hostSprite = _compositor.CreateSpriteVisual();
-            _hostSprite.Size = new Vector2((float)panel.ActualWidth, (float)panel.ActualHeight);
+            _hostSprite.Size = new Vector2((float) panel.ActualWidth, (float) panel.ActualHeight);
 
             ElementCompositionPreview.SetElementChildVisual(panel, _hostSprite);
             // TODO 14393

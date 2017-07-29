@@ -4,7 +4,6 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml.Media.Imaging;
 using Touch.Models;
-using Windows.Globalization.DateTimeFormatting;
 
 namespace Touch.ViewModels
 {

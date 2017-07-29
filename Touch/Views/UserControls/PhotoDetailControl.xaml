@@ -8,8 +8,137 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
+    <UserControl.Resources>
+        <Color x:Key="MyerSplashUnLikedHeartColor">#FFECECEC</Color>
+        <Color x:Key="MyerSplashLikedHeartColor">#FFD93A58</Color>
+        <Style x:Key="ButtonCommonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                            <ContentPresenter
+                                x:Name="ContentPresenter"
+                                Padding="{TemplateBinding Padding}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                AutomationProperties.AccessibilityView="Raw"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                ContentTransitions="{TemplateBinding ContentTransitions}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition
+                                            GeneratedDuration="0:0:0.3"
+                                            From="Pressed"
+                                            To="PointerOver" />
+                                        <VisualTransition
+                                            GeneratedDuration="0:0:0.3"
+                                            From="Pressed"
+                                            To="Normal" />
+                                        <VisualTransition
+                                            GeneratedDuration="0:0:0.3"
+                                            From="PointerOver"
+                                            To="Normal" />
+                                        <VisualTransition
+                                            GeneratedDuration="0:0:0.3"
+                                            From="Normal"
+                                            To="PointerOver">
+                                            <Storyboard>
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="ContentPresenter"
+                                                    Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                    To="0.8"
+                                                    Duration="0:0:0.3" />
+                                            </Storyboard>
+                                        </VisualTransition>
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="ContentPresenter"
+                                                Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                To="0.8"
+                                                Duration="0" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="ContentPresenter"
+                                                Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                To="0.6"
+                                                Duration="0" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
     <Grid x:Name="DetailGrid" SizeChanged="DetailGrid_SizeChanged">
         <Border Background="Black" Opacity="0.8" Tapped="MaskBorder_Tapped" />
-        <Image x:Name="DetailImage" Source="{x:Bind PhotoDetailImageViewModel.ThumbnailImage, Mode=OneWay}" Stretch="Uniform"/>
+
+        <Grid x:Name="PhotoGrid" MaxWidth="800" Margin="0,-5,0,0" Background="Transparent">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="100" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Border Background="#FF1B1B1B" />
+                <Image x:Name="DetailImage" Source="{x:Bind PhotoDetailImageViewModel.ThumbnailImage, Mode=OneWay}"
+                       Stretch="Uniform" />
+            </Grid>
+            <Grid x:Name="InfoPlaceHolderGrid" Grid.Row="1" SizeChanged="InfoPlaceHolderGrid_SizeChanged">
+                <Grid x:Name="InfoGrid" Background="AntiqueWhite">
+                    <StackPanel Margin="20,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock FontSize="12" Foreground="Black" Text="photo by" />
+                        <TextBlock FontSize="20" FontWeight="Bold" Foreground="Black"
+                                   Text="x:Bind CurrentImage.Owner.Name, Mode=OneWay"
+                                   TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <StackPanel x:Name="OperationSp" Grid.Row="0" Margin="0,0,8,-35" HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom" Orientation="Horizontal">
+                <Button x:Name="ShareBtn" Width="48" Height="48" Margin="10,10,0,10" HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch" Background="{x:Null}" Style="{StaticResource ButtonCommonStyle}">
+                    <Grid>
+                        <Ellipse Width="48" Height="48">
+                            <Ellipse.Fill>
+                                <SolidColorBrush Color="#E74856" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" FontSize="20"
+                                  Glyph="{StaticResource Share}">
+                            <FontIcon.Foreground>
+                                <SolidColorBrush Color="White" />
+                            </FontIcon.Foreground>
+                        </FontIcon>
+                    </Grid>
+                </Button>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

@@ -1,19 +1,19 @@
-﻿using Touch.ViewModels;
-using System;
-using Touch.Controls;
-using System.Diagnostics;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Windows.UI.Xaml.Media.Animation;
+﻿using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Animation;
+using Touch.Controls;
+using Touch.ViewModels;
+
+// ReSharper disable InconsistentNaming
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Touch.Views.UserControls
 {
+    // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class StreetGalleryControl : NavigableUserControl
     {
         public StreetImageListViewModel StreetImageListViewModel;
-        public event Action OnBackButtonClicked;
 
         public StreetGalleryControl()
         {
@@ -28,10 +28,11 @@ namespace Touch.Views.UserControls
                 Shown = false;
                 OnBackButtonClicked?.Invoke();
             };
-            
+
             Carousel.SelectionChanged += (sender, arg) =>
             {
-                BackgroundDownImage.Source = StreetImageListViewModel.ImageViewModels[Carousel.SelectedIndex].ThumbnailImage;
+                BackgroundDownImage.Source = StreetImageListViewModel.ImageViewModels[Carousel.SelectedIndex]
+                    .ThumbnailImage;
                 // 准备动画并播放
                 var storyboard = new Storyboard();
                 // 背景切换模糊
@@ -40,18 +41,22 @@ namespace Touch.Views.UserControls
                 storyboard.Completed += (_sender, _e) =>
                 {
                     // 设置背景图上层图片
-                    BackgroundUpImage.Source = StreetImageListViewModel.ImageViewModels[Carousel.SelectedIndex].ThumbnailImage;
+                    BackgroundUpImage.Source = StreetImageListViewModel.ImageViewModels[Carousel.SelectedIndex]
+                        .ThumbnailImage;
                 };
             };
         }
 
+        public event Action OnBackButtonClicked;
+
         /// <summary>
-        /// 设置背景图片
+        ///     设置背景图片
         /// </summary>
         public void SetBackground()
         {
             BackgroundUpImage.Source = StreetImageListViewModel.ImageViewModels[Carousel.SelectedIndex].ThumbnailImage;
-            BackgroundDownImage.Source = StreetImageListViewModel.ImageViewModels[Carousel.SelectedIndex].ThumbnailImage;
+            BackgroundDownImage.Source = StreetImageListViewModel.ImageViewModels[Carousel.SelectedIndex]
+                .ThumbnailImage;
         }
 
         /// <summary>

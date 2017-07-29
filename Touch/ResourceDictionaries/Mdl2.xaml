@@ -14,4 +14,5 @@
     <x:String x:Key="Play">&#xE768;</x:String>
     <x:String x:Key="Refresh">&#xE72C;</x:String>
     <x:String x:Key="Download">&#xE896;</x:String>
+    <x:String x:Key="Share">&#xE72D;</x:String>
 </ResourceDictionary>

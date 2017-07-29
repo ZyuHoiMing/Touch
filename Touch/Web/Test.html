@@ -24,7 +24,7 @@
     var isGetPath = false;
     var marker2;
     var waypts;
-    var netCheck=false;
+    var netCheck = false;
 
     function initialize() {
         waypts = [];
@@ -42,9 +42,9 @@
         panorama.setOptions({
             linksControl: false,
             addressControlOptions:
-			{
-			    position: google.maps.ControlPosition.LEFT_BOTTOM
-			},
+            {
+                position: google.maps.ControlPosition.LEFT_BOTTOM
+            },
             enableCloseButton: false,
             zoomControl: false,
         });
@@ -52,14 +52,16 @@
             netCheck = true;
         else netCheck = false;
     }
-    function getNetCheck()
-    {
+
+    function getNetCheck() {
         if (netCheck) return 'Y';
         else return 'N';
     }
+
     function streetShowEnd() {
         panorama.setVisible(false);
     }
+
     function insertMark(markLat, markLng, num) {
         var imgPath;
         if (num === 0) {
@@ -92,8 +94,8 @@
             });
         setMarkHeading();
     }
-    function insertOneMark(markLat, markLng)
-    {
+
+    function insertOneMark(markLat, markLng) {
         map.setCenter({ lat: markLat, lng: markLng });
         var marker2 = new google.maps.Marker({
             position: { lat: markLat, lng: markLng },
@@ -103,6 +105,7 @@
         isGetPath = true;
         netCheck = true;
     }
+
     function getClick() {
         if (isClick) {
             isClick = false;
@@ -153,18 +156,19 @@
             pathPoint += pathArray[cot].lat() + ',' + pathArray[cot].lng() + '\n';
         return pathPoint;
     }
-    function setStreetViewPositon(x,y,heading)
-    {
+
+    function setStreetViewPositon(x, y, heading) {
         panorama.setPosition(
             {
-                lat: x, lng: y
+                lat: x,
+                lng: y
             });
         panorama.setPov({ heading: heading, pitch: 0 });
         if (panorama.getStatus() == google.maps.StreetViewStatus.OK) {
             return 'Y';
-        }
-        else return 'N';
+        } else return 'N';
     }
+
     function testIsGetPath() {
         if (isGetPath) return 'Y';
         else return 'N';
@@ -173,6 +177,7 @@
     function setIsGetPath() {
         isGetPath = false;
     }
+
     function setMarkHeading() {
         var heading2 = google.maps.geometry.spherical.computeHeading(panorama.location.latLng, marker2.getPosition());
         //panorama.setPov({ heading: heading2, pitch: 0 });

@@ -19,8 +19,10 @@
         <!-- 街景地图 -->
         <WebView x:Name="Webview1" />
         <!-- 街景图片 -->
-        <userControls:StreetGalleryControl x:Name="StreetGalleryControl" Shown="False" OnBackButtonClicked="ShowEndButton"/>
-        <userControls:VideoButtonControl x:Name="VideoButtonGrid" Visibility="Collapsed" OnPlayButtonClicked="Button_Click" OnReplayButtonClicked="Button_Click"/>
+        <userControls:StreetGalleryControl x:Name="StreetGalleryControl" Shown="False"
+                                           OnBackButtonClicked="ShowEndButton" />
+        <userControls:VideoButtonControl x:Name="VideoButtonGrid" Visibility="Collapsed"
+                                         OnPlayButtonClicked="Button_Click" OnReplayButtonClicked="Button_Click" />
         <userControls:ProgressRingGridControl x:Name="ProgressRingGrid" Visibility="Collapsed" />
         <!-- 返回按钮 -->
         <userControls:BackButtonControl x:Name="BackButtonControl" />

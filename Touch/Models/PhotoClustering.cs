@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Windows.Foundation;
 using Touch.ViewModels;
@@ -48,11 +47,9 @@ namespace Touch.Models
         {
             var path = new List<Point>();
             for (var i = 0; i < _photoPath.Count; ++i) //去掉没有经纬度的图片
-            {
                 if (!(_photoPath.ElementAt(i).Latitude.HasValue && _photoPath.ElementAt(i).Longitude.HasValue))
                     _photoPath.RemoveAt(i);
-                //Debug.WriteLine(_photoPath.ElementAt(i).Latitude.ToString() + _photoPath.ElementAt(i).Longitude.ToString());
-            }
+            //Debug.WriteLine(_photoPath.ElementAt(i).Latitude.ToString() + _photoPath.ElementAt(i).Longitude.ToString());
             for (var i = 0; i < _photoPath.Count; ++i)
                 if (!_vis[i])
                 {
@@ -78,10 +75,12 @@ namespace Touch.Models
             }
             return path;
         }
+
         public List<ImageViewModel> UpdateImageList()
         {
             return _photoPath;
         }
+
         public List<List<int>> GetClusteringResult()
         {
             return _clusteringResult;

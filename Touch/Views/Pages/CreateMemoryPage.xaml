@@ -66,13 +66,15 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <TextBlock x:Uid="TitleColon" HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="3" />
-                        <TextBox x:Name="TitleBox" HorizontalAlignment="Stretch" TextAlignment="Center" Grid.Row="1" Grid.Column="1" Margin="0,16,0,0" FontSize="40"/>
-                        <userControls:GalleryGridViewControl x:Name="GalleryGridViewControl" Grid.Row="2" Grid.ColumnSpan="3" />
+                        <TextBox x:Name="TitleBox" HorizontalAlignment="Stretch" TextAlignment="Center" Grid.Row="1"
+                                 Grid.Column="1" Margin="0,16,0,0" FontSize="40" />
+                        <userControls:GalleryGridViewControl x:Name="GalleryGridViewControl" Grid.Row="2"
+                                                             Grid.ColumnSpan="3" />
                     </Grid>
                 </PivotItem>
             </Pivot>
