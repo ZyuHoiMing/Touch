@@ -213,4 +213,7 @@
   <data name="MemoryAlbum.Text" xml:space="preserve">
     <value>创建的回忆相册</value>
   </data>
+  <data name="DateTaken.Text" xml:space="preserve">
+    <value>拍摄日期</value>
+  </data>
 </root>

@@ -213,4 +213,7 @@
   <data name="MemoryAlbum.Text" xml:space="preserve">
     <value>Memory albums created for you</value>
   </data>
+  <data name="DateTaken.Text" xml:space="preserve">
+    <value>Date taken</value>
+  </data>
 </root>
