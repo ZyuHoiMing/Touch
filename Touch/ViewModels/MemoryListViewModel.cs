@@ -31,6 +31,11 @@ namespace Touch.ViewModels
         }
 
         /// <summary>
+        ///     tipgrid是否显示
+        /// </summary>
+        public bool IsTipGridShow => MemoryViewModels.Count > 0;
+
+        /// <summary>
         ///     最新key号
         /// </summary>
         public int LastKeyNo => _memoryList.LastKeyNo;

@@ -122,7 +122,7 @@
         /*marker2.addListener('mouseover', function () { info.open(panorama,marker2); });
         marker2.addListener('mouseout', function () { info.close(); });*/
         marker2.addListener('click',
-            function () {
+            function() {
                 isClick = true;
                 marker2.setVisible(false);
                 google.maps.event.clearListeners(marker2, 'click');
@@ -248,7 +248,7 @@
     }
 
     function changeHeadingAnimation(heading) {
-        
+
         panorama.setPov({ heading: panorama.getPov().heading + heading, pitch: 0 });
         if (cot < 4) {
             cot++;

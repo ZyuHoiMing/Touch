@@ -13,11 +13,11 @@
     Loaded="MemoryGridViewControl_OnLoaded">
 
     <Grid>
-        <controls:MyAdaptiveGridView x:Name="MemoryGridView" DataContext="{x:Bind MemoryListView, Mode=OneWay}"
-                                     ItemsSource="{x:Bind MemoryListView.MemoryViewModels, Mode=OneWay}"
+        <controls:MyAdaptiveGridView x:Name="MemoryGridView" DataContext="{x:Bind MemoryListViewModel, Mode=OneWay}"
+                                     ItemsSource="{x:Bind MemoryListViewModel.MemoryViewModels, Mode=OneWay}"
                                      SelectionMode="None" IsItemClickEnabled="True"
                                      MinItemHeight="270" MinItemWidth="360"
-                                     ItemClick="{x:Bind MemoryListView.OnItemClick}"
+                                     ItemClick="{x:Bind MemoryListViewModel.OnItemClick}"
                                      animations:ReorderGridAnimation.Duration="250">
             <controls:MyAdaptiveGridView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:MemoryViewModel">
@@ -27,7 +27,7 @@
                         <Image x:Name="CoverImage" VerticalAlignment="Center" Stretch="UniformToFill"
                                Source="{x:Bind CoverImage, Mode=OneWay}" />
                         <Grid x:Name="MaskBorder" Background="#60000000">
-                            <!--<controls:BackDrop Width="{Binding ElementName=PhotosPanel, Path=Width}" BlurAmount="15" />-->
+                            <controls:BackDrop Width="{Binding ElementName=PhotosPanel, Path=Width}" BlurAmount="15" />
                             <TextBlock Margin="16,0,0,16" FontWeight="Bold" Foreground="White"
                                        HorizontalAlignment="Left" VerticalAlignment="Bottom"
                                        Text="{x:Bind MemoryName, Mode=OneWay}"
@@ -54,5 +54,13 @@
                 </Style>
             </controls:MyAdaptiveGridView.ItemContainerStyle>
         </controls:MyAdaptiveGridView>
+
+        <!--<Grid x:Name="TipGrid" Padding="64,48">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{StaticResource BrowsePhotos}" FontSize="56" HorizontalAlignment="Center"/>
+                <TextBlock x:Uid="MemoryAlbum" Style="{StaticResource SubheaderTextBlockStyle}" Margin="8" HorizontalAlignment="Center"/>
+                <TextBlock x:Uid="CreateYourOwn" Margin="8" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Grid>-->
     </Grid>
 </UserControl>

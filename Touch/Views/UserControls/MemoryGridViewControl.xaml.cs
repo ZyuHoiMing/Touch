@@ -24,7 +24,7 @@ namespace Touch.Views.UserControls
         /// <summary>
         ///     回忆VM
         /// </summary>
-        public MemoryListViewModel MemoryListView;
+        public MemoryListViewModel MemoryListViewModel;
 
         public MemoryGridViewControl()
         {
@@ -36,9 +36,10 @@ namespace Touch.Views.UserControls
         {
             if (_isLoaded)
                 return;
-            MemoryListView = await MemoryListViewModel.GetInstanceAsync();
-            MemoryGridView.ItemsSource = MemoryListView.MemoryViewModels;
-            MemoryGridView.DataContext = MemoryListView;
+            MemoryListViewModel = await MemoryListViewModel.GetInstanceAsync();
+            MemoryGridView.ItemsSource = MemoryListViewModel.MemoryViewModels;
+            //SetTipGrid();
+            MemoryGridView.DataContext = MemoryListViewModel;
             _isLoaded = true;
             Debug.WriteLine("MemoryGridViewControl_OnLoaded");
         }
@@ -52,6 +53,11 @@ namespace Touch.Views.UserControls
             var maskVisual = ElementCompositionPreview.GetElementVisual(maskBorder);
             maskVisual.Opacity = 0f;
         }
+
+        //public void SetTipGrid()
+        //{
+        //    TipGrid.Visibility = !MemoryListViewModel.MemoryViewModels.Any() ? Visibility.Visible : Visibility.Collapsed;
+        //}
 
         // TODO 可以复用
         /// <summary>
