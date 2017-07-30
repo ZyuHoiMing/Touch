@@ -16,7 +16,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Touch.Models;
 using Touch.ViewModels;
-using Windows.Storage.Streams;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -215,6 +214,7 @@ namespace Touch.Views.Pages
         private void InsertWayPoint() //算法效率不高
         {
             var choosePoint = new HashSet<int>();
+            //Debug.WriteLine(_pathPoint.Count+" "+_wayPoint.Count);
             for (var i = 1; i < _wayPoint.Count - 1; ++i)
             {
                 // Debug.WriteLine(_wayPoint.ElementAt(i));
@@ -237,9 +237,10 @@ namespace Touch.Views.Pages
                 }
                 //Debug.WriteLine(numI);
                 _pathPoint.Insert(numI, _wayPoint[i]);
-                //Debug.WriteLine("debug1" + numI + "," + _wayPoint[i].X + "," + _wayPoint[i].Y);
+                //Debug.WriteLine("debug  " + numI + "," + _wayPoint[i].X + "," + _wayPoint[i].Y);
                 //Debug.WriteLine("debug2" + numI + "," +_pathPoint[numI].X+","+_pathPoint[numI].Y);
             }
+            //Debug.WriteLine(_pathPoint.Count);
             choosePoint.Add(0); //添加起始点
             choosePoint.Add(_pathPoint.Count() - 1); //最后一个点
             if (_wayPoint.Count == 2) //两个点
@@ -288,6 +289,7 @@ namespace Touch.Views.Pages
                         {
                             if (_wayPoint[cotNum] == _pathPoint[i])
                             {
+                                Debug.WriteLine("in");
                                 choosePoint.Add(i - 1);
                                 choosePoint.Add(i);
                                 choosePoint.Add(i + 1);
@@ -333,31 +335,25 @@ namespace Touch.Views.Pages
                         choosePoint.Add(lastNum + interval);
                     }
                     //Debug.Write(_pathPoint.Count - lastNum);
-                    if (cotNum != _wayPoint.Count - 1) Debug.WriteLine("miss way point");
+                    if (cotNum != _wayPoint.Count - 1) Debug.WriteLine("miss way point" + cotNum);
                 }
             }
-            List<int> sortPoint = choosePoint.OrderByDescending(m => m).ToList();
+            var sortPoint = choosePoint.OrderByDescending(m => m).ToList();
             /*foreach (var i in sortPoint)
             {
                 Debug.WriteLine(i);
             }*/
-            //Debug.WriteLine(_pathPoint.Count);
-            //Debug.WriteLine(_wayPoint.Count);
-            int choosePointNum = 0;
-            if(_pathPoint.Count>1)
-            {
-                for (int i = _pathPoint.Count - 1; i >= 0; --i)//不知道是List如何实现
-                {
+            Debug.WriteLine(_pathPoint.Count);
+            Debug.WriteLine(_wayPoint.Count);
+            var choosePointNum = 0;
+            if (_pathPoint.Count > 1)
+                for (var i = _pathPoint.Count - 1; i >= 0; --i) //不知道是List如何实现
                     if (sortPoint[choosePointNum] == i)
                         choosePointNum++;
                     else
                         _pathPoint.RemoveAt(i);
-                }
-            }
             foreach (var i in _pathPoint)
-            {
                 Debug.WriteLine(i.X + "," + i.Y);
-            }
         }
 
         //测试得到路径
@@ -472,7 +468,7 @@ namespace Touch.Views.Pages
             // TODO: Work
             //
             var x = _pathPoint.ElementAt(nodeNum).X
-               .ToString(CultureInfo.CurrentCulture);
+                .ToString(CultureInfo.CurrentCulture);
             var y = _pathPoint.ElementAt(nodeNum).Y
                 .ToString(CultureInfo.CurrentCulture);
             //Debug.WriteLine("get point"+tmp);
@@ -483,13 +479,11 @@ namespace Touch.Views.Pages
                     _pathPoint.ElementAt(nodeNum));
             var tmpheading = pathpov.GetHeading().ToString();
 
-            string status = await StreetViewMetadata.GetStreetViewStutas(x.ToString(), y.ToString());
+            var status = await StreetViewMetadata.GetStreetViewStutas(x, y);
             Debug.WriteLine(status);
             if (status == "OK")
-            {
                 InvokeJsMove(x, y, tmpheading);
-            }
-            
+
             /*await Dispatcher.RunAsync(
             CoreDispatcherPriority.High,
             async () =>
@@ -517,7 +511,7 @@ namespace Touch.Views.Pages
                 InvokeJsHeading(nodeNum);
                 TestClick(nodeNum + 1, wayNum + 1);
             }
-            else if (wayNum < _wayPoint.Count - 1 && _wayPoint[wayNum] ==_pathPoint[nodeNum])
+            else if (wayNum < _wayPoint.Count - 1 && _wayPoint[wayNum] == _pathPoint[nodeNum])
             {
                 if (status == "OK")
                 {
@@ -528,7 +522,7 @@ namespace Touch.Views.Pages
                 else
                 {
                     await Task.Delay(3000);
-                    ShowPath(nodeNum + 1, wayNum+1);
+                    ShowPath(nodeNum + 1, wayNum + 1);
                 }
             }
             else

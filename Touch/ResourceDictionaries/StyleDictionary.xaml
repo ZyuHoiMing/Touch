@@ -452,7 +452,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="ButtonCommonStyle" TargetType="Button">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />

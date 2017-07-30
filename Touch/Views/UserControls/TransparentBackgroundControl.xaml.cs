@@ -38,7 +38,7 @@ namespace Touch.Views.UserControls
 
             ElementCompositionPreview.SetElementChildVisual(panel, _hostSprite);
             // TODO 14393 15063
-            //_hostSprite.Brush = _compositor.CreateHostBackdropBrush();
+            _hostSprite.Brush = _compositor.CreateHostBackdropBrush();
         }
     }
 }

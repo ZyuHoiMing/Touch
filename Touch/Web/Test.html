@@ -117,7 +117,7 @@
             position: { lat: markLat, lng: markLng },
             content: '点击查看此处回忆',
             pixelOffset: { height: 0, width: 0 },
-            disableAutoPan:false
+            disableAutoPan: false
         });
         /*marker2.addListener('mouseover', function () { info.open(panorama,marker2); });
         marker2.addListener('mouseout', function () { info.close(); });*/
@@ -217,12 +217,13 @@
     function setIsGetPath() {
         isGetPath = false;
     }
-    function getNextHeading(nextLat,nextLng)
-    {
-        var nextLatLng = new google.maps.LatLng(nextLat,nextLng);
+
+    function getNextHeading(nextLat, nextLng) {
+        var nextLatLng = new google.maps.LatLng(nextLat, nextLng);
         var heading2 = google.maps.geometry.spherical.computeHeading(panorama.location.latLng, nextLatLng);
         panorama.setPov({ heading: heading2, pitch: 0 });
     }
+
     /*function changeHeadingAnimation2(heading) {
 
         panorama.setPov({ heading: panorama.getPov().heading + heading, pitch: 0 });

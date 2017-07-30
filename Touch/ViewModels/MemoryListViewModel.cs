@@ -116,7 +116,7 @@ namespace Touch.ViewModels
             ConnectedAnimationService.GetForCurrentView().DefaultDuration = TimeSpan.FromSeconds(0.5);
             var gridView = sender as GridView;
             // TODO 14393 15063
-            // gridView?.PrepareConnectedAnimation("CoverImage", item, "CoverImage");
+            gridView?.PrepareConnectedAnimation("CoverImage", item, "CoverImage");
 
             rootFrame?.Navigate(typeof(MemoryDetailPage), memoryDetailParameters);
             Window.Current.Content = rootFrame;

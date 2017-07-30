@@ -1,10 +1,12 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Microsoft.Graphics.Canvas.Effects;
 using Touch.Data;
 using Touch.ViewModels;
 
@@ -81,58 +83,58 @@ namespace Touch.Views.Pages
 
             ElementCompositionPreview.SetElementChildVisual(panel, _hostSprite);
             // TODO 14393 15063
-            //_hostSprite.Brush = _compositor.CreateHostBackdropBrush();
-            //var bloomEffectDesc = new ArithmeticCompositeEffect
-            //{
-            //    Name = "Bloom",
-            //    Source1Amount = 1,
-            //    Source2Amount = 2,
-            //    MultiplyAmount = 0,
+            _hostSprite.Brush = _compositor.CreateHostBackdropBrush();
+            var bloomEffectDesc = new ArithmeticCompositeEffect
+            {
+                Name = "Bloom",
+                Source1Amount = 1,
+                Source2Amount = 2,
+                MultiplyAmount = 0,
 
-            //    Source1 = new CompositionEffectSourceParameter("source"),
-            //    Source2 = new GaussianBlurEffect
-            //    {
-            //        Name = "Blur",
-            //        BorderMode = EffectBorderMode.Hard,
-            //        BlurAmount = 40,
+                Source1 = new CompositionEffectSourceParameter("source"),
+                Source2 = new GaussianBlurEffect
+                {
+                    Name = "Blur",
+                    BorderMode = EffectBorderMode.Hard,
+                    BlurAmount = 40,
 
-            //        Source = new BlendEffect
-            //        {
-            //            Mode = BlendEffectMode.Multiply,
+                    Source = new BlendEffect
+                    {
+                        Mode = BlendEffectMode.Multiply,
 
-            //            Background = new CompositionEffectSourceParameter("source2"),
-            //            Foreground = new CompositionEffectSourceParameter("source2")
-            //        }
-            //    }
-            //};
+                        Background = new CompositionEffectSourceParameter("source2"),
+                        Foreground = new CompositionEffectSourceParameter("source2")
+                    }
+                }
+            };
 
-            //var bloomEffectFactory = _compositor.CreateEffectFactory(bloomEffectDesc,
-            //    new[] {"Bloom.Source2Amount", "Blur.BlurAmount"});
-            //var brush = bloomEffectFactory.CreateBrush();
+            var bloomEffectFactory = _compositor.CreateEffectFactory(bloomEffectDesc,
+                new[] {"Bloom.Source2Amount", "Blur.BlurAmount"});
+            var brush = bloomEffectFactory.CreateBrush();
 
-            //var backdropBrush = _compositor.CreateHostBackdropBrush();
-            //brush.SetSourceParameter("source", backdropBrush);
-            //brush.SetSourceParameter("source2", backdropBrush);
+            var backdropBrush = _compositor.CreateHostBackdropBrush();
+            brush.SetSourceParameter("source", backdropBrush);
+            brush.SetSourceParameter("source2", backdropBrush);
 
-            //// Setup some animations for the bloom effect
-            //var blurAnimation = _compositor.CreateScalarKeyFrameAnimation();
-            //blurAnimation.InsertKeyFrame(0, 0);
-            //blurAnimation.InsertKeyFrame(.5f, 2);
-            //blurAnimation.InsertKeyFrame(1, 0);
-            //blurAnimation.Duration = TimeSpan.FromMilliseconds(5000);
-            //blurAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
+            // Setup some animations for the bloom effect
+            var blurAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            blurAnimation.InsertKeyFrame(0, 0);
+            blurAnimation.InsertKeyFrame(.5f, 2);
+            blurAnimation.InsertKeyFrame(1, 0);
+            blurAnimation.Duration = TimeSpan.FromMilliseconds(5000);
+            blurAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
 
-            //var bloomAnimation = _compositor.CreateScalarKeyFrameAnimation();
-            //bloomAnimation.InsertKeyFrame(0, 0);
-            //bloomAnimation.InsertKeyFrame(.5f, 40);
-            //bloomAnimation.InsertKeyFrame(1, 0);
-            //bloomAnimation.Duration = TimeSpan.FromMilliseconds(5000);
-            //bloomAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
+            var bloomAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            bloomAnimation.InsertKeyFrame(0, 0);
+            bloomAnimation.InsertKeyFrame(.5f, 40);
+            bloomAnimation.InsertKeyFrame(1, 0);
+            bloomAnimation.Duration = TimeSpan.FromMilliseconds(5000);
+            bloomAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
 
-            //brush.StartAnimation("Bloom.Source2Amount", blurAnimation);
-            //brush.StartAnimation("Blur.BlurAmount", bloomAnimation);
+            brush.StartAnimation("Bloom.Source2Amount", blurAnimation);
+            brush.StartAnimation("Blur.BlurAmount", bloomAnimation);
 
-            //_hostSprite.Brush = brush;
+            _hostSprite.Brush = brush;
         }
 
         private void PositionImage()
