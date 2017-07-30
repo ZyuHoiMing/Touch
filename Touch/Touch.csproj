@@ -114,6 +114,7 @@
     <Compile Include="Models\ImageModel.cs" />
     <Compile Include="Models\MonthYearDateTime.cs" />
     <Compile Include="Models\PhotoClustering.cs" />
+    <Compile Include="Models\StreetViewMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CommandHelpers.cs" />
     <Compile Include="ViewModels\FolderListViewModel.cs" />

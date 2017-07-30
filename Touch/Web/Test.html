@@ -37,7 +37,9 @@
         directionsDisplay = new google.maps.DirectionsRenderer();
         directionsDisplay.setMap(map);
         directionsService = new google.maps.DirectionsService();
-        panorama = map.getStreetView();
+        panorama = new google.maps.StreetViewPanorama(document.getElementById('street-view'));
+        //panorama = map.getStreetView();
+        map.setStreetView(panorama);
         //panorama.setPosition({ lat: 22.277782, lng: 114.170241 });
         panorama.setVisible(false);
         panorama.setOptions({
@@ -49,6 +51,7 @@
             enableCloseButton: false,
             zoomControl: false,
         });
+        google.maps.event.clearListeners(map, 'mousemove');
         if (window.navigator.onLine)
             netCheck = true;
         else netCheck = false;
@@ -82,6 +85,10 @@
         panorama.setVisible(false);
     }
 
+    /*function insertMark(markLat, markLng, num)
+    {
+        timeoutId = setTimeout("insertMark2(" + markLat + "," + markLng + ")", 2000);
+    }*/
     function insertMark(markLat, markLng, num) {
         var imgPath;
         /*if (num === 0) {//可根据num显示照片
@@ -90,7 +97,7 @@
             imgPath = 'http://123.206.78.137:8080/Download/Source/IMG_20160902_125939.jpg';
         }*/
         var image = {
-            url: 'http://123.206.78.137:8080/Download/Source/touch.png',
+            url: 'http://www.citexplore.com/touch.png',
             // This marker is 20 pixels wide by 32 pixels high.
             size: new google.maps.Size(300, 300),
             // The origin for this image is (0, 0).
@@ -109,18 +116,23 @@
         var info = new google.maps.InfoWindow({
             position: { lat: markLat, lng: markLng },
             content: '点击查看此处回忆',
-            pixelOffset: { height: -75, width: 0 },
+            pixelOffset: { height: 0, width: 0 },
+            disableAutoPan:false
         });
-        marker2.addListener('mouseover', function () { info.open(); });
-        marker2.addListener('mouseout', function () { info.close(); });
+        /*marker2.addListener('mouseover', function () { info.open(panorama,marker2); });
+        marker2.addListener('mouseout', function () { info.close(); });*/
         marker2.addListener('click',
             function () {
                 isClick = true;
                 marker2.setVisible(false);
+                google.maps.event.clearListeners(marker2, 'click');
+                google.maps.event.clearListeners(marker2, 'mouseover');
+                google.maps.event.clearListeners(marker2, 'mouseout');
                 info.close();
             });
         setMarkHeading();
     }
+
 
     function insertOneMark(markLat, markLng) {
         map.setCenter({ lat: markLat, lng: markLng });
@@ -185,12 +197,13 @@
     }
 
     function setStreetViewPositon(x, y, heading) {
+        getNextHeading(x, y);
         panorama.setPosition(
             {
                 lat: x,
                 lng: y
             });
-        panorama.setPov({ heading: heading, pitch: 0 });
+        //panorama.setPov({ heading: heading, pitch: 0 });
         if (panorama.getStatus() == google.maps.StreetViewStatus.OK) {
             return panorama.getPano();
         } else return 'N';
@@ -204,7 +217,20 @@
     function setIsGetPath() {
         isGetPath = false;
     }
+    function getNextHeading(nextLat,nextLng)
+    {
+        var nextLatLng = new google.maps.LatLng(nextLat,nextLng);
+        var heading2 = google.maps.geometry.spherical.computeHeading(panorama.location.latLng, nextLatLng);
+        panorama.setPov({ heading: heading2, pitch: 0 });
+    }
+    /*function changeHeadingAnimation2(heading) {
 
+        panorama.setPov({ heading: panorama.getPov().heading + heading, pitch: 0 });
+        if (cot < 1) {
+            cot++;
+            var t = setTimeout("changeHeadingAnimation(" + heading + ")", 100);
+        }
+    }*/
     function setMarkHeading() {
         var heading2 = google.maps.geometry.spherical.computeHeading(panorama.location.latLng, marker2.getPosition());
         //panorama.setPov({ heading: heading2, pitch: 0 });

@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Touch.Models;
 using Touch.ViewModels;
+using Windows.Storage.Streams;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -338,23 +339,27 @@ namespace Touch.Views.Pages
                 }
             }
             List<int> sortPoint = choosePoint.OrderByDescending(m => m).ToList();
-            foreach (var i in sortPoint)
+            /*foreach (var i in sortPoint)
             {
                 Debug.WriteLine(i);
-            }
+            }*/
+            //Debug.WriteLine(_pathPoint.Count);
+            //Debug.WriteLine(_wayPoint.Count);
             int choosePointNum = 0;
-            for (int i = _pathPoint.Count - 1; i >= 0; --i)//不知道是List如何实现
+            if(_pathPoint.Count>1)
             {
-                if (sortPoint[choosePointNum] == i)
-                    choosePointNum++;
-                else
-                    _pathPoint.RemoveAt(i);
-
+                for (int i = _pathPoint.Count - 1; i >= 0; --i)//不知道是List如何实现
+                {
+                    if (sortPoint[choosePointNum] == i)
+                        choosePointNum++;
+                    else
+                        _pathPoint.RemoveAt(i);
+                }
             }
-            /*foreach (var i in _pathPoint)
+            foreach (var i in _pathPoint)
             {
                 Debug.WriteLine(i.X + "," + i.Y);
-            }*/
+            }
         }
 
         //测试得到路径
@@ -394,11 +399,6 @@ namespace Touch.Views.Pages
                                 }
                                 int cotNum = 0;*/
                                 for (var i = 0; i < pathArray.Length; ++i)
-                                    /*if (cotNum < deletePoint.Count && deletePoint.ElementAt(cotNum) == i)
-                                        {
-                                            cotNum++;
-                                            continue;
-                                        }*/
                                     if (pathArray[i].Length >= 3)
                                     {
                                         var pointArray = pathArray[i].Split(',');
@@ -465,77 +465,153 @@ namespace Touch.Views.Pages
         }
 
         //显示路径
-        private void ShowPath(int nodeNum, int wayNum)
+        private async void ShowPath(int nodeNum, int wayNum)
         {
             var completed = false;
             var delay = TimeSpan.FromSeconds(3);
             //string streetStatus="";
-            var delayTimer = ThreadPoolTimer.CreateTimer
-            (source =>
+            //
+            // TODO: Work
+            //
+            var x = _pathPoint.ElementAt(nodeNum).X
+               .ToString(CultureInfo.CurrentCulture);
+            var y = _pathPoint.ElementAt(nodeNum).Y
+                .ToString(CultureInfo.CurrentCulture);
+            //Debug.WriteLine("get point"+tmp);
+            Debug.WriteLine(x);
+            Debug.WriteLine(y);
+            var pathpov =
+                new PathPov(_pathPoint.ElementAt(nodeNum - 1),
+                    _pathPoint.ElementAt(nodeNum));
+            var tmpheading = pathpov.GetHeading().ToString();
+
+            string status = await StreetViewMetadata.GetStreetViewStutas(x.ToString(), y.ToString());
+            Debug.WriteLine(status);
+            if (status == "OK")
             {
-                //
-                // TODO: Work
-                //
-                var x = _pathPoint.ElementAt(nodeNum).X
-                    .ToString(CultureInfo.CurrentCulture);
-                var y = _pathPoint.ElementAt(nodeNum).Y
-                    .ToString(CultureInfo.CurrentCulture);
-                //Debug.WriteLine("get point"+tmp);
-                Debug.WriteLine(x);
-                Debug.WriteLine(y);
-                var pathpov =
-                    new PathPov(_pathPoint.ElementAt(nodeNum - 1),
-                        _pathPoint.ElementAt(nodeNum));
-                var tmpheading = pathpov.GetHeading().ToString();
                 InvokeJsMove(x, y, tmpheading);
-
-
-                /*await Dispatcher.RunAsync(
-                CoreDispatcherPriority.High,
-                async () =>
-                {
-                    string[] script =
-                    {
-                        "setStreetViewPositon("+x
-                        +","+y
-                        +","+tmpheading
-                        +")"
-                    };
-                    streetStatus = await Webview1.InvokeScriptAsync("eval", script);
-                    Debug.WriteLine("street:"+streetStatus);
-                });*/
-
-                completed = true;
-            }, delay, async source =>
+            }
+            
+            /*await Dispatcher.RunAsync(
+            CoreDispatcherPriority.High,
+            async () =>
             {
-                //
-                // Update the UI thread by using the UI core dispatcher.
-                //
-                await Dispatcher.RunAsync(
-                    CoreDispatcherPriority.High,
-                    () =>
-                    {
-                        Debug.WriteLine(nodeNum);
-                        if (!completed) return;
-                        if (nodeNum == _pathPoint.Count - 1)
-                        {
-                            Debug.WriteLine("finish");
-                            InvokeJsHeading(nodeNum);
-                            TestClick(nodeNum + 1, wayNum + 1);
-                        }
-                        else if (wayNum < _wayPoint.Count - 1 && _wayPoint[wayNum] ==
-                                 _pathPoint[nodeNum])
-                        {
-                            Debug.WriteLine("touch here");
-                            InvokeJsHeading(nodeNum);
-                            TestClick(nodeNum + 1, wayNum + 1);
-                        }
-                        else
-                        {
-                            ShowPath(nodeNum + 1, wayNum);
-                        }
-                    });
-            });
+                string[] script =
+                {
+                    "setStreetViewPositon("+x
+                    +","+y
+                    +","+tmpheading
+                    +")"
+                };
+                streetStatus = await Webview1.InvokeScriptAsync("eval", script);
+                Debug.WriteLine("street:"+streetStatus);
+            });*/
+
+            completed = true;
+            //
+            // Update the UI thread by using the UI core dispatcher.
+            //
+            Debug.WriteLine(nodeNum);
+            if (!completed) return;
+            if (nodeNum == _pathPoint.Count - 1)
+            {
+                Debug.WriteLine("finish");
+                InvokeJsHeading(nodeNum);
+                TestClick(nodeNum + 1, wayNum + 1);
+            }
+            else if (wayNum < _wayPoint.Count - 1 && _wayPoint[wayNum] ==_pathPoint[nodeNum])
+            {
+                if (status == "OK")
+                {
+                    Debug.WriteLine("touch here");
+                    InvokeJsHeading(nodeNum);
+                    TestClick(nodeNum + 1, wayNum + 1);
+                }
+                else
+                {
+                    await Task.Delay(3000);
+                    ShowPath(nodeNum + 1, wayNum+1);
+                }
+            }
+            else
+            {
+                await Task.Delay(3000);
+                ShowPath(nodeNum + 1, wayNum);
+            }
+
+            //  var completed = false;
+            //  var delay = TimeSpan.FromSeconds(3);
+            //  //string streetStatus="";
+            //  var delayTimer = ThreadPoolTimer.CreateTimer
+            //  (async source =>
+            //{
+            //    //
+            //    // TODO: Work
+            //    //
+            //    var x = _pathPoint.ElementAt(nodeNum).X
+            //       .ToString(CultureInfo.CurrentCulture);
+            //    var y = _pathPoint.ElementAt(nodeNum).Y
+            //        .ToString(CultureInfo.CurrentCulture);
+            //    //Debug.WriteLine("get point"+tmp);
+            //    Debug.WriteLine(x);
+            //    Debug.WriteLine(y);
+            //    var pathpov =
+            //        new PathPov(_pathPoint.ElementAt(nodeNum - 1),
+            //            _pathPoint.ElementAt(nodeNum));
+            //    var tmpheading = pathpov.GetHeading().ToString();
+
+            //    string statu = await StreetViewMetadata.GetStreetViewStutas(x.ToString(), y.ToString());
+            //    Debug.WriteLine(statu);
+
+            //    InvokeJsMove(x, y, tmpheading);
+
+
+            //    /*await Dispatcher.RunAsync(
+            //    CoreDispatcherPriority.High,
+            //    async () =>
+            //    {
+            //        string[] script =
+            //        {
+            //            "setStreetViewPositon("+x
+            //            +","+y
+            //            +","+tmpheading
+            //            +")"
+            //        };
+            //        streetStatus = await Webview1.InvokeScriptAsync("eval", script);
+            //        Debug.WriteLine("street:"+streetStatus);
+            //    });*/
+
+            //    completed = true;
+            //}, delay, async source =>
+            //  {
+            //      //
+            //      // Update the UI thread by using the UI core dispatcher.
+            //      //
+            //      await Dispatcher.RunAsync(
+            //          CoreDispatcherPriority.High,
+            //          () =>
+            //          {
+            //              Debug.WriteLine(nodeNum);
+            //              if (!completed) return;
+            //              if (nodeNum == _pathPoint.Count - 1)
+            //              {
+            //                  Debug.WriteLine("finish");
+            //                  InvokeJsHeading(nodeNum);
+            //                  TestClick(nodeNum + 1, wayNum + 1);
+            //              }
+            //              else if (wayNum < _wayPoint.Count - 1 && _wayPoint[wayNum] ==
+            //                       _pathPoint[nodeNum])
+            //              {
+            //                  Debug.WriteLine("touch here");
+            //                  InvokeJsHeading(nodeNum);
+            //                  TestClick(nodeNum + 1, wayNum + 1);
+            //              }
+            //              else
+            //              {
+            //                  ShowPath(nodeNum + 1, wayNum);
+            //              }
+            //          });
+            //  });
         }
 
         //开始行走
