@@ -48,8 +48,8 @@ namespace Touch.Views.Pages
                 var newFile = await file.CopyAsync(ApplicationData.Current.LocalFolder);
                 await newFile.RenameAsync(_memoryViewModel.KeyNo.ToString(), NameCollisionOption.ReplaceExisting);
                 // 显示成功通知
-                var flyout = FlyoutBase.GetAttachedFlyout((FrameworkElement)sender);
-                flyout.ShowAt((FrameworkElement)sender);
+                var flyout = FlyoutBase.GetAttachedFlyout((FrameworkElement) sender);
+                flyout.ShowAt((FrameworkElement) sender);
                 await Task.Run(async () =>
                 {
                     await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>

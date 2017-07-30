@@ -17,7 +17,7 @@ namespace Touch.ViewModels
         /// <summary>
         ///     图片文件
         /// </summary>
-        private StorageFile _imageFile;
+        public StorageFile ImageFile;
 
         private ImageViewModel()
         {
@@ -108,7 +108,7 @@ namespace Touch.ViewModels
             var imageViewModel = new ImageViewModel
             {
                 ImageModel = imageModel,
-                _imageFile = imageModel.ImageFile
+                ImageFile = imageModel.ImageFile
             };
             imageViewModel.ThumbnailImage = await imageViewModel.GetThumbnailImageAsync(400);
             //imageViewModel.OriginalImage = await imageViewModel.GetOriginalImageAsync();
@@ -130,7 +130,7 @@ namespace Touch.ViewModels
         /// <returns>缩略图</returns>
         private async Task<BitmapImage> GetThumbnailImageAsync(uint requiredSize)
         {
-            var fileThumbnail = await _imageFile.GetThumbnailAsync(ThumbnailMode.SingleItem, requiredSize);
+            var fileThumbnail = await ImageFile.GetThumbnailAsync(ThumbnailMode.SingleItem, requiredSize);
             var bitmap = new BitmapImage();
             bitmap.SetSource(fileThumbnail);
             return bitmap;
@@ -143,7 +143,7 @@ namespace Touch.ViewModels
         private async Task<BitmapImage> GetOriginalImageAsync()
         {
             var bitmap = new BitmapImage();
-            using (var stream = await _imageFile.OpenAsync(FileAccessMode.Read))
+            using (var stream = await ImageFile.OpenAsync(FileAccessMode.Read))
             {
                 await bitmap.SetSourceAsync(stream);
             }

@@ -36,7 +36,7 @@ namespace Touch.Views.Pages
             CreateMemoryButton.Click += (sender, args) =>
             {
                 var rootFrame = Window.Current.Content as Frame;
-                rootFrame?.Navigate(typeof(CreateMemoryPage), MemoryGridViewControl.MemoryListView);
+                rootFrame?.Navigate(typeof(CreateMemoryPage), MemoryGridViewControl.MemoryListViewModel);
                 Window.Current.Content = rootFrame;
             };
             // 设置button点击事件

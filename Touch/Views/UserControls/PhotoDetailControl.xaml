@@ -137,6 +137,9 @@
                             </FontIcon.Foreground>
                         </FontIcon>
                     </Grid>
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Share" />
+                    </ToolTipService.ToolTip>
                 </Button>
             </StackPanel>
         </Grid>

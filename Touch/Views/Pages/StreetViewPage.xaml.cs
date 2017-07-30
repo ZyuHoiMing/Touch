@@ -27,12 +27,17 @@ namespace Touch.Views.Pages
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class StreetViewPage : Page
     {
-        private MediaPlayerElement _backgroungMusic;
         private readonly List<Point> _pathPoint = new List<Point>();
+        private MediaPlayerElement _backgroungMusic;
 
         private List<List<int>> _clusteringResult;
 
         private bool _hasPath;
+
+        /// <summary>
+        ///     上一个街景号，用于检测是否重点
+        /// </summary>
+        private string _lastPano = "";
 
         //private List<int> _insertWayNum = new List<int>();
 
@@ -50,11 +55,6 @@ namespace Touch.Views.Pages
         private int _tmpWayNum;
 
         private List<Point> _wayPoint = new List<Point>();
-
-        /// <summary>
-        ///     上一个街景号，用于检测是否重点
-        /// </summary>
-        private string _lastPano = "";
 
         //
         public StreetViewPage()
@@ -103,7 +103,7 @@ namespace Touch.Views.Pages
                     CoreDispatcherPriority.High,
                     async () =>
                     {
-                        var result = await Webview1.InvokeScriptAsync("eval", new[] { "getNetCheck()" });
+                        var result = await Webview1.InvokeScriptAsync("eval", new[] {"getNetCheck()"});
                         Debug.WriteLine(result);
                         if (result.Equals("Y"))
                             InvokeJsGetPath(); //得出路径
@@ -126,7 +126,7 @@ namespace Touch.Views.Pages
             };
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await Webview1.InvokeScriptAsync("eval", new[] { "setIsGetPath()" });
+                await Webview1.InvokeScriptAsync("eval", new[] {"setIsGetPath()"});
                 var result = await Webview1.InvokeScriptAsync("eval", script);
                 Debug.WriteLine("first" + result);
             });
@@ -135,7 +135,7 @@ namespace Touch.Views.Pages
         //移动结束
         private async void InvokeJsEnd()
         {
-            await Webview1.InvokeScriptAsync("eval", new[] { "streetShowEnd()" });
+            await Webview1.InvokeScriptAsync("eval", new[] {"streetShowEnd()"});
         }
 
         //嵌入移动
@@ -272,14 +272,13 @@ namespace Touch.Views.Pages
             }
             else //4个点及以上
             {
-                if ((_wayPoint.Count * 4 - 4) < _pathPoint.Count)
+                if (_wayPoint.Count * 4 - 4 < _pathPoint.Count)
                 {
                     choosePoint.Add(1);
                     choosePoint.Add(_pathPoint.Count - 2);
-                    int cotNum = 1;
-                    int lastNum = 0;
-                    for (int i = 0; i < _pathPoint.Count; ++i)
-                    {
+                    var cotNum = 1;
+                    var lastNum = 0;
+                    for (var i = 0; i < _pathPoint.Count; ++i)
                         if (cotNum >= _wayPoint.Count - 1)
                         {
                             break;
@@ -291,66 +290,60 @@ namespace Touch.Views.Pages
                                 choosePoint.Add(i - 1);
                                 choosePoint.Add(i);
                                 choosePoint.Add(i + 1);
-                                if (i - lastNum >= 70)//中间选3个
+                                if (i - lastNum >= 70) //中间选3个
                                 {
-                                    int interval = (int)((i - lastNum) * 1.0) / 4;
+                                    var interval = (int) ((i - lastNum) * 1.0) / 4;
                                     choosePoint.Add(lastNum + interval);
                                     choosePoint.Add(lastNum + 2 * interval);
                                     choosePoint.Add(lastNum + 3 * interval);
                                 }
-                                else if (i - lastNum >= 40)//中间选2个
+                                else if (i - lastNum >= 40) //中间选2个
                                 {
-                                    int interval = (int)((i - lastNum) * 1.0) / 3;
+                                    var interval = (int) ((i - lastNum) * 1.0) / 3;
                                     choosePoint.Add(lastNum + interval);
                                     choosePoint.Add(lastNum + 2 * interval);
                                 }
-                                else//中间选1个
+                                else //中间选1个
                                 {
-                                    int interval = (int)((i - lastNum) * 1.0) / 2;
+                                    var interval = (int) ((i - lastNum) * 1.0) / 2;
                                     choosePoint.Add(lastNum + interval);
                                 }
                                 lastNum = i;
                                 cotNum++;
                             }
                         }
-                    }
                     //最后特判
-                    if (_pathPoint.Count - lastNum >= 70)//中间选3个
+                    if (_pathPoint.Count - lastNum >= 70) //中间选3个
                     {
-                        int interval = (int)((_pathPoint.Count - lastNum) * 1.0) / 4;
+                        var interval = (int) ((_pathPoint.Count - lastNum) * 1.0) / 4;
                         choosePoint.Add(lastNum + interval);
                         choosePoint.Add(lastNum + 2 * interval);
                         choosePoint.Add(lastNum + 3 * interval);
                     }
-                    else if (_pathPoint.Count - lastNum >= 40)//中间选2个
+                    else if (_pathPoint.Count - lastNum >= 40) //中间选2个
                     {
-                        int interval = (int)((_pathPoint.Count - lastNum) * 1.0) / 3;
+                        var interval = (int) ((_pathPoint.Count - lastNum) * 1.0) / 3;
                         choosePoint.Add(lastNum + interval);
                         choosePoint.Add(lastNum + 2 * interval);
                     }
-                    else//中间选1个
+                    else //中间选1个
                     {
-                        int interval = (int)((_pathPoint.Count - lastNum) * 1.0) / 2;
+                        var interval = (int) ((_pathPoint.Count - lastNum) * 1.0) / 2;
                         choosePoint.Add(lastNum + interval);
                     }
                     //Debug.Write(_pathPoint.Count - lastNum);
                     if (cotNum != _wayPoint.Count - 1) Debug.WriteLine("miss way point");
                 }
             }
-            List<int> sortPoint = choosePoint.OrderByDescending(m => m).ToList();
+            var sortPoint = choosePoint.OrderByDescending(m => m).ToList();
             foreach (var i in sortPoint)
-            {
                 Debug.WriteLine(i);
-            }
-            int choosePointNum = 0;
-            for (int i = _pathPoint.Count - 1; i >= 0; --i)//不知道是List如何实现
-            {
+            var choosePointNum = 0;
+            for (var i = _pathPoint.Count - 1; i >= 0; --i) //不知道是List如何实现
                 if (sortPoint[choosePointNum] == i)
                     choosePointNum++;
                 else
                     _pathPoint.RemoveAt(i);
-
-            }
             /*foreach (var i in _pathPoint)
             {
                 Debug.WriteLine(i.X + "," + i.Y);
@@ -371,13 +364,13 @@ namespace Touch.Views.Pages
                         async () =>
                         {
                             if (!completed) return;
-                            string[] args = { "testIsGetPath()" };
+                            string[] args = {"testIsGetPath()"};
                             var result = await Webview1.InvokeScriptAsync("eval", args);
                             if (result == "Y")
                             {
                                 _hasPath = true;
-                                await Webview1.InvokeScriptAsync("eval", new[] { "setIsGetPath()" });
-                                var tmp = await Webview1.InvokeScriptAsync("eval", new[] { "getPathPoint()" });
+                                await Webview1.InvokeScriptAsync("eval", new[] {"setIsGetPath()"});
+                                var tmp = await Webview1.InvokeScriptAsync("eval", new[] {"getPathPoint()"});
                                 var pathArray = tmp.Split('\n');
                                 //Debug.WriteLine("path point length" + pathArray.Length);
                                 /*HashSet<int> deletePoint = new HashSet<int>();//稀疏掉的数组
@@ -436,7 +429,7 @@ namespace Touch.Views.Pages
                         async () =>
                         {
                             if (!completed) return;
-                            string[] args = { "getClick()" };
+                            string[] args = {"getClick()"};
                             var result = await Webview1.InvokeScriptAsync("eval", args);
                             if (result == "click")
                             {

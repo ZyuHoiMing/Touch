@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
+using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -28,6 +33,26 @@ namespace Touch.Views.UserControls
             InitializeComponent();
             InitComposition();
             ToggleDetailGridAnimation(false);
+            // 分享
+            var dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested += (manager, eventArgs) =>
+            {
+                var request = eventArgs.Request;
+                var requestData = request.Data;
+                requestData.Properties.Title = new ResourceLoader().GetString("SharePhoto");
+                // It's recommended to use both SetBitmap and SetStorageItems for sharing a single image
+                // since the target app may only support one or the other.
+                var imageItems = new List<IStorageItem>
+                {
+                    PhotoDetailImageViewModel.ImageFile
+                };
+                requestData.SetStorageItems(imageItems);
+                var imageStreamRef = RandomAccessStreamReference.CreateFromFile(PhotoDetailImageViewModel.ImageFile);
+                requestData.Properties.Thumbnail = imageStreamRef;
+                requestData.SetBitmap(imageStreamRef);
+            };
+            // 分享button
+            ShareBtn.Click += (sender, args) => { DataTransferManager.ShowShareUI(); };
         }
 
         public event Action OnHide;

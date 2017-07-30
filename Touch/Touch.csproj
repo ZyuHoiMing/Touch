@@ -100,6 +100,7 @@
     <Compile Include="Controls\INavigableUserControl.cs" />
     <Compile Include="Controls\MyAdaptiveGridView.cs" />
     <Compile Include="Controls\NavigableUserControl.cs" />
+    <Compile Include="Converters\BoolToVisible.cs" />
     <Compile Include="Data\DatabaseBase.cs" />
     <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="Data\FolderDatabase.cs" />
@@ -186,6 +187,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <PRIResource Include="Strings\en-US\Resources.resw" />
+    <PRIResource Include="Strings\zh-CN\Resources.resw" />
     <None Include="Touch_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

@@ -118,99 +118,99 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutApp.Text" xml:space="preserve">
-    <value>About this app</value>
+    <value>关于此应用</value>
   </data>
   <data name="AddFolder" xml:space="preserve">
-    <value>Add a folder</value>
+    <value>添加文件夹</value>
   </data>
   <data name="Album.Text" xml:space="preserve">
-    <value>Album</value>
+    <value>相册</value>
   </data>
   <data name="Folder.Text" xml:space="preserve">
-    <value>Folder</value>
+    <value>文件夹</value>
   </data>
   <data name="Gallery.Text" xml:space="preserve">
-    <value>Gallery</value>
+    <value>图库</value>
   </data>
   <data name="ListWhatFind.Text" xml:space="preserve">
-    <value>Here's a list of what we've found so far.</value>
+    <value>下面是我们目前已找到的结果的列表</value>
   </data>
   <data name="Memory.Text" xml:space="preserve">
-    <value>Memory</value>
+    <value>回忆</value>
   </data>
   <data name="TitleColon.Text" xml:space="preserve">
-    <value>Title:</value>
+    <value>标题：</value>
   </data>
   <data name="NeedTime.Text" xml:space="preserve">
-    <value>It may take some times</value>
+    <value>这需要一些时间</value>
   </data>
   <data name="Refresh.Label" xml:space="preserve">
-    <value>Refresh</value>
+    <value>刷新</value>
   </data>
   <data name="SendFeedback.Content" xml:space="preserve">
-    <value>Send feedback</value>
+    <value>发送反馈</value>
   </data>
   <data name="Source.Text" xml:space="preserve">
-    <value>Sources</value>
+    <value>源</value>
   </data>
   <data name="Setting.Label" xml:space="preserve">
-    <value>Setting</value>
+    <value>设置</value>
   </data>
   <data name="SettingText.Text" xml:space="preserve">
-    <value>Setting</value>
+    <value>设置</value>
   </data>
   <data name="CreateMemory.Label" xml:space="preserve">
-    <value>Create new memory</value>
+    <value>新建回忆</value>
   </data>
   <data name="Cancel.Label" xml:space="preserve">
-    <value>Cancel</value>
+    <value>取消</value>
   </data>
   <data name="Done.Label" xml:space="preserve">
-    <value>Done</value>
+    <value>完成</value>
   </data>
   <data name="Play.Content" xml:space="preserve">
-    <value>Play</value>
+    <value>播放</value>
   </data>
   <data name="Replay.Content" xml:space="preserve">
-    <value>Replay</value>
+    <value>重播</value>
   </data>
   <data name="SelectPhotos.Text" xml:space="preserve">
-    <value>Select photos for this memory</value>
+    <value>选择此回忆的照片</value>
   </data>
   <data name="Audio.Label" xml:space="preserve">
-    <value>Add adudio</value>
+    <value>添加音乐</value>
   </data>
   <data name="Delete.Label" xml:space="preserve">
-    <value>Delete</value>
+    <value>删除</value>
   </data>
   <data name="DeleteContent.Content" xml:space="preserve">
-    <value>Delete</value>
+    <value>删除</value>
   </data>
   <data name="ShowMemory.Label" xml:space="preserve">
-    <value>Show memory</value>
+    <value>播放回忆</value>
   </data>
   <data name="AddCompleted.Text" xml:space="preserve">
-    <value>Completed!</value>
+    <value>添加成功！</value>
   </data>
   <data name="Share.Content" xml:space="preserve">
-    <value>Share</value>
+    <value>分享</value>
   </data>
   <data name="SharePhoto" xml:space="preserve">
-    <value>Share photo</value>
+    <value>分享图片</value>
   </data>
   <data name="AddAllPhotos.Text" xml:space="preserve">
-    <value>Add photos from all your devices to bring them together in one place.</value>
+    <value>添加所有照片，将它们集中放置到一个位置</value>
   </data>
   <data name="AddSources.Content" xml:space="preserve">
-    <value>Add sources</value>
+    <value>添加图片来源</value>
   </data>
   <data name="CreateYourOwn.Text" xml:space="preserve">
-    <value>Select + to create your own album.</value>
+    <value>选择 + 来创建你自己的回忆相册</value>
   </data>
   <data name="GetAllMemories.Text" xml:space="preserve">
-    <value>Get all your memories in one place</value>
+    <value>从同一位置获取你的所有存储内容</value>
   </data>
   <data name="MemoryAlbum.Text" xml:space="preserve">
-    <value>Memory albums created for you</value>
+    <value>创建的回忆相册</value>
   </data>
 </root>

@@ -119,5 +119,13 @@
                 </ListView>
             </SemanticZoom.ZoomedOutView>
         </SemanticZoom>
+
+        <Grid x:Name="TipGrid" Padding="64,48">
+            <StackPanel>
+                <TextBlock x:Uid="GetAllMemories" Style="{StaticResource HeaderTextBlockStyle}" Margin="0,32" />
+                <TextBlock x:Uid="AddAllPhotos" Style="{StaticResource SubtitleTextBlockStyle}" Margin="0,16" />
+                <Button x:Name="AddSourcesButton" x:Uid="AddSources" />
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

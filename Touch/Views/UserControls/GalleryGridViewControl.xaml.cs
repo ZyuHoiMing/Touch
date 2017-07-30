@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Microsoft.Graphics.Canvas.Effects;
 using Touch.ViewModels;
+using Touch.Views.Pages;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -94,6 +95,12 @@ namespace Touch.Views.UserControls
                 if (_destinationSprite != null)
                     _destinationSprite.Size = e.NewSize.ToVector2();
             };
+            AddSourcesButton.Click += (sender, args) =>
+            {
+                var rootFrame = Window.Current.Content as Frame;
+                rootFrame?.Navigate(typeof(SettingPage));
+                Window.Current.Content = rootFrame;
+            };
         }
 
         /// <summary>
@@ -133,12 +140,11 @@ namespace Touch.Views.UserControls
 
         private void CleanupScopeBatch()
         {
-            if (_scopeBatch != null)
-            {
-                _scopeBatch.Completed -= ScopeBatch_Completed;
-                _scopeBatch.Dispose();
-                _scopeBatch = null;
-            }
+            if (_scopeBatch == null)
+                return;
+            _scopeBatch.Completed -= ScopeBatch_Completed;
+            _scopeBatch.Dispose();
+            _scopeBatch = null;
         }
 
         /// <summary>
@@ -153,7 +159,15 @@ namespace Touch.Views.UserControls
             Debug.WriteLine("RefreshAsync---" + "_galleryImageListViewModel.RefreshImageListAsync()");
             await _galleryImageListViewModel.RefreshImageListAsync();
             Debug.WriteLine("RefreshAsync---" + "Cvs.Source");
+            SetTipGrid();
             Cvs.Source = _galleryImageListViewModel.ImageMonthGroups;
+        }
+
+        private void SetTipGrid()
+        {
+            TipGrid.Visibility = !_galleryImageListViewModel.ImageMonthGroups.Any()
+                ? Visibility.Visible
+                : Visibility.Collapsed;
         }
 
         /// <summary>
@@ -181,6 +195,7 @@ namespace Touch.Views.UserControls
             Debug.WriteLine("GalleryGridViewControl_OnLoading---" + "GalleryImageListViewModel.GetInstanceAsync()");
             _galleryImageListViewModel = await GalleryImageListViewModel.GetInstanceAsync();
             Debug.WriteLine("GalleryGridViewControl_OnLoading---" + "Cvs.Source");
+            SetTipGrid();
             Cvs.Source = _galleryImageListViewModel.ImageMonthGroups;
             _isLoaded = true;
         }
